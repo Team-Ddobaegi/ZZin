@@ -20,15 +20,46 @@ class LoginViewController: UIViewController {
         return iv
     }()
     
+    // 아이디 textFieldView
+    private lazy var idTextfieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        view.addSubview(idTextField)
+        view.addSubview(idInfoLabel)
+        return view
+    }()
+    
+    private var idInfoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "아이디를 적어주세요"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var idTextField: UITextField = {
+        var tf = UITextField()
+        tf.backgroundColor = .blue
+        tf.textColor = .white
+        tf.keyboardType = .default
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
+        idTextField.delegate = self
         
-        [logoView].forEach{view.addSubview($0)}
+        [logoView, idTextfieldView].forEach{view.addSubview($0)}
     }
-    
+
     func setUI() {
         setLogo()
+        setTextFields()
     }
     
     private func setLogo() {
@@ -37,6 +68,25 @@ class LoginViewController: UIViewController {
             make.top.equalToSuperview().offset(124)
             make.width.equalTo(186)
             make.height.equalTo(90)
+        }
+    }
+    
+    private func setTextFields() {
+        idTextfieldView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(logoView.snp.bottom).offset(84)
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
+        }
+        
+        idInfoLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(5)
+        }
+        
+        idTextField.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(5)
         }
     }
     
@@ -54,4 +104,8 @@ extension LoginViewController {
         configure()
         setUI()
     }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
 }
