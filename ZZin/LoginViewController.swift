@@ -49,12 +49,41 @@ class LoginViewController: UIViewController {
         return tf
     }()
     
+    // 아이디 textFieldView
+    private lazy var pwTextfieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        view.addSubview(pwTextField)
+        view.addSubview(pwInfoLabel)
+        return view
+    }()
+    
+    private var pwInfoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "비밀번호를 적어주세요"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var pwTextField: UITextField = {
+        var tf = UITextField()
+        tf.backgroundColor = .blue
+        tf.textColor = .white
+        tf.keyboardType = .default
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
         idTextField.delegate = self
         
-        [logoView, idTextfieldView].forEach{view.addSubview($0)}
+        [logoView, idTextfieldView, pwTextfieldView].forEach{view.addSubview($0)}
     }
 
     func setUI() {
@@ -85,6 +114,23 @@ class LoginViewController: UIViewController {
         }
         
         idTextField.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(5)
+        }
+        
+        pwTextfieldView.snp.makeConstraints {
+            $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
+        }
+        
+        pwInfoLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalTo(5)
+        }
+        
+        pwTextField.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(5)
         }
