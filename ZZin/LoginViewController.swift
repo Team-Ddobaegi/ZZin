@@ -124,20 +124,40 @@ class LoginViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-
+    
+    private let altLoginButton: UIButton = {
+        let btn = UIButton()
+        let image = UIImage(systemName: "photo")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        btn.setImage(image, for: .normal)
+        btn.backgroundColor = .red
+        btn.layer.cornerRadius = btn.frame.width / 2
+        btn.clipsToBounds = true
+        return btn
+    }()
+    
+    private lazy var altButtonStack: UIStackView = {
+        let stack = UIStackView()
+        [altLoginButton, altLoginButton, altLoginButton].forEach{ stack.addArrangedSubview($0) }
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
     
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
         idTextField.delegate = self
         
-        [logoView, idTextfieldView, pwTextfieldView].forEach{view.addSubview($0)}
+        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack, altButtonStack].forEach{view.addSubview($0)}
     }
     
     func setUI() {
         setLogo()
         setTextFields()
         setLoginBtn()
+        setSearchBtn()
+        alternativeLoginBtn()
     }
     
     private func setLogo() {
@@ -191,6 +211,22 @@ class LoginViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
             $0.width.equalTo(353)
+        }
+    }
+    
+    func setSearchBtn() {
+        secondaryButtonStack.snp.makeConstraints{
+            $0.top.equalTo(loginButton.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(19)
+        }
+    }
+    
+    func alternativeLoginBtn() {
+        altButtonStack.snp.makeConstraints{
+            $0.top.equalTo(secondaryButtonStack.snp.bottom).offset(30)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(35)
         }
     }
     
