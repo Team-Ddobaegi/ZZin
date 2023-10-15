@@ -78,6 +78,19 @@ class LoginViewController: UIViewController {
         return tf
     }()
     
+    private var loginButton: UIButton = {
+        var btn = UIButton()
+        btn.setTitle("로그인", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = .red
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.layer.cornerRadius = 12
+        btn.clipsToBounds = true
+        btn.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
@@ -85,10 +98,11 @@ class LoginViewController: UIViewController {
         
         [logoView, idTextfieldView, pwTextfieldView].forEach{view.addSubview($0)}
     }
-
+    
     func setUI() {
         setLogo()
         setTextFields()
+        setLoginBtn()
     }
     
     private func setLogo() {
@@ -134,6 +148,19 @@ class LoginViewController: UIViewController {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(5)
         }
+    }
+    
+    func setLoginBtn() {
+        loginButton.snp.makeConstraints {
+            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
+        }
+    }
+    
+    @objc func loginButtonTapped() {
+        print("로그인 버튼이 눌렸습니다.")
     }
     
     deinit {
