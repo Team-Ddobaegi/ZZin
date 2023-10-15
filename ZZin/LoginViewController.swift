@@ -91,6 +91,41 @@ class LoginViewController: UIViewController {
         return btn
     }()
     
+    private let memberButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("찐회원 되기 ㅣ", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    
+    private let searchIdButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("아이디 찾기 ㅣ", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(searchIdButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    
+    private let searchPwButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("비밀번호 찾기", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(searchPwButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    
+    private lazy var secondaryButtonStack: UIStackView = {
+        let stack = UIStackView()
+        [memberButton, searchIdButton, searchPwButton].forEach{ stack.addArrangedSubview($0) }
+        [memberButton, searchIdButton, searchPwButton].forEach { $0.titleLabel?.font = UIFont.systemFont(ofSize: 15) }
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
@@ -161,6 +196,18 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
+    }
+    
+    @objc func memberButtonTapped() {
+        print("찐회원 버튼이 눌렸습니다.")
+    }
+    
+    @objc func searchIdButtonTapped() {
+        print("아이디 찾기 버튼이 눌렸습니다.")
+    }
+    
+    @objc func searchPwButtonTapped() {
+        print("비밀번호 찾기 버튼이 눌렸습니다.")
     }
     
     deinit {
