@@ -46,12 +46,16 @@ class TabBarViewController: UITabBarController {
         let navigationPost = UINavigationController(rootViewController: postVC)
         let navigationStory = UINavigationController(rootViewController: storyVC)
         let navigationInfo = UINavigationController(rootViewController: infoVC)
-    
-//        navigationHome.navigationBar.prefersLargeTitles = true
-//        navigationSearch.navigationBar.prefersLargeTitles = true
-//        navigationPost.navigationBar.prefersLargeTitles = true
-//        navigationStory.navigationBar.prefersLargeTitles = true
-//        navigationInfo.navigationBar.prefersLargeTitles = true
+        
+        // 검색탭 네비게이션 바 수정
+        navigationSearch.navigationBar.topItem?.title = "서울 강남구"
+       
+        
+        //        navigationHome.navigationBar.prefersLargeTitles = true
+        //        navigationSearch.navigationBar.prefersLargeTitles = true
+        //        navigationPost.navigationBar.prefersLargeTitles = true
+        //        navigationStory.navigationBar.prefersLargeTitles = true
+        //        navigationInfo.navigationBar.prefersLargeTitles = true
         
         setViewControllers([navigationHome, navigationSearch, navigationPost, navigationStory, navigationInfo], animated: false)
     }
@@ -60,21 +64,11 @@ class TabBarViewController: UITabBarController {
     let HEIGHT_TAB_BAR:CGFloat = 100
     
     override func viewDidLayoutSubviews() {
-                super.viewDidLayoutSubviews()
-                var tabFrame = self.tabBar.frame
-                tabFrame.size.height = HEIGHT_TAB_BAR
-                tabFrame.origin.y = self.view.frame.size.height - HEIGHT_TAB_BAR
-                self.tabBar.frame = tabFrame
-            }
-
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+        super.viewDidLayoutSubviews()
+        var tabFrame = self.tabBar.frame
+        tabFrame.size.height = HEIGHT_TAB_BAR
+        tabFrame.origin.y = self.view.frame.size.height - HEIGHT_TAB_BAR
+        self.tabBar.frame = tabFrame
+    }
     
 }
