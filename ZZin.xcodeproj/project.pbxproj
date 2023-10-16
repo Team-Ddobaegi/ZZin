@@ -139,6 +139,8 @@
 				9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7B4B6A232ADCD9290075BB34 /* SearchPage */ = {
 			isa = PBXGroup;
 			children = (
