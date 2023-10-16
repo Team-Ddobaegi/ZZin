@@ -7,113 +7,92 @@
 
 import UIKit
 import SnapKit
+import Then
 
 class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
-    private let logoView: UIImageView = {
+    private let logoView = UIImageView().then {
         let image = UIImage(systemName: "photo")
-        let iv = UIImageView()
-        iv.image = image
-        iv.backgroundColor = .red
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
+        $0.image = image
+        $0.backgroundColor = .red
+        $0.contentMode = .scaleAspectFit
+    }
     
     // 아이디 textFieldView
-    private lazy var idTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(idTextField)
-        view.addSubview(idInfoLabel)
-        return view
-    }()
+    private lazy var idTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(idTextField)
+        $0.addSubview(idInfoLabel)
+    }
     
-    private var idInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "아이디를 적어주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var idInfoLabel = UILabel().then {
+        $0.text = "아이디를 적어주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var idTextField: UITextField = {
-        var tf = UITextField()
-        tf.backgroundColor = .blue
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var idTextField = UITextField().then {
+        $0.backgroundColor = .blue
+        $0.textColor = .white
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     // 아이디 textFieldView
-    private lazy var pwTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(pwTextField)
-        view.addSubview(pwInfoLabel)
-        return view
-    }()
+    private lazy var pwTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(pwTextField)
+        $0.addSubview(pwInfoLabel)
+    }
     
-    private var pwInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "비밀번호를 적어주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var pwInfoLabel = UILabel().then {
+        $0.text = "비밀번호를 적어주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var pwTextField: UITextField = {
-        var tf = UITextField()
-        tf.backgroundColor = .blue
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var pwTextField = UITextField().then {
+        $0.backgroundColor = .blue
+        $0.textColor = .white
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var loginButton: UIButton = {
-        var btn = UIButton()
-        btn.setTitle("로그인", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .red
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        btn.layer.cornerRadius = 12
-        btn.clipsToBounds = true
-        btn.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
+    private var loginButton = UIButton().then {
+        $0.setTitle("로그인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .red
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private let memberButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("찐회원 되기 ㅣ", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-        return btn
-    }()
+    private let memberButton = UIButton().then {
+        $0.setTitle("찐회원 되기 ㅣ", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
+    }
     
-    private let searchIdButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("아이디 찾기 ㅣ", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(self, action: #selector(searchIdButtonTapped), for: .touchUpInside)
-        return btn
-    }()
+    private let searchIdButton = UIButton().then {
+        $0.setTitle("아이디 찾기 ㅣ", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(searchIdButtonTapped), for: .touchUpInside)
+    }
     
-    private let searchPwButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("비밀번호 찾기", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(self, action: #selector(searchPwButtonTapped), for: .touchUpInside)
-        return btn
-    }()
+    private let searchPwButton = UIButton().then {
+        $0.setTitle("비밀번호 찾기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(searchPwButtonTapped), for: .touchUpInside)
+    }
     
     private lazy var secondaryButtonStack: UIStackView = {
         let stack = UIStackView()
@@ -125,15 +104,13 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    private let altLoginButton: UIButton = {
-        let btn = UIButton()
+    private let altLoginButton = UIButton().then {
         let image = UIImage(systemName: "photo")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        btn.setImage(image, for: .normal)
-        btn.backgroundColor = .red
-        btn.layer.cornerRadius = btn.frame.width / 2
-        btn.clipsToBounds = true
-        return btn
-    }()
+        $0.setImage(image, for: .normal)
+        $0.backgroundColor = .red
+        $0.layer.cornerRadius = $0.frame.width / 2
+        $0.clipsToBounds = true
+    }
     
     private lazy var altButtonStack: UIStackView = {
         let stack = UIStackView()
@@ -161,11 +138,11 @@ class LoginViewController: UIViewController {
     }
     
     private func setLogo() {
-        logoView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(124)
-            make.width.equalTo(186)
-            make.height.equalTo(90)
+        logoView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(124)
+            $0.width.equalTo(186)
+            $0.height.equalTo(90)
         }
     }
     
