@@ -1,9 +1,3 @@
-//
-//  SearchMapViewController.swift
-//  ZZin
-//
-//  Created by t2023-m0061 on 2023/10/16.
-//
 
 import UIKit
 import NMapsMap
