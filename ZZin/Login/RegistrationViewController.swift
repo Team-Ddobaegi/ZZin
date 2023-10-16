@@ -17,6 +17,7 @@ class RegistrationViewController: UIViewController {
         view.clipsToBounds = true
         view.addSubview(idTextField)
         view.addSubview(idInfoLabel)
+        view.addSubview(doubleCheckButton)
         return view
     }()
     
@@ -101,6 +102,7 @@ class RegistrationViewController: UIViewController {
         view.clipsToBounds = true
         view.addSubview(nicknameTextField)
         view.addSubview(nicknameInfoLabel)
+        view.addSubview(doubleCheckButton)
         return view
     }()
     
@@ -155,20 +157,42 @@ class RegistrationViewController: UIViewController {
         button.setTitle("중복 확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.backgroundColor = .red
+        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private var confirmButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("확인", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .red
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        button.layer.cornerRadius = 12
+        button.clipsToBounds = true
         return button
     }()
     
     func configure() {
         view.backgroundColor = .yellow
-        [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, doubleCheckButton].forEach{view.addSubview($0)}
+        [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
+    }
+    
+    func setUI() {
+        setIdTextfield()
+        setPwTextField()
+        setNicknameTextfield()
+        setNumberTextfield()
+        setConfirmButton()
     }
     
     func setIdTextfield() {
-        idTextfieldView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(184)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(52)
-            make.width.equalTo(353)
+        idTextfieldView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(184)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
         }
         
         idInfoLabel.snp.makeConstraints {
@@ -180,15 +204,25 @@ class RegistrationViewController: UIViewController {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(5)
         }
+        
+        doubleCheckButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalTo(idTextfieldView.snp.trailing).inset(6)
+        }
+    }
+    
+    func setIdButton() {
+        doubleCheckButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+        }
     }
     
     func setPwTextField() {
-        
-        pwTextfieldView.snp.makeConstraints { make in
-            make.top.equalTo(idTextfieldView.snp.bottom).offset(40)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(52)
-            make.width.equalTo(353)
+        pwTextfieldView.snp.makeConstraints {
+            $0.top.equalTo(idTextfieldView.snp.bottom).offset(40)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
         }
         
         pwInfoLabel.snp.makeConstraints {
@@ -201,11 +235,11 @@ class RegistrationViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(5)
         }
         
-        checkPwTextfieldView.snp.makeConstraints { make in
-            make.top.equalTo(pwTextfieldView.snp.bottom).offset(40)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(52)
-            make.width.equalTo(353)
+        checkPwTextfieldView.snp.makeConstraints {
+            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(40)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
         }
         
         checkPwInfoLabel.snp.makeConstraints {
@@ -220,7 +254,6 @@ class RegistrationViewController: UIViewController {
     }
     
     func setNicknameTextfield() {
-        
         nicknameTextfieldView.snp.makeConstraints {
             $0.top.equalTo(checkPwTextfieldView.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
@@ -236,6 +269,13 @@ class RegistrationViewController: UIViewController {
         nicknameTextField.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(5)
+        }
+        
+        doubleCheckButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalTo(nicknameTextfieldView.snp.trailing).inset(6)
+            $0.width.equalTo(73)
+            $0.height.equalTo(33)
         }
     }
     
@@ -258,6 +298,15 @@ class RegistrationViewController: UIViewController {
         }
     }
     
+    func setConfirmButton() {
+        confirmButton.snp.makeConstraints{
+            $0.top.equalTo(numberTextfieldView.snp.bottom).offset(149)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(52)
+            $0.width.equalTo(353)
+        }
+    }
+    
     deinit {
         print("Registration 화면이 내려갔습니다. \(#function)")
     }
@@ -268,9 +317,6 @@ extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        setIdTextfield()
-        setPwTextField()
-        setNicknameTextfield()
-        setNumberTextfield()
+        setUI()
     }
 }
