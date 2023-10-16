@@ -6,24 +6,35 @@
 //
 
 import UIKit
+import SnapKit
 
 class SearchViewController: UIViewController {
 
+    private lazy var mapButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Map", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func mapButtonTapped() {
+        let mapVC = SearchMapViewController()
+        self.navigationController?.pushViewController(mapVC, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        // Do any additional setup after loading the view.
+        setupUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setupUI() {
+        view.addSubview(mapButton)
+        
+        mapButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-50)
+            make.top.equalToSuperview().offset(100)
+        }
     }
-    */
-
 }
