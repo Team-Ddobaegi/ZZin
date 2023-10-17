@@ -1,36 +1,49 @@
-
 import UIKit
 import NMapsMap
-import SwiftUI
+import SnapKit
 
 class SearchMapViewController: UIViewController {
 
+    private var searchView = SearchView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let naverMapView = NMFNaverMapView(frame: view.frame)
-        view.addSubview(naverMapView)
+        setDelegate()
+        setupUI()
     }
     
+    func setDelegate() {
+        self.tabBarController?.delegate = self
+    }
+    
+    func setupUI() {
+        view.backgroundColor = .darkGray
+        
+        let searchMapView = SearchMapView(frame: view.frame)
+        
+        view.addSubview(searchView)
+        view.addSubview(searchMapView)
 
-
+        searchView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(250)
+        }
+        
+        searchMapView.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
 }
 
-//@available(iOS 13.0, *)
-//struct SearchMapViewControllerPreview: PreviewProvider {
-//    static var previews: some View {
-//        SearchMapViewControllerWrapper()
-//            .edgesIgnoringSafeArea(.all)
-//    }
-//}
-//
-//@available(iOS 13.0, *)
-//struct SearchMapViewControllerWrapper: UIViewControllerRepresentable {
-//    func makeUIViewController(context: Context) -> SearchMapViewController {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let viewController = storyboard.instantiateViewController(withIdentifier: "SearchMapViewController") as! SearchMapViewController
-//        return viewController
-//    }
-//    
-//    func updateUIViewController(_ uiViewController: SearchMapViewController, context: Context) {
-//    }
-//}
+extension SearchMapViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is SearchMapViewController {
+            tabBarController.tabBar.isHidden = true
+        } else {
+            tabBarController.tabBar.isHidden = false
+        }
+        
+        return true
+    }
+}
