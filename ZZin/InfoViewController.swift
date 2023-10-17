@@ -53,7 +53,8 @@ class InfoLocalListTableViewCell: UITableViewCell, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {1}
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        UICollectionViewCell()
+
+        return UICollectionViewCell()
     }
 }
 
