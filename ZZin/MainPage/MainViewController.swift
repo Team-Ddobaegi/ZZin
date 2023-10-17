@@ -16,8 +16,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+//        self.navigationController?.isNavigationBarHidden = true
+
         setupUI()
         rankButtonAction()
+        
         
         
     }
@@ -27,7 +30,7 @@ class MainViewController: UIViewController {
         func setupUI() {
             view = mainView
             mainView.recommendcollectionView.dataSource = self
-            mainView.recommendcollectionView.dataSource = self
+            mainView.recommendcollectionView.delegate = self
             
             if let settingImage = UIImage(named: "search") {
                 let originalSize = settingImage.size
@@ -58,7 +61,7 @@ class MainViewController: UIViewController {
  
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -80,7 +83,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 25
     }
 }
 

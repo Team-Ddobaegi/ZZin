@@ -16,7 +16,7 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
     private let view: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 38
         view.clipsToBounds = true
         return view
     }()
@@ -26,9 +26,6 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 38
-        button.snp.makeConstraints { make in
-            make.width.height.equalTo(76)
-        }
         return button
     }()
     
@@ -37,9 +34,9 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         label.text = "도시명"
         label.font = FontGuide.size16
         label.textColor = .black
-        label.textAlignment = .left
-        label.snp.makeConstraints { make in
-            make.height.equalTo(19)
+        label.textAlignment = .center
+        label.snp.makeConstraints {
+            $0.height.equalTo(20)
         }
         return label
     }()
@@ -52,16 +49,26 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    override func prepareForReuse() {
-        super .prepareForReuse()
-    }
+//    override func prepareForReuse() {
+//        super .prepareForReuse()
+//    }
 }
 
 extension MainPageRecommendCollectionViewCell {
     func setupUI() {
-        recommendStackView.addSubview(view)
-        view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        
+        view.addSubview(recommendButton)
+        recommendButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.width.height.equalTo(76)
             }
+
+        view.addSubview(recommendLabel)
+        recommendLabel.snp.makeConstraints {
+            $0.top.equalTo(recommendButton.snp.bottom).offset(8)
+            $0.width.equalTo(37)
+            $0.height.equalTo(17)
+            }
+
+        }
 }

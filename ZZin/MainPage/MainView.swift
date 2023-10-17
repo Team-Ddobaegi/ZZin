@@ -37,7 +37,7 @@ class MainView: UIView {
     private lazy var recommendStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [recommendedLabel, firstzzinLabel, recommendedLabel2])
         stackView.axis = .horizontal
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 0
         return stackView
     }()
