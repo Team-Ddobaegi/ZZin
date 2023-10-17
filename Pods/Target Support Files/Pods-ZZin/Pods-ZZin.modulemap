@@ -1,0 +1,6 @@
+framework module Pods_ZZin {
+  umbrella header "Pods-ZZin-umbrella.h"
+
+  export *
+  module * { export * }
+}
