@@ -199,6 +199,8 @@
 				DF1599C42AD6C89300AE129B /* SearchViewController.swift */,
 			);
 			path = SearchPage;
+			sourceTree = "<group>";
+		};
 		BD1018822ADD589D003FAA97 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,9 +239,7 @@
 				DF1599B52AD6C6E300AE129B /* Assets.xcassets */,
 				DF1599B72AD6C6E300AE129B /* LaunchScreen.storyboard */,
 				DF1599BA2AD6C6E300AE129B /* Info.plist */,
-				DF1599C22AD6C86D00AE129B /* MainViewController.swift */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
-				DF1599C42AD6C89300AE129B /* SearchViewController.swift */,
 				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
 				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
 				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
@@ -262,6 +262,8 @@
 				DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */,
 			);
 			path = SearchMapPage;
+			sourceTree = "<group>";
+		};
 		FF031D5E2ADBBA1500206056 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
