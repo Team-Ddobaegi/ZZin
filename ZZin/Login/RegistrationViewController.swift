@@ -160,6 +160,7 @@ class RegistrationViewController: UIViewController {
         button.backgroundColor = .red
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -171,11 +172,13 @@ class RegistrationViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         return button
     }()
     
     func configure() {
         view.backgroundColor = .yellow
+        self.title = "되나"
         [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
     }
     
@@ -305,6 +308,14 @@ class RegistrationViewController: UIViewController {
             $0.height.equalTo(52)
             $0.width.equalTo(353)
         }
+    }
+    
+    @objc func confirmButtonTapped() {
+        print("확인 버튼이 눌렸습니다.")
+    }
+    
+    @objc func doubleCheckButtonTapped() {
+        print("중복 확인 버튼이 눌렸습니다.")
     }
     
     deinit {
