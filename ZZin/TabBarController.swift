@@ -16,7 +16,7 @@ class TabBarViewController: UITabBarController {
         
         //각 tab bar의 viewcontroller 타이틀 설정
         
-        mainVC.title = "홈"
+//        mainVC.title = "홈"
         searchVC.title = "검색"
         storyVC.title = "소식"
         infoVC.title = "마이"
