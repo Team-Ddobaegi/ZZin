@@ -12,9 +12,10 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
     static let identifier = "MainPageRecommendCollectionViewCell"
     private var isBookmarked = false
     
+    
     private let view: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .blue
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view

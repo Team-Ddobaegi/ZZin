@@ -17,6 +17,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
+        rankButtonAction()
         
         
     }
@@ -27,10 +28,6 @@ class MainViewController: UIViewController {
             view = mainView
             mainView.recommendcollectionView.dataSource = self
             mainView.recommendcollectionView.dataSource = self
-            mainView.collectionView.dataSource = self
-            mainView.collectionView.delegate = self
-            mainView.reviewcollectionView.dataSource = self
-            mainView.reviewcollectionView.delegate = self
             
             if let settingImage = UIImage(named: "search") {
                 let originalSize = settingImage.size
@@ -44,6 +41,16 @@ class MainViewController: UIViewController {
             }
         }
         
+        @objc func rankButtonAction() {
+            mainView.rank1Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank2Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank3Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank4Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank5Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank6Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+
+        }
+        
         @objc func searchButtonTapped() {
             navigationController?.pushViewController(SearchViewController(), animated: true)
         }
@@ -51,7 +58,7 @@ class MainViewController: UIViewController {
  
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
