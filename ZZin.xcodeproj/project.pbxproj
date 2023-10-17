@@ -46,6 +46,7 @@
 		BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = BD8D6B042ADEE82000F2A8D6 /* Shuffle */; };
 		BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */; };
 		BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */; };
+		BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
@@ -83,6 +84,7 @@
 		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
 		BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardOverlay.swift; sourceTree = "<group>"; };
 		BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
+		BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */,
 				BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */,
 				BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */,
+				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
+				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

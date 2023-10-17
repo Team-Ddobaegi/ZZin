@@ -30,7 +30,9 @@ class FoodCardOverlay: UIView {
     }
     
     private func createLeftOverlay() {
-        
+        // 왼쪽으로 스와이프되는 view 생성
+        let leftTextView = OverlayLabelView(withTitle: "싫어요!", color: .red, rotation: CGFloat.pi/10)
+        addSubview(leftTextView)
     }
 
     private func createRightOverlay() {
@@ -43,8 +45,9 @@ private class OverlayLabelView: UIView {
         $0.textAlignment = .center
     }
     
-    init(withTitle title: String, rotation: CGFloat) {
+    init(withTitle title: String, color: UIColor, rotation: CGFloat) {
         super.init(frame: CGRect.zero)
+        layer.borderColor = color.cgColor
         layer.borderWidth = 4
         layer.cornerRadius = 4
         transform = CGAffineTransform(rotationAngle: rotation)
