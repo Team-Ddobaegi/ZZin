@@ -30,16 +30,27 @@ class FoodCardOverlay: UIView {
     }
     
     private func createLeftOverlay() {
-        // 왼쪽으로 스와이프되는 view 생성
+        // 왼쪽으로 스와이프되는 view에 Label 생성
         let leftTextView = OverlayLabelView(withTitle: "싫어요!", color: .red, rotation: CGFloat.pi/10)
         addSubview(leftTextView)
+        leftTextView.anchor(top: topAnchor,
+                            right: rightAnchor,
+                            paddingTop: 30,
+                            paddingRight: 14)
     }
 
     private func createRightOverlay() {
-        
+        // 오른쪽으로 스와이프되는 view에 Label 생성
+        let rightTextView = OverlayLabelView(withTitle: "좋아요!", color: .blue, rotation: -CGFloat.pi/10)
+        addSubview(rightTextView)
+        rightTextView.anchor(top: topAnchor,
+                            left: leftAnchor,
+                            paddingTop: 26,
+                            paddingRight: 14)
     }
 }
 
+// 이건 overlay Label 그 자체
 private class OverlayLabelView: UIView {
     private let titleLabel = UILabel().then {
         $0.textAlignment = .center
@@ -50,10 +61,17 @@ private class OverlayLabelView: UIView {
         layer.borderColor = color.cgColor
         layer.borderWidth = 4
         layer.cornerRadius = 4
+        // swipe 정도에 따라 컬러 값 변동
         transform = CGAffineTransform(rotationAngle: rotation)
         
         addSubview(titleLabel)
-        titleLabel.textColor = .black
+        titleLabel.textColor = color
+        
+        titleLabel.anchor(top: topAnchor,
+                          left: leftAnchor,
+                          bottom: bottomAnchor,
+                          right: rightAnchor,
+                          paddingLeft: 8, paddingRight: 3)
     }
     
     required init?(coder: NSCoder) {
