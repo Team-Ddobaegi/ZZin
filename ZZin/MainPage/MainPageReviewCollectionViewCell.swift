@@ -6,10 +6,28 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainPageReviewCollectionViewCell: UICollectionViewCell {
     
-//    static let identifier = "MainPageReviewCollectionViewCell"
+    static let identifier = "MainPageReviewCollectionViewCell"
+    
+    let review = ViewForReview()
+    
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(review)
+        review.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
 //
 //    var isBookmarked = false
 //
