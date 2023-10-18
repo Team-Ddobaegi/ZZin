@@ -26,6 +26,8 @@ class SearchView: UIView {
     
     //MARK: - Properties
     
+
+
     private let searchResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.text = "3가지를 가진 맛집"
@@ -74,9 +76,13 @@ class SearchView: UIView {
         $0.backgroundColor = .lightGray
     }
     
-    private let divider2 = UIView().then {
+    public let divider2 = UIView().then {
         $0.backgroundColor = .lightGray
     }
+    
+    
+    
+    
     
     
     //MARK: - UI
@@ -166,4 +172,5 @@ class SearchView: UIView {
             $0.trailing.equalToSuperview().offset(-25)
         }
     }
+   
 }

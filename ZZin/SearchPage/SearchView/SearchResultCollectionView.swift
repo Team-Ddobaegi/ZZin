@@ -13,6 +13,8 @@ class SearchResultCollectionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        setCollectionViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -21,36 +23,29 @@ class SearchResultCollectionView: UIView {
     
     //MARK: - Properties
     private let searchView = SearchView()
-    
-    private let reuseIdentifier = "Cell"
-    
+        
     private var recommendItems: [RecommendList] = []
     
-    
-    lazy var searchResultView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .green
         cv.delegate = self
         cv.dataSource = self
-        cv.register(SearchResultCell.self, forCellWithReuseIdentifier: "SearchResultCell")
+        cv.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.identifier)
+        cv.backgroundColor = .green
         
         return cv
     }()
     
-    //MARK: - Helpers
-    
-    
-//    addSubview(searchResultView)
+    //MARK: - Constraints
     
     func setCollectionViewConstraints(){
-        searchResultView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(0)
-            $0.bottom.equalToSuperview().offset(-90)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+        addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints {
+            $0.top.bottom.trailing.leading.equalToSuperview()
         }
     }
 }
@@ -58,24 +53,20 @@ class SearchResultCollectionView: UIView {
 //MARK: - CollectionView
 
 extension SearchResultCollectionView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // 셀 크기 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 3 - 2, height: collectionView.frame.width / 3 - 2)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 17
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier ,for: indexPath) as? SearchResultCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.identifier ,for: indexPath) as? SearchResultCell else {
             return UICollectionViewCell()
         }
-        
         return cell
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 3 - 2, height: collectionView.frame.width / 3 - 2)
     }
     
     // 세로 간격
@@ -84,15 +75,15 @@ extension SearchResultCollectionView: UICollectionViewDelegate, UICollectionView
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 2
+        return 25
     }
-
+    
     // 가로 간격
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return 2
+        return 20
     }
 }

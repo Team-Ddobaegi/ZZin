@@ -11,22 +11,26 @@ class SearchViewController: UIViewController {
     
     
     // MARK: - Life Cycle
-    override func loadView() {
-        view = searchView
-        view.backgroundColor = .white
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setAddSubView()
         setMapView()
         setLocationPickerView()
+        configureUI()
     }
     
    
     // MARK: - Settings
     
-    private func setMapView() {
+    private func setAddSubView(){
+        view.backgroundColor = .white
+        view.addSubview(searchView)
+        view.addSubview(collectionView)
+    }
+    
+    private func setMapView(){
         searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
     }
     
@@ -39,6 +43,8 @@ class SearchViewController: UIViewController {
     
     private let searchView = SearchView()
     
+    private let collectionView = SearchResultCollectionView()
+
     
     // MARK: - Actions
     
@@ -54,4 +60,26 @@ class SearchViewController: UIViewController {
         navigationController?.present(locationSettingVC, animated: true)
     }
     
+    //MARK: - Configure UI
+    
+    func configureUI(){
+        setSearchViewConstraints()
+        setCollectionViewConstraints()
+    }
+    
+    func setSearchViewConstraints(){
+        searchView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(247)
+        }
+    }
+    
+    func setCollectionViewConstraints(){
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.bottom)
+            $0.bottom.equalToSuperview().offset(-90)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+    }
 }

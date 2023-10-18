@@ -10,9 +10,10 @@
 		4D331FF6A61C1D5A3679A247 /* Pods_ZZin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */; };
 		7B4B6A252ADCD94D0075BB34 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B6A242ADCD94D0075BB34 /* SearchView.swift */; };
 		7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B6A282ADD26C40075BB34 /* CustomButton.swift */; };
-		7B61D38E2ADF732500A226EB /* SearchResultCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D38D2ADF732500A226EB /* SearchResultCV.swift */; };
 		7B61D3902ADF733000A226EB /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D38F2ADF733000A226EB /* SearchResultCell.swift */; };
 		7B61D3922ADF867C00A226EB /* RecommendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D3912ADF867C00A226EB /* RecommendList.swift */; };
+		7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */; };
+		7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextField.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
@@ -80,9 +81,10 @@
 		7AAC40E023A86C944BAF3917 /* Pods-ZZin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.release.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.release.xcconfig"; sourceTree = "<group>"; };
 		7B4B6A242ADCD94D0075BB34 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		7B4B6A282ADD26C40075BB34 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		7B61D38D2ADF732500A226EB /* SearchResultCV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCV.swift; sourceTree = "<group>"; };
 		7B61D38F2ADF733000A226EB /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		7B61D3912ADF867C00A226EB /* RecommendList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendList.swift; sourceTree = "<group>"; };
+		7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingVC.swift; sourceTree = "<group>"; };
+		7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -182,13 +184,30 @@
 		7B4B6A232ADCD9290075BB34 /* SearchPage */ = {
 			isa = PBXGroup;
 			children = (
+				7B61D3982ADFAA5600A226EB /* SearchView */,
+				7B61D3972ADFAA0F00A226EB /* Location */,
+			);
+			path = SearchPage;
+			sourceTree = "<group>";
+		};
+		7B61D3972ADFAA0F00A226EB /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		7B61D3982ADFAA5600A226EB /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
 				7B4B6A282ADD26C40075BB34 /* CustomButton.swift */,
 				7B4B6A242ADCD94D0075BB34 /* SearchView.swift */,
 				DF1599C42AD6C89300AE129B /* SearchViewController.swift */,
-				7B61D38D2ADF732500A226EB /* SearchResultCV.swift */,
+				7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */,
 				7B61D38F2ADF733000A226EB /* SearchResultCell.swift */,
 			);
-			path = SearchPage;
+			path = SearchView;
 			sourceTree = "<group>";
 		};
 		BD1018822ADD589D003FAA97 /* Login */ = {
@@ -448,6 +467,7 @@
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
+				7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
 				DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */,
 				7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */,
@@ -456,7 +476,6 @@
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
-				7B61D38E2ADF732500A226EB /* SearchResultCV.swift in Sources */,
 				BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
@@ -465,6 +484,7 @@
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */,
+				7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,

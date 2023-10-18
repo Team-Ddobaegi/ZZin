@@ -61,7 +61,7 @@ class TabBarViewController: UITabBarController {
     }
     
     //탭바 height 커스터 마이징
-    let HEIGHT_TAB_BAR:CGFloat = 100
+    let HEIGHT_TAB_BAR:CGFloat = 90
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

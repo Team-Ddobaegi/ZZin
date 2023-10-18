@@ -32,7 +32,6 @@ class SearchResultCell: UICollectionViewCell {
         
         addSubview(imageView)
         
-    
     }
     
 }
