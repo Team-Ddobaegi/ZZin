@@ -11,6 +11,6 @@ import Shuffle
 class FoodCard: SwipeCard {
     func configure(withModel model: FoodCardModel) {
         content = FoodCardContentView(withImage: model.image)
-//        footer = FoodCardContentView(withTitle: "\(model.name), \(model.age)", subtitle: model.occupation)
+        footer = FoodCardFooterView(withTitle: "\(model.name)")
     }
 }
