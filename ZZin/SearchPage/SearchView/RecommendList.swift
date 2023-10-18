@@ -8,7 +8,7 @@
 import Foundation
 
 struct RecommendList {
-//    let thumbnailImage: UIImage
+    let thumbnailImage: UIImage(named:)
     let title: String
     let contents: String
     
