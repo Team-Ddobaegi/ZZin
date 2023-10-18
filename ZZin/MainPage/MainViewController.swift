@@ -16,7 +16,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+//        self.navigationController?.isNavigationBarHidden = true
+
         setupUI()
+        rankButtonAction()
+        
         
         
     }
@@ -26,11 +30,7 @@ class MainViewController: UIViewController {
         func setupUI() {
             view = mainView
             mainView.recommendcollectionView.dataSource = self
-            mainView.recommendcollectionView.dataSource = self
-            mainView.collectionView.dataSource = self
-            mainView.collectionView.delegate = self
-            mainView.reviewcollectionView.dataSource = self
-            mainView.reviewcollectionView.delegate = self
+            mainView.recommendcollectionView.delegate = self
             
             if let settingImage = UIImage(named: "search") {
                 let originalSize = settingImage.size
@@ -44,6 +44,16 @@ class MainViewController: UIViewController {
             }
         }
         
+        @objc func rankButtonAction() {
+            mainView.rank1Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank2Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank3Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank4Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank5Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.rank6Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+
+        }
+        
         @objc func searchButtonTapped() {
             navigationController?.pushViewController(SearchViewController(), animated: true)
         }
@@ -51,7 +61,7 @@ class MainViewController: UIViewController {
  
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -60,8 +70,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
                 
         cell.layer.borderWidth = 1.0
-        cell.layer.cornerRadius = 38
+//        cell.layer.cornerRadius = 38
         cell.layer.masksToBounds = true
+        cell.setupUI()
         return cell
     }
 }
@@ -69,11 +80,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        let size = (view.bounds.size.width - 76) / 2
-        return CGSize(width: 76, height: 76)
+        return CGSize(width: 76, height: 100)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 25
     }
 }
 

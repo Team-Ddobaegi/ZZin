@@ -41,6 +41,12 @@
 		BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
+		BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* LoginSwipe.swift */; };
+		BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */; };
+		BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = BD8D6B042ADEE82000F2A8D6 /* Shuffle */; };
+		BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */; };
+		BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */; };
+		BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
@@ -75,6 +81,11 @@
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BD8D6AFF2ADEE7EE00F2A8D6 /* LoginSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSwipe.swift; sourceTree = "<group>"; };
+		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
+		BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardOverlay.swift; sourceTree = "<group>"; };
+		BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
+		BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
@@ -132,6 +143,7 @@
 				BD3CB54D2ADD33D800A9F4A0 /* FirebaseRemoteConfig in Frameworks */,
 				BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */,
 				BD3CB5312ADD33D800A9F4A0 /* FirebaseDatabase in Frameworks */,
+				BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */,
 				BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */,
 				BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */,
 				BD3CB52B2ADD33D800A9F4A0 /* FirebaseAuth in Frameworks */,
@@ -177,8 +189,21 @@
 				BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */,
 				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
+				BD8D6AFF2ADEE7EE00F2A8D6 /* LoginSwipe.swift */,
+				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */ = {
+			isa = PBXGroup;
+			children = (
+				BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */,
+				BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */,
+				BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */,
+				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
+			);
+			path = CardViews;
 			sourceTree = "<group>";
 		};
 		DF1599A02AD6C6E200AE129B = {
@@ -295,6 +320,7 @@
 				BD3CB5502ADD33D800A9F4A0 /* FirebaseStorage */,
 				BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */,
 				BD3CB5552ADD342000A9F4A0 /* Then */,
+				BD8D6B042ADEE82000F2A8D6 /* Shuffle */,
 			);
 			productName = ZZin;
 			productReference = DF1599A92AD6C6E200AE129B /* ZZin.app */;
@@ -328,6 +354,7 @@
 				BD3CB51A2ADD337800A9F4A0 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				BD3CB51D2ADD33D800A9F4A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BD3CB5542ADD341F00A9F4A0 /* XCRemoteSwiftPackageReference "Then" */,
+				BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */,
 			);
 			productRefGroup = DF1599AA2AD6C6E200AE129B /* Products */;
 			projectDirPath = "";
@@ -405,6 +432,7 @@
 				DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */,
 				DF1599C52AD6C89300AE129B /* SearchViewController.swift in Sources */,
 				DF1599B12AD6C6E200AE129B /* ViewController.swift in Sources */,
+				BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
@@ -414,16 +442,20 @@
 				7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */,
 				DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
+				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
+				BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				FF031D662ADBEAF700206056 /* MainPageRankingCollectionViewCell.swift in Sources */,
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
+				BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
+				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -671,6 +703,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-gallagher/Shuffle";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -818,6 +858,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BD3CB5542ADD341F00A9F4A0 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		BD8D6B042ADEE82000F2A8D6 /* Shuffle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */;
+			productName = Shuffle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

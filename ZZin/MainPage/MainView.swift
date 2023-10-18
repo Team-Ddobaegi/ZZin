@@ -18,10 +18,10 @@ class MainView: UIView {
         return label
     }()
     
-    private let zzinLabel: UILabel = {
+    private let firstzzinLabel: UILabel = {
         let label = UILabel()
         label.text = " 찐 "
-        label.font = FontGuide.size19Bold
+        label.font = FontGuide.size24Bold
         label.textColor = .black
         return label
     }()
@@ -35,9 +35,9 @@ class MainView: UIView {
     }()
     
     private lazy var recommendStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [recommendedLabel, zzinLabel, recommendedLabel2])
+        let stackView = UIStackView(arrangedSubviews: [recommendedLabel, firstzzinLabel, recommendedLabel2])
         stackView.axis = .horizontal
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 0
         return stackView
     }()
@@ -61,6 +61,14 @@ class MainView: UIView {
         return label
     }()
     
+    private let secondzzinLabel: UILabel = {
+        let label = UILabel()
+        label.text = " 찐 "
+        label.font = FontGuide.size24Bold
+        label.textColor = .black
+        return label
+    }()
+
     private let rangkingLabel2: UILabel = {
         let label = UILabel()
         label.text = "맛집 랭킹"
@@ -69,29 +77,131 @@ class MainView: UIView {
         return label
     }()
 
-    private lazy var rangkingStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [rangkingLabel, zzinLabel, rangkingLabel2])
+    private lazy var rangkingLabelStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [rangkingLabel, secondzzinLabel, rangkingLabel2])
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 0
         return stackView
     }()
 
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(MainPageRankingCollectionViewCell.self, forCellWithReuseIdentifier: MainPageRankingCollectionViewCell.identifier)
-        return collectionView
+    let rank1Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("1위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
+    }()
+        
+    let rank2Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("2위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
+    }()
+
+    let rank3Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("3위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
+    }()
+
+    private lazy var firstRankButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [rank1Button, rank2Button, rank3Button])
+        stackView.axis = .horizontal
+        stackView.spacing = 19
+        return stackView
+    }()
+
+    let rank4Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("4위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
+    }()
+
+    let rank5Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("5위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
+    }()
+
+    let rank6Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("6위", for: .normal)
+        button.titleLabel?.font = FontGuide.size28
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 25
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(120)
+        }
+        return button
     }()
     
+    private lazy var secondRankButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [rank4Button, rank5Button, rank6Button])
+        stackView.axis = .horizontal
+        stackView.spacing = 19
+        return stackView
+    }()
+    
+    private lazy var rankButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [firstRankButtonStackView, secondRankButtonStackView])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
+
     private let reviewLabel: UILabel = {
         let label = UILabel()
         label.text = "로컬들의 실시간 맛집"
         label.font = FontGuide.size19
+        label.textColor = .black
+        return label
+    }()
+
+    private let thirdzzinLabel: UILabel = {
+        let label = UILabel()
+        label.text = " 찐 "
+        label.font = FontGuide.size24Bold
         label.textColor = .black
         return label
     }()
@@ -105,22 +215,11 @@ class MainView: UIView {
     }()
 
     private lazy var reviewStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [reviewLabel, zzinLabel,  reviewLabel2])
+        let stackView = UIStackView(arrangedSubviews: [reviewLabel, thirdzzinLabel,  reviewLabel2])
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = 0
         return stackView
-    }()
-
-    let reviewcollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(MainPageReviewCollectionViewCell.self, forCellWithReuseIdentifier: MainPageReviewCollectionViewCell.identifier)
-        return collectionView
     }()
 
     override init(frame: CGRect) {
@@ -137,49 +236,38 @@ class MainView: UIView {
         backgroundColor = .systemBackground
         
         addSubview(recommendStackView)
-        recommendStackView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(24)
-            make.leading.equalTo(20)
+        recommendStackView.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(24)
+            $0.leading.equalTo(20)
 //            make.trailing.equalToSuperview()
-            make.height.equalTo(30)
+            $0.height.equalTo(30)
         }
 
         addSubview(recommendcollectionView)
-        recommendcollectionView.snp.makeConstraints { make in
-            make.top.equalTo(recommendStackView.snp.bottom).offset(15)
-            make.trailing.leading.equalToSuperview()
-            make.width.height.equalTo(80)
+        recommendcollectionView.snp.makeConstraints {
+            $0.top.equalTo(recommendStackView.snp.bottom).offset(15)
+            $0.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.width.height.equalTo(80)
         }
         
-        addSubview(rangkingStackView)
-        rangkingStackView.snp.makeConstraints { make in
-            make.top.equalTo(recommendcollectionView.snp.bottom).offset(15)
-            make.leading.equalTo(20)
-            make.height.equalTo(40)
+        addSubview(rangkingLabelStackView)
+        rangkingLabelStackView.snp.makeConstraints {
+            $0.top.equalTo(recommendcollectionView.snp.bottom).offset(15)
+            $0.leading.equalTo(20)
+            $0.height.equalTo(40)
         }
         
-        addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(rangkingStackView.snp.bottom).offset(15)
-            make.leading.equalTo(245)
+        addSubview(rankButtonStackView)
+        rankButtonStackView.snp.makeConstraints {
+            $0.top.equalTo(rangkingLabelStackView.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().offset(20)
         }
-        
+                
         addSubview(reviewStackView)
-        reviewStackView.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(15)
-            make.leading.equalTo(20)
-//            make.trailing.equalTo(-32)
-        }
-        
-        addSubview(reviewcollectionView)
-        reviewcollectionView.snp.makeConstraints { make in
-            make.top.equalTo(reviewStackView.snp.bottom).offset(15)
-            make.leading.equalTo(20)
-            make.height.equalTo(151)
+        reviewStackView.snp.makeConstraints {
+            $0.top.equalTo(rankButtonStackView.snp.bottom).offset(15)
+            $0.leading.equalTo(20)
         }
     }
-
-    
-    
-    
     }
