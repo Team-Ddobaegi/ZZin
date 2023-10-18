@@ -8,8 +8,8 @@
 import UIKit
 
 struct FoodCardModel {
-    let id: String
+    let id: Int
     let name: String
     let image: UIImage
-    var choice: Bool
+    var choice: Bool?
 }
