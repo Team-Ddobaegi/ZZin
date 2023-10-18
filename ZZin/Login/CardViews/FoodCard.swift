@@ -9,8 +9,8 @@ import Foundation
 import Shuffle
 
 class FoodCard: SwipeCard {
-//    func configure(withModel model: FoodCardModel) {
-//        content = SampleCardContentView(withImage: model.image)
-//        footer = SampleCardFooterView(withTitle: "\(model.name), \(model.age)", subtitle: model.occupation)
-//    }
+    func configure(withModel model: FoodCardModel) {
+        content = FoodCardContentView(withImage: model.image)
+//        footer = FoodCardContentView(withTitle: "\(model.name), \(model.age)", subtitle: model.occupation)
+    }
 }
