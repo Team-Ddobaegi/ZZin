@@ -20,7 +20,8 @@ class FoodCardContentView: UIView {
     }
     
     private let gradientLayer = CAGradientLayer().then {
-        $0.colors = [UIColor.black.withAlphaComponent(0.01).cgColor, UIColor.black.withAlphaComponent(0.8).cgColor]
+        $0.colors = [UIColor.black.withAlphaComponent(0.01).cgColor,
+                     UIColor.black.withAlphaComponent(0.8).cgColor]
         // 아래에서 위로 gradient 컬러를 적용하는 방법
         $0.startPoint = CGPoint(x: 0.5, y: 0)
         $0.endPoint = CGPoint(x: 0.5, y: 1)

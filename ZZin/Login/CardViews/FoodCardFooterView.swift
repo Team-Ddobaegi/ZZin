@@ -29,7 +29,10 @@ class FoodCardFooterView: UIView {
     
     private func initialize(title: String?) {
         // init을 한 이후에 변화를 줄 수 있는 NSMutableAttributedString
-        let attributedString = NSMutableAttributedString(string: (title ?? ""))
+        
+        let attributedString = NSMutableAttributedString(string: (title ?? "") + "\n",
+                                                       attributes: NSAttributedString.Key.titleAttributes)
+        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byTruncatingTail
         attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle],

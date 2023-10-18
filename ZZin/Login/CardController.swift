@@ -32,9 +32,9 @@ class CardController: UIViewController {
 extension CardController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         
-        let image = UIImage(systemName: "photo")
+        let image = UIImage(systemName: "lanyardcard.fill")
         if let image = image {
             let cardModel = FoodCardModel(id: 1, name: "순대국", image: image)
             initialCardModels.append(cardModel)
@@ -52,14 +52,13 @@ extension CardController: SwipeCardStackDelegate {
 extension CardController: SwipeCardStackDataSource {
     func cardStack(_ cardStack: Shuffle.SwipeCardStack, cardForIndexAt index: Int) -> Shuffle.SwipeCard {
         let card = FoodCard()
-        card.footerHeight = 80
+        card.footerHeight = 100
         card.swipeDirections = [.left, .right]
         
         //creating overlay for each direction of the cards
         for direction in card.swipeDirections {
             card.setOverlay(FoodCardOverlay(direction: direction), forDirection: direction)
         }
-        
         card.configure(withModel: initialCardModels[index])
         return card
     }
