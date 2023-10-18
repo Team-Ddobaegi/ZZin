@@ -70,8 +70,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
                 
         cell.layer.borderWidth = 1.0
-        cell.layer.cornerRadius = 38
+//        cell.layer.cornerRadius = 38
         cell.layer.masksToBounds = true
+        cell.setupUI()
         return cell
     }
 }
@@ -79,7 +80,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        let size = (view.bounds.size.width - 76) / 2
-        return CGSize(width: 76, height: 76)
+        return CGSize(width: 76, height: 100)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
