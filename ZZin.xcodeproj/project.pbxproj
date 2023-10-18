@@ -202,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				7B4B6A282ADD26C40075BB34 /* CustomButton.swift */,
+				7B61D3912ADF867C00A226EB /* RecommendList.swift */,
 				7B4B6A242ADCD94D0075BB34 /* SearchView.swift */,
 				DF1599C42AD6C89300AE129B /* SearchViewController.swift */,
 				7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */,
@@ -268,7 +269,6 @@
 				BD1018822ADD589D003FAA97 /* Login */,
 				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
 				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
-				7B61D3912ADF867C00A226EB /* RecommendList.swift */,
 				7B4B6A232ADCD9290075BB34 /* SearchPage */,
 				DF2A2CBB2ADE116B00BA5CE9 /* SearchMapPage */,
 				DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */,

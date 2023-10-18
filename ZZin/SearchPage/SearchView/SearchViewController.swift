@@ -70,7 +70,8 @@ class SearchViewController: UIViewController {
     func setSearchViewConstraints(){
         searchView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(247)
+            $0.height.equalTo(232)
+
         }
     }
     
@@ -78,8 +79,8 @@ class SearchViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchView.snp.bottom)
             $0.bottom.equalToSuperview().offset(-90)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
     }
 }

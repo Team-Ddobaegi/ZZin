@@ -80,11 +80,6 @@ class SearchView: UIView {
         $0.backgroundColor = .lightGray
     }
     
-    
-    
-    
-    
-    
     //MARK: - UI
     
     private func configureUI(){
@@ -117,7 +112,7 @@ class SearchView: UIView {
         // 키워드 아래 구분선
         divider2.snp.makeConstraints {
             $0.height.equalTo(0.5)
-            $0.bottom.equalTo(firstKeywordButton).offset(25)
+            $0.bottom.equalTo(firstKeywordButton).offset(15)
             $0.leading.trailing.equalToSuperview().offset(0)
         }
     }
@@ -126,7 +121,7 @@ class SearchView: UIView {
         // 서치 결과:: n가지를 가진 맛집
         searchResultLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(120)
+            $0.top.equalToSuperview().offset(115)
         }
         // 서치 팁 레이블:: tip
         searchTipLabel.snp.makeConstraints {
