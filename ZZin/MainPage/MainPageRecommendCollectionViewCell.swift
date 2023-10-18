@@ -14,8 +14,8 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
     
     private let view: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 16
+        view.backgroundColor = .blue
+//        view.layer.cornerRadius = 38
         view.clipsToBounds = true
         return view
     }()
@@ -25,8 +25,8 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 38
-        button.snp.makeConstraints { make in
-            make.width.height.equalTo(76)
+        button.snp.makeConstraints {
+            $0.height.width.equalTo(76)
         }
         return button
     }()
@@ -36,9 +36,10 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         label.text = "도시명"
         label.font = FontGuide.size16
         label.textColor = .black
-        label.textAlignment = .left
-        label.snp.makeConstraints { make in
-            make.height.equalTo(19)
+        label.textAlignment = .center
+        label.snp.makeConstraints {
+            $0.height.equalTo(20)
+            $0.width.equalTo(40)
         }
         return label
     }()
@@ -47,7 +48,7 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [recommendButton, recommendLabel])
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 15
+        stackView.spacing = 5
         return stackView
     }()
 
@@ -58,9 +59,18 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
 
 extension MainPageRecommendCollectionViewCell {
     func setupUI() {
-        recommendStackView.addSubview(view)
-        view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        
+        self.addSubview(view)
+        view.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+        
+        view.addSubview(recommendStackView)
+        recommendStackView.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+            $0.edges.equalToSuperview()
             }
+
+
+        }
 }
