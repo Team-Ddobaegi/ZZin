@@ -17,7 +17,6 @@ class SearchResultCV: UIViewController {
         
         setCollectionView()
         configureUI()
-        
     }
     
     
@@ -37,13 +36,13 @@ class SearchResultCV: UIViewController {
     //MARK: - Settings
     
     private func setCollectionView(){
-        collectionView.delegate = self
-        collectionView.dataSource = self
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
         collectionView.backgroundColor = .systemBlue
         
         // 커스텀 셀 등록
-        collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        view.addSubview(collectionView)
+//        collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        view.addSubview(collectionView)
     }
     
     //MARK: - Configure UI
@@ -58,19 +57,19 @@ class SearchResultCV: UIViewController {
 
 
 
-extension SearchResultCV: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return recommendItems.count
-        
-    }
+//extension SearchResultCV: UICollectionViewDataSource, UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return recommendItems.count
+//        return 1
+//    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SearchResultCell
-        let item = recommendItems[indexPath.item]
-        cell.configure(with: item) // 커스텀 메서드를 사용하여 데이터 설정
-        return cell
-    }
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SearchResultCell
+//        let item = recommendItems[indexPath.item]
+//        cell.configure(with: item) // 커스텀 메서드를 사용하여 데이터 설정
+//        return cell
+//    }
     
     
-}
+//}
 

@@ -50,6 +50,11 @@ class SearchView: UIView {
     
     private let menuKeywordButton = KeywordButton(title: "키워드")
     
+    public let mapButton = UIButton().then {
+        let iconImage = UIImage(systemName: "map")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = .systemRed
+    }
     
     private let divider = UIView().then {
         $0.backgroundColor = .lightGray
@@ -71,6 +76,7 @@ class SearchView: UIView {
         addSubview(firstKeywordButton)
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
+        addSubview(mapButton)
         addSubview(divider)
     }
     
@@ -93,6 +99,13 @@ class SearchView: UIView {
     }
     
     private func setButtonConstraints() {
+        // 주변 맛집 버튼
+        mapButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().offset(60)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
+       
         // 첫번째 키워드 버튼
         firstKeywordButton.snp.makeConstraints {
             $0.bottom.equalTo(searchNotiLabel).offset(50)
@@ -111,7 +124,7 @@ class SearchView: UIView {
         // 구분선
         divider.snp.makeConstraints {
             $0.height.equalTo(0.5)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(firstKeywordButton).offset(25)
             $0.leading.trailing.equalToSuperview().offset(0)
         }
     }

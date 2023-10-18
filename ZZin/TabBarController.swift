@@ -48,7 +48,7 @@ class TabBarViewController: UITabBarController {
         let navigationInfo = UINavigationController(rootViewController: infoVC)
         
         // 검색탭 네비게이션 바 수정
-        navigationSearch.navigationBar.topItem?.title = "서울 강남구"
+        navigationSearch.navigationBar.isHidden = true
        
         
         //        navigationHome.navigationBar.prefersLargeTitles = true

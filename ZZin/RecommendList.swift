@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct RecommendList {
+//    let thumbnailImage: UIImage
+    let title: String
+    let contents: String
+    
+}

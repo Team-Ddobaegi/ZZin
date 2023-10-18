@@ -9,6 +9,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    
     // MARK: - Life Cycle
     override func loadView() {
         view = searchView
@@ -17,12 +18,22 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 임시 내비게이션 바 버튼 설정
-        let mapButton = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(mapButtonTapped))
-        navigationItem.rightBarButtonItem = mapButton
-        //        searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
-        //        navigationController?.setNavigationBarHidden(true, animated: true)
+        setMapView()
     }
+    
+   
+    // MARK: - Settings
+    
+    private func setMapView() {
+        searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
+    }
+    
+    //MARK: - Properties
+    
+    private let searchView = SearchView()
+    
+    
+    // MARK: - Actions
     
     @objc private func mapButtonTapped() {
         print("mapButtonTapped")
@@ -30,8 +41,5 @@ class SearchViewController: UIViewController {
         navigationController?.pushViewController(mapViewController, animated: true)
     }
     
-    //MARK: - Properties
-    
-    private let searchView = SearchView()
     
 }
