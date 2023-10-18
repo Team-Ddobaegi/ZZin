@@ -10,5 +10,6 @@ import Foundation
 struct FoodCardModel {
     let id: String
     let name: String
+    let image: UIImage
     var choice: Bool
 }
