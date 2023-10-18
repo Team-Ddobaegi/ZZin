@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchResultCollectionViewCell: UICollectionViewCell {
+class SearchResultCell: UICollectionViewCell {
     
     static let identifier = "searchResultCell"
     
@@ -19,6 +19,20 @@ class SearchResultCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
         
+    }
+    
+    let imageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
+    }()
+    
+    func setImageView(){
+        backgroundColor = .systemBlue
+        
+        addSubview(imageView)
+        
+    
     }
     
 }

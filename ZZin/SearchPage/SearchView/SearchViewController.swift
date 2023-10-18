@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         setMapView()
+        setLocationPickerView()
     }
     
    
@@ -32,6 +33,7 @@ class SearchViewController: UIViewController {
     private func setLocationPickerView(){
         searchView.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
     }
+    
     
     //MARK: - Properties
     
@@ -48,7 +50,8 @@ class SearchViewController: UIViewController {
     
     @objc private func setLocationButtonTapped() {
         print("setLocationButtonTapped")
-      
+        let locationSettingVC = LocationSettingVC()
+        navigationController?.present(locationSettingVC, animated: true)
     }
     
 }
