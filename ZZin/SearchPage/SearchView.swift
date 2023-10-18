@@ -56,7 +56,25 @@ class SearchView: UIView {
         $0.tintColor = .systemRed
     }
     
-    private let divider = UIView().then {
+    public let setLocationButton = UIButton().then {
+        $0.setTitle("서울 강동구", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        
+        let iconImage = UIImage(systemName: "chevron.down")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = .systemRed
+        $0.semanticContentAttribute = .forceRightToLeft
+
+        let spacing: CGFloat = 10
+        $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+    }
+    
+    private let divider1 = UIView().then {
+        $0.backgroundColor = .lightGray
+    }
+    
+    private let divider2 = UIView().then {
         $0.backgroundColor = .lightGray
     }
     
@@ -65,11 +83,14 @@ class SearchView: UIView {
     
     private func configureUI(){
         setUpView()
+        setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
     }
     
     private func setUpView() {
+        addSubview(setLocationButton)
+        addSubview(divider1)
         addSubview(searchResultLabel)
         addSubview(searchTipLabel)
         addSubview(searchNotiLabel)
@@ -77,7 +98,22 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
-        addSubview(divider)
+        addSubview(divider2)
+    }
+    
+    private func setDividerConstraints() {
+        // 지역 설정 버튼 아래 구분선
+        divider1.snp.makeConstraints {
+            $0.height.equalTo(0.5)
+            $0.bottom.equalTo(setLocationButton).offset(10)
+            $0.leading.trailing.equalToSuperview().offset(0)
+        }
+        // 키워드 아래 구분선
+        divider2.snp.makeConstraints {
+            $0.height.equalTo(0.5)
+            $0.bottom.equalTo(firstKeywordButton).offset(25)
+            $0.leading.trailing.equalToSuperview().offset(0)
+        }
     }
     
     private func setLableConstraints() {
@@ -99,6 +135,14 @@ class SearchView: UIView {
     }
     
     private func setButtonConstraints() {
+        // 위치 설정 버튼
+        setLocationButton.snp.makeConstraints {
+            $0.width.equalTo(200)
+            $0.height.equalTo(30)
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(60)
+        }
+        
         // 주변 맛집 버튼
         mapButton.snp.makeConstraints {
             $0.width.height.equalTo(30)
@@ -120,12 +164,6 @@ class SearchView: UIView {
         menuKeywordButton.snp.makeConstraints {
             $0.bottom.equalTo(searchNotiLabel).offset(50)
             $0.trailing.equalToSuperview().offset(-25)
-        }
-        // 구분선
-        divider.snp.makeConstraints {
-            $0.height.equalTo(0.5)
-            $0.bottom.equalTo(firstKeywordButton).offset(25)
-            $0.leading.trailing.equalToSuperview().offset(0)
         }
     }
 }

@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setMapView()
     }
     
@@ -26,6 +27,10 @@ class SearchViewController: UIViewController {
     
     private func setMapView() {
         searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
+    }
+    
+    private func setLocationPickerView(){
+        searchView.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
     }
     
     //MARK: - Properties
@@ -41,5 +46,9 @@ class SearchViewController: UIViewController {
         navigationController?.pushViewController(mapViewController, animated: true)
     }
     
+    @objc private func setLocationButtonTapped() {
+        print("setLocationButtonTapped")
+      
+    }
     
 }
