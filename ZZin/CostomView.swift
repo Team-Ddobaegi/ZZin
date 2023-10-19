@@ -98,13 +98,13 @@ class ViewForReview: UIView {
         
         wrap.addSubview(regionLabel)
         regionLabel.snp.makeConstraints{
-            $0.top.equalTo(companyLabel.snp.bottom).offset(50)
+            $0.top.equalTo(companyLabel.snp.bottom).offset(40)
             $0.left.equalToSuperview().inset(25)
         }
         
         wrap.addSubview(underline)
         underline.snp.makeConstraints{
-            $0.top.equalTo(regionLabel.snp.bottom).offset(10)
+            $0.top.equalTo(regionLabel.snp.bottom).offset(5)
             $0.left.equalTo(regionLabel.snp.left)
             $0.size.equalTo(CGSize(width: 52, height: 10))
         }
