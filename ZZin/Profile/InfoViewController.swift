@@ -11,46 +11,62 @@ import Then
 
 class InfoViewController: UITableViewController {
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "마이페이지"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        tableView = UITableView(frame: .zero, style: .grouped)
         view.backgroundColor = .systemBackground
         tableView.dataSource = self
         tableView.delegate = self
 
         tableView.alwaysBounceVertical = true
-        
         tableView.register(UserInfoTableViewCell.self, forCellReuseIdentifier: UserInfoTableViewCell.identifier)
+        tableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: ReviewTableViewCell.identifier)
         
         let placeCell = UINib(nibName: "InfoPageCollectionView", bundle: nil)
         tableView.register(placeCell, forCellReuseIdentifier: ZZinListTableViewCell.identifier)
         
-        tableView.reloadData()
         tableView.sectionHeaderTopPadding = 0
-        
-        self.title = "마이페이지"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
         
         
         tableView.separatorStyle = .none
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        tableView.reloadData()
+        print("reload 완료")
+    }
     // TableView 설정
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let collectionCellRowCount = Int(zzinBasicInfos.count / 2)
+        let zzinPlaceCount = zzinRecommandations.count
+        let zzinListCellHeight = 228
+        let collectionViewLineSpacing = 16
+        let reviewCellHeight =  237
+        let spacingBetweenTableViewCell = 10
+        let sectionHeaderHeight = 60
         switch indexPath.section {
         case 0: return 170
-        case 1: return CGFloat(240 * collectionCellRowCount)
-        default: return 228
+        case 1:
+            return CGFloat(((zzinListCellHeight + collectionViewLineSpacing) * zzinPlaceCount) / 2) + 30
+        case 2: return CGFloat(reviewCellHeight)
+        default: return 170
         }
-        
+
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {2}
+    override func numberOfSections(in tableView: UITableView) -> Int {3}
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 2: return 2 // 추후 데이터 수로 변경
+        default: return 1
+        }
+       
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,9 +76,13 @@ class InfoViewController: UITableViewController {
             cell.selectionStyle = .none
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ZZinListTableViewCell.identifier, for: indexPath) as! ZZinListTableViewCell
-            cell.selectionStyle = .none
-            return cell
+            let zzinCell = tableView.dequeueReusableCell(withIdentifier: ZZinListTableViewCell.identifier, for: indexPath) as! ZZinListTableViewCell
+                zzinCell.selectionStyle = .none
+            return zzinCell
+        case 2:
+            let reviewCell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            reviewCell.selectionStyle = .none
+            return reviewCell
         default:
             let cell = UITableViewCell()
             cell.selectionStyle = .none
@@ -72,19 +92,24 @@ class InfoViewController: UITableViewController {
     
     // section header 반환
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            guard section == 1 else {
-                return nil;
-            }
-            let view = SegmentedControlView()
-            view.backgroundColor = .systemBackground
-        
-            return view
+        let header = SegmentedControlView()
+        header.backgroundColor = .systemBackground
+        switch section {
+            case 1:
+            header.switchButtonIndex(0)
+            return  header
+            case 2:
+            header.switchButtonIndex(1)
+            return  header
+            default:
+            return  nil
         }
+    }
 
         // section header 높이 설정
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
             return 60
-        }
+    }
 }
 
 
@@ -124,7 +149,7 @@ class ZZinListTableViewCell: UITableViewCell, UICollectionViewDataSource, UIColl
         return CGSize(width: 170, height: 228)
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {zzinBasicInfos.count}
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {zzinRecommandations.count}
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ZZinCollectionViewCell.identifier, for: indexPath) as! ZZinCollectionViewCell
