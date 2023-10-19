@@ -74,6 +74,12 @@
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
+		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
+		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
+		FBA7B0C62AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */; };
+		FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */; };
+		FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */; };
+		FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */; };
 		FF031D602ADBBA5900206056 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D5F2ADBBA5900206056 /* MainView.swift */; };
 		FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D612ADBBDC100206056 /* FontGuide.swift */; };
 		FF031D662ADBEAF700206056 /* MainPageRankingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D652ADBEAF700206056 /* MainPageRankingCollectionViewCell.swift */; };
@@ -124,6 +130,12 @@
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CostomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomView.swift; sourceTree = "<group>"; };
+		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageCollectionView.xib; sourceTree = "<group>"; };
+		FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageZZinCollectionCell.xib; sourceTree = "<group>"; };
+		FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZinCollectionViewCell.swift; sourceTree = "<group>"; };
+		FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FF031D612ADBBDC100206056 /* FontGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGuide.swift; sourceTree = "<group>"; };
 		FF031D652ADBEAF700206056 /* MainPageRankingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageRankingCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -282,8 +294,6 @@
 				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
 				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
 				BD1018822ADD589D003FAA97 /* Login */,
-				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
-				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
 				7B4B6A232ADCD9290075BB34 /* SearchPage */,
 				DF2A2CBB2ADE116B00BA5CE9 /* SearchMapPage */,
 				DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */,
@@ -311,6 +321,14 @@
 			isa = PBXGroup;
 			children = (
 				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
+				FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */,
+				FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */,
+				FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */,
+				FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */,
+				FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */,
+				FBA7B0C12AE0C18E00F79031 /* profile.png */,
+				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
+				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -435,11 +453,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
+				FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */,
 				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
+				FBA7B0C62AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +524,7 @@
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
+				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
@@ -513,7 +535,9 @@
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
+				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,
 				BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */,
+				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
