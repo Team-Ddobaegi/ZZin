@@ -75,8 +75,6 @@
 		53BB18D8DE6118DEC0AAC01027DBECA8 /* NMapsMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NMapsMap.release.xcconfig; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		761CD31B4873B7F5DDCB3087BEAD69F6 /* Pods-ZZin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-ZZin"; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B61D3932ADFA5B600A226EB /* LocationSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationSettingVC.swift; path = ../ZZin/SearchPage/LocationSettingVC.swift; sourceTree = "<group>"; };
-		7B61D3992ADFCD7D00A226EB /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchResultView.swift; path = ../ZZin/SearchPage/SearchView/SearchResultView.swift; sourceTree = "<group>"; };
 		7DFA61E6D6670DBDFE2AA43FB2DD11D6 /* Pods-ZZin-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ZZin-acknowledgements.markdown"; sourceTree = "<group>"; };
 		7F89040B8DC7FC773592AA5FE110E9DF /* NMapsGeometry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = NMapsGeometry.release.xcconfig; sourceTree = "<group>"; };
 		863CBBE508EAEF12380BDE06788B100E /* Pods-ZZin-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ZZin-umbrella.h"; sourceTree = "<group>"; };
@@ -192,8 +190,6 @@
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
-				7B61D3992ADFCD7D00A226EB /* SearchResultView.swift */,
-				7B61D3932ADFA5B600A226EB /* LocationSettingVC.swift */,
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				25B56312D79088C322C5B52238334BCC /* Pods */,
