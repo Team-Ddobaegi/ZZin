@@ -5,10 +5,11 @@
 //  Created by Jack Lee on 2023/10/18.
 //
 
-import Foundation
+import UIKit
 
 struct FoodCardModel {
-    let id: String
+    let id: Int
     let name: String
-    var choice: Bool
+    let image: UIImage
+    var choice: Bool?
 }

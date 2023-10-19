@@ -69,3 +69,24 @@ extension UIView {
                       right: superview?.rightAnchor)
     }
 }
+
+extension NSAttributedString.Key {
+    static var overlayAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold",
+                                                                                                       size: 42)!,
+                                                                   NSAttributedString.Key.kern: 5.0]
+    
+    static var shadowAttribute: NSShadow = {
+        let shadow = NSShadow()
+        shadow.shadowOffset = CGSize(width: 0, height: 1)
+        shadow.shadowBlurRadius = 2
+        shadow.shadowColor = UIColor.black.withAlphaComponent(0.3)
+        return shadow
+    }()
+    
+    static var titleAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "ArialRoundedMTBold", size: 40)!, NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.shadow: NSAttributedString.Key.shadowAttribute]
+}
+
+extension UIColor {
+    static var sampleRed = UIColor(red: 252/255, green: 70/255, blue: 93/255, alpha: 1)
+    static var sampleBlue = UIColor(red: 52/255, green: 154/255, blue: 254/255, alpha: 1)
+}
