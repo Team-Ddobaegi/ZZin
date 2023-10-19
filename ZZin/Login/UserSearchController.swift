@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
+// MARK: - UIComponent 선언
 class UserSearchController: UIViewController {
     private var idLabel: UILabel = {
         let label = UILabel()
@@ -87,7 +88,8 @@ class UserSearchController: UIViewController {
     private var confirmButton: UIButton = {
         let button = UIButton()
         button.setTitle("확인", for: .normal)
-        button.setTitleColor(.red, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .red
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
@@ -95,9 +97,11 @@ class UserSearchController: UIViewController {
         return button
     }()
     
+    // MARK: - 함수 선언
     private func configure() {
         view.backgroundColor = .white
         [idLabel, numberLabel, idTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
+        setUI()
     }
     
     private func setUI() {
@@ -113,6 +117,14 @@ class UserSearchController: UIViewController {
             $0.height.equalTo(43)
         }
         
+        idPlaceholder.snp.makeConstraints {
+            $0.centerY.equalTo(idLabel.snp.centerY)
+        }
+        
+        idTextField.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+        }
+        
         numberLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
             $0.top.equalTo(idLabel.snp.bottom).offset(88)
@@ -125,6 +137,10 @@ class UserSearchController: UIViewController {
             $0.height.equalTo(43)
         }
         
+        numberPlaceholder.snp.makeConstraints {
+            $0.centerY.equalTo(numberLabel.snp.centerY)
+        }
+        
         confirmButton.snp.makeConstraints {
             $0.top.equalTo(numberTextfieldView.snp.bottom).offset(233)
             $0.centerX.equalToSuperview()
@@ -135,6 +151,16 @@ class UserSearchController: UIViewController {
     
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
+        let vc = ModalViewController()
+        
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        self.present(vc, animated: true)
+    }
+    
+    deinit {
+        print("\(#function) - UserSearchController가 내려갔습니다.")
     }
 }
 
@@ -142,6 +168,5 @@ extension UserSearchController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        setUI()
     }
 }
