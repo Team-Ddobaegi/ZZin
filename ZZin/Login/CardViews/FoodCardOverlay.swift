@@ -18,8 +18,10 @@ class FoodCardOverlay: UIView {
         switch direction {
         case .left:
             createLeftOverlay()
+            print("싫어요 데이터 저장하겠습니다.")
         case .right:
             createRightOverlay()
+            print("좋아요 데이터 저장하겠습니다.")
         default:
             break
         }
@@ -31,7 +33,7 @@ class FoodCardOverlay: UIView {
     
     private func createLeftOverlay() {
         // 왼쪽으로 스와이프되는 view에 Label 생성
-        let leftTextView = OverlayLabelView(withTitle: "싫어요!", color: .red, rotation: CGFloat.pi/10)
+        let leftTextView = OverlayLabelView(withTitle: "싫어요!", color: .sampleRed, rotation: CGFloat.pi/10)
         addSubview(leftTextView)
         leftTextView.anchor(top: topAnchor,
                             right: rightAnchor,
@@ -41,7 +43,7 @@ class FoodCardOverlay: UIView {
 
     private func createRightOverlay() {
         // 오른쪽으로 스와이프되는 view에 Label 생성
-        let rightTextView = OverlayLabelView(withTitle: "좋아요!", color: .blue, rotation: -CGFloat.pi/10)
+        let rightTextView = OverlayLabelView(withTitle: "좋아요!", color: .sampleBlue, rotation: -CGFloat.pi/10)
         addSubview(rightTextView)
         rightTextView.anchor(top: topAnchor,
                             left: leftAnchor,
@@ -66,6 +68,7 @@ private class OverlayLabelView: UIView {
         
         addSubview(titleLabel)
         titleLabel.textColor = color
+        titleLabel.attributedText = NSAttributedString(string: title, attributes: NSAttributedString.Key.overlayAttributes)
         
         titleLabel.anchor(top: topAnchor,
                           left: leftAnchor,
