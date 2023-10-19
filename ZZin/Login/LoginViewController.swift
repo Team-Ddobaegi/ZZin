@@ -217,6 +217,9 @@ class LoginViewController: UIViewController {
     
     @objc func searchIdButtonTapped() {
         print("아이디 찾기 버튼이 눌렸습니다.")
+        let vc = UserSearchController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     @objc func searchPwButtonTapped() {
