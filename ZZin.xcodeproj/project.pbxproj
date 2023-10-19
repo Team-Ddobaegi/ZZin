@@ -54,6 +54,7 @@
 		BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */; };
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
+		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
@@ -103,6 +104,7 @@
 		BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardContentView.swift; sourceTree = "<group>"; };
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
+		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */,
 				BDD983712AE0C24B008168D2 /* UserSearchController.swift */,
+				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
 				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
 				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
@@ -521,6 +524,7 @@
 				7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
+				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
 				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,
