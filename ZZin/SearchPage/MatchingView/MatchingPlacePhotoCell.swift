@@ -44,7 +44,7 @@ class MatchingPlacePhotoCell: UITableViewCell, UICollectionViewDataSource, UICol
     }
     
     public let imageview = UIView().then {
-        $0.backgroundColor = .red
+        $0.backgroundColor = ColorGuide.main
     }
     
     

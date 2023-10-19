@@ -17,7 +17,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setAddSubView()
+        setView()
         setMapView()
         setLocationPickerView()
         configureUI()
@@ -28,7 +28,7 @@ class SearchVC: UIViewController {
     
     // MARK: - Settings
     
-    private func setAddSubView(){
+    private func setView(){
         view.backgroundColor = .white
         view.addSubview(searchView)
         view.addSubview(collectionView)

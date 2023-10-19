@@ -21,6 +21,8 @@
 		7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */; };
 		7BFC61BE2AE1987C00F46544 /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */; };
 		7BFC61BF2AE1987C00F46544 /* KeywordPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BD2AE1987C00F46544 /* KeywordPage.swift */; };
+		7BFC61C22AE1C8BC00F46544 /* MatchingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */; };
+		7BFC61C42AE1C90100F46544 /* MatchingDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextField.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
@@ -110,6 +112,8 @@
 		7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceReviewCell.swift; sourceTree = "<group>"; };
 		7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BFC61BD2AE1987C00F46544 /* KeywordPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordPage.swift; sourceTree = "<group>"; };
+		7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailView.swift; sourceTree = "<group>"; };
+		7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailVC.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 				7BFC61C02AE1A66A00F46544 /* KeywordView */,
 				7B61D3982ADFAA5600A226EB /* SearchView */,
 				7B1103D72AE0E876001BBEB2 /* MatchingView */,
+				7BFC61C52AE1C92600F46544 /* MatchingDetailView */,
 				7B61D3972ADFAA0F00A226EB /* Location */,
 			);
 			path = SearchPage;
@@ -271,6 +276,15 @@
 				7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */,
 			);
 			path = KeywordView;
+			sourceTree = "<group>";
+		};
+		7BFC61C52AE1C92600F46544 /* MatchingDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */,
+				7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */,
+			);
+			path = MatchingDetailView;
 			sourceTree = "<group>";
 		};
 		BD1018822ADD589D003FAA97 /* Login */ = {
@@ -572,6 +586,7 @@
 				DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */,
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
 				7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */,
+				7BFC61C22AE1C8BC00F46544 /* MatchingDetailView.swift in Sources */,
 				DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
@@ -593,6 +608,7 @@
 				7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
+				7BFC61C42AE1C90100F46544 /* MatchingDetailVC.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
 				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,

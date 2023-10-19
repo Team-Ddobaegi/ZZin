@@ -31,7 +31,7 @@ class MatchingView: UIView {
         $0.isEnabled = true
         let iconImage = UIImage(systemName: "xmark")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = ColorGuide.main
     }
     
     // 매칭 업체가 보여지는 테이블뷰입니두

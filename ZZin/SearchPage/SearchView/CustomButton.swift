@@ -17,7 +17,7 @@ class KeywordButton: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         setTitleColor(.systemGray2, for: .normal)
-        setTitleColor(.systemRed, for: .highlighted)
+        setTitleColor(ColorGuide.main, for: .highlighted)
         backgroundColor = UIColor.white
         layer.cornerRadius = 35 / 2
         layer.borderWidth = 0.5

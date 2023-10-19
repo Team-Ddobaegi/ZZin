@@ -23,7 +23,7 @@ class MatchingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setMatchingView()
+        setView()
         setXMarkButton()
         setCostumCell()
         setTableViewAttribute()
@@ -33,7 +33,7 @@ class MatchingVC: UIViewController {
     
     // MARK: - Settings
     
-    private func setMatchingView(){
+    private func setView(){
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         view.addSubview(matchingView)
@@ -86,16 +86,16 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
         default: return 700
         }
     }
-     
+    
     func numberOfSections(in tableView: UITableView) -> Int {3}
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
-           
+            
         case 0:
             // 매칭 업체 포토 컬렉션뷰
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlacePhotoCell.identifier) as! MatchingPlacePhotoCell
@@ -121,7 +121,13 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("매칭 디테일 페이지로 이동합니다.")
+        if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
+            let matchingDetailVC = MatchingDetailVC()
+            
+            self.navigationController?.pushViewController(matchingDetailVC, animated: true)
+        }
+        
+    }
 }
-

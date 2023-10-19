@@ -109,12 +109,11 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.snp.makeConstraints {
             $0.width.height.equalTo(50)
         }
-        
         let iconImage = UIImage(systemName: "arrow.down.heart")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
         $0.contentVerticalAlignment = .center
-        
+
         let spacing: CGFloat = 40
         $0.titleEdgeInsets = UIEdgeInsets(top: spacing, left: 0, bottom: 0, right: 0)
     }
@@ -137,7 +136,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
         view.addSubview(divider)
         view.addSubview(placeMapView)
         view.addSubview(placeButtonStackView)
-        
     }
     
     

@@ -37,7 +37,7 @@ class SearchView: UIView {
     private let searchTipLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "tip"
-        $0.textColor = .systemRed
+        $0.textColor = ColorGuide.main
     }
     
     private let searchNotiLabel = UILabel().then {
@@ -55,7 +55,7 @@ class SearchView: UIView {
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = ColorGuide.main
     }
     
     public let setLocationButton = UIButton().then {
@@ -65,7 +65,7 @@ class SearchView: UIView {
         
         let iconImage = UIImage(systemName: "chevron.down")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = ColorGuide.main
         $0.semanticContentAttribute = .forceRightToLeft
 
         let spacing: CGFloat = 10
