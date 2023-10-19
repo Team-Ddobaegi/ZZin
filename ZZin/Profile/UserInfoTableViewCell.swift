@@ -12,6 +12,15 @@ import Then
 class UserInfoTableViewCell: UITableViewCell {
     static let identifier = "UserInfoTableViewCell"
     
+    var editButton = UIButton().then{
+        $0.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        $0.tintColor = .label
+    }
+    var editButtonWrap = UIView().then{
+        $0.layer.cornerRadius = 25 / 2
+        $0.backgroundColor = .systemGroupedBackground
+    }
+    
     let profileImageView = UIImageView().then {
         $0.image = UIImage(named: "profile") // 추후 업로드 방식으로 변경 필요
         $0.layer.cornerRadius = 85/2
@@ -74,6 +83,19 @@ class UserInfoTableViewCell: UITableViewCell {
         designationWrap.addSubview(designationTitle)
         designationTitle.snp.makeConstraints{
             $0.centerX.centerY.equalToSuperview()
+        }
+        
+        contentView.addSubview(editButtonWrap)
+        editButtonWrap.snp.makeConstraints{
+            $0.centerY.equalTo(nickname)
+            $0.left.equalTo(nickname.snp.right).offset(7)
+            $0.size.equalTo(CGSize(width: 25, height: 25))
+        }
+        
+        editButtonWrap.addSubview(editButton)
+        editButton.snp.makeConstraints{
+            $0.centerX.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 15, height: 15))
         }
     }
 
