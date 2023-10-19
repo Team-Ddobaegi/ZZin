@@ -15,13 +15,13 @@ class LoginViewController: UIViewController {
     private let logoView = UIImageView().then {
         let image = UIImage(systemName: "photo")
         $0.image = image
-        $0.backgroundColor = .red
+        $0.backgroundColor = ColorGuide.main
         $0.contentMode = .scaleAspectFit
     }
     
     // 아이디 textFieldView
     private lazy var idTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
+        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.addSubview(idTextField)
@@ -30,21 +30,20 @@ class LoginViewController: UIViewController {
     
     private var idInfoLabel = UILabel().then {
         $0.text = "아이디를 적어주세요"
-        $0.textColor = .white
+        $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private var idTextField = UITextField().then {
-        $0.backgroundColor = .blue
-        $0.textColor = .white
+        $0.textColor = .black
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // 아이디 textFieldView
     private lazy var pwTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
+        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.addSubview(pwTextField)
@@ -53,14 +52,13 @@ class LoginViewController: UIViewController {
     
     private var pwInfoLabel = UILabel().then {
         $0.text = "비밀번호를 적어주세요"
-        $0.textColor = .white
+        $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private var pwTextField = UITextField().then {
-        $0.backgroundColor = .blue
-        $0.textColor = .white
+        $0.textColor = .black
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -68,7 +66,7 @@ class LoginViewController: UIViewController {
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .red
+        $0.backgroundColor = ColorGuide.main
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
@@ -104,29 +102,12 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    private let altLoginButton = UIButton().then {
-        let image = UIImage(systemName: "photo")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        $0.setImage(image, for: .normal)
-        $0.backgroundColor = .red
-        $0.layer.cornerRadius = $0.frame.width / 2
-        $0.clipsToBounds = true
-    }
-    
-    private lazy var altButtonStack: UIStackView = {
-        let stack = UIStackView()
-        [altLoginButton, altLoginButton, altLoginButton].forEach{ stack.addArrangedSubview($0) }
-        stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
         idTextField.delegate = self
         
-        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack, altButtonStack].forEach{view.addSubview($0)}
+        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -134,7 +115,6 @@ class LoginViewController: UIViewController {
         setTextFields()
         setLoginBtn()
         setSearchBtn()
-        alternativeLoginBtn()
     }
     
     private func setLogo() {
@@ -198,15 +178,7 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(19)
         }
     }
-    
-    func alternativeLoginBtn() {
-        altButtonStack.snp.makeConstraints{
-            $0.top.equalTo(secondaryButtonStack.snp.bottom).offset(30)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(35)
-        }
-    }
-    
+        
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
         let vc = MainViewController()
