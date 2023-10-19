@@ -6,55 +6,129 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
-class InfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class InfoViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        
+        view.backgroundColor = .systemBackground
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        tableView.alwaysBounceVertical = true
+        
+        tableView.register(UserInfoTableViewCell.self, forCellReuseIdentifier: UserInfoTableViewCell.identifier)
+        
+        let placeCell = UINib(nibName: "InfoPageCollectionView", bundle: nil)
+        tableView.register(placeCell, forCellReuseIdentifier: ZZinListTableViewCell.identifier)
+        
+        tableView.reloadData()
+        tableView.sectionHeaderTopPadding = 0
         
         self.title = "마이페이지"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
+        tableView.separatorStyle = .none
     }
     
     // TableView 설정
     
-    func numberOfSections(in tableView: UITableView) -> Int {2}
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return 1
-        case 1: return 1 // 데이터 수에 맞게 변경
-        default: return 1
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let collectionCellRowCount = Int(zzinBasicInfos.count / 2)
+        switch indexPath.section {
+        case 0: return 170
+        case 1: return CGFloat(240 * collectionCellRowCount)
+        default: return 228
         }
+        
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    override func numberOfSections(in tableView: UITableView) -> Int {2}
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: UserInfoTableViewCell.identifier) as! UserInfoTableViewCell
+            cell.selectionStyle = .none
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: InfoLocalListTableViewCell.identifier) as! InfoLocalListTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ZZinListTableViewCell.identifier, for: indexPath) as! ZZinListTableViewCell
+            cell.selectionStyle = .none
             return cell
-        default: return UITableViewCell()
+        default:
+            let cell = UITableViewCell()
+            cell.selectionStyle = .none
+            return cell
         }
     }
-
-}
-
-class UserInfoTableViewCell: UITableViewCell {
-    static let identifier = "userInfoCell"
     
+    // section header 반환
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            guard section == 1 else {
+                return nil;
+            }
+            let view = SegmentedControlView()
+            view.backgroundColor = .systemBackground
+        
+            return view
+        }
+
+        // section header 높이 설정
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 60
+        }
 }
+
+
 // collectionView가 TableViewCell이 되는 부분
-class InfoLocalListTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
-    static let identifier = "localListTableViewCell"
+class ZZinListTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+    @IBOutlet var collectionView: UICollectionView!
+    static let identifier = "ZZinListTableViewCell"
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {1}
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        return UICollectionViewCell()
+        registerXib()
+        registerDelegate()
+    }
+    
+    private func registerXib(){
+        let storyNib = UINib(nibName: "InfoPageZZinCollectionCell", bundle: nil)
+            collectionView.register(storyNib, forCellWithReuseIdentifier: ZZinCollectionViewCell.identifier)
+    }
+        
+    private func registerDelegate(){
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.isScrollEnabled = false
+        collectionView.contentInset = UIEdgeInsets(top: 30, left: 16, bottom: 30, right: 16)
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
+    // collectionViewCell 레이아웃
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 170, height: 228)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {zzinBasicInfos.count}
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ZZinCollectionViewCell.identifier, for: indexPath) as! ZZinCollectionViewCell
+        return cell
     }
 }
 
