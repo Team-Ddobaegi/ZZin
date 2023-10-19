@@ -92,7 +92,6 @@ class SearchView: UIView {
     private func setUpView() {
         addSubview(setLocationButton)
         addSubview(divider1)
-        addSubview(divider2)
         addSubview(searchResultLabel)
         addSubview(searchTipLabel)
         addSubview(searchNotiLabel)
@@ -100,6 +99,7 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
+        addSubview(divider2)
     }
     
     private func setDividerConstraints() {

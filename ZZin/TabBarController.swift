@@ -49,8 +49,6 @@ class TabBarViewController: UITabBarController {
         
         // 검색탭 네비게이션 바 수정
         navigationSearch.navigationBar.isHidden = true
-       
-        
         //        navigationHome.navigationBar.prefersLargeTitles = true
         //        navigationSearch.navigationBar.prefersLargeTitles = true
         //        navigationPost.navigationBar.prefersLargeTitles = true
