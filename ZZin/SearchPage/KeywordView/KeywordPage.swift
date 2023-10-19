@@ -14,7 +14,7 @@ class KeywordPage: UIViewController {
     
     let noticeLabel = UILabel().then {
         $0.text = "누구랑\n가시나요?"
-        $0.font = UIFont.systemFont(ofSize: 25.39, weight: .bold)
+        $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
         $0.numberOfLines = 0
         $0.textAlignment = .left
     }
@@ -31,23 +31,25 @@ class KeywordPage: UIViewController {
         $0.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.reuseIdentifer)
     }
     
-    private var infoLabel = UILabel().then {
-        $0.text = "보기를 선택해주세요"
+    var infoLabel = UILabel().then {
+        $0.text = "보기를 선택해주세요."
         $0.textColor = ColorGuide.main
-        $0.font = UIFont.systemFont(ofSize: 12.69, weight: .medium)
+        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
     
     private let confirmButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         $0.backgroundColor = ColorGuide.main
-        $0.layer.cornerRadius = 15.23
+        $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
         $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
+        self.dismiss(animated: true)
     }
 
     func configure() {
@@ -58,29 +60,30 @@ class KeywordPage: UIViewController {
     
     func setUI() {
         noticeLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(22.34)
-            $0.top.equalToSuperview().offset(31.48)
+            $0.leading.equalToSuperview().offset(25)
+            $0.top.equalToSuperview().offset(30)
             $0.height.equalTo(100)
         }
         
         userChoiceCollectionView.snp.makeConstraints {
-            $0.top.equalTo(noticeLabel.snp.bottom).offset(49.84)
+            $0.top.equalTo(noticeLabel.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(189.91)
-            $0.width.equalTo(348.84)
+            $0.height.equalTo(190)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-21)
         }
         
         infoLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(userChoiceCollectionView.snp.bottom).offset(12.25)
-            $0.width.equalTo(349)
+            $0.top.equalTo(userChoiceCollectionView.snp.bottom).offset(12)
+            $0.leading.equalToSuperview().offset(25)
         }
         
         confirmButton.snp.makeConstraints {
-            $0.top.equalTo(userChoiceCollectionView.snp.bottom).offset(56.36)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(348.84)
-            $0.height.equalTo(57.89)
+            $0.top.equalTo(userChoiceCollectionView.snp.bottom).offset(60)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(60)
         }
     }
 }
@@ -88,6 +91,7 @@ class KeywordPage: UIViewController {
 extension KeywordPage {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configure()
     }
 }

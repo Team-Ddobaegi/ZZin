@@ -5,14 +5,11 @@
 //  Created by t2023-m0045 on 10/16/23.
 //
 
-import Foundation
 import UIKit
+import SnapKit
+import Then
 
 class KeywordButton: UIButton {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
     
     init(title: String) {
         super.init(frame: .zero)

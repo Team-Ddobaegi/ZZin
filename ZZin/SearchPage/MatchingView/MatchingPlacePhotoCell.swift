@@ -9,15 +9,33 @@ import UIKit
 import SnapKit
 import Then
 
-class MatchingPlacePhotoCell: UICollectionViewCell {
+class MatchingPlacePhotoCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+    //
+    // MARK: - Properties
+    
+    static let identifier = "MatchingRestaurantPhotoCell"
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(MatchingPlacePhotoCell.self, forCellWithReuseIdentifier: MatchingPlacePhotoCell.identifier)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        cv.backgroundColor = .white
+        
+        return cv
+    }()
+    
     
     // MARK: - Life Cycles
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setAddsubView()
-        setCellAttribute()
         setConstraints()
     }
     
@@ -25,35 +43,45 @@ class MatchingPlacePhotoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Properties
-    
-    static let identifier = "MatchingRestaurantPhotoCell"
-    
-    public let view = UIView().then {
-        $0.backgroundColor = .black
+    public let imageview = UIView().then {
+        $0.backgroundColor = .red
     }
     
     
     //MARK: - Settings
     
-    
     private func setAddsubView() {
-        addSubview(view)
+        addSubview(imageview)
+//        imageView?.addSubview(collectionView)
     }
     
-    private func setCellAttribute(){
-        // 셀 세팅
-        layer.cornerRadius = 25
-        backgroundColor = .systemGray6
-    }
     
     //MARK: - ConfigureUI
+    
     private func setConstraints(){
-        // 업체 정보를 보여줄 뷰
-        view.snp.makeConstraints {
+        imageview.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            
         }
     }
+
+    
+    //MARK: - CollectionView Layout
+    
+    // 커스텀 셀 사이즈
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 150)
+    }
+    
+    // 커스텀 셀 개수
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {3}
+    
+    // 커스텀 셀 호출
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.identifier ,for: indexPath) as? SearchResultCell else {
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+    
 }
 

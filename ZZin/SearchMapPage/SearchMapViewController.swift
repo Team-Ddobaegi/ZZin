@@ -29,7 +29,7 @@ class SearchMapViewController: UIViewController, LocationServiceDelegate {
     }
     
     @objc func gridButtonTapped() {
-        self.navigationController?.pushViewController(SearchViewController(), animated: true)
+        self.navigationController?.pushViewController(SearchVC(), animated: true)
     }
     
     @objc func storeCardTapped() {

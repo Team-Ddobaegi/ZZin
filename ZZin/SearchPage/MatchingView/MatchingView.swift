@@ -9,13 +9,14 @@ import UIKit
 import SnapKit
 import Then
 
-class MatcingView: UIView {
+class MatchingView: UIView {
     
     //MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setAddSubView()
         configureUI()
     }
     
@@ -26,16 +27,52 @@ class MatcingView: UIView {
     
     //MARK: - Properties
     
-    private let searchResultLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 18, weight: .semibold)
-        $0.text = "3가지를 가진 맛집"
-        $0.textColor = .black
+    lazy var xMarkButton = UIButton().then {
+        $0.isEnabled = true
+        let iconImage = UIImage(systemName: "xmark")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = .systemRed
+    }
+    
+    // 매칭 업체가 보여지는 테이블뷰입니두
+    lazy var setMatchingTableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.alwaysBounceVertical = true
+//        $0.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
+        $0.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
+        $0.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
+        $0.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
+    }
+    
+    
+    //MARK: - Settings
+    
+    private func setAddSubView() {
+        addSubview(xMarkButton)
+        addSubview(setMatchingTableView)
     }
     
     //MARK: - Configure
     
     private func configureUI(){
-        
+        tableViewConstraints()
+        setButtonConstraints()
     }
     
+    private func tableViewConstraints() {
+        setMatchingTableView.snp.makeConstraints {
+            $0.top.equalTo(xMarkButton.snp.bottom).offset(5)
+            $0.bottom.equalToSuperview().offset(-90)
+            $0.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func setButtonConstraints() {
+        // 엑스 버튼
+        xMarkButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview().offset(20)
+        }
+    }
 }

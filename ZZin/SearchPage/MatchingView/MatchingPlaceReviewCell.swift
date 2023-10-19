@@ -6,18 +6,63 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class MatchingPlaceReviewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    // MARK: - Life Cycles
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setAddsubView()
+        configureUI()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // MARK: - Properties
+    
+    static let identifier = "MatchingPlaceReviewCell"
+    
+    let dummyReview1 = ZZinView()
+    let dummyReview2 = ZZinView()
+    let dummyReview3 = ZZinView()
+    
+    
+    //MARK: - Settings
+    
+    private func setAddsubView() {
+        addSubview(dummyReview1)
+        addSubview(dummyReview2)
+        addSubview(dummyReview3)
+    }
+    
+    //MARK: - ConfigureUI
+    
+    private func configureUI(){
+        dummyReview1.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(180)
+        }
+        
+        dummyReview2.snp.makeConstraints{
+            $0.top.equalTo(dummyReview1.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(180)
+        }
+        
+        dummyReview3.snp.makeConstraints{
+            $0.top.equalTo(dummyReview2.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(180)
+        }
+    }
 }

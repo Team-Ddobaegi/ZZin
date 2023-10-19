@@ -7,22 +7,22 @@
 
 import UIKit
 import SnapKit
+import Then
 
 class KeywordCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifer: String = "cell"
     
-    var titleButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("테스트 제목", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.layer.cornerRadius = 15.23
-        btn.clipsToBounds = true
-        btn.layer.borderWidth = 0.5
-        btn.layer.borderColor = UIColor.black.cgColor
-        btn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        return btn
-    }()
+    let titleButton = UIButton().then {
+        $0.setTitle("테스트 제목", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.layer.borderWidth = 0.7
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,13 +35,13 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     }
     
     func setUI() {
-        titleButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        titleButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
     @objc func buttonTapped() {
-        print("버튼이 눌렸습니다.")
+        print("키워드 셀 클릭")
     }
     
     required init?(coder: NSCoder) {

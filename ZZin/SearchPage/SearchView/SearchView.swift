@@ -46,11 +46,11 @@ class SearchView: UIView {
         $0.textColor = .systemGray
     }
     
-    private let firstKeywordButton = KeywordButton(title: "키워드")
+    let firstKeywordButton = KeywordButton(title: "키워드")
     
-    private let secondKeywordButton = KeywordButton(title: "키워드")
+    let secondKeywordButton = KeywordButton(title: "키워드")
     
-    private let menuKeywordButton = KeywordButton(title: "키워드")
+    let menuKeywordButton = KeywordButton(title: "키워드")
     
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
@@ -92,6 +92,7 @@ class SearchView: UIView {
     private func setUpView() {
         addSubview(setLocationButton)
         addSubview(divider1)
+        addSubview(divider2)
         addSubview(searchResultLabel)
         addSubview(searchTipLabel)
         addSubview(searchNotiLabel)
@@ -99,7 +100,6 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
-        addSubview(divider2)
     }
     
     private func setDividerConstraints() {

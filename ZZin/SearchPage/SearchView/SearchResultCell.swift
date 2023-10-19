@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+
 
 class SearchResultCell: UICollectionViewCell {
     
@@ -15,7 +18,6 @@ class SearchResultCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setAddsubView()
-        setCellAttribute()
         configureUI()
     }
     
@@ -27,51 +29,52 @@ class SearchResultCell: UICollectionViewCell {
     
     static let identifier = "searchResultCell"
     
+    let zzinView = ZZinView()
     
-    private let thumbnailImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.layer.masksToBounds = true
-    }
-    
-    private let recommendTitle = UILabel().then {
-        $0.text = "추천맛집"
-        $0.textColor = .black
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        $0.textAlignment = .left
-    }
-    private let recommendContents = UILabel().then {
-        $0.text = "냠냠쩝쩝 나는야 쩝쩝박사"
-        $0.textColor = .gray
-        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        $0.textAlignment = .left
-    }
+//    public let thumbnailImage = UIImageView().then {
+//        $0.image = UIImage(named: "ogudangdang_review.jpeg")
+//        $0.contentMode = .scaleAspectFill
+//        $0.layer.masksToBounds = true
+//    }
+//    
+//    public let recommendTitle = UILabel().then {
+//        $0.text = "추천맛집"
+//        $0.textColor = .black
+//        $0.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+//        $0.textAlignment = .left
+//    }
+//    public let recommendContents = UILabel().then {
+//        $0.text = "냠냠쩝쩝 나는야 쩝쩝박사"
+//        $0.textColor = .gray
+//        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+//        $0.textAlignment = .left
+//    }
     
     //MARK: - Settings
     
     
     private func setAddsubView() {
-        addSubview(thumbnailImage)
-        addSubview(recommendTitle)
-        addSubview(recommendContents)
-    }
-    
-    private func setCellAttribute(){
-        // 셀 세팅
-        layer.cornerRadius = 25
-        backgroundColor = .systemGray6
+//        addSubview(thumbnailImage)
+//        addSubview(recommendTitle)
+//        addSubview(recommendContents)
+        addSubview(zzinView)
     }
     
     //MARK: - ConfigureUI
     
     private func configureUI(){
-        recommendTitle.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(155)
-            $0.leading.equalToSuperview().offset(15)
+        zzinView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
         }
-        
-        recommendContents.snp.makeConstraints {
-            $0.bottom.equalTo(recommendTitle).offset(22)
-            $0.leading.equalToSuperview().offset(15)
-        }
+//
+//        recommendTitle.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(155)
+//            $0.leading.equalToSuperview().offset(15)
+//        }
+//        
+//        recommendContents.snp.makeConstraints {
+//            $0.bottom.equalTo(recommendTitle).offset(22)
+//            $0.leading.equalToSuperview().offset(15)
+//        }
     }
 }

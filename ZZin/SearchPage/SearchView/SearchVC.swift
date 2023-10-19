@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class SearchVC: UIViewController {
     
     
     // MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,9 +21,11 @@ class SearchVC: UIViewController {
         setMapView()
         setLocationPickerView()
         configureUI()
+        setCollectionViewAttribute()
+        setKeywordView()
     }
     
-   
+    
     // MARK: - Settings
     
     private func setAddSubView(){
@@ -38,13 +42,25 @@ class SearchVC: UIViewController {
         searchView.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
     }
     
+    private func setCollectionViewAttribute(){
+        collectionView.collectionView.delegate = self
+        collectionView.collectionView.dataSource = self
+    }
+    
+    private func setKeywordView(){
+        searchView.firstKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
+        searchView.secondKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
+        searchView.menuKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
+    }
     
     //MARK: - Properties
     
     private let searchView = SearchView()
     
     private let collectionView = SearchResultCollectionView()
-
+    
+    private var recommendItems = [RecommendList]()
+    
     
     // MARK: - Actions
     
@@ -60,6 +76,13 @@ class SearchVC: UIViewController {
         navigationController?.present(locationSettingVC, animated: true)
     }
     
+    @objc private func keywordButtonTapped() {
+        print("keywordButtonTapped")
+        let keywordView = KeywordPage()
+        navigationController?.present(keywordView, animated: true)
+    }
+    
+    
     //MARK: - Configure UI
     
     func configureUI(){
@@ -71,7 +94,7 @@ class SearchVC: UIViewController {
         searchView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
-
+            
         }
     }
     
@@ -84,3 +107,52 @@ class SearchVC: UIViewController {
         }
     }
 }
+
+
+extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // 셀 크기 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 2 - 25, height: collectionView.frame.width / 2 + 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //                return recommendItems.count
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.identifier ,for: indexPath) as? SearchResultCell else {
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+    
+    // 위 아래 간격
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    // 양 옆 간격
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("매칭 업체 페이지로 이동합니다.")
+        if collectionView.cellForItem(at: indexPath) is SearchResultCell {
+            
+            let matchingVC = MatchingVC()
+//            let nav = UINavigationController(rootViewController: matchingVC)
+//            nav.modalPresentationStyle = .currentContext
+//            self.present(nav, animated: true)
+                        self.navigationController?.pushViewController(matchingVC, animated: true)
+        }
+    }
+}
+
+
+

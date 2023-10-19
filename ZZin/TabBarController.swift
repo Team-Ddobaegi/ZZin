@@ -9,7 +9,7 @@ class TabBarViewController: UITabBarController {
         
         // Do any additional setup after loading the view.
         let mainVC = MainViewController()
-        let searchVC = SearchViewController()
+        let searchVC = SearchVC()
         let postVC = PostViewController()
         let storyVC = StoryViewController()
         let infoVC = InfoViewController()
