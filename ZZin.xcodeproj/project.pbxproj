@@ -65,6 +65,8 @@
 		DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
+		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
+		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
 		FF031D602ADBBA5900206056 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D5F2ADBBA5900206056 /* MainView.swift */; };
 		FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D612ADBBDC100206056 /* FontGuide.swift */; };
@@ -106,6 +108,8 @@
 		DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
+		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
+		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CostomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomView.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FF031D612ADBBDC100206056 /* FontGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGuide.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				FF031D612ADBBDC100206056 /* FontGuide.swift */,
 				DC095D132AD942610082B633 /* Model.swift */,
 				FBA7B0AE2ADD742600F79031 /* CostomView.swift */,
+				DFFE276E2AE0A98F00F5970F /* LocationService.swift */,
 			);
 			path = ZZin;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 			children = (
 				DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */,
 				DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */,
+				DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */,
 			);
 			path = SearchMapPage;
 			sourceTree = "<group>";
@@ -453,8 +459,10 @@
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */,
+				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
+				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 			);
