@@ -48,7 +48,7 @@ class TabBarViewController: UITabBarController {
         let navigationInfo = UINavigationController(rootViewController: infoVC)
         
         // 검색탭 네비게이션 바 수정
-        navigationSearch.navigationBar.topItem?.title = "서울 강남구"
+        navigationSearch.navigationBar.isHidden = true
        
         
         //        navigationHome.navigationBar.prefersLargeTitles = true
@@ -61,7 +61,7 @@ class TabBarViewController: UITabBarController {
     }
     
     //탭바 height 커스터 마이징
-    let HEIGHT_TAB_BAR:CGFloat = 100
+    let HEIGHT_TAB_BAR:CGFloat = 90
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
