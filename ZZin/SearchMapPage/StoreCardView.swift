@@ -43,6 +43,7 @@ class StoreCardView: UIView {
         let image = UIImage(named: "ogudangdang")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         return imageView
     }()
