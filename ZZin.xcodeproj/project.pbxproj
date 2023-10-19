@@ -270,6 +270,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
+				FBA7B0C02AE0C0B800F79031 /* Profile */,
 				DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */,
 				DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */,
 				DF1599B02AD6C6E200AE129B /* ViewController.swift */,
@@ -279,7 +280,6 @@
 				DF1599BA2AD6C6E300AE129B /* Info.plist */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
-				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
 				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
 				BD1018822ADD589D003FAA97 /* Login */,
 				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
@@ -305,6 +305,14 @@
 				DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */,
 			);
 			path = SearchMapPage;
+			sourceTree = "<group>";
+		};
+		FBA7B0C02AE0C0B800F79031 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		FF031D5E2ADBBA1500206056 /* MainPage */ = {
@@ -513,7 +521,7 @@
 				FF031D662ADBEAF700206056 /* MainPageRankingCollectionViewCell.swift in Sources */,
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
-				BD8D6B002ADEE7EE00F2A8D6 /* LoginSwipe.swift in Sources */,
+				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
