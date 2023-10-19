@@ -10,6 +10,21 @@ import SnapKit
 
 class MainView: UIView {
     
+    let zzinlogoPicture: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ZZin")
+        imageView.backgroundColor = ColorGuide.subButton
+//        imageView.layer.cornerRadius = 38
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
+        imageView.snp.makeConstraints {
+            $0.height.width.equalTo(70)
+        }
+        return imageView
+    }()
+
+    
     private let logoLabel: UILabel = {
         let label = UILabel()
         label.text = "찐"
@@ -281,13 +296,13 @@ class MainView: UIView {
     func setupUI() {
         backgroundColor = .systemBackground
         
-        addSubview(logoLabel)
-        logoLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(65)
-            $0.leading.equalTo(30)
+        addSubview(zzinlogoPicture)
+        zzinlogoPicture.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(40)
+            $0.leading.equalTo(15)
 //            make.trailing.equalToSuperview()
-            $0.height.equalTo(50)
-            $0.width.equalTo(30)
+            $0.height.equalTo(100)
+            $0.width.equalTo(100)
 
         }
 
