@@ -16,11 +16,8 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-//        self.navigationController?.isNavigationBarHidden = true
-
         setupUI()
         rankButtonAction()
-        
         
         
     }
@@ -31,6 +28,8 @@ class MainViewController: UIViewController {
             view = mainView
             mainView.recommendcollectionView.dataSource = self
             mainView.recommendcollectionView.delegate = self
+            mainView.reviewCollectionView.dataSource = self
+            mainView.reviewCollectionView.delegate = self
             
             if let settingImage = UIImage(named: "search") {
                 let originalSize = settingImage.size
@@ -61,31 +60,48 @@ class MainViewController: UIViewController {
  
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageRecommendCollectionViewCell.identifier, for: indexPath) as? MainPageRecommendCollectionViewCell else {
-            fatalError()
-        }
+        if collectionView == mainView.recommendcollectionView {
+            
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageRecommendCollectionViewCell.identifier, for: indexPath) as? MainPageRecommendCollectionViewCell else {
+                fatalError()
+            }
+            
+            return cell
+        } else if collectionView == mainView.reviewCollectionView {
+               guard let secondCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageReviewCollectionViewCell.identifier, for: indexPath) as? MainPageReviewCollectionViewCell else {
+                    fatalError()
+                }
                 
-        cell.layer.borderWidth = 1.0
-//        cell.layer.cornerRadius = 38
-        cell.layer.masksToBounds = true
-        cell.setupUI()
-        return cell
+            secondCell.layer.borderWidth = 1.0
+            secondCell.layer.cornerRadius = 25
+            secondCell.layer.masksToBounds = true
+                return secondCell
+            }
+        return UICollectionViewCell()
+        }
     }
-}
-
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let size = (view.bounds.size.width - 76) / 2
-        return CGSize(width: 76, height: 100)
+    
+    extension MainViewController: UICollectionViewDelegateFlowLayout {
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == mainView.recommendcollectionView {
+                return CGSize(width: 76, height: 110)
+            } else if collectionView == mainView.reviewCollectionView {
+                return CGSize(width: 353, height: 237)
+            }
+            return CGSize(width: 50, height: 50)
+        }
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            if collectionView == mainView.recommendcollectionView {
+                return 25
+            } else if collectionView == mainView.reviewCollectionView {
+                return 25
+            }
+            return 25
+        }
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 25
-    }
-}
-
 

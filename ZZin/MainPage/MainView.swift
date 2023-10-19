@@ -10,6 +10,30 @@ import SnapKit
 
 class MainView: UIView {
     
+    let zzinlogoPicture: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "ZZin")
+        imageView.backgroundColor = ColorGuide.subButton
+//        imageView.layer.cornerRadius = 38
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
+        imageView.snp.makeConstraints {
+            $0.height.width.equalTo(70)
+        }
+        return imageView
+    }()
+
+    
+    private let logoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "찐"
+        label.font = FontGuide.size32Bold
+        label.textColor = .black
+        label.font = UIFont(name: "EBS주시경B", size: 50)
+        return label
+    }()
+    
     private let recommendedLabel: UILabel = {
         let label = UILabel()
         label.text = "로컬들이 추천해 주는 내 주변"
@@ -22,7 +46,7 @@ class MainView: UIView {
         let label = UILabel()
         label.text = " 찐 "
         label.font = FontGuide.size24Bold
-        label.textColor = .black
+        label.textColor = ColorGuide.main
         return label
     }()
     
@@ -65,7 +89,7 @@ class MainView: UIView {
         let label = UILabel()
         label.text = " 찐 "
         label.font = FontGuide.size24Bold
-        label.textColor = .black
+        label.textColor = ColorGuide.main
         return label
     }()
 
@@ -88,10 +112,14 @@ class MainView: UIView {
     let rank1Button: UIButton = {
         let button = UIButton()
         button.setTitle("1위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -102,10 +130,14 @@ class MainView: UIView {
     let rank2Button: UIButton = {
         let button = UIButton()
         button.setTitle("2위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -116,10 +148,15 @@ class MainView: UIView {
     let rank3Button: UIButton = {
         let button = UIButton()
         button.setTitle("3위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -137,10 +174,14 @@ class MainView: UIView {
     let rank4Button: UIButton = {
         let button = UIButton()
         button.setTitle("4위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -151,10 +192,14 @@ class MainView: UIView {
     let rank5Button: UIButton = {
         let button = UIButton()
         button.setTitle("5위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -165,10 +210,14 @@ class MainView: UIView {
     let rank6Button: UIButton = {
         let button = UIButton()
         button.setTitle("6위", for: .normal)
-        button.titleLabel?.font = FontGuide.size28
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.titleLabel?.font = FontGuide.size16Bold
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = ColorGuide.subButton
         button.layer.cornerRadius = 25
+        button.contentHorizontalAlignment = .leading
+        button.contentVerticalAlignment = .top
+        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
+
         button.snp.makeConstraints {
             $0.width.equalTo(105)
             $0.height.equalTo(120)
@@ -202,7 +251,7 @@ class MainView: UIView {
         let label = UILabel()
         label.text = " 찐 "
         label.font = FontGuide.size24Bold
-        label.textColor = .black
+        label.textColor = ColorGuide.main
         return label
     }()
 
@@ -221,6 +270,18 @@ class MainView: UIView {
         stackView.spacing = 0
         return stackView
     }()
+    
+    let reviewCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .blue
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.register(MainPageReviewCollectionViewCell.self, forCellWithReuseIdentifier: MainPageReviewCollectionViewCell.identifier)
+        return collectionView
+    }()
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -235,9 +296,19 @@ class MainView: UIView {
     func setupUI() {
         backgroundColor = .systemBackground
         
+        addSubview(zzinlogoPicture)
+        zzinlogoPicture.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(40)
+            $0.leading.equalTo(15)
+//            make.trailing.equalToSuperview()
+            $0.height.equalTo(100)
+            $0.width.equalTo(100)
+
+        }
+
         addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(24)
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(0)
             $0.leading.equalTo(20)
 //            make.trailing.equalToSuperview()
             $0.height.equalTo(30)
@@ -248,12 +319,12 @@ class MainView: UIView {
             $0.top.equalTo(recommendStackView.snp.bottom).offset(15)
             $0.trailing.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
-            $0.width.height.equalTo(80)
+            $0.height.equalTo(110)
         }
         
         addSubview(rangkingLabelStackView)
         rangkingLabelStackView.snp.makeConstraints {
-            $0.top.equalTo(recommendcollectionView.snp.bottom).offset(15)
+            $0.top.equalTo(recommendcollectionView.snp.bottom).offset(0)
             $0.leading.equalTo(20)
             $0.height.equalTo(40)
         }
@@ -269,5 +340,14 @@ class MainView: UIView {
             $0.top.equalTo(rankButtonStackView.snp.bottom).offset(15)
             $0.leading.equalTo(20)
         }
+        addSubview(reviewCollectionView)
+        reviewCollectionView.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(0)
+            $0.leading.equalTo(20)
+            $0.trailing.equalTo(20)
+            $0.top.equalTo(reviewStackView.snp.bottom).offset(15)
+            $0.width.equalTo(353)
+        }
+
     }
     }
