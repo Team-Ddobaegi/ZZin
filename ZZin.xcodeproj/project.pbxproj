@@ -53,6 +53,8 @@
 		BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */; };
 		BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */; };
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
+		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
+		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
 		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
@@ -103,6 +105,8 @@
 		BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardContentView.swift; sourceTree = "<group>"; };
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
+		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
+		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -233,11 +237,14 @@
 			children = (
 				BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */,
+				BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */,
 				BDD983712AE0C24B008168D2 /* UserSearchController.swift */,
 				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
-				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
+				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
+				BD953A642AE1FC3000E07C36 /* CardModel */,
 				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
+				BD953A652AE1FC5800E07C36 /* Utility */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -245,14 +252,29 @@
 		BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */ = {
 			isa = PBXGroup;
 			children = (
+				BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */,
 				BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */,
 				BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */,
 				BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */,
 				BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */,
-				BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */,
-				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
 			);
 			path = CardViews;
+			sourceTree = "<group>";
+		};
+		BD953A642AE1FC3000E07C36 /* CardModel */ = {
+			isa = PBXGroup;
+			children = (
+				BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */,
+			);
+			path = CardModel;
+			sourceTree = "<group>";
+		};
+		BD953A652AE1FC5800E07C36 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		DF1599A02AD6C6E200AE129B = {
@@ -491,6 +513,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B4B6A252ADCD94D0075BB34 /* SearchView.swift in Sources */,
+				BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */,
 				BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */,
 				DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */,
 				DF1599C52AD6C89300AE129B /* SearchViewController.swift in Sources */,
@@ -521,6 +544,7 @@
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */,
+				BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
