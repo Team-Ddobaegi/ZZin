@@ -41,13 +41,14 @@ class LoginViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    // 아이디 textFieldView
+    // 비밀번호 textFieldView
     private lazy var pwTextfieldView = UIView().then {
         $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.addSubview(pwTextField)
         $0.addSubview(pwInfoLabel)
+        $0.addSubview(secureButton)
     }
     
     private var pwInfoLabel = UILabel().then {
@@ -61,6 +62,15 @@ class LoginViewController: UIViewController {
         $0.textColor = .black
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private var secureButton = UIButton().then {
+        let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        $0.setImage(image, for: .normal)
+        $0.setImage(selectedImage, for: .selected)
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
     }
     
     private var loginButton = UIButton().then {
@@ -153,12 +163,17 @@ class LoginViewController: UIViewController {
         
         pwInfoLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalTo(5)
+            $0.leading.trailing.equalToSuperview().inset(5)
         }
         
         pwTextField.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(5)
+        }
+        
+        secureButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(10)
         }
     }
     
@@ -199,6 +214,17 @@ class LoginViewController: UIViewController {
     
     @objc func searchPwButtonTapped() {
         print("비밀번호 찾기 버튼이 눌렸습니다.")
+    }
+    
+    @objc func secureButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected {
+            pwTextField.isSecureTextEntry = true
+            print("비밀번호 숨기기 버튼이 눌렸습니다.")
+        } else {
+            pwTextField.isSecureTextEntry = false
+            print("비밀번호 숨기기 버튼이 해제됐습니다.")
+        }
     }
     
     deinit {
