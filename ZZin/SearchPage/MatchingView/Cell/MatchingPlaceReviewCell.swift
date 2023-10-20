@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
+
+//MARK: - 매칭 업체 방문자 리뷰가 나올 TableView Cell
+
 class MatchingPlaceReviewCell: UITableViewCell {
     
     // MARK: - Life Cycles
@@ -36,9 +39,9 @@ class MatchingPlaceReviewCell: UITableViewCell {
     //MARK: - Settings
     
     private func setAddsubView() {
-        addSubview(dummyReview1)
-        addSubview(dummyReview2)
-        addSubview(dummyReview3)
+        contentView.addSubview(dummyReview1)
+        contentView.addSubview(dummyReview2)
+        contentView.addSubview(dummyReview3)
     }
     
     //MARK: - ConfigureUI

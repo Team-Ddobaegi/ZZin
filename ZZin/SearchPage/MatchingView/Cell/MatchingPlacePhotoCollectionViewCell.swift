@@ -8,14 +8,17 @@
 import UIKit
 import SnapKit
 
+
+//MARK: - 테이블뷰 셀에 들어갈 CollectionView Cell 세팅 페이지
+
 class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
     static let identifier = "MatchingPlacePhotoCollectionViewCell"
     
-    let imageView = UIImageView().then{
-        $0.backgroundColor = .blue
+    let placePhotoView = UIImageView().then{
+        $0.backgroundColor = .lightGray
     }
 
     
@@ -34,11 +37,11 @@ class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
     }
     
     func setView(){
-        addSubview(imageView)
+        addSubview(placePhotoView)
     }
     
     func configureUI(){
-        imageView.snp.makeConstraints {
+        placePhotoView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

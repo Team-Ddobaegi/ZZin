@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
+
+//MARK: - 매칭 업체 뷰 :: TableView 세팅
+
 class MatchingView: UIView {
     
     //MARK: - Life Cycle
@@ -16,8 +19,7 @@ class MatchingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setAddSubView()
-        configureUI()
+        setView()
     }
     
     required init?(coder: NSCoder) {
@@ -43,10 +45,13 @@ class MatchingView: UIView {
     
     //MARK: - Settings
     
-    private func setAddSubView() {
+    private func setView() {
         addSubview(xMarkButton)
         addSubview(setMatchingTableView)
+        
+        configureUI()
     }
+    
     
     //MARK: - Configure
     

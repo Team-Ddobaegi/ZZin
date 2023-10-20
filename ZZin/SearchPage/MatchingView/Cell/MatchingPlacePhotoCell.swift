@@ -9,8 +9,11 @@ import UIKit
 import SnapKit
 import Then
 
+
+//MARK: - 컬렉션뷰가 들어갈 TableView Cell
+
 class MatchingPlacePhotoCell: UITableViewCell {
-    //
+   
     // MARK: - Properties
     
     static let identifier = "MatchingPlacePhotoCell"

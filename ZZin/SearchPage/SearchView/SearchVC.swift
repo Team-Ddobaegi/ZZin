@@ -18,11 +18,7 @@ class SearchVC: UIViewController {
         super.viewDidLoad()
         
         setView()
-        setMapView()
-        setLocationPickerView()
         configureUI()
-        setCollectionViewAttribute()
-        setKeywordView()
     }
     
     
@@ -32,6 +28,11 @@ class SearchVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(searchView)
         view.addSubview(collectionView)
+        
+        setMapView()
+        setLocationPickerView()
+        setCollectionViewAttribute()
+        setKeywordView()
     }
     
     private func setMapView(){
@@ -58,8 +59,6 @@ class SearchVC: UIViewController {
     private let searchView = SearchView()
     
     private let collectionView = SearchResultCollectionView()
-    
-    private var recommendItems = [RecommendList]()
     
     
     // MARK: - Actions
@@ -146,10 +145,10 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         if collectionView.cellForItem(at: indexPath) is SearchResultCell {
             
             let matchingVC = MatchingVC()
-//            let nav = UINavigationController(rootViewController: matchingVC)
-//            nav.modalPresentationStyle = .currentContext
-//            self.present(nav, animated: true)
-                        self.navigationController?.pushViewController(matchingVC, animated: true)
+            //            let nav = UINavigationController(rootViewController: matchingVC)
+            //            nav.modalPresentationStyle = .currentContext
+            //            self.present(nav, animated: true)
+            self.navigationController?.pushViewController(matchingVC, animated: true)
         }
     }
 }

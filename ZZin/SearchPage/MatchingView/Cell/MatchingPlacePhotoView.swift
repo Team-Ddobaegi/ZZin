@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
+
+//MARK: - 컬렉션뷰가 들어갈 UIView
+
 class MatchingPlacePhotoView: UIView {
     
     //MARK: - Life Cycle
