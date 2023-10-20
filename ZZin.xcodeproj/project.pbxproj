@@ -23,6 +23,8 @@
 		7BFC61BF2AE1987C00F46544 /* KeywordPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BD2AE1987C00F46544 /* KeywordPage.swift */; };
 		7BFC61C22AE1C8BC00F46544 /* MatchingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */; };
 		7BFC61C42AE1C90100F46544 /* MatchingDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */; };
+		7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C62AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift */; };
+		7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C82AE244AB00F46544 /* MatchingPlacePhotoView.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextField.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
@@ -114,6 +116,8 @@
 		7BFC61BD2AE1987C00F46544 /* KeywordPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordPage.swift; sourceTree = "<group>"; };
 		7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailView.swift; sourceTree = "<group>"; };
 		7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailVC.swift; sourceTree = "<group>"; };
+		7BFC61C62AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchingPlacePhotoCollectionViewCell.swift; path = ZZin/SearchPage/MatchingView/MatchingPlacePhotoCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		7BFC61C82AE244AB00F46544 /* MatchingPlacePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoView.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -232,6 +236,8 @@
 				7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */,
 				7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */,
 				7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */,
+				7BFC61C82AE244AB00F46544 /* MatchingPlacePhotoView.swift */,
+				7BFC61C62AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift */,
 			);
 			path = MatchingView;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
+				7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				7B1103DB2AE0E927001BBEB2 /* MatchingVC.swift in Sources */,
@@ -597,6 +604,7 @@
 				BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */,
 				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,
 				7BFC61BE2AE1987C00F46544 /* KeywordCollectionViewCell.swift in Sources */,
+				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,

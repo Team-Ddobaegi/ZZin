@@ -88,7 +88,8 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.backgroundColor = .lightGray
         
         $0.snp.makeConstraints {
-            $0.width.height.equalTo(50)
+            $0.width.equalTo(100)
+            $0.height.equalTo(50)
         }
         
         let iconImage = UIImage(systemName: "square.and.pencil")

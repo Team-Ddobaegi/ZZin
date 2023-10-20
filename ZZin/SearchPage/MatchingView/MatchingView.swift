@@ -38,10 +38,6 @@ class MatchingView: UIView {
     lazy var setMatchingTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.alwaysBounceVertical = true
-//        $0.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
-        $0.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
-        $0.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
-        $0.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
     }
     
     

@@ -15,7 +15,7 @@ class MatchingVC: UIViewController {
     //MARK: - Properties
     
     private let matchingView = MatchingView()
-    
+        
     var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
     // MARK: - Life Cycle
@@ -25,8 +25,6 @@ class MatchingVC: UIViewController {
         
         setView()
         setXMarkButton()
-        setCostumCell()
-        setTableViewAttribute()
         setMatchingViewConstraints()
     }
     
@@ -37,6 +35,9 @@ class MatchingVC: UIViewController {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         view.addSubview(matchingView)
+        
+        setTableViewAttribute()
+        setCostumCell()         // 테이블뷰 셀 선언
     }
     
     private func setTableViewAttribute(){
@@ -51,6 +52,7 @@ class MatchingVC: UIViewController {
         matchingView.setMatchingTableView.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
     }
     
+    
     // MARK: - configureUI
     
     func setMatchingViewConstraints(){
@@ -59,11 +61,13 @@ class MatchingVC: UIViewController {
         }
     }
     
+    
     // MARK: - Settings
     
     private func setXMarkButton(){
         matchingView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
     }
+    
     
     // MARK: - Actions
     
@@ -100,6 +104,9 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
             // 매칭 업체 포토 컬렉션뷰
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlacePhotoCell.identifier) as! MatchingPlacePhotoCell
             cell.selectionStyle = .none
+            cell.matchingPlacePhotoView.collectionView.delegate = self
+            cell.matchingPlacePhotoView.collectionView.dataSource = self
+            
             return cell
             
         case 1:
@@ -129,5 +136,27 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
             self.navigationController?.pushViewController(matchingDetailVC, animated: true)
         }
         
+    }
+}
+
+
+//MARK: - CollectionView Layout
+
+extension MatchingVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // 커스텀 셀 사이즈
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 150)
+    }
+    
+    // 커스텀 셀 개수
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {3}
+    
+    // 커스텀 셀 호출
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier ,for: indexPath) as? MatchingPlacePhotoCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        return cell
     }
 }
