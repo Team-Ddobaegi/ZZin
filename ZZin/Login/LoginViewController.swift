@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -203,6 +204,9 @@ class LoginViewController: UIViewController {
     
     @objc func memberButtonTapped() {
         print("찐회원 버튼이 눌렸습니다.")
+        let vc = RegistrationViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     @objc func searchIdButtonTapped() {
