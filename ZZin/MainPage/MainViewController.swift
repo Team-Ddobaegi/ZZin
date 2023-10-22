@@ -54,7 +54,7 @@ class MainViewController: UIViewController {
         }
         
         @objc func searchButtonTapped() {
-            navigationController?.pushViewController(SearchViewController(), animated: true)
+            navigationController?.pushViewController(SearchRegionViewController(), animated: true)
         }
     }
  
@@ -77,8 +77,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                     fatalError()
                 }
                 
-            secondCell.layer.borderWidth = 1.0
-            secondCell.layer.cornerRadius = 25
+//            secondCell.layer.borderWidth = 1.0
+            secondCell.layer.cornerRadius = 30
             secondCell.layer.masksToBounds = true
                 return secondCell
             }
@@ -86,22 +86,33 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-    extension MainViewController: UICollectionViewDelegateFlowLayout {
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == mainView.recommendcollectionView {
-                return CGSize(width: 76, height: 110)
-            } else if collectionView == mainView.reviewCollectionView {
-                return CGSize(width: 353, height: 237)
-            }
-            return CGSize(width: 50, height: 50)
+            return CGSize(width: 76, height: 110)
+        } else if collectionView == mainView.reviewCollectionView {
+            return CGSize(width: 353, height: 140)
         }
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            if collectionView == mainView.recommendcollectionView {
-                return 25
-            } else if collectionView == mainView.reviewCollectionView {
-                return 25
-            }
-            return 25
-        }
+        return CGSize(width: 50, height: 50)
     }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == mainView.recommendcollectionView {
+            return 20
+        } else if collectionView == mainView.reviewCollectionView {
+            return 20
+        }
+        return 20
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == mainView.recommendcollectionView {
+            // 왼쪽 여백을 20으로 설정
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        } else if collectionView == mainView.reviewCollectionView {
+            // 왼쪽 여백을 20으로 설정
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        }
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+    }
+}
