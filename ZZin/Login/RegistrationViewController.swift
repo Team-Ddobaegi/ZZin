@@ -7,171 +7,143 @@
 
 import UIKit
 import SnapKit
+import Then
 import FirebaseAuth
 import Firebase
 
 class RegistrationViewController: UIViewController {
     
-    private lazy var idTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(idTextField)
-        view.addSubview(idInfoLabel)
-        view.addSubview(doubleCheckButton)
-        return view
-    }()
+    private lazy var idTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(idTextField)
+        $0.addSubview(idInfoLabel)
+        $0.addSubview(doubleCheckButton)
+    }
     
-    private var idInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "아이디를 입력해 주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var idInfoLabel = UILabel().then {
+        $0.text = "아이디를 입력해 주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var idTextField: UITextField = {
-        var tf = UITextField()
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var idTextField = UITextField().then {
+        $0.textColor = .white
+        $0.keyboardType = .default
+        $0.autocorrectionType = .no
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private lazy var pwTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(pwTextField)
-        view.addSubview(pwInfoLabel)
-        return view
-    }()
+    private lazy var pwTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(pwTextField)
+        $0.addSubview(pwInfoLabel)
+    }
     
-    private var pwInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "비밀번호를 입력해 주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var pwInfoLabel = UILabel().then {
+        $0.text = "비밀번호를 입력해 주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var pwTextField: UITextField = {
-        var tf = UITextField()
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var pwTextField = UITextField().then {
+        $0.textColor = .white
+        $0.autocorrectionType = .no
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private lazy var checkPwTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(checkPwTextField)
-        view.addSubview(checkPwInfoLabel)
-        return view
-    }()
+    private lazy var checkPwTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(checkPwTextField)
+        $0.addSubview(checkPwInfoLabel)
+    }
     
-    private var checkPwInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "한번만 더 입력해 주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var checkPwInfoLabel = UILabel().then {
+        $0.text = "한번만 더 입력해 주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var checkPwTextField: UITextField = {
-        var tf = UITextField()
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var checkPwTextField = UITextField().then {
+        $0.textColor = .white
+        $0.autocorrectionType = .no
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private lazy var nicknameTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(nicknameTextField)
-        view.addSubview(nicknameInfoLabel)
-        view.addSubview(doubleCheckButton)
-        return view
-    }()
+    private lazy var nicknameTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(nicknameTextField)
+        $0.addSubview(nicknameInfoLabel)
+        $0.addSubview(doubleCheckButton)
+    }
     
-    private var nicknameInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "닉네임을 입력해 주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var nicknameInfoLabel = UILabel().then {
+        $0.text = "닉네임을 입력해 주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var nicknameTextField: UITextField = {
-        var tf = UITextField()
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var nicknameTextField = UITextField().then {
+        $0.textColor = .white
+        $0.autocorrectionType = .no
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private lazy var numberTextfieldView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        view.addSubview(numberTextField)
-        view.addSubview(numberInfoLabel)
-        return view
-    }()
+    private lazy var numberTextfieldView = UIView().then {
+        $0.backgroundColor = .gray
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addSubview(numberTextField)
+        $0.addSubview(numberInfoLabel)
+    }
     
-    private var numberInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "전화 번호를 입력해주세요"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private var numberInfoLabel = UILabel().then {
+        $0.text = "전화 번호를 입력해주세요"
+        $0.textColor = .white
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var numberTextField: UITextField = {
-        var tf = UITextField()
-        tf.textColor = .white
-        tf.keyboardType = .default
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
+    private var numberTextField = UITextField().then {
+        $0.textColor = .white
+        $0.autocorrectionType = .no
+        $0.keyboardType = .default
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
-    private var doubleCheckButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("중복 확인", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.backgroundColor = .red
-        button.layer.cornerRadius = 20
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private var doubleCheckButton = UIButton().then {
+        $0.setTitle("중복 확인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.backgroundColor = .red
+        $0.layer.cornerRadius = 20
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
+    }
     
-    private var confirmButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("가입하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .red
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        button.layer.cornerRadius = 12
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private var confirmButton = UIButton().then {
+        $0.setTitle("가입하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .red
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+    }
     
     func configure() {
         view.backgroundColor = .yellow
