@@ -33,6 +33,7 @@ class RegistrationViewController: UIViewController {
         $0.textColor = .white
         $0.keyboardType = .default
         $0.autocorrectionType = .no
+        $0.autocapitalizationType = .none
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -54,6 +55,7 @@ class RegistrationViewController: UIViewController {
     private var pwTextField = UITextField().then {
         $0.textColor = .white
         $0.autocorrectionType = .no
+        $0.autocapitalizationType = .none
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -76,6 +78,7 @@ class RegistrationViewController: UIViewController {
     private var checkPwTextField = UITextField().then {
         $0.textColor = .white
         $0.autocorrectionType = .no
+        $0.autocapitalizationType = .none
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -99,6 +102,7 @@ class RegistrationViewController: UIViewController {
     private var nicknameTextField = UITextField().then {
         $0.textColor = .white
         $0.autocorrectionType = .no
+        $0.autocapitalizationType = .none
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -121,6 +125,7 @@ class RegistrationViewController: UIViewController {
     private var numberTextField = UITextField().then {
         $0.textColor = .white
         $0.autocorrectionType = .no
+        $0.autocapitalizationType = .none
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -146,8 +151,7 @@ class RegistrationViewController: UIViewController {
     }
     
     func configure() {
-        view.backgroundColor = .yellow
-        self.title = "되나"
+        view.backgroundColor = .white
         [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
     }
     
@@ -289,12 +293,14 @@ class RegistrationViewController: UIViewController {
     
     func validateData() -> String? {
         // idLabel과 pwLabel의 값이 들어가 있는지만 확인하면 되잖아
-        if idTextField.state.isEmpty || pwTextField.state.isEmpty || nicknameTextField.state.isEmpty {
+        if idTextField.text?.isEmpty == true || pwTextField.text?.isEmpty == true || nicknameTextField.text?.isEmpty == true {
             print("비어있는 값이 있는지 확인해주세요.")
+            return("비어있는 값이 있는지 확인해주세요.")
         }
         // 비밀번호가 안전한지 확인 - 8자 이상, 대문자 / 소문자 / 숫자 조합인지 확인
         let checkedPassword = pwTextField.text!
         if validatePassword(checkedPassword) == false {
+            print("비밀번호가 8자 이상, 숫자와 특수문자가 최소 1개씩 들어갔는지 확인해주세요!")
             return "비밀번호가 8자 이상, 숫자와 특수문자가 최소 1개씩 들어갔는지 확인해주세요!"
         }
         return nil
@@ -309,41 +315,38 @@ class RegistrationViewController: UIViewController {
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
         
-        // 값이 모두 입력됐는지 확인
-        let error = validateData()
-        if error != nil {
-            
-            // validate 함수에서 에러가 발생!
-            print("에러가 발생했습니다. \(error)")
-        } else {
-            
-            // clean 아이디와 비밀번호가 있는지 확인 완료
-            let checkedId = idTextField.text!
-            let checkedPassword = pwTextField.text!
-            
-            // 유저 생성 - Firebase가 가지고 있는 함수를 활용해서 사용자 생성
-            Auth.auth().createUser(withEmail: checkedId, password: checkedPassword) { result, error in
-                guard let error = error else {
-                    print("에러가 발생했습니다. - \(error?.localizedDescription)")
-                    return
-                }
-                
-                // 유저가 에러 없었다! 생성이 되야 한다는 점
-                let db = Firestore.firestore()
-                db.collection("users").addDocument(data: ["id": checkedId, "password": checkedPassword, "uid": result?.user.uid]) { error in
-                    // 이 단계에서 데이터 저장 관련 에러를 확인하는 과정을 거치는게 맞나? >> error != nil이 맞나?
-                    if error != nil {
-                        print("저장하는데 에러가 발생했습니다.")
-                    }
-                }
-                
-            }
-            print("회원가입이 완료되었습니다.")
-            let vc = LoginViewController()
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        }
-        // 화면 전환
+        
+        
+        
+//        // 값이 모두 입력됐는지 확인
+//        let error = validateData()
+//        if error != nil {
+//            // validate 함수에서 에러가 발생!
+//            print("에러가 발생했습니다. \(error)")
+//        } else {
+//            // clean 아이디와 비밀번호가 있는지 확인 완료
+//            let checkedId = idTextField.text!
+//            let checkedPassword = pwTextField.text!
+//            
+//            // 유저 생성 - Firebase가 가지고 있는 함수를 활용해서 사용자 생성
+//            Auth.auth().createUser(withEmail: checkedId, password: checkedPassword) { result, error in
+//                guard let error = error else { print("에러가 발생했습니다. - \(error?.localizedDescription)"); return }
+//                // 유저가 에러 없었다! 생성이 되야 한다는 점
+//                let db = Firestore.firestore()
+//                db.collection("users").addDocument(data: ["id": checkedId, "password": checkedPassword, "uid": result?.user.uid]) { error in
+//                    // 이 단계에서 데이터 저장 관련 에러를 확인하는 과정을 거치는게 맞나? >> error != nil이 맞나?
+//                    if error != nil {
+//                        print("저장하는데 에러가 발생했습니다.")
+//                    }
+//                }
+//            }
+//            print("회원가입이 완료되었습니다.")
+//            let vc = LoginViewController()
+//            vc.modalPresentationStyle = .fullScreen
+//            self.present(vc, animated: true)
+//        }
+//        // 화면 전환
+//        self.dismiss(animated: true)
     }
     
     @objc func doubleCheckButtonTapped() {
@@ -378,7 +381,7 @@ extension RegistrationViewController: UITextFieldDelegate {
         case checkPwTextField: checkPwInfoLabel.isHidden = true
         case nicknameTextField: nicknameInfoLabel.isHidden = true
         case numberTextField: numberInfoLabel.isHidden = true
-        default: print("어떤 텍스트 필드인지 모르겠습니다.")
+        default: print("텍스트 필드를 찾을 수 없습니다.")
         }
     }
     
