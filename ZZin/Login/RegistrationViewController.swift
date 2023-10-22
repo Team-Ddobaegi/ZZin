@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
+import Firebase
 
 class RegistrationViewController: UIViewController {
     
@@ -32,7 +34,6 @@ class RegistrationViewController: UIViewController {
     
     private var idTextField: UITextField = {
         var tf = UITextField()
-        tf.backgroundColor = .blue
         tf.textColor = .white
         tf.keyboardType = .default
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -166,7 +167,7 @@ class RegistrationViewController: UIViewController {
     
     private var confirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle("확인", for: .normal)
+        button.setTitle("가입하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .red
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
@@ -310,8 +311,71 @@ class RegistrationViewController: UIViewController {
         }
     }
     
+    func setDelegate() {
+        idTextField.delegate = self
+        pwTextField.delegate = self
+        checkPwTextField.delegate = self
+        nicknameTextField.delegate = self
+        numberTextField.delegate = self
+    }
+    
+    func validateData() -> String? {
+        // idLabel과 pwLabel의 값이 들어가 있는지만 확인하면 되잖아
+        if idTextField.state.isEmpty || pwTextField.state.isEmpty || nicknameTextField.state.isEmpty {
+            print("비어있는 값이 있는지 확인해주세요.")
+        }
+        // 비밀번호가 안전한지 확인 - 8자 이상, 대문자 / 소문자 / 숫자 조합인지 확인
+        let checkedPassword = pwTextField.text!
+        if validatePassword(checkedPassword) == false {
+            return "비밀번호가 8자 이상, 숫자와 특수문자가 최소 1개씩 들어갔는지 확인해주세요!"
+        }
+        return nil
+    }
+    
+    func validatePassword(_ password: String) -> Bool {
+        let passwordCheck = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}$"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", passwordCheck)
+        return predicate.evaluate(with: password)
+    }
+    
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
+        
+        // 값이 모두 입력됐는지 확인
+        let error = validateData()
+        if error != nil {
+            
+            // validate 함수에서 에러가 발생!
+            print("에러가 발생했습니다. \(error)")
+        } else {
+            
+            // clean 아이디와 비밀번호가 있는지 확인 완료
+            let checkedId = idTextField.text!
+            let checkedPassword = pwTextField.text!
+            
+            // 유저 생성 - Firebase가 가지고 있는 함수를 활용해서 사용자 생성
+            Auth.auth().createUser(withEmail: checkedId, password: checkedPassword) { result, error in
+                guard let error = error else {
+                    print("에러가 발생했습니다. - \(error?.localizedDescription)")
+                    return
+                }
+                
+                // 유저가 에러 없었다! 생성이 되야 한다는 점
+                let db = Firestore.firestore()
+                db.collection("users").addDocument(data: ["id": checkedId, "password": checkedPassword, "uid": result?.user.uid]) { error in
+                    // 이 단계에서 데이터 저장 관련 에러를 확인하는 과정을 거치는게 맞나? >> error != nil이 맞나?
+                    if error != nil {
+                        print("저장하는데 에러가 발생했습니다.")
+                    }
+                }
+                
+            }
+            print("회원가입이 완료되었습니다.")
+            let vc = LoginViewController()
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        }
+        // 화면 전환
     }
     
     @objc func doubleCheckButtonTapped() {
@@ -327,7 +391,23 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDelegate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configure()
         setUI()
+    }
+}
+
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case idTextField: idInfoLabel.isHidden = true
+        case pwTextField: pwInfoLabel.isHidden = true
+        case checkPwTextField: checkPwInfoLabel.isHidden = true
+        default: print("어떤 텍스트 필드인지 모르겠습니다.")
+        }
     }
 }
