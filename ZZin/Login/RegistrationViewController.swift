@@ -61,7 +61,6 @@ class RegistrationViewController: UIViewController {
     
     private var pwTextField: UITextField = {
         var tf = UITextField()
-        tf.backgroundColor = .blue
         tf.textColor = .white
         tf.keyboardType = .default
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +88,6 @@ class RegistrationViewController: UIViewController {
     
     private var checkPwTextField: UITextField = {
         var tf = UITextField()
-        tf.backgroundColor = .blue
         tf.textColor = .white
         tf.keyboardType = .default
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -118,7 +116,6 @@ class RegistrationViewController: UIViewController {
     
     private var nicknameTextField: UITextField = {
         var tf = UITextField()
-        tf.backgroundColor = .blue
         tf.textColor = .white
         tf.keyboardType = .default
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -146,7 +143,6 @@ class RegistrationViewController: UIViewController {
     
     private var numberTextField: UITextField = {
         var tf = UITextField()
-        tf.backgroundColor = .blue
         tf.textColor = .white
         tf.keyboardType = .default
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -403,11 +399,28 @@ extension RegistrationViewController {
 
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        // label을 위로 옮기는 역할하기 이전 먼저 숨기도록 처리 - Test 형식
         switch textField {
         case idTextField: idInfoLabel.isHidden = true
         case pwTextField: pwInfoLabel.isHidden = true
         case checkPwTextField: checkPwInfoLabel.isHidden = true
+        case nicknameTextField: nicknameInfoLabel.isHidden = true
+        case numberTextField: numberInfoLabel.isHidden = true
         default: print("어떤 텍스트 필드인지 모르겠습니다.")
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == idTextField {
+            idInfoLabel.isHidden = !textField.text!.isEmpty
+        } else if textField == pwTextField {
+            pwInfoLabel.isHidden = !textField.text!.isEmpty
+        } else if textField == checkPwTextField {
+            checkPwInfoLabel.isHidden = !textField.text!.isEmpty
+        } else if textField == nicknameTextField {
+            nicknameInfoLabel.isHidden = !textField.text!.isEmpty
+        } else if textField == numberTextField {
+            numberInfoLabel.isHidden = !textField.text!.isEmpty
         }
     }
 }
