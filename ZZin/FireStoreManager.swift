@@ -148,7 +148,6 @@ class FireStoreManager {
       ///   - Error?: 에러가 발생할 경우 활용하는 Error
       func loginUser(with user: User) {
           if let password = user.password {
-              validatePassword(password)
               Auth.auth().signIn(withEmail: user.uid, password: password) { result, error in
                   if let error = error {
                       print("로그인하는데 에러가 발생했습니다.")
@@ -158,6 +157,7 @@ class FireStoreManager {
       }
       
       func signIn(with email: String, password: String) {
+          if validatePassword(password) { print("비밀번호 오류입니다.") }
           Auth.auth().createUser(withEmail: email, password: password) { result, error in
               if let error = error {
                   print("유저를 생성하는데 에러가 발생했습니다. - \(error.localizedDescription)")
