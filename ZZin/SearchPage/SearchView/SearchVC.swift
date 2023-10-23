@@ -119,8 +119,21 @@ class SearchVC: UIViewController {
     
     
     @objc func confirmButtonTapped() {
-        print("확인 버튼이 눌렸습니다.")
-        self.dismiss(animated: true)
+        // 피커뷰에서 선택된 값을 가져오기
+           let selectedCityRow = pickerView.pickerView.selectedRow(inComponent: 0)
+           let selectedTownRow = pickerView.pickerView.selectedRow(inComponent: 1)
+           
+           let selectedCity = selectedCity[selectedCityRow]
+           let selectedTown = selectedTown[selectedTownRow]
+           
+           // setLocationButton의 타이틀 업데이트
+        searchView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
+           
+           // PickerView 숨기기
+           pickerView.removeFromSuperview()
+           
+           // 탭바 다시 보이게 하기
+           tabBarController?.tabBar.isHidden = false
     }
     
     
