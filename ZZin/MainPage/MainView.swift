@@ -19,25 +19,16 @@ class MainView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         imageView.snp.makeConstraints {
-            $0.height.width.equalTo(70)
+            $0.height.width.equalTo(75)
         }
         return imageView
     }()
 
-    
-    private let logoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "찐"
-        label.font = FontGuide.size32Bold
-        label.textColor = .black
-        label.font = UIFont(name: "EBS주시경B", size: 50)
-        return label
-    }()
-    
+        
     private let recommendedLabel: UILabel = {
         let label = UILabel()
         label.text = "로컬들이 추천해 주는 내 주변"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -53,7 +44,7 @@ class MainView: UIView {
     private let recommendedLabel2: UILabel = {
         let label = UILabel()
         label.text = "맛집!"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -80,7 +71,7 @@ class MainView: UIView {
     private let rangkingLabel: UILabel = {
         let label = UILabel()
         label.text = "이번주 성동구"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -96,7 +87,7 @@ class MainView: UIView {
     private let rangkingLabel2: UILabel = {
         let label = UILabel()
         label.text = "맛집 랭킹"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -242,7 +233,7 @@ class MainView: UIView {
     private let reviewLabel: UILabel = {
         let label = UILabel()
         label.text = "로컬들의 실시간 맛집"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -258,7 +249,7 @@ class MainView: UIView {
     private let reviewLabel2: UILabel = {
         let label = UILabel()
         label.text = "리뷰"
-        label.font = FontGuide.size19
+        label.font = FontGuide.size16Bold
         label.textColor = .black
         return label
     }()
@@ -275,7 +266,7 @@ class MainView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .blue
+        collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(MainPageReviewCollectionViewCell.self, forCellWithReuseIdentifier: MainPageReviewCollectionViewCell.identifier)
@@ -298,7 +289,7 @@ class MainView: UIView {
         
         addSubview(zzinlogoPicture)
         zzinlogoPicture.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(40)
+            $0.top.equalToSuperview().offset(39)
             $0.leading.equalTo(15)
 //            make.trailing.equalToSuperview()
             $0.height.equalTo(100)
@@ -308,7 +299,7 @@ class MainView: UIView {
 
         addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(0)
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(9)
             $0.leading.equalTo(20)
 //            make.trailing.equalToSuperview()
             $0.height.equalTo(30)
@@ -317,8 +308,7 @@ class MainView: UIView {
         addSubview(recommendcollectionView)
         recommendcollectionView.snp.makeConstraints {
             $0.top.equalTo(recommendStackView.snp.bottom).offset(15)
-            $0.trailing.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.leading.equalToSuperview()
             $0.height.equalTo(110)
         }
         
@@ -342,12 +332,10 @@ class MainView: UIView {
         }
         addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(0)
-            $0.leading.equalTo(20)
-            $0.trailing.equalTo(20)
-            $0.top.equalTo(reviewStackView.snp.bottom).offset(15)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-3)
+            $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(353)
+            $0.height.equalTo(145)
         }
-
     }
     }
