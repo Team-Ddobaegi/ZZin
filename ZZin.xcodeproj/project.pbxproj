@@ -60,7 +60,6 @@
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
 		BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6752AE610CF0042F9AF /* AuthService.swift */; };
 		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
-		BD69C6842AE612170042F9AF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6822AE612170042F9AF /* User.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
 		BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */; };
 		BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = BD8D6B042ADEE82000F2A8D6 /* Shuffle */; };
@@ -137,7 +136,6 @@
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6752AE610CF0042F9AF /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
-		BD69C6822AE612170042F9AF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
 		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
 		BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardOverlay.swift; sourceTree = "<group>"; };
@@ -370,7 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				BD69C6812AE612170042F9AF /* FoodCardModel.swift */,
-				BD69C6822AE612170042F9AF /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -672,7 +669,6 @@
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
-				BD69C6842AE612170042F9AF /* User.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
 				BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */,
