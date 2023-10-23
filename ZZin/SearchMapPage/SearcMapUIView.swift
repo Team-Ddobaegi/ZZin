@@ -39,13 +39,12 @@ class SearchMapUIView: UIView {
     
     func changeSearchView() {
         searchView.mapButton.setImage(UIImage(systemName: "square.grid.2x2.fill"), for: .normal)
-
-        
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        changeSearchView()
     }
     
     required init?(coder: NSCoder) {
