@@ -1,12 +1,16 @@
+import UIKit
+import CoreLocation
 import NMapsMap
 
 protocol LocationServiceDelegate: AnyObject {
     func didUpdateLocation(lat: Double, lng: Double)
+    func didFailWithError(error: Error)
 }
 
-class LocationService: NSObject, NMFLocationManagerDelegate {
+class LocationService: NSObject, NMFLocationManagerDelegate, CLLocationManagerDelegate {
     private var locationManager: NMFLocationManager
     weak var delegate: LocationServiceDelegate?
+
     
     override init() {
         locationManager = NMFLocationManager()
@@ -22,8 +26,18 @@ class LocationService: NSObject, NMFLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
     
+    func getCurrentLocation() -> NMGLatLng? {
+        return locationManager.currentLatLng()
+    }
+
+    
     // NMFLocationManagerDelegate
-    func locationManager(_ locationManager: NMFLocationManager, didUpdate location: NMGLatLng) {
-        delegate?.didUpdateLocation(lat: location.lat, lng: location.lng)
+    func locationManager(_ locationManager: NMFLocationManager, didUpdateLocation location: CLLocation, with error: Error?) {
+        delegate?.didUpdateLocation(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
+        
+        // 에러 처리
+        if let error = error {
+            delegate?.didFailWithError(error: error)
+        }
     }
 }

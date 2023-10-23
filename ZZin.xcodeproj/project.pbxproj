@@ -86,6 +86,7 @@
 		DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C62AD6C8D600AE129B /* StoryViewController.swift */; };
 		DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C82AD6C8E400AE129B /* InfoViewController.swift */; };
 		DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */; };
+		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
@@ -160,6 +161,7 @@
 		DF1599C62AD6C8D600AE129B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		DF1599C82AD6C8E400AE129B /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */,
 				DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */,
 				DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */,
+				DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */,
 			);
 			path = SearchMapPage;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
 				DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */,
+				DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */,
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
 				7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */,
 				7BFC61C22AE1C8BC00F46544 /* MatchingDetailView.swift in Sources */,
