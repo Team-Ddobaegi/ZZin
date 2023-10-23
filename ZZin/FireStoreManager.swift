@@ -15,6 +15,7 @@ struct User {
     var phoneNum: String
     var rid: [String]? // [UUID.uuidString]
     var pid: [String]? // [UUID.uuidString]
+    var password: String?
 }
 
 struct Review {
