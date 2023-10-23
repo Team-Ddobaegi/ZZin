@@ -91,6 +91,7 @@
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
+		FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
 		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
@@ -166,6 +167,7 @@
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CostomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomView.swift; sourceTree = "<group>"; };
 		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageCollectionView.xib; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				DC095D132AD942610082B633 /* Model.swift */,
 				FBA7B0AE2ADD742600F79031 /* CostomView.swift */,
 				DFFE276E2AE0A98F00F5970F /* LocationService.swift */,
+				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
 			);
 			path = ZZin;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 				BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */,
 				FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */,
+				FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
