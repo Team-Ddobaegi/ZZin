@@ -37,7 +37,7 @@ class SearchView: UIView {
     private let searchTipLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "tip"
-        $0.textColor = .systemRed
+        $0.textColor = ColorGuide.main
     }
     
     private let searchNotiLabel = UILabel().then {
@@ -46,16 +46,16 @@ class SearchView: UIView {
         $0.textColor = .systemGray
     }
     
-    private let firstKeywordButton = KeywordButton(title: "키워드")
+    let firstKeywordButton = KeywordButton(title: "키워드")
     
-    private let secondKeywordButton = KeywordButton(title: "키워드")
+    let secondKeywordButton = KeywordButton(title: "키워드")
     
-    private let menuKeywordButton = KeywordButton(title: "키워드")
+    let menuKeywordButton = KeywordButton(title: "키워드")
     
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = ColorGuide.main
     }
     
     public let setLocationButton = UIButton().then {
@@ -65,7 +65,7 @@ class SearchView: UIView {
         
         let iconImage = UIImage(systemName: "chevron.down")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = ColorGuide.main
         $0.semanticContentAttribute = .forceRightToLeft
 
         let spacing: CGFloat = 10
@@ -92,6 +92,7 @@ class SearchView: UIView {
     private func setUpView() {
         addSubview(setLocationButton)
         addSubview(divider1)
+        addSubview(divider2)
         addSubview(searchResultLabel)
         addSubview(searchTipLabel)
         addSubview(searchNotiLabel)
@@ -99,7 +100,6 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
-        addSubview(divider2)
     }
     
     private func setDividerConstraints() {
