@@ -26,7 +26,12 @@ enum ColorGuide {
 
     //임의로 색상들 만들었습니다!!!  추후에 같이 바꿔보아용🙏🏻
     // ⬇️ Cherry Tomato
-    static let main = UIColor(red: 235/255, green: 60/255, blue: 39/255, alpha: 1.0)
+//    static let main = UIColor(red: 235/255, green: 60/255, blue: 39/255, alpha: 1.0)
+    
+    // ⬇️ Cherry Tomato
+    static let cherryTomato = UIColor(red: 226/255, green: 58/255, blue: 37/255, alpha: 1.0)
+    // 튜터님이 추천해주신 컬러임두
+    static let main = UIColor(red: 245/255, green: 89/255, blue: 81/255, alpha: 1.0)
 
     
     static let black = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
