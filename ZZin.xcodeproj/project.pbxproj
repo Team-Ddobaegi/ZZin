@@ -58,11 +58,13 @@
 		BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
+		BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6752AE610CF0042F9AF /* AuthService.swift */; };
+		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
+		BD69C6842AE612170042F9AF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6822AE612170042F9AF /* User.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
 		BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */; };
 		BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = BD8D6B042ADEE82000F2A8D6 /* Shuffle */; };
 		BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */; };
-		BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */; };
 		BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */; };
 		BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */; };
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
@@ -132,10 +134,12 @@
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BD69C6752AE610CF0042F9AF /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
+		BD69C6822AE612170042F9AF /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
 		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
 		BD8D6B062ADEE85F00F2A8D6 /* FoodCardOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardOverlay.swift; sourceTree = "<group>"; };
-		BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BD8D6B0C2ADFB8AC00F2A8D6 /* FoodCardContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardContentView.swift; sourceTree = "<group>"; };
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
@@ -353,11 +357,20 @@
 				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
 				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
-				BD953A642AE1FC3000E07C36 /* CardModel */,
+				BD69C6802AE611F80042F9AF /* Model */,
 				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
 				BD953A652AE1FC5800E07C36 /* Utility */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		BD69C6802AE611F80042F9AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BD69C6812AE612170042F9AF /* FoodCardModel.swift */,
+				BD69C6822AE612170042F9AF /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */ = {
@@ -372,17 +385,10 @@
 			path = CardViews;
 			sourceTree = "<group>";
 		};
-		BD953A642AE1FC3000E07C36 /* CardModel */ = {
-			isa = PBXGroup;
-			children = (
-				BD8D6B082ADEE88800F2A8D6 /* FoodCardModel.swift */,
-			);
-			path = CardModel;
-			sourceTree = "<group>";
-		};
 		BD953A652AE1FC5800E07C36 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				BD69C6752AE610CF0042F9AF /* AuthService.swift */,
 				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
 			);
 			path = Utility;
@@ -663,8 +669,10 @@
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
+				BD69C6842AE612170042F9AF /* User.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
+				BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingContentsCell.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
@@ -682,8 +690,8 @@
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* KeywordPage.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
+				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
 				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,
-				BD8D6B092ADEE88800F2A8D6 /* FoodCardModel.swift in Sources */,
 				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,
 				7BFC61BE2AE1987C00F46544 /* KeywordCollectionViewCell.swift in Sources */,
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
