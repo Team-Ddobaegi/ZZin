@@ -13,8 +13,6 @@ class SearchMapView: UIView {
         $0.clipsToBounds = true
     }
     
-
-    
     var mapView: NMFMapView {
         return naverMapView.mapView
     }
@@ -42,7 +40,6 @@ class SearchMapView: UIView {
             $0.height.equalTo(30)
             $0.width.equalTo(180)
         }
-        
         mapView.positionMode = .normal
     }
 }
