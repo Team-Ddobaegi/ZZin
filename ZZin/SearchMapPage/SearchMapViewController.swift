@@ -113,9 +113,12 @@ class SearchMapViewController: UIViewController{
     
     
     func setupUI() {
-        let marker = NMFMarker()
-        marker.position = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
-        marker.mapView = searchMapView.mapView
+        let infoWindow = NMFInfoWindow()
+        let dataSource = NMFInfoWindowDefaultTextSource.data()
+        dataSource.title = "정보 창 내용"
+        infoWindow.dataSource = dataSource
+        infoWindow.position = NMGLatLng(lat: 37.5666102, lng: 126.9783881)
+        infoWindow.open(with: searchMapView.mapView)
         
         view.backgroundColor = .white
         
