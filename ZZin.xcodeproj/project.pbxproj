@@ -13,8 +13,8 @@
 		7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */; };
 		7B4B6A252ADCD94D0075BB34 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B6A242ADCD94D0075BB34 /* SearchView.swift */; };
 		7B4B6A292ADD26C40075BB34 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4B6A282ADD26C40075BB34 /* CustomButton.swift */; };
+		7B5A24AA2AE6672000CD9227 /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5A24A92AE6672000CD9227 /* LocationPickerView.swift */; };
 		7B61D3902ADF733000A226EB /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D38F2ADF733000A226EB /* SearchResultCell.swift */; };
-		7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */; };
 		7B61D39B2ADFCD8000A226EB /* SearchResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */; };
 		7BFC61B92AE160A500F46544 /* MatchingPlaceInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */; };
 		7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */; };
@@ -116,8 +116,8 @@
 		7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoCell.swift; sourceTree = "<group>"; };
 		7B4B6A242ADCD94D0075BB34 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		7B4B6A282ADD26C40075BB34 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		7B5A24A92AE6672000CD9227 /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationPickerView.swift; path = "/Users/t2023-m0045/Desktop/Swift/Swift-Project9/ZZin/ZZin/SearchPage/SearchView/LocationPickerView.swift"; sourceTree = "<absolute>"; };
 		7B61D38F2ADF733000A226EB /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
-		7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingVC.swift; sourceTree = "<group>"; };
 		7B61D39A2ADFCD8000A226EB /* SearchResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionView.swift; sourceTree = "<group>"; };
 		7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceInfoCell.swift; sourceTree = "<group>"; };
 		7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceReviewCell.swift; sourceTree = "<group>"; };
@@ -266,17 +266,8 @@
 				7B61D3982ADFAA5600A226EB /* SearchView */,
 				7B1103D72AE0E876001BBEB2 /* MatchingView */,
 				7BFC61C52AE1C92600F46544 /* MatchingDetailView */,
-				7B61D3972ADFAA0F00A226EB /* Location */,
 			);
 			path = SearchPage;
-			sourceTree = "<group>";
-		};
-		7B61D3972ADFAA0F00A226EB /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				7B61D3942ADFA5BC00A226EB /* LocationSettingVC.swift */,
-			);
-			path = Location;
 			sourceTree = "<group>";
 		};
 		7B61D3982ADFAA5600A226EB /* SearchView */ = {
@@ -284,6 +275,7 @@
 			children = (
 				7B4B6A242ADCD94D0075BB34 /* SearchView.swift */,
 				DF1599C42AD6C89300AE129B /* SearchVC.swift */,
+				7B5A24A92AE6672000CD9227 /* LocationPickerView.swift */,
 				7BFC61D12AE288D800F46544 /* Cell */,
 			);
 			path = SearchView;
@@ -414,7 +406,6 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				FBA7B0C02AE0C0B800F79031 /* Profile */,
 				DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */,
 				DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */,
 				DF1599B02AD6C6E200AE129B /* ViewController.swift */,
@@ -422,13 +413,14 @@
 				DF1599B52AD6C6E300AE129B /* Assets.xcassets */,
 				DF1599B72AD6C6E300AE129B /* LaunchScreen.storyboard */,
 				DF1599BA2AD6C6E300AE129B /* Info.plist */,
+				DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
 				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
 				BD1018822ADD589D003FAA97 /* Login */,
 				7B4B6A232ADCD9290075BB34 /* SearchPage */,
 				DF2A2CBB2ADE116B00BA5CE9 /* SearchMapPage */,
-				DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */,
+				FBA7B0C02AE0C0B800F79031 /* Profile */,
 				FF031D7A2ADFCBB700206056 /* Fonts */,
 				FF031D6B2ADFA25000206056 /* ColorGuide.swift */,
 				FF031D612ADBBDC100206056 /* FontGuide.swift */,
@@ -676,7 +668,6 @@
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				7B1103DB2AE0E927001BBEB2 /* MatchingVC.swift in Sources */,
-				7B61D3952ADFA5BC00A226EB /* LocationSettingVC.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
 				DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */,
 				DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */,
@@ -689,6 +680,7 @@
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* KeywordPage.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
+				7B5A24AA2AE6672000CD9227 /* LocationPickerView.swift in Sources */,
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
 				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,
 				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,

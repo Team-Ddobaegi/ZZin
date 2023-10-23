@@ -25,8 +25,6 @@ class SearchView: UIView {
     
     
     //MARK: - Properties
-    
-
 
     private let searchResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
