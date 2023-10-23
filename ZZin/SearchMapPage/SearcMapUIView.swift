@@ -75,7 +75,8 @@ class SearchMapUIView: UIView {
         
         gpsButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalToSuperview().offset(-200)
+            $0.bottom.equalTo(storeCardView.snp.top).offset(-50)
+            $0.width.height.equalTo(40)
         }
         
         storeCardView.snp.makeConstraints {
