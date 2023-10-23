@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseAuth
 
 struct User {
     var profileImg: String?
@@ -46,6 +47,7 @@ struct Place {
 
 class FireStoreManager {
     let db = Firestore.firestore()
+    static let shared = FireStoreManager()
     
     func setUserData(_ UserInfo: User) {
         let userRef = db.collection("users").document(UserInfo.uid)
@@ -131,6 +133,39 @@ class FireStoreManager {
             }
         }
     }
+    
+    public func validatePassword(_ password: String) -> Bool {
+        let passwordCheck = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}$"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", passwordCheck)
+        return predicate.evaluate(with: password)
+    }
+      
+      /// Method to register User
+      /// - Parameters:
+      ///   - user: 유저 정보 (이메일, 비밀번호, 어플 내 닉네임)
+      ///   - completion: 2개의 정보를 담은 completionHandler
+      ///   - Bool: wasRegistered - 유저가 데이터베이스에 저장이 되었는지 확인
+      ///   - Error?: 에러가 발생할 경우 활용하는 Error
+      func loginUser(with user: User) {
+          if let password = user.password {
+              validatePassword(password)
+              Auth.auth().signIn(withEmail: user.uid, password: password) { result, error in
+                  if let error = error {
+                      print("로그인하는데 에러가 발생했습니다.")
+                  }
+              }
+          }
+      }
+      
+      func signIn(with email: String, password: String) {
+          Auth.auth().createUser(withEmail: email, password: password) { result, error in
+              if let error = error {
+                  print("유저를 생성하는데 에러가 발생했습니다. - \(error.localizedDescription)")
+              }
+              print("결과값은 아래와 같습니다 - \(result?.description)")
+          }
+      }
+    
 }
 
 
