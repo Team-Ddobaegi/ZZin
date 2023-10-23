@@ -11,6 +11,7 @@ import Then
 
 // ZZin 맛집에 대한 리뷰 cell을 위한 UIView 입니다.
 class ViewForReview: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
@@ -106,7 +107,7 @@ class ViewForReview: UIView {
         underline.snp.makeConstraints{
             $0.top.equalTo(regionLabel.snp.bottom).offset(10)
             $0.left.equalTo(regionLabel.snp.left)
-            $0.size.equalTo(CGSize(width: 52, height: 10))
+            $0.size.equalTo(CGSize(width: 52, height: 7))
         }
         
         
