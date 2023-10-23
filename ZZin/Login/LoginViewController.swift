@@ -197,7 +197,7 @@ class LoginViewController: UIViewController {
         
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-        let vc = MainViewController()
+        let vc = TabBarViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
@@ -241,12 +241,28 @@ extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("로그인 페이지 - \(#function)")
-        
         configure()
         setUI()
     }
 }
 
 extension LoginViewController: UITextFieldDelegate {
+    // 텍스트 필드가 입력되고 있는지 확인
+    // 확인된 텍스트 필드의 label을 없애야 하는 상황
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case idTextField: idInfoLabel.isHidden = true
+        case pwTextField: pwInfoLabel.isHidden = true
+        default: print("textfield를 찾지 못했습니다.")
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == idTextField {
+            idInfoLabel.isHidden = !textField.text!.isEmpty
+        } else if textField == pwTextField {
+            pwInfoLabel.isHidden = !textField.text!.isEmpty
+        }
+    }
 }
