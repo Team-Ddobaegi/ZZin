@@ -32,7 +32,8 @@ class MatchingThumbnailCell: UITableViewCell {
    
     private let review = ViewForReview().then{
         $0.wrap.layer.cornerRadius = 0
-        $0.underline.backgroundColor = .systemRed
+//        $0.underline.backgroundColor = .systemRed
+        $0.underline.backgroundColor = ColorGuide.cherryTomato
     }
     
     

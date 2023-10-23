@@ -98,7 +98,6 @@ extension MatchingDetailVC: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
           
             return cell
-            
         
         default:
             let cell = UITableViewCell()
