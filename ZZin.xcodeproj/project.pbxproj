@@ -20,7 +20,7 @@
 		7BFC61B92AE160A500F46544 /* MatchingPlaceInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */; };
 		7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */; };
 		7BFC61BE2AE1987C00F46544 /* KeywordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */; };
-		7BFC61BF2AE1987C00F46544 /* KeywordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BD2AE1987C00F46544 /* KeywordView.swift */; };
+		7BFC61BF2AE1987C00F46544 /* KeywordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61BD2AE1987C00F46544 /* KeywordVC.swift */; };
 		7BFC61C22AE1C8BC00F46544 /* MatchingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */; };
 		7BFC61C42AE1C90100F46544 /* MatchingDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */; };
 		7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C62AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift */; };
@@ -124,7 +124,7 @@
 		7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceInfoCell.swift; sourceTree = "<group>"; };
 		7BFC61BA2AE180DB00F46544 /* MatchingPlaceReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceReviewCell.swift; sourceTree = "<group>"; };
 		7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordCollectionViewCell.swift; sourceTree = "<group>"; };
-		7BFC61BD2AE1987C00F46544 /* KeywordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordView.swift; sourceTree = "<group>"; };
+		7BFC61BD2AE1987C00F46544 /* KeywordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeywordVC.swift; sourceTree = "<group>"; };
 		7BFC61C12AE1C8BC00F46544 /* MatchingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailView.swift; sourceTree = "<group>"; };
 		7BFC61C32AE1C90100F46544 /* MatchingDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingDetailVC.swift; sourceTree = "<group>"; };
 		7BFC61C62AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchingPlacePhotoCollectionViewCell.swift; path = ZZin/SearchPage/MatchingView/Cell/MatchingPlacePhotoCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -264,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				7BFC61CC2AE282AE00F46544 /* Data */,
-				7BFC61C02AE1A66A00F46544 /* KeywordView */,
 				7B61D3982ADFAA5600A226EB /* SearchView */,
 				7B1103D72AE0E876001BBEB2 /* MatchingView */,
 				7BFC61C52AE1C92600F46544 /* MatchingDetailView */,
@@ -272,14 +271,23 @@
 			path = SearchPage;
 			sourceTree = "<group>";
 		};
+		7B5A24AD2AE7682600CD9227 /* PickerView */ = {
+			isa = PBXGroup;
+			children = (
+				7B5A24AB2AE75B1B00CD9227 /* OpacityView.swift */,
+				7B5A24A92AE6672000CD9227 /* LocationPickerView.swift */,
+			);
+			path = PickerView;
+			sourceTree = "<group>";
+		};
 		7B61D3982ADFAA5600A226EB /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
 				7B4B6A242ADCD94D0075BB34 /* SearchView.swift */,
 				DF1599C42AD6C89300AE129B /* SearchVC.swift */,
-				7B5A24AB2AE75B1B00CD9227 /* OpacityView.swift */,
-				7B5A24A92AE6672000CD9227 /* LocationPickerView.swift */,
 				7BFC61D12AE288D800F46544 /* Cell */,
+				7BFC61C02AE1A66A00F46544 /* KeywordView */,
+				7B5A24AD2AE7682600CD9227 /* PickerView */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -287,7 +295,7 @@
 		7BFC61C02AE1A66A00F46544 /* KeywordView */ = {
 			isa = PBXGroup;
 			children = (
-				7BFC61BD2AE1987C00F46544 /* KeywordView.swift */,
+				7BFC61BD2AE1987C00F46544 /* KeywordVC.swift */,
 				7BFC61BC2AE1987C00F46544 /* KeywordCollectionViewCell.swift */,
 			);
 			path = KeywordView;
@@ -681,7 +689,7 @@
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
-				7BFC61BF2AE1987C00F46544 /* KeywordView.swift in Sources */,
+				7BFC61BF2AE1987C00F46544 /* KeywordVC.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
 				7B5A24AA2AE6672000CD9227 /* LocationPickerView.swift in Sources */,
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,

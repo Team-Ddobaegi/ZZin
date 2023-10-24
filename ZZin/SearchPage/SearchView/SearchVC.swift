@@ -47,6 +47,7 @@ class SearchVC: UIViewController {
     }
     
     private func setOpacityView(){
+        // 피커뷰가 올라올 때 뒷배경에 들어갈 검은 화면임니두
         UIView.animate(withDuration: 0.3) {
             self.opacityViewAlpha = 0.0
             self.opacityView.alpha = self.opacityViewAlpha
@@ -87,9 +88,9 @@ class SearchVC: UIViewController {
     }
     
     private func setKeywordView(){
-        searchView.firstKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
-        searchView.secondKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
-        searchView.menuKeywordButton.addTarget(self, action: #selector(keywordButtonTapped), for: .touchUpInside)
+        searchView.firstKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+        searchView.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
+        searchView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
     
@@ -144,10 +145,40 @@ class SearchVC: UIViewController {
         tabBarController?.tabBar.isHidden = true
     }
     
-    @objc private func keywordButtonTapped() {
-        print("keywordButtonTapped")
-        let keywordView = KeywordView()
-        navigationController?.present(keywordView, animated: true)
+    // 첫 번째 키워드 버튼이 탭될 때
+    @objc func firstKeywordButtonTapped() {
+        print("첫 번째 키워드 버튼이 탭됨")
+        
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .first
+        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 두 번째 키워드 버튼이 탭될 때
+    @objc func secondKeywordButtonTapped() {
+        print("두 번째 키워드 버튼이 탭됨")
+        
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .second
+        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 메뉴 키워드 버튼이 탭될 때
+    @objc func menuKeywordButtonTapped() {
+        print("메뉴 키워드 버튼이 탭됨")
+        
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .menu
+        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
     }
     
     

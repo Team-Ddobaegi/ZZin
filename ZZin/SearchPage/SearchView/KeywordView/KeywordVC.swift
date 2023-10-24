@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Then
 
-class KeywordView: UIViewController {
-
+class KeywordVC: UIViewController {
+    
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,14 +28,11 @@ class KeywordView: UIViewController {
     }
     
     var selectedKeywordType: KeywordType = .first
-
-    let firstKeywords = firstKeyword().with
-
-    let secondKeywords = secondKeyword().condition
-
-    let menuKeywords = menuKeyword().menu
     
-
+    let firstKeywords = firstKeyword().with
+    let secondKeywords = secondKeyword().condition
+    let menuKeywords = menuKeyword().menu
+        
     let noticeLabel = UILabel().then {
         $0.text = "누구랑\n가시나요?"
         $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
@@ -48,7 +45,7 @@ class KeywordView: UIViewController {
         $0.minimumLineSpacing = 20
     }
     
-    private lazy var userChoiceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
+    lazy var userChoiceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.dataSource = self
         $0.delegate = self
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -86,31 +83,9 @@ class KeywordView: UIViewController {
     
     // MARK: - Actions
     
-    // 첫 번째 키워드 버튼이 탭될 때
-    @objc func firstKeywordButtonTapped() {
-        print("첫 번째 키워드 버튼이 탭됨")
-        selectedKeywordType = .first
-        userChoiceCollectionView.reloadData() // 첫 번째 키워드로 컬렉션 뷰를 다시 로드
-    }
-    
-    // 두 번째 키워드 버튼이 탭될 때
-    @objc func secondKeywordButtonTapped() {
-        print("두 번째 키워드 버튼이 탭됨")
-        selectedKeywordType = .second
-        userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰를 다시 로드
-    }
-    
-    // 메뉴 키워드 버튼이 탭될 때
-    @objc func menuKeywordButtonTapped() {
-        print("메뉴 키워드 버튼이 탭됨")
-        selectedKeywordType = .menu
-        userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰를 다시 로드
-    }
-    
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
         
-       
     }
     
     
@@ -149,37 +124,38 @@ class KeywordView: UIViewController {
 
 // MARK: - CollectionView
 
-extension KeywordView: UICollectionViewDelegateFlowLayout {
+extension KeywordVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (userChoiceCollectionView.frame.width-20)/2, height: 50)
     }
 }
 
-extension KeywordView: UICollectionViewDataSource {
+extension KeywordVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return sampleTitles.count
-//        return firstKeywords.count
         switch selectedKeywordType {
+            
         case .first:
             return firstKeywords.count
+            
         case .second:
             return secondKeywords.count
+            
         case .menu:
             return menuKeywords.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.reuseIdentifer, for: indexPath) as! KeywordCollectionViewCell
-//        cell.titleButton.setTitle(firstKeywords[indexPath.item], for: .normal)
-//        return cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.reuseIdentifer, for: indexPath) as! KeywordCollectionViewCell
         
         switch selectedKeywordType {
+            
         case .first:
             cell.titleButton.setTitle(firstKeywords[indexPath.item], for: .normal)
+            
         case .second:
             cell.titleButton.setTitle(secondKeywords[indexPath.item], for: .normal)
+            
         case .menu:
             cell.titleButton.setTitle(menuKeywords[indexPath.item], for: .normal)
         }
