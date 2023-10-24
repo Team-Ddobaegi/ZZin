@@ -52,41 +52,49 @@ class KeywordCell: UICollectionViewCell {
         isSelected()
     }
     
+    // 셀 선택했을 때 실행되는 메서드입니두
     func isSelected(){
         if isSelectedCell {
+            // 셀 선택시 테두리 컬러 변경
             contentView.layer.borderColor = selectedBorderColor.cgColor
+            // 셀 선택시 선택된 셀의 입력값 저장 메서드
             addSelectedKeyword()
         } else {
+            // 셀 선택 해제시 원래 테두리 색으로 돌아감
             contentView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            // 셀 선택 해제시 실행되는 저장된 셀 삭제 메서드
             removeSelectedKeyword()
         }
+        // 저장된 키워드를 각 키워드 배열에 저장
         keywordVC?.updateInfoLabel(keywordType)
     }
     
+    // 셀 선택시 선택된 셀의 입력값 저장 메서드
     func addSelectedKeyword() {
         guard let text = label.text else { return }
         
         switch keywordType {
         case .with:
-            keywordVC?.selectedFirstKeywords.append(text)
+            keywordVC?.selectedWithKeywords.append(text)
         case .condition:
-            keywordVC?.selectedSecondKeywords.append(text)
+            keywordVC?.selectedConditionKeywords.append(text)
         case .menu:
             keywordVC?.selectedMenuKeywords.append(text)
         }
     }
 
+    // 셀 선택 해제시 실행되는 저장된 셀 삭제 메서드
     func removeSelectedKeyword() {
         guard let text = label.text else { return }
         
         switch keywordType {
         case .with:
-            if let index = keywordVC?.selectedFirstKeywords.firstIndex(of: text) {
-                keywordVC?.selectedFirstKeywords.remove(at: index)
+            if let index = keywordVC?.selectedWithKeywords.firstIndex(of: text) {
+                keywordVC?.selectedWithKeywords.remove(at: index)
             }
         case .condition:
-            if let index = keywordVC?.selectedSecondKeywords.firstIndex(of: text) {
-                keywordVC?.selectedSecondKeywords.remove(at: index)
+            if let index = keywordVC?.selectedConditionKeywords.firstIndex(of: text) {
+                keywordVC?.selectedConditionKeywords.remove(at: index)
             }
         case .menu:
             if let index = keywordVC?.selectedMenuKeywords.firstIndex(of: text) {

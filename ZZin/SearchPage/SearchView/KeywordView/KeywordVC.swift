@@ -38,12 +38,12 @@ class KeywordVC: UIViewController {
     let secondKeywords = Keyword().condition
     let menuKeywords = Keyword().menu
     
-    // 선택된 셀의 인덱스를 추적
-    var selectedCellIndex: Int?
+    // 선택된 셀의 개수를 추적하는 변수
+    var selectedCellCount: Int = 0
     
     // 선택된 셀을 저장할 배열
-    var selectedFirstKeywords: [String] = []
-    var selectedSecondKeywords: [String] = []
+    var selectedWithKeywords: [String] = []
+    var selectedConditionKeywords: [String] = []
     var selectedMenuKeywords: [String] = []
     
     
@@ -97,9 +97,9 @@ class KeywordVC: UIViewController {
         let selectedKeywords: [String]
         switch keywordType {
         case .with:
-            selectedKeywords = selectedFirstKeywords
+            selectedKeywords = selectedWithKeywords
         case .condition:
-            selectedKeywords = selectedSecondKeywords
+            selectedKeywords = selectedConditionKeywords
         case .menu:
             selectedKeywords = selectedMenuKeywords
         }
@@ -108,7 +108,7 @@ class KeywordVC: UIViewController {
             infoLabel.text = "보기를 선택해주세요."
             infoLabel.textColor = ColorGuide.cherryTomato
         } else {
-            infoLabel.text = selectedFirstKeywords.joined(separator: ", ")
+            infoLabel.text = selectedKeywords.joined(separator: ", ")
             infoLabel.textColor = .black
         }
     }
@@ -206,10 +206,60 @@ extension KeywordVC: UICollectionViewDataSource {
 extension KeywordVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? KeywordCell {
-            print("index \(indexPath.row), \(cell.label.text ?? "") click ")
-            // 선택된 셀의 테두리 색을 바꿔주는 로직
-            cell.isSelectedCell = !cell.isSelectedCell
-            cell.setView()
+            // 선택한 셀의 인덱스와 텍스트를 출력합니다.
+            print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
+            
+            switch selectedKeywordType {
+            case .with:
+                handleSelectionWithKeyword(cell, collectionView: collectionView)
+                
+            case .condition, .menu:
+                handleSelectionConditionAndMenuKeyword(cell)
+            }
         }
     }
+    
+    // 셀을 선택하는 메서드
+    private func selectCell(_ cell: KeywordCell) {
+        cell.isSelectedCell = true
+        cell.setView()
+        selectedCellCount += 1
+    }
+    
+    // 모든 셀을 선택 해제하는 메서드
+    private func deselectAllCells(in collectionView: UICollectionView) {
+        for visibleCell in collectionView.visibleCells {
+            if let visibleKeywordCell = visibleCell as? KeywordCell {
+                visibleKeywordCell.isSelectedCell = false
+                visibleKeywordCell.setView()
+            }
+        }
+        selectedCellCount = 0
+    }
+    
+    private func handleSelectionWithKeyword(_ cell: KeywordCell, collectionView: UICollectionView) {
+        // 이미 선택된 셀이 있을 때, 선택된 셀 해제
+        if selectedCellCount >= 1 {
+            deselectAllCells(in: collectionView)
+        }
+        // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
+        selectCell(cell)
+    }
+    
+    // "condition" 및 "menu" 키워드 타입에 대한 선택 처리 메서드
+    private func handleSelectionConditionAndMenuKeyword(_ cell: KeywordCell) {
+        // 선택된 셀의 최대 개수 3개로 제한
+        if selectedCellCount < 3 {
+                // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
+                selectCell(cell)
+            } else {
+                // 이미 3개 선택된 경우, 경고 메시지 표시
+                deselectAllCells(in: userChoiceCollectionView)
+                infoLabel.text = "키워드는 세 개까지만 선택 가능합니다."
+                infoLabel.textColor = .red
+            }
+    }
+    
+    
 }
+

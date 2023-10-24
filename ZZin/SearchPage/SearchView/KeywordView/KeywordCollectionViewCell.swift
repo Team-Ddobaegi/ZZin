@@ -72,9 +72,9 @@ class KeywordCollectionViewCell: UICollectionViewCell {
         }
         switch keywordType {
         case .with:
-            keywordVC?.selectedFirstKeywords.append(text)
+            keywordVC?.selectedWithKeywords.append(text)
         case .condition:
-            keywordVC?.selectedSecondKeywords.append(text)
+            keywordVC?.selectedConditionKeywords.append(text)
         case .menu:
             keywordVC?.selectedMenuKeywords.append(text)
         }
@@ -87,12 +87,12 @@ class KeywordCollectionViewCell: UICollectionViewCell {
         
         switch keywordType {
         case .with:
-            if let index = keywordVC?.selectedFirstKeywords.firstIndex(of: text) {
-                keywordVC?.selectedFirstKeywords.remove(at: index)
+            if let index = keywordVC?.selectedWithKeywords.firstIndex(of: text) {
+                keywordVC?.selectedWithKeywords.remove(at: index)
             }
         case .condition:
-            if let index = keywordVC?.selectedSecondKeywords.firstIndex(of: text) {
-                keywordVC?.selectedSecondKeywords.remove(at: index)
+            if let index = keywordVC?.selectedConditionKeywords.firstIndex(of: text) {
+                keywordVC?.selectedConditionKeywords.remove(at: index)
             }
         case .menu:
             if let index = keywordVC?.selectedMenuKeywords.firstIndex(of: text) {
