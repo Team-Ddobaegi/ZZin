@@ -109,7 +109,7 @@ class FireStoreManager {
                 print("Document added with ID: \(reviewRef.documentID)")
             }
         }
-
+        
     }
     
     func setPlace(_ PlaceInfo: Place) {
@@ -134,38 +134,65 @@ class FireStoreManager {
         }
     }
     
-    public func validatePassword(_ password: String) -> Bool {
+    /// regex 활용 번호 탐색 함수
+    /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
+//    private func validateNumber(_ number: String) -> String {
+//        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
+//        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
+//        if test.evaluate(withObject: number) {
+//            print("숫자가 올바르게 입력됐습니다.")
+//        } else {
+//            print("숫자 형식이 조금 틀립니다.")
+//        }
+//    }
+    
+    // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
+    func validateNumber(_ number: String) -> Bool {
+        // 🚨 네트워크 서버에서 존재하는 번호인지 체크할 수 있나?
+        // 가드문으로 확인하는 것보다 if문으로 차례대로 거르는 구조가 해당 영역에 알맞는 errorHandling을 할 수 있기에.
+        if number.isEmpty {
+            print("번호가 입력이 되지 않았어요")
+            return false
+        } else if Int(number) == nil {
+            print("번호 형식을 맞춰주세요")
+            return false
+        } else if number.count != 11 {
+            print("번호가 짧아요")
+            return false
+        }
+        return true
+    }
+    
+    func validatePassword(_ password: String) -> Bool {
         let passwordCheck = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}$"
         let predicate = NSPredicate(format:"SELF MATCHES %@", passwordCheck)
         return predicate.evaluate(with: password)
     }
-      
-      /// Method to register User
-      /// - Parameters:
-      ///   - user: 유저 정보 (이메일, 비밀번호, 어플 내 닉네임)
-      ///   - completion: 2개의 정보를 담은 completionHandler
-      ///   - Bool: wasRegistered - 유저가 데이터베이스에 저장이 되었는지 확인
-      ///   - Error?: 에러가 발생할 경우 활용하는 Error
-      func loginUser(with user: User) {
-          if let password = user.password {
-              Auth.auth().signIn(withEmail: user.uid, password: password) { result, error in
-                  if let error = error {
-                      print("로그인하는데 에러가 발생했습니다.")
-                  }
-              }
-          }
-      }
-      
-      func signIn(with email: String, password: String) {
-          if validatePassword(password) { print("비밀번호 오류입니다.") }
-          Auth.auth().createUser(withEmail: email, password: password) { result, error in
-              if let error = error {
-                  print("유저를 생성하는데 에러가 발생했습니다. - \(error.localizedDescription)")
-              }
-              print("결과값은 아래와 같습니다 - \(result?.description)")
-          }
-      }
     
+    func validateData(id: UITextField, pw: UITextField) -> String? {
+        if id.text?.isEmpty == true || pw.text?.isEmpty == true {
+            /// alert 처리 필요
+            return "비어있는 값이 있는지 확인해주세요."
+        }
+        return nil
+    }
+    
+    // 우리가 값을 텍스트 필드로 받고 있는 상황에서 user값으로 로그인과 회원가입을 처리 할 수 있나? -> 불가능
+    func loginUser(with email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("로그인하는데 에러가 발생했습니다.")
+            }
+        }
+    }
+    
+    func signIn(with email: String, password: String) {
+        if validatePassword(password) { print("비밀번호를 한번 더 확인 해주세요") }
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("여기가 문제인가요 유저를 생성하는데 에러가 발생했습니다. \(error.localizedDescription)")
+            }
+            print("결과값은 아래와 같습니다 - \(result?.description)")
+        }
+    }
 }
-
-
