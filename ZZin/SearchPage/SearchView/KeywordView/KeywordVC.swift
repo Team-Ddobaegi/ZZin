@@ -10,34 +10,38 @@ import SnapKit
 import Then
 
 enum KeywordType {
-    case with
-    case condition
-    case menu
+    case with       // 누구랑 가시나요?
+    case condition  // 어떤 분위기를 원하시나요?
+    case menu       // 메뉴는 무엇인가요?
 }
 
 class KeywordVC: UIViewController {
     
     // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setView()
+        setConstraints()
         setButtonAttribute()
     }
+    
     
     // MARK: - Properties
     
     // 키워드타입 초기세팅
     var selectedKeywordType: KeywordType = .with
     
+    // 각 키워드페이지에 맞춰 키워드 모델 호출
     let firstKeywords = Keyword().with
     let secondKeywords = Keyword().condition
     let menuKeywords = Keyword().menu
     
-    var selectedCellIndex: Int? // 선택된 셀의 인덱스를 추적
+    // 선택된 셀의 인덱스를 추적
+    var selectedCellIndex: Int?
     
-    var selectedKeywords: [String] = [] // 선택된 셀을 저장할 배열
-    
+    // 선택된 셀을 저장할 배열
     var selectedFirstKeywords: [String] = []
     var selectedSecondKeywords: [String] = []
     var selectedMenuKeywords: [String] = []
@@ -59,7 +63,7 @@ class KeywordVC: UIViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.register(KeywordCollectionViewCell.self, forCellWithReuseIdentifier: KeywordCollectionViewCell.reuseIdentifer)
+        $0.register(KeywordCell.self, forCellWithReuseIdentifier: KeywordCell.reuseIdentifer)
     }
     
     var infoLabel = UILabel().then {
@@ -77,15 +81,12 @@ class KeywordVC: UIViewController {
         $0.clipsToBounds = true
     }
     
-    weak var searchView: SearchView?
-    weak var searchVC: SearchVC?
     
     // MARK: - Settings
     
     func setView() {
         view.backgroundColor = .white
         [noticeLabel, userChoiceCollectionView, infoLabel, confirmButton].forEach { view.addSubview($0) }
-        setConstraints()
     }
     
     func setButtonAttribute(){
@@ -94,22 +95,22 @@ class KeywordVC: UIViewController {
     
     func updateInfoLabel(_ keywordType: KeywordType) {
         let selectedKeywords: [String]
-            switch keywordType {
-            case .with:
-                selectedKeywords = selectedFirstKeywords
-            case .condition:
-                selectedKeywords = selectedSecondKeywords
-            case .menu:
-                selectedKeywords = selectedMenuKeywords
-            }
-            
-            if selectedKeywords.isEmpty {
-                infoLabel.text = "보기를 선택해주세요."
-                infoLabel.textColor = ColorGuide.cherryTomato
-            } else {
-                infoLabel.text = selectedKeywords.joined(separator: ", ")
-                infoLabel.textColor = .black
-            }
+        switch keywordType {
+        case .with:
+            selectedKeywords = selectedFirstKeywords
+        case .condition:
+            selectedKeywords = selectedSecondKeywords
+        case .menu:
+            selectedKeywords = selectedMenuKeywords
+        }
+        
+        if selectedKeywords.isEmpty {
+            infoLabel.text = "보기를 선택해주세요."
+            infoLabel.textColor = ColorGuide.cherryTomato
+        } else {
+            infoLabel.text = selectedFirstKeywords.joined(separator: ", ")
+            infoLabel.textColor = .black
+        }
     }
     
     
@@ -166,7 +167,6 @@ extension KeywordVC: UICollectionViewDelegateFlowLayout {
 extension KeywordVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch selectedKeywordType {
-            
         case .with:
             return firstKeywords.count
             
@@ -179,20 +179,21 @@ extension KeywordVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCollectionViewCell.reuseIdentifer, for: indexPath) as! KeywordCollectionViewCell
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KeywordCell.reuseIdentifer, for: indexPath) as? KeywordCell
+        else {
+            return UICollectionViewCell()
+        }
         switch selectedKeywordType {
-            
         case .with:
-            cell.cellButton.setTitle(firstKeywords[indexPath.item], for: .normal)
+            cell.label.text = "\(firstKeywords[indexPath.item])"
             cell.keywordType = .with
             
         case .condition:
-            cell.cellButton.setTitle(secondKeywords[indexPath.item], for: .normal)
+            cell.label.text = "\(secondKeywords[indexPath.item])"
             cell.keywordType = .condition
             
         case .menu:
-            cell.cellButton.setTitle(menuKeywords[indexPath.item], for: .normal)
+            cell.label.text = "\(menuKeywords[indexPath.item])"
             cell.keywordType = .menu
         }
         
@@ -200,9 +201,15 @@ extension KeywordVC: UICollectionViewDataSource {
         
         return cell
     }
-    
 }
 
 extension KeywordVC: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? KeywordCell {
+            print("index \(indexPath.row), \(cell.label.text ?? "") click ")
+            // 선택된 셀의 테두리 색을 바꿔주는 로직
+            cell.isSelectedCell = !cell.isSelectedCell
+            cell.setView()
+        }
+    }
 }

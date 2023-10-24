@@ -15,6 +15,8 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     var keywordType: KeywordType = .with
     
+    weak var keywordVC: KeywordVC?
+    
     static let reuseIdentifer: String = "cell"
     
     let cellButton = UIButton().then {
@@ -28,8 +30,6 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     }
     
     var isButtonSelected = false
-    
-    weak var keywordVC: KeywordVC?
     
     
     
@@ -70,7 +70,6 @@ class KeywordCollectionViewCell: UICollectionViewCell {
         guard let text = cellButton.titleLabel?.text else {
             return
         }
-        
         switch keywordType {
         case .with:
             keywordVC?.selectedFirstKeywords.append(text)
@@ -119,6 +118,7 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     @objc func buttonTapped() {
         print("\(cellButton.currentTitle ?? "") 선택됨")
+        
         toggleSelection()
     }
 }

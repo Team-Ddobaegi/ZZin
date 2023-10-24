@@ -94,11 +94,11 @@ class SearchVC: UIViewController {
     }
     
     func updateKeywordButtonTitle() {
-        if keywordVC.selectedKeywords.isEmpty {
+        if keywordVC.selectedFirstKeywords.isEmpty {
             searchView.firstKeywordButton.titleLabel?.text = "키워드"
             searchView.firstKeywordButton.titleLabel?.textColor = .systemGray2
         } else {
-            searchView.firstKeywordButton.titleLabel?.text = keywordVC.selectedKeywords.joined(separator: ", ")
+            searchView.firstKeywordButton.titleLabel?.text = keywordVC.selectedFirstKeywords.joined(separator: ", ")
             searchView.firstKeywordButton.titleLabel?.textColor = .black
         }
     }
