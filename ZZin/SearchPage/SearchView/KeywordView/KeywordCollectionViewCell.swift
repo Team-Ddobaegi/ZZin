@@ -27,6 +27,9 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     var isButtonSelected = false
     
+    weak var keywordVC: KeywordVC?
+    
+    
     
     // MARK: - Life Cycle
     
@@ -46,16 +49,24 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     func setTitleButton(){
         titleButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        setButtonColorChange()
     }
     
-    func setButtonColorChange(){
-        if isButtonSelected {
+    func toggleSelection() {
+        isSelected = !isSelected
+
+        if isSelected {
             titleButton.layer.borderColor = ColorGuide.cherryTomato.cgColor
+            keywordVC?.selectedKeywords.append(titleButton.titleLabel?.text ?? "")
         } else {
             titleButton.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            if let text = titleButton.titleLabel?.text, let index = keywordVC?.selectedKeywords.firstIndex(of: text) {
+                keywordVC?.selectedKeywords.remove(at: index)
+            }
         }
+
+        keywordVC?.updateInfoLabel()
     }
+    
     
     // MARK: - ConfigureUI
     
@@ -67,12 +78,11 @@ class KeywordCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    
     // MARK: - Actions
     
     @objc func buttonTapped() {
-        print("키워드 셀 클릭")
-        isButtonSelected.toggle()
-        setButtonColorChange()
+        print("\(titleButton.currentTitle ?? "")이 선택됨")
+        toggleSelection()
     }
-    
 }

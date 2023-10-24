@@ -93,6 +93,15 @@ class SearchVC: UIViewController {
         searchView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
+    func updateKeywordButtonTitle() {
+        if keywordVC.selectedKeywords.isEmpty {
+            searchView.firstKeywordButton.titleLabel?.text = "키워드"
+            searchView.firstKeywordButton.titleLabel?.textColor = .systemGray2
+        } else {
+            searchView.firstKeywordButton.titleLabel?.text = keywordVC.selectedKeywords.joined(separator: ", ")
+            searchView.firstKeywordButton.titleLabel?.textColor = .black
+        }
+    }
     
     
     //MARK: - Properties
@@ -101,6 +110,8 @@ class SearchVC: UIViewController {
     
     private let collectionView = SearchResultCollectionView()
     
+    private let keywordVC = KeywordVC()
+
     private let opacityView = OpacityView()
     
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명

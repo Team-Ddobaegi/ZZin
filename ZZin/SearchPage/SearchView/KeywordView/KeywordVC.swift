@@ -32,7 +32,11 @@ class KeywordVC: UIViewController {
     let firstKeywords = firstKeyword().with
     let secondKeywords = secondKeyword().condition
     let menuKeywords = menuKeyword().menu
-        
+    
+    var selectedCellIndex: Int? // 선택된 셀의 인덱스를 추적
+    
+    var selectedKeywords: [String] = [] // 선택된 셀을 저장할 배열
+    
     let noticeLabel = UILabel().then {
         $0.text = "누구랑\n가시나요?"
         $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
@@ -54,7 +58,7 @@ class KeywordVC: UIViewController {
     
     var infoLabel = UILabel().then {
         $0.text = "보기를 선택해주세요."
-        $0.textColor = ColorGuide.main
+        $0.textColor = ColorGuide.cherryTomato
         $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
     
@@ -62,10 +66,12 @@ class KeywordVC: UIViewController {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        $0.backgroundColor = ColorGuide.main
+        $0.backgroundColor = ColorGuide.cherryTomato
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
     }
+    
+    weak var searchView: SearchView?
     
     
     // MARK: - Settings
@@ -80,12 +86,25 @@ class KeywordVC: UIViewController {
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
+    func updateInfoLabel() {
+        if selectedKeywords.isEmpty {
+            infoLabel.text = "보기를 선택해주세요."
+            infoLabel.textColor = ColorGuide.cherryTomato
+        } else {
+            infoLabel.text = selectedKeywords.joined(separator: ", ")
+            infoLabel.textColor = .black
+        }
+    }
+    
     
     // MARK: - Actions
     
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
         
+        searchView?.firstKeywordButton.setTitle(selectedKeywords.joined(separator: ", "), for: .normal)
+
+        dismiss(animated: true)
     }
     
     
@@ -160,6 +179,13 @@ extension KeywordVC: UICollectionViewDataSource {
             cell.titleButton.setTitle(menuKeywords[indexPath.item], for: .normal)
         }
         
+        cell.keywordVC = self
+        
         return cell
     }
+    
+}
+
+extension KeywordVC: UICollectionViewDelegate {
+    
 }

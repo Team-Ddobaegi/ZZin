@@ -50,6 +50,8 @@ class SearchView: UIView {
     
     let menuKeywordButton = KeywordButton(title: "키워드")
     
+    var selectedKeywords: [String] = []
+    
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
