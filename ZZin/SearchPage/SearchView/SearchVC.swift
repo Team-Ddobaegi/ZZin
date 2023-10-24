@@ -161,7 +161,7 @@ class SearchVC: UIViewController {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = KeywordVC()
-        keywordVC.selectedKeywordType = .first
+        keywordVC.selectedKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
         
@@ -173,7 +173,7 @@ class SearchVC: UIViewController {
         print("두 번째 키워드 버튼이 탭됨")
         
         let keywordVC = KeywordVC()
-        keywordVC.selectedKeywordType = .second
+        keywordVC.selectedKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
         

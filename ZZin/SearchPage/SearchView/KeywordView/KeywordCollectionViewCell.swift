@@ -13,9 +13,11 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
+    var keywordType: KeywordType = .with
+    
     static let reuseIdentifer: String = "cell"
     
-    let titleButton = UIButton().then {
+    let cellButton = UIButton().then {
         $0.setTitle("테스트 제목", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -48,32 +50,66 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     // MARK: - Settings
     
     func setTitleButton(){
-        titleButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        cellButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
     func toggleSelection() {
         isSelected = !isSelected
-
+        
         if isSelected {
-            titleButton.layer.borderColor = ColorGuide.cherryTomato.cgColor
-            keywordVC?.selectedKeywords.append(titleButton.titleLabel?.text ?? "")
+            cellButton.layer.borderColor = ColorGuide.cherryTomato.cgColor
+            addSelectedKeyword()
         } else {
-            titleButton.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-            if let text = titleButton.titleLabel?.text, let index = keywordVC?.selectedKeywords.firstIndex(of: text) {
-                keywordVC?.selectedKeywords.remove(at: index)
+            cellButton.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            removeSelectedKeyword()
+        }
+        keywordVC?.updateInfoLabel(keywordType)
+    }
+
+    func addSelectedKeyword() {
+        guard let text = cellButton.titleLabel?.text else {
+            return
+        }
+        
+        switch keywordType {
+        case .with:
+            keywordVC?.selectedFirstKeywords.append(text)
+        case .condition:
+            keywordVC?.selectedSecondKeywords.append(text)
+        case .menu:
+            keywordVC?.selectedMenuKeywords.append(text)
+        }
+    }
+
+    func removeSelectedKeyword() {
+        guard let text = cellButton.titleLabel?.text else {
+            return
+        }
+        
+        switch keywordType {
+        case .with:
+            if let index = keywordVC?.selectedFirstKeywords.firstIndex(of: text) {
+                keywordVC?.selectedFirstKeywords.remove(at: index)
+            }
+        case .condition:
+            if let index = keywordVC?.selectedSecondKeywords.firstIndex(of: text) {
+                keywordVC?.selectedSecondKeywords.remove(at: index)
+            }
+        case .menu:
+            if let index = keywordVC?.selectedMenuKeywords.firstIndex(of: text) {
+                keywordVC?.selectedMenuKeywords.remove(at: index)
             }
         }
-
-        keywordVC?.updateInfoLabel()
     }
+
     
     
     // MARK: - ConfigureUI
     
     func configureUI() {
-        contentView.addSubview(titleButton)
+        contentView.addSubview(cellButton)
         
-        titleButton.snp.makeConstraints {
+        cellButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -82,7 +118,7 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     // MARK: - Actions
     
     @objc func buttonTapped() {
-        print("\(titleButton.currentTitle ?? "")이 선택됨")
+        print("\(cellButton.currentTitle ?? "") 선택됨")
         toggleSelection()
     }
 }

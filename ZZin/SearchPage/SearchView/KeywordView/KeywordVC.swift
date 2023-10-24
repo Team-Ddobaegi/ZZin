@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
+enum KeywordType {
+    case with
+    case condition
+    case menu
+}
+
 class KeywordVC: UIViewController {
     
     // MARK: - Life Cycles
@@ -21,21 +27,21 @@ class KeywordVC: UIViewController {
     
     // MARK: - Properties
     
-    enum KeywordType {
-        case first
-        case second
-        case menu
-    }
+    // 키워드타입 초기세팅
+    var selectedKeywordType: KeywordType = .with
     
-    var selectedKeywordType: KeywordType = .first
-    
-    let firstKeywords = firstKeyword().with
-    let secondKeywords = secondKeyword().condition
-    let menuKeywords = menuKeyword().menu
+    let firstKeywords = Keyword().with
+    let secondKeywords = Keyword().condition
+    let menuKeywords = Keyword().menu
     
     var selectedCellIndex: Int? // 선택된 셀의 인덱스를 추적
     
     var selectedKeywords: [String] = [] // 선택된 셀을 저장할 배열
+    
+    var selectedFirstKeywords: [String] = []
+    var selectedSecondKeywords: [String] = []
+    var selectedMenuKeywords: [String] = []
+    
     
     let noticeLabel = UILabel().then {
         $0.text = "누구랑\n가시나요?"
@@ -72,7 +78,7 @@ class KeywordVC: UIViewController {
     }
     
     weak var searchView: SearchView?
-    
+    weak var searchVC: SearchVC?
     
     // MARK: - Settings
     
@@ -86,14 +92,24 @@ class KeywordVC: UIViewController {
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
-    func updateInfoLabel() {
-        if selectedKeywords.isEmpty {
-            infoLabel.text = "보기를 선택해주세요."
-            infoLabel.textColor = ColorGuide.cherryTomato
-        } else {
-            infoLabel.text = selectedKeywords.joined(separator: ", ")
-            infoLabel.textColor = .black
-        }
+    func updateInfoLabel(_ keywordType: KeywordType) {
+        let selectedKeywords: [String]
+            switch keywordType {
+            case .with:
+                selectedKeywords = selectedFirstKeywords
+            case .condition:
+                selectedKeywords = selectedSecondKeywords
+            case .menu:
+                selectedKeywords = selectedMenuKeywords
+            }
+            
+            if selectedKeywords.isEmpty {
+                infoLabel.text = "보기를 선택해주세요."
+                infoLabel.textColor = ColorGuide.cherryTomato
+            } else {
+                infoLabel.text = selectedKeywords.joined(separator: ", ")
+                infoLabel.textColor = .black
+            }
     }
     
     
@@ -102,8 +118,6 @@ class KeywordVC: UIViewController {
     @objc func confirmButtonTapped() {
         print("확인 버튼이 눌렸습니다.")
         
-        searchView?.firstKeywordButton.setTitle(selectedKeywords.joined(separator: ", "), for: .normal)
-
         dismiss(animated: true)
     }
     
@@ -153,10 +167,10 @@ extension KeywordVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch selectedKeywordType {
             
-        case .first:
+        case .with:
             return firstKeywords.count
             
-        case .second:
+        case .condition:
             return secondKeywords.count
             
         case .menu:
@@ -169,14 +183,17 @@ extension KeywordVC: UICollectionViewDataSource {
         
         switch selectedKeywordType {
             
-        case .first:
-            cell.titleButton.setTitle(firstKeywords[indexPath.item], for: .normal)
+        case .with:
+            cell.cellButton.setTitle(firstKeywords[indexPath.item], for: .normal)
+            cell.keywordType = .with
             
-        case .second:
-            cell.titleButton.setTitle(secondKeywords[indexPath.item], for: .normal)
+        case .condition:
+            cell.cellButton.setTitle(secondKeywords[indexPath.item], for: .normal)
+            cell.keywordType = .condition
             
         case .menu:
-            cell.titleButton.setTitle(menuKeywords[indexPath.item], for: .normal)
+            cell.cellButton.setTitle(menuKeywords[indexPath.item], for: .normal)
+            cell.keywordType = .menu
         }
         
         cell.keywordVC = self
