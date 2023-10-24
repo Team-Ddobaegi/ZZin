@@ -45,7 +45,7 @@ class SearchResultCollectionView: UIView {
         addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.top.bottom.trailing.leading.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     

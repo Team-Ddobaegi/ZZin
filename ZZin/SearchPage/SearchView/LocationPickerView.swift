@@ -26,27 +26,23 @@ class LocationPickerView: UIView {
     private func setView() {
         addSubViews()
         setConstraints()
-        
     }
     
     // MARK: - Properties
-    let view = UIView().then {
-        $0.backgroundColor = .blue
-    }
     
-    let pickerView = UIPickerView().then {
+    public let pickerView = UIPickerView().then {
         $0.backgroundColor = .white
         $0.tintColor = ColorGuide.cherryTomato
     }
     
-    let noticeLabel = UILabel().then {
+    private let noticeLabel = UILabel().then {
         $0.text = "어디로\n가시나요?"
         $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
         $0.numberOfLines = 0
         $0.textAlignment = .left
     }
     
-    let confirmButton = UIButton().then {
+    public let confirmButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
@@ -59,13 +55,13 @@ class LocationPickerView: UIView {
     // MARK: - ConfigureUI
     
     private func addSubViews(){
-     addSubview(noticeLabel)
-     addSubview(pickerView)
-      addSubview(confirmButton)
+        addSubview(noticeLabel)
+        addSubview(pickerView)
+        addSubview(confirmButton)
     }
     
     private func setConstraints(){
-
+        
         noticeLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(50)
             $0.leading.equalToSuperview().offset(25)

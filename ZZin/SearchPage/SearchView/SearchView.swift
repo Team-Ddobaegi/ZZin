@@ -56,6 +56,12 @@ class SearchView: UIView {
         $0.tintColor = ColorGuide.main
     }
     
+    public let locationButton = UIButton().then {
+        let iconImage = UIImage(systemName: "location")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = ColorGuide.main
+    }
+    
     public let setLocationButton = UIButton().then {
         $0.setTitle("서울 강동구", for: .normal)
         $0.setTitleColor(.black, for: .normal)
@@ -77,6 +83,7 @@ class SearchView: UIView {
     public let divider2 = UIView().then {
         $0.backgroundColor = .lightGray
     }
+   
     
     //MARK: - UI
     
@@ -98,6 +105,7 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
+        addSubview(locationButton)
     }
     
     private func setDividerConstraints() {
@@ -140,6 +148,13 @@ class SearchView: UIView {
             $0.height.equalTo(30)
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(60)
+        }
+        
+        // 현재 위치 버튼
+        locationButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview().offset(20)
         }
         
         // 주변 맛집 버튼

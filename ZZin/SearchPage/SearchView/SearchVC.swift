@@ -28,8 +28,11 @@ class SearchVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(searchView)
         view.addSubview(collectionView)
+        view.addSubview(opacityView)
         
         setMapView()
+        setlocationView()
+        setOpacityView()
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
@@ -39,12 +42,24 @@ class SearchVC: UIViewController {
         searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
     }
     
+    private func setlocationView(){
+        searchView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+    }
+    
+    private func setOpacityView(){
+        UIView.animate(withDuration: 0.3) {
+            self.opacityViewAlpha = 0.0
+            self.opacityView.alpha = self.opacityViewAlpha
+        }
+    }
+    
     // 지역 설정 피커뷰
     private func setPickerView(){
-        searchView.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
+        searchView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
         pickerView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
+    // 피커뷰 속성 설정
     private func setPickerViewAttribute(){
         // 피커뷰 서브뷰 설정
         view.addSubview(pickerView)
@@ -53,6 +68,10 @@ class SearchVC: UIViewController {
         // 피커뷰 델리게이트 설정
         pickerView.pickerView.delegate = self
         pickerView.pickerView.dataSource = self
+        
+        // 피커뷰 모서리 둥글게
+        pickerView.layer.cornerRadius = 15
+        pickerView.layer.masksToBounds = true
         
         // 피커뷰 레이아웃
         pickerView.snp.makeConstraints {
@@ -81,7 +100,12 @@ class SearchVC: UIViewController {
     
     private let collectionView = SearchResultCollectionView()
     
+    private let opacityView = OpacityView()
+    
+    private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
+
     private let pickerView = LocationPickerView()
+    
     
     //dummy location
     private let selectedCity: [String] = ["서울"]
@@ -95,45 +119,58 @@ class SearchVC: UIViewController {
     private var selectedTownIndex: Int = 0
     
     
-    
     // MARK: - Actions
     
     @objc private func mapButtonTapped() {
-        print("mapButtonTapped")
+        print("지도 버튼 탭")
         let mapViewController = SearchMapViewController()
         navigationController?.pushViewController(mapViewController, animated: true)
     }
     
-    @objc private func setLocationButtonTapped() {
+    @objc private func locationButtonTapped() {
+        print("현재 위치 버튼 탭")
+    }
+    
+    @objc private func setPickerViewTapped() {
+        print("지역 설정 피커뷰 탭")
+        
         setPickerViewAttribute()
         
-        print("지역설정 버튼 탭")
+        UIView.animate(withDuration: 0.1) {
+            self.opacityViewAlpha = 0.7
+            self.opacityView.alpha = self.opacityViewAlpha
+        }
+        
         tabBarController?.tabBar.isHidden = true
     }
     
     @objc private func keywordButtonTapped() {
         print("keywordButtonTapped")
-        let keywordView = KeywordPage()
+        let keywordView = KeywordView()
         navigationController?.present(keywordView, animated: true)
     }
     
     
     @objc func confirmButtonTapped() {
         // 피커뷰에서 선택된 값을 가져오기
-           let selectedCityRow = pickerView.pickerView.selectedRow(inComponent: 0)
-           let selectedTownRow = pickerView.pickerView.selectedRow(inComponent: 1)
-           
-           let selectedCity = selectedCity[selectedCityRow]
-           let selectedTown = selectedTown[selectedTownRow]
-           
-           // setLocationButton의 타이틀 업데이트
+        let selectedCityRow = pickerView.pickerView.selectedRow(inComponent: 0)
+        let selectedTownRow = pickerView.pickerView.selectedRow(inComponent: 1)
+        
+        let selectedCity = selectedCity[selectedCityRow]
+        let selectedTown = selectedTown[selectedTownRow]
+        
+        // setLocationButton의 타이틀 업데이트
         searchView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
-           
-           // PickerView 숨기기
-           pickerView.removeFromSuperview()
-           
-           // 탭바 다시 보이게 하기
-           tabBarController?.tabBar.isHidden = false
+        
+        // PickerView 숨기기
+        pickerView.removeFromSuperview()
+        
+        // 탭바 다시 보이게 하기
+        tabBarController?.tabBar.isHidden = false
+        
+        // 뒷배경 흐리게 해제
+        setOpacityView()
+
     }
     
     
@@ -142,6 +179,7 @@ class SearchVC: UIViewController {
     func configureUI(){
         setSearchViewConstraints()
         setCollectionViewConstraints()
+        setOpacityViewConstraints()
     }
     
     func setSearchViewConstraints(){
@@ -158,6 +196,26 @@ class SearchVC: UIViewController {
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
+        }
+    }
+    
+    func setOpacityViewConstraints(){
+        opacityView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // 피커뷰 외 터치 시 피커뷰 숨기기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: view)
+            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
+            
+            if !pickerView.bounds.contains(convertedTouchLocation) {
+                pickerView.removeFromSuperview()
+                tabBarController?.tabBar.isHidden = false
+                setOpacityView()
+            }
         }
     }
 }
