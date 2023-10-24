@@ -14,10 +14,9 @@ class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
     private let logoView = UIImageView().then {
-        let image = UIImage(systemName: "photo")
+        let image = UIImage(named: "ZZin")
         $0.image = image
-        $0.backgroundColor = ColorGuide.main
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     
     // 아이디 textFieldView
@@ -38,6 +37,8 @@ class LoginViewController: UIViewController {
     
     private var idTextField = UITextField().then {
         $0.textColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -61,6 +62,8 @@ class LoginViewController: UIViewController {
     
     private var pwTextField = UITextField().then {
         $0.textColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -194,6 +197,11 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(19)
         }
     }
+    
+    private func setDelegate() {
+        pwTextField.delegate = self
+        idTextField.delegate = self
+    }
         
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
@@ -241,8 +249,13 @@ extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("로그인 페이지 - \(#function)")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configure()
         setUI()
+        setDelegate()
     }
 }
 
