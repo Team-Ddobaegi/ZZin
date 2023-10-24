@@ -8,11 +8,10 @@
 import UIKit
 import SnapKit
 import Then
-//import FirebaseAuth
-//import Firebase
 
 class RegistrationViewController: UIViewController {
     
+    //MARK: - UIComponent 생성
     private lazy var idTextfieldView = UIView().then {
         $0.backgroundColor = .gray
         $0.layer.cornerRadius = 12
@@ -130,12 +129,11 @@ class RegistrationViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private var doubleCheckButton = UIButton().then {
+    private lazy var doubleCheckButton = UIButton().then {
         $0.setTitle("중복 확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         $0.backgroundColor = .red
-        $0.layer.cornerRadius = 20
         $0.clipsToBounds = true
         $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
     }
@@ -150,9 +148,17 @@ class RegistrationViewController: UIViewController {
         $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
+    private let backbutton = UIButton().then {
+        let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        $0.setImage(image, for: .normal)
+        $0.contentMode = .scaleAspectFit
+        $0.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+    }
+    
+    //MARK: - 함수 생성
     func configure() {
         view.backgroundColor = .white
-        [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
+        [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton, backbutton].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -161,6 +167,7 @@ class RegistrationViewController: UIViewController {
         setNicknameTextfield()
         setNumberTextfield()
         setConfirmButton()
+        setBackButton()
     }
     
     func setIdTextfield() {
@@ -283,6 +290,14 @@ class RegistrationViewController: UIViewController {
         }
     }
     
+    func setBackButton() {
+        backbutton.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().offset(5)
+            $0.height.width.equalTo(50)
+        }
+    }
+    
     func setDelegate() {
         idTextField.delegate = self
         pwTextField.delegate = self
@@ -291,36 +306,36 @@ class RegistrationViewController: UIViewController {
         numberTextField.delegate = self
     }
     
-    func validateData() -> String? {
-        // idLabel과 pwLabel의 값이 들어가 있는지만 확인하면 되잖아
-        if idTextField.text?.isEmpty == true || pwTextField.text?.isEmpty == true || nicknameTextField.text?.isEmpty == true {
-            /// alert 처리 필요
-            return("비어있는 값이 있는지 확인해주세요.")
-        }
-        print("이상이 없습니다.")
-        return nil
-    }
-    
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
-        
+        let idText = idTextField
+        let pwText = pwTextField
         // 값이 모두 입력됐는지 확인
-        let error = validateData()
-        if error == nil {
-            // clean 아이디와 비밀번호가 있는지 확인 완료
-            let checkedId = idTextField.text!
-            let checkedPassword = pwTextField.text!
-            print(checkedId)
-            print(checkedPassword)
-            
-            FireStoreManager.shared.signIn(with: checkedId, password: checkedPassword)
+        let error = FireStoreManager.shared.validateData(id: idText, pw: pwText)
+        if error != nil {
+            print("에러가 발생했습니다. \(error?.description)")
         } else {
-            print("에러가 발생했습니다. \(error)")
+            // clean 아이디와 비밀번호가 있는지 확인 완료
+            if let idChecked = idText.text, let pwChecked = pwText.text {
+                FireStoreManager.shared.signIn(with: idChecked, password: pwChecked)
+                print("생성되었습니다.")
+            }
         }
     }
     
     @objc func doubleCheckButtonTapped() {
         print("중복 확인 버튼이 눌렸습니다.")
+        
+        guard let value = numberTextField.text else {
+            print("번호가 입력되지 않았습니다.")
+            return
+        }
+        FireStoreManager.shared.validateNumber(value)
+    }
+    
+    @objc func backbuttonTapped() {
+        print("되돌아가기 버튼이 눌렸습니다.")
+        self.dismiss(animated: true)
     }
     
     deinit {
@@ -332,13 +347,18 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configure()
         setUI()
+        setDelegate()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        doubleCheckButton.layer.cornerRadius = doubleCheckButton.frame.height / 2
     }
 }
 
