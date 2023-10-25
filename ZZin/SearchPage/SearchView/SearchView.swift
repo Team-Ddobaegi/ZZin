@@ -25,6 +25,8 @@ class SearchView: UIView {
     
     
     //MARK: - Properties
+    
+    var selectedKeywords: [String] = []
 
     private let searchResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -47,23 +49,34 @@ class SearchView: UIView {
     
     let firstKeywordButton = UIButton().customButton(title: "키워드")
 
+    let firstPlusIcon = UILabel().plus()
+    
     let secondKeywordButton = UIButton().customButton(title: "키워드")
     
+    let secondPlusIcon = UILabel().plus()
+    
     let menuKeywordButton = UIButton().customButton(title: "키워드")
+   
     
-    
-    var selectedKeywords: [String] = []
+    lazy var keywordButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [firstKeywordButton,firstPlusIcon,secondKeywordButton,secondPlusIcon,menuKeywordButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
     
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.main
+        $0.tintColor = ColorGuide.cherryTomato
     }
     
     public let locationButton = UIButton().then {
         let iconImage = UIImage(systemName: "location")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.main
+        $0.tintColor = ColorGuide.cherryTomato
     }
     
     public let setLocationButton = UIButton().then {
@@ -99,17 +112,15 @@ class SearchView: UIView {
     }
     
     private func addSubViews() {
-        addSubview(setLocationButton)
-        addSubview(divider1)
-        addSubview(divider2)
         addSubview(searchResultLabel)
-        addSubview(searchTipLabel)
-        addSubview(searchNotiLabel)
-        addSubview(firstKeywordButton)
-        addSubview(secondKeywordButton)
-        addSubview(menuKeywordButton)
         addSubview(mapButton)
         addSubview(locationButton)
+        addSubview(setLocationButton)
+        addSubview(searchTipLabel)
+        addSubview(searchNotiLabel)
+        addSubview(keywordButtonStackView)
+        addSubview(divider1)
+        addSubview(divider2)
     }
     
     private func setDividerConstraints() {
@@ -169,21 +180,14 @@ class SearchView: UIView {
             $0.trailing.equalToSuperview().offset(-20)
         }
        
-        // 첫번째 키워드 버튼
-        firstKeywordButton.snp.makeConstraints {
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        // 두번째 키워드 버튼
-        secondKeywordButton.snp.makeConstraints {
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
+        keywordButtonStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-        }
-        // 음식점 키워드 버튼
-        menuKeywordButton.snp.makeConstraints {
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(40)
             $0.bottom.equalTo(searchNotiLabel).offset(50)
-            $0.trailing.equalToSuperview().offset(-25)
+
         }
+        
     }
    
 }
@@ -197,14 +201,29 @@ extension UIButton {
         button.setTitleColor(.systemGray2, for: .normal)
         button.setTitleColor(ColorGuide.cherryTomato, for: .highlighted)
         button.backgroundColor = .white
-        button.layer.cornerRadius = 35 / 2
+        button.layer.cornerRadius = 40 / 2
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.lightGray.cgColor
         
         button.snp.makeConstraints {
-            $0.width.equalTo(108)
-            $0.height.equalTo(38)
+            $0.width.equalTo(105)
+            $0.height.equalTo(40)
         }
         return button
     }
 }
+
+extension UILabel {
+    func plus() -> UILabel {
+        let plus = UILabel()
+        plus.text = "+"
+        plus.textColor = .darkGray
+        plus.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+        plus.snp.makeConstraints {
+            $0.width.height.equalTo(10)
+        }
+        return plus
+    }
+}
+
