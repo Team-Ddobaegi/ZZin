@@ -134,7 +134,7 @@ class FireStoreManager {
         }
     }
     
-    func fetchAllData() {
+    func 데이터호출() {
         let collectionRef = db.collection("reviews")
         
         collectionRef.getDocuments { (QuerySnapshot, error) in
@@ -145,6 +145,26 @@ class FireStoreManager {
                     let data = document.data()
                     print("데이터를 출력합니다. \(data)")
                 }
+            }
+        }
+    }
+    
+    func 데이터호출저장() {
+        let collectionRef = db.collection("reviews")
+        
+        collectionRef.getDocuments { (QuerySnapshot, error) in
+            if let error = error {
+                print("에러가 발생했습니다. \(error.localizedDescription)")
+            } else {
+                var savedData: [[String: Any]] = []
+                
+                for document in QuerySnapshot!.documents {
+                    let data = document.data()
+                    savedData.append(data)
+                }
+                
+                UserDefaults.standard.set(savedData, forKey: "savedData")
+                print("savedData 키 값으로 db 데이터를 저장했습니다.")
             }
         }
     }
