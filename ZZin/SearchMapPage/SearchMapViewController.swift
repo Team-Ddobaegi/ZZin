@@ -3,14 +3,17 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
-class SearchMapViewController: UIViewController{
+class SearchMapViewController: UIViewController {
+    
     // MARK: - Property
+    
     private var searchMapUIView = SearchMapUIView()
     
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
 
     // MARK: - Touch Action
+    
     @objc func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -80,7 +83,8 @@ class SearchMapViewController: UIViewController{
     // MARK: - UI Setting
     
     func moveCamera(_ location: NMGLatLng?) {
-        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
+//        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
+        let cameraUpdate = NMFCameraUpdate(scrollTo: location ?? NMGLatLng(lat: 37.5666102, lng: 126.9783881))
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
     }
     
@@ -94,13 +98,16 @@ class SearchMapViewController: UIViewController{
     
     func setInfoWindow() {
         let infoWindow = NMFInfoWindow()
-        let dataSource = NMFInfoWindowDefaultTextSource.data()
-        dataSource.title = "정보 창 내용"
-        infoWindow.dataSource = dataSource
+//        let dataSource = NMFInfoWindowDefaultTextSource.data()
+        
+//        dataSource.title = "정보 창 내용"
+        infoWindow.dataSource = self
         infoWindow.position = NMGLatLng(lat: 37.5666102, lng: 126.9783881)
         infoWindow.open(with: searchMapUIView.searchMapView.mapView)
     }
 }
+
+// MARK: - LocationServiceDelegate
 
 extension SearchMapViewController: LocationServiceDelegate {
     func didUpdateLocation(lat latitude: Double, lng longitude: Double) {
@@ -111,12 +118,14 @@ extension SearchMapViewController: LocationServiceDelegate {
     }
     
     func didFailWithError(error: Error) {
-        // 오류 처리 (알림 표시 등)
         print("Failed to get location: \(error.localizedDescription)")
     }
 }
 
-
-
-
-
+extension SearchMapViewController: NMFOverlayImageDataSource {
+    func view(with overlay: NMFOverlay) -> UIView { // label이 안간다?
+        let customInfoWindowView = CustomInfoWindowView()
+        customInfoWindowView.placeNameLabel.text = "맛집 레이블"
+        return customInfoWindowView
+    }
+}
