@@ -97,6 +97,7 @@
 		FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */; };
 		FB3650892AE8AD7600EAEAB7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FB3650882AE8AD7600EAEAB7 /* Alamofire */; };
 		FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */; };
+		FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
 		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
@@ -177,6 +178,7 @@
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultController.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CostomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomView.swift; sourceTree = "<group>"; };
 		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageCollectionView.xib; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 			children = (
 				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
 				FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */,
+				FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingContentsCell.swift in Sources */,
+				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
 				DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
