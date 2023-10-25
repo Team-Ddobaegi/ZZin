@@ -19,56 +19,57 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let customTextfieldView = CustomTextfieldView()
+    private let idTextfieldView = CustomTextfieldView.create(placeholder: "", text: "아이디를 적어주세요")
+    private let pwTextfieldView = CustomTextfieldView.create(placeholder: "", text: "비밀번호를 적어주세요")
     
     // 아이디 textFieldView
-    private lazy var idTextfieldView = UIView().then {
-        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(idTextField)
-        $0.addSubview(idInfoLabel)
-    }
+//    private lazy var idTextfieldView = UIView().then {
+//        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
+//        $0.layer.cornerRadius = 12
+//        $0.clipsToBounds = true
+//        $0.addSubview(idTextField)
+//        $0.addSubview(idInfoLabel)
+//    }
     
-    private var idInfoLabel = UILabel().then {
-        $0.text = "아이디를 적어주세요"
-        $0.textColor = .black
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    private var idInfoLabel = UILabel().then {
+//        $0.text = "아이디를 적어주세요"
+//        $0.textColor = .black
+//        $0.font = UIFont.systemFont(ofSize: 14)
+//        $0.translatesAutoresizingMaskIntoConstraints = false
+//    }
     
-    private var idTextField = UITextField().then {
-        $0.textColor = .black
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    private var idTextField = UITextField().then {
+//        $0.textColor = .black
+//        $0.autocapitalizationType = .none
+//        $0.autocorrectionType = .no
+//        $0.keyboardType = .default
+//        $0.translatesAutoresizingMaskIntoConstraints = false
+//    }
     
     // 비밀번호 textFieldView
-    private lazy var pwTextfieldView = UIView().then {
-        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(pwTextField)
-        $0.addSubview(pwInfoLabel)
-        $0.addSubview(secureButton)
-    }
+//    private lazy var pwTextfieldView = UIView().then {
+//        $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
+//        $0.layer.cornerRadius = 12
+//        $0.clipsToBounds = true
+//        $0.addSubview(pwTextField)
+//        $0.addSubview(pwInfoLabel)
+//        $0.addSubview(secureButton)
+//    }
     
-    private var pwInfoLabel = UILabel().then {
-        $0.text = "비밀번호를 적어주세요"
-        $0.textColor = .black
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    private var pwInfoLabel = UILabel().then {
+//        $0.text = "비밀번호를 적어주세요"
+//        $0.textColor = .black
+//        $0.font = UIFont.systemFont(ofSize: 14)
+//        $0.translatesAutoresizingMaskIntoConstraints = false
+//    }
     
-    private var pwTextField = UITextField().then {
-        $0.textColor = .black
-        $0.autocapitalizationType = .none
-        $0.autocorrectionType = .no
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    private var pwTextField = UITextField().then {
+//        $0.textColor = .black
+//        $0.autocapitalizationType = .none
+//        $0.autocorrectionType = .no
+//        $0.keyboardType = .default
+//        $0.translatesAutoresizingMaskIntoConstraints = false
+//    }
     
     private var secureButton = UIButton().then {
         let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
@@ -121,9 +122,9 @@ class LoginViewController: UIViewController {
     //MARK: - Function 선언
     func configure() {
         view.backgroundColor = .white
-        idTextField.delegate = self
+//        idTextField.delegate = self
         
-        [customTextfieldView, logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
+        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack ].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -131,7 +132,7 @@ class LoginViewController: UIViewController {
         setTextFields()
         setLoginBtn()
         setSearchBtn()
-        setCustomView()
+//        setCustomView()
     }
     
     private func setLogo() {
@@ -143,13 +144,19 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func setCustomView() {
-        customTextfieldView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(idTextfieldView.snp.top).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-    }
+//    private func setCustomView() {
+//        customTextfieldView.snp.makeConstraints {
+//            $0.centerX.equalToSuperview()
+//            $0.bottom.equalToSuperview().inset(5)
+//            $0.leading.trailing.equalToSuperview().inset(15)
+//        }
+//        
+//        secondTextfieldView.snp.makeConstraints {
+//            $0.centerX.equalToSuperview()
+//            $0.top.equalTo(secondaryButtonStack.snp.bottom).offset(10)
+//            $0.leading.trailing.equalToSuperview().inset(5)
+//        }
+//    }
     
     private func setTextFields() {
         idTextfieldView.snp.makeConstraints {
@@ -159,15 +166,15 @@ class LoginViewController: UIViewController {
             $0.width.equalTo(353)
         }
         
-        idInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        idTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
+//        idInfoLabel.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(5)
+//        }
+//        
+//        idTextField.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(5)
+//        }
         
         pwTextfieldView.snp.makeConstraints {
             $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
@@ -176,15 +183,15 @@ class LoginViewController: UIViewController {
             $0.width.equalTo(353)
         }
         
-        pwInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        pwTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
+//        pwInfoLabel.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(5)
+//        }
+//        
+//        pwTextField.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(5)
+//        }
         
         secureButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -209,10 +216,10 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func setDelegate() {
-        pwTextField.delegate = self
-        idTextField.delegate = self
-    }
+//    private func setDelegate() {
+//        pwTextField.delegate = self
+//        idTextField.delegate = self
+//    }
         
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
@@ -239,17 +246,17 @@ class LoginViewController: UIViewController {
         print("비밀번호 찾기 버튼이 눌렸습니다.")
     }
     
-    @objc func secureButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
-        if sender.isSelected {
-            pwTextField.isSecureTextEntry = true
-            print("비밀번호 숨기기 버튼이 눌렸습니다.")
-        } else {
-            pwTextField.isSecureTextEntry = false
-            print("비밀번호 숨기기 버튼이 해제됐습니다.")
-        }
-    }
-    
+//    @objc func secureButtonTapped(_ sender: UIButton) {
+//        sender.isSelected.toggle()
+//        if sender.isSelected {
+//            pwTextField.isSecureTextEntry = true
+//            print("비밀번호 숨기기 버튼이 눌렸습니다.")
+//        } else {
+//            pwTextField.isSecureTextEntry = false
+//            print("비밀번호 숨기기 버튼이 해제됐습니다.")
+//        }
+//    }
+        
     deinit {
         print("로그인 페이지가 화면에서 내려갔습니다 - \(#function)")
     }
