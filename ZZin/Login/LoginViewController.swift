@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
+    private let customTextfieldView = CustomTextfieldView()
+    
     // 아이디 textFieldView
     private lazy var idTextfieldView = UIView().then {
         $0.backgroundColor = UIColor(hexCode: "ECECEC", alpha: 1.0)
@@ -121,7 +123,7 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .white
         idTextField.delegate = self
         
-        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
+        [customTextfieldView, logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -129,6 +131,7 @@ class LoginViewController: UIViewController {
         setTextFields()
         setLoginBtn()
         setSearchBtn()
+        setCustomView()
     }
     
     private func setLogo() {
@@ -137,6 +140,14 @@ class LoginViewController: UIViewController {
             $0.top.equalToSuperview().offset(124)
             $0.width.equalTo(186)
             $0.height.equalTo(90)
+        }
+    }
+    
+    private func setCustomView() {
+        customTextfieldView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(idTextfieldView.snp.top).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(5)
         }
     }
     
