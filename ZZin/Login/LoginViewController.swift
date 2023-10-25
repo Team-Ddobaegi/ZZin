@@ -14,11 +14,12 @@ class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
     private let logoView = UIImageView().then {
-        let image = UIImage(systemName: "photo")
+        let image = UIImage(named: "ZZin")
         $0.image = image
-        $0.backgroundColor = ColorGuide.main
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
+    
+    private let customTextfieldView = CustomTextfieldView()
     
     // 아이디 textFieldView
     private lazy var idTextfieldView = UIView().then {
@@ -38,6 +39,8 @@ class LoginViewController: UIViewController {
     
     private var idTextField = UITextField().then {
         $0.textColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -61,6 +64,8 @@ class LoginViewController: UIViewController {
     
     private var pwTextField = UITextField().then {
         $0.textColor = .black
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
         $0.keyboardType = .default
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -118,7 +123,7 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .white
         idTextField.delegate = self
         
-        [logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
+        [customTextfieldView, logoView, idTextfieldView, pwTextfieldView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -126,6 +131,7 @@ class LoginViewController: UIViewController {
         setTextFields()
         setLoginBtn()
         setSearchBtn()
+        setCustomView()
     }
     
     private func setLogo() {
@@ -134,6 +140,14 @@ class LoginViewController: UIViewController {
             $0.top.equalToSuperview().offset(124)
             $0.width.equalTo(186)
             $0.height.equalTo(90)
+        }
+    }
+    
+    private func setCustomView() {
+        customTextfieldView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(idTextfieldView.snp.top).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(5)
         }
     }
     
@@ -194,6 +208,11 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(19)
         }
     }
+    
+    private func setDelegate() {
+        pwTextField.delegate = self
+        idTextField.delegate = self
+    }
         
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
@@ -241,8 +260,13 @@ extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("로그인 페이지 - \(#function)")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configure()
         setUI()
+        setDelegate()
     }
 }
 
