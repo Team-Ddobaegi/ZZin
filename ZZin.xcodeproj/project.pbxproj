@@ -116,7 +116,7 @@
 		7B1103D52AE0E868001BBEB2 /* MatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingView.swift; sourceTree = "<group>"; };
 		7B1103DA2AE0E927001BBEB2 /* MatchingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MatchingVC.swift; path = ZZin/SearchPage/MatchingView/MatchingVC.swift; sourceTree = SOURCE_ROOT; };
 		7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoCell.swift; sourceTree = "<group>"; };
-		7B47A54D2AE8A34600A44C2C /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationPickerView.swift; path = "/Users/t2023-m0045/Desktop/Swift/Swift-Project9/ZZin/ZZin/SearchPage/Data/LocationPickerView.swift"; sourceTree = "<absolute>"; };
+		7B47A54D2AE8A34600A44C2C /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		7B4B6A242ADCD94D0075BB34 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		7B4B6A282ADD26C40075BB34 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		7B5A24AB2AE75B1B00CD9227 /* OpacityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityView.swift; sourceTree = "<group>"; };
@@ -439,7 +439,6 @@
 				FF031D612ADBBDC100206056 /* FontGuide.swift */,
 				DC095D132AD942610082B633 /* Model.swift */,
 				FBA7B0AE2ADD742600F79031 /* CostomView.swift */,
-				DFFE276E2AE0A98F00F5970F /* LocationService.swift */,
 				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
 			);
 			path = ZZin;
