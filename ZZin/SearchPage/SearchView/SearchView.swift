@@ -44,11 +44,13 @@ class SearchView: UIView {
         $0.textColor = .systemGray
     }
     
-    let firstKeywordButton = KeywordButton(title: "키워드")
     
-    let secondKeywordButton = KeywordButton(title: "키워드")
+    let firstKeywordButton = UIButton().customButton(title: "키워드")
+
+    let secondKeywordButton = UIButton().customButton(title: "키워드")
     
-    let menuKeywordButton = KeywordButton(title: "키워드")
+    let menuKeywordButton = UIButton().customButton(title: "키워드")
+    
     
     var selectedKeywords: [String] = []
     
@@ -183,4 +185,25 @@ class SearchView: UIView {
         }
     }
    
+}
+
+
+extension UIButton {
+    func customButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.setTitleColor(.systemGray2, for: .normal)
+        button.setTitleColor(ColorGuide.cherryTomato, for: .highlighted)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 35 / 2
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        
+        button.snp.makeConstraints {
+            $0.width.equalTo(108)
+            $0.height.equalTo(38)
+        }
+        return button
+    }
 }

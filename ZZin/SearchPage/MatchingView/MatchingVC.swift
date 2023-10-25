@@ -37,7 +37,7 @@ class MatchingVC: UIViewController {
         view.addSubview(matchingView)
         
         setTableViewAttribute()
-        setCostumCell()         // 테이블뷰 셀 선언
+        setCustomCell()         // 테이블뷰 셀 선언
     }
     
     private func setTableViewAttribute(){
@@ -46,7 +46,7 @@ class MatchingVC: UIViewController {
         matchingView.setMatchingTableView.dataSource = self
     }
     
-    private func setCostumCell() {
+    private func setCustomCell() {
         matchingView.setMatchingTableView.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
         matchingView.setMatchingTableView.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
         matchingView.setMatchingTableView.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
