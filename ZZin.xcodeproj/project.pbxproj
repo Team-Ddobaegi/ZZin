@@ -439,6 +439,7 @@
 				FF031D612ADBBDC100206056 /* FontGuide.swift */,
 				DC095D132AD942610082B633 /* Model.swift */,
 				FBA7B0AE2ADD742600F79031 /* CostomView.swift */,
+				DFFE276E2AE0A98F00F5970F /* LocationService.swift */,
 				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
 			);
 			path = ZZin;
