@@ -35,8 +35,11 @@ class CustomTextfieldView: UIView {
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(placeholder: String, text: String) {
+        super.init(frame: .zero)
+        textfield.placeholder = placeholder
+        animatingLabel.text = text
+        
         configure()
         setUI()
     }
@@ -52,8 +55,6 @@ class CustomTextfieldView: UIView {
 
 extension CustomTextfieldView {
     func configure() {
-        textfield.delegate = self
-
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray5
         layer.cornerRadius = 12
@@ -121,13 +122,6 @@ extension CustomTextfieldView {
         }
         movement.startAnimation()
     }
-    
-    static func create(placeholder: String, text: String) -> CustomTextfieldView {
-        let customtf = CustomTextfieldView()
-        customtf.animatingLabel.text = text
-        customtf.textfield.placeholder = placeholder
-        return customtf
-    }
 
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
@@ -143,6 +137,11 @@ extension CustomTextfieldView {
 }
 
 extension CustomTextfieldView: UITextFieldDelegate {
+    
+    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
+        textfield.delegate = delegate
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         return true
