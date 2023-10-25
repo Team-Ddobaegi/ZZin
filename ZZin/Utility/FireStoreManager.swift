@@ -134,6 +134,21 @@ class FireStoreManager {
         }
     }
     
+    func fetchAllData() {
+        let collectionRef = db.collection("reviews")
+        
+        collectionRef.getDocuments { (QuerySnapshot, error) in
+            if let error = error {
+                print("에러가 발생했습니다. \(error.localizedDescription)")
+            } else {
+                for document in QuerySnapshot!.documents {
+                    let data = document.data()
+                    print("데이터를 출력합니다. \(data)")
+                }
+            }
+        }
+    }
+    
     /// regex 활용 번호 탐색 함수
     /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
 //    private func validateNumber(_ number: String) -> String {
