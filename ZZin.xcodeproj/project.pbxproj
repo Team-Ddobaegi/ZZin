@@ -60,7 +60,6 @@
 		BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
-		BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6752AE610CF0042F9AF /* AuthService.swift */; };
 		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
 		BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */; };
@@ -139,7 +138,6 @@
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		BD69C6752AE610CF0042F9AF /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
 		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
@@ -395,7 +393,6 @@
 		BD953A652AE1FC5800E07C36 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				BD69C6752AE610CF0042F9AF /* AuthService.swift */,
 				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
 			);
 			path = Utility;
@@ -680,7 +677,6 @@
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61C72AE2409E00F46544 /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
-				BD69C6762AE610CF0042F9AF /* AuthService.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingContentsCell.swift in Sources */,
 				DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
