@@ -96,6 +96,7 @@
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
 		FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */; };
 		FB3650892AE8AD7600EAEAB7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FB3650882AE8AD7600EAEAB7 /* Alamofire */; };
+		FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
 		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
@@ -175,6 +176,7 @@
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
+		FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CostomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomView.swift; sourceTree = "<group>"; };
 		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageCollectionView.xib; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
+				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */,
 				DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */,
 				DF1599B02AD6C6E200AE129B /* ViewController.swift */,
@@ -431,7 +434,6 @@
 				DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
-				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
 				BD1018822ADD589D003FAA97 /* Login */,
 				7B4B6A232ADCD9290075BB34 /* SearchPage */,
 				DF2A2CBB2ADE116B00BA5CE9 /* SearchMapPage */,
@@ -457,6 +459,15 @@
 				DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */,
 			);
 			path = SearchMapPage;
+			sourceTree = "<group>";
+		};
+		FB36508A2AE8AE0B00EAEAB7 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */,
+				FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		FBA7B0C02AE0C0B800F79031 /* Profile */ = {
@@ -670,6 +681,7 @@
 				BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */,
 				BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */,
 				DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */,
+				FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */,
 				DF1599C52AD6C89300AE129B /* SearchVC.swift in Sources */,
 				7BFC61B92AE160A500F46544 /* MatchingPlaceInfoCell.swift in Sources */,
 				DF1599B12AD6C6E200AE129B /* ViewController.swift in Sources */,
