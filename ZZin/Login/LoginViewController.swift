@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let customTextfieldView = CustomTextfieldView()
+    private let customTextfieldView = CustomTextFieldView()
     
     // 아이디 textFieldView
     private lazy var idTextfieldView = UIView().then {
