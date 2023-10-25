@@ -95,6 +95,7 @@
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
 		FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */; };
+		FB3650892AE8AD7600EAEAB7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FB3650882AE8AD7600EAEAB7 /* Alamofire */; };
 		FBA7B0AF2ADD742600F79031 /* CostomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CostomView.swift */; };
 		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
@@ -223,6 +224,7 @@
 				BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */,
 				BD3CB5312ADD33D800A9F4A0 /* FirebaseDatabase in Frameworks */,
 				BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */,
+				FB3650892AE8AD7600EAEAB7 /* Alamofire in Frameworks */,
 				BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */,
 				BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */,
 				BD3CB52B2ADD33D800A9F4A0 /* FirebaseAuth in Frameworks */,
@@ -553,6 +555,7 @@
 				BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */,
 				BD3CB5552ADD342000A9F4A0 /* Then */,
 				BD8D6B042ADEE82000F2A8D6 /* Shuffle */,
+				FB3650882AE8AD7600EAEAB7 /* Alamofire */,
 			);
 			productName = ZZin;
 			productReference = DF1599A92AD6C6E200AE129B /* ZZin.app */;
@@ -587,6 +590,7 @@
 				BD3CB51D2ADD33D800A9F4A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				BD3CB5542ADD341F00A9F4A0 /* XCRemoteSwiftPackageReference "Then" */,
 				BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */,
+				FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = DF1599AA2AD6C6E200AE129B /* Products */;
 			projectDirPath = "";
@@ -983,6 +987,14 @@
 				kind = branch;
 			};
 		};
+		FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1135,6 +1147,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */;
 			productName = Shuffle;
+		};
+		FB3650882AE8AD7600EAEAB7 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
