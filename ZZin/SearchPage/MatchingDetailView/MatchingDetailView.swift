@@ -19,7 +19,7 @@ class MatchingDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +29,12 @@ class MatchingDetailView: UIView {
     
     //MARK: - Properties
     
+    lazy var xMarkButton = UIButton().then {
+        let iconImage = UIImage(systemName: "xmark")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = .white
+    }
+    
     // 매칭 업체 리뷰가 보여지는 테이블뷰입니두
     lazy var setMatchingDetailTableView = UITableView().then {
         $0.backgroundColor = .white
@@ -36,26 +42,24 @@ class MatchingDetailView: UIView {
     }
     
     
-    //MARK: - Settings
-    
-    private func setView() {
-       addSubview(setMatchingDetailTableView)
-        
-        configureUI()
-    }
-    
-    
     //MARK: - Configure
     
     private func configureUI(){
-        tableViewConstraints()
+        addSubViews()
+        setConstraints()
     }
     
-    private func tableViewConstraints() {
+    private func addSubViews(){
+        addSubview(setMatchingDetailTableView)
+    }
+    
+    
+    private func setConstraints() {
         setMatchingDetailTableView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.trailing.equalToSuperview()
         }
     }
+    
 }

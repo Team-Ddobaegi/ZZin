@@ -19,7 +19,7 @@ class MatchingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -43,32 +43,26 @@ class MatchingView: UIView {
     }
     
     
-    //MARK: - Settings
-    
-    private func setView() {
-        addSubview(xMarkButton)
-        addSubview(setMatchingTableView)
-        
-        configureUI()
-    }
-    
-    
     //MARK: - Configure
     
     private func configureUI(){
-        tableViewConstraints()
-        setButtonConstraints()
+        addsubViews()
+        setConstraints()
     }
     
-    private func tableViewConstraints() {
+    private func addsubViews(){
+        addSubview(xMarkButton)
+        addSubview(setMatchingTableView)
+    }
+    
+    private func setConstraints() {
+        // 매칭 업체 로드 테이블뷰
         setMatchingTableView.snp.makeConstraints {
             $0.top.equalTo(xMarkButton.snp.bottom).offset(5)
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.trailing.equalToSuperview()
         }
-    }
-    
-    private func setButtonConstraints() {
+        
         // 엑스 버튼
         xMarkButton.snp.makeConstraints {
             $0.width.height.equalTo(30)

@@ -20,12 +20,37 @@ class MatchingPlaceInfoCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setView()
-        setButtonAttribute()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Settings
+    
+    private func setView(){
+        configureUI()
+        setButtonAttribute()
+    }
+    
+    private func setButtonAttribute(){
+        // Button Size Resizing
+        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+
+        // Button Click Effect
+        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
+        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
+        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+    }
+    
+    private func changeButtonColor(button: UIButton, label: UILabel, tintColor: UIColor) {
+        button.tintColor = tintColor
+        label.textColor = tintColor
+    }
+    
     
     // MARK: - Properties
     
@@ -84,7 +109,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
     lazy var callButtonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [placeCallButton, placeCallLabel])
         stackView.axis = .vertical
-        //        stackView.spacing = 10
         
         return stackView
     }()
@@ -148,37 +172,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }()
     
     
-    //MARK: - Settings
-    
-    private func setView() {
-        contentView.addSubview(view)
-        view.addSubview(placeTitleLabel)
-        view.addSubview(placeTypeLabel)
-        view.addSubview(placeAddresseLabel)
-        view.addSubview(divider)
-        view.addSubview(placeMapView)
-        view.addSubview(placeButtonStackView)
-        
-        configureUI()
-    }
-    
-    private func setButtonAttribute(){
-        // Button Size Resizing
-        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-
-        // Button Click Effect
-        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
-        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
-    }
-    
-    private func changeButtonColor(button: UIButton, label: UILabel, tintColor: UIColor) {
-        button.tintColor = tintColor
-        label.textColor = tintColor
-    }
-    
     
     //MARK: - Actions
     
@@ -200,8 +193,19 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     //MARK: - ConfigureUI
     
-    private func configureUI(){
+    private func configureUI() {
+        addSubViews()
         setConstraints()
+    }
+    
+    private func addSubViews() {
+        contentView.addSubview(view)
+        view.addSubview(placeTitleLabel)
+        view.addSubview(placeTypeLabel)
+        view.addSubview(placeAddresseLabel)
+        view.addSubview(divider)
+        view.addSubview(placeMapView)
+        view.addSubview(placeButtonStackView)
     }
     
     private func setConstraints(){

@@ -13,22 +13,11 @@ import SnapKit
 
 class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - Properties
-    
-    static let identifier = "MatchingPlacePhotoCollectionViewCell"
-    
-    let placePhotoView = UIImageView().then{
-        $0.backgroundColor = .lightGray
-    }
-
-    
-    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
         configureUI()
     }
     
@@ -36,11 +25,21 @@ class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setView(){
-        addSubview(placePhotoView)
+    
+    // MARK: - Properties
+    
+    static let identifier = "MatchingPlacePhotoCollectionViewCell"
+    
+    let placePhotoView = UIImageView().then{
+        $0.backgroundColor = .lightGray
     }
     
+    
+    // MARK: - ConfigureUI
+    
     func configureUI(){
+        addSubview(placePhotoView)
+        
         placePhotoView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

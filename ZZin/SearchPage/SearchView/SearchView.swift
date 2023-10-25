@@ -92,13 +92,13 @@ class SearchView: UIView {
     //MARK: - UI
     
     private func configureUI(){
-        setUpView()
+        addSubViews()
         setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
     }
     
-    private func setUpView() {
+    private func addSubViews() {
         addSubview(setLocationButton)
         addSubview(divider1)
         addSubview(divider2)
@@ -123,7 +123,8 @@ class SearchView: UIView {
         divider2.snp.makeConstraints {
             $0.height.equalTo(0.5)
             $0.bottom.equalTo(firstKeywordButton).offset(15)
-            $0.leading.trailing.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
         }
     }
     

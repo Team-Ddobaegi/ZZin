@@ -9,12 +9,6 @@ import UIKit
 
 class MatchingDetailVC: UIViewController {
     
-    
-    //MARK: - Properties
-    
-    private let matchingDetailView = MatchingDetailView()
-    
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -29,11 +23,17 @@ class MatchingDetailVC: UIViewController {
     private func setView(){
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
-        view.addSubview(matchingDetailView)
         
+        setCostumCell()
         setTableViewAttribute()
-        setCostumCell()         // 테이블뷰 셀 선언
-        setMatchingDetailViewConstraints()
+        configureUI()
+    }
+    
+    private func setCostumCell() {
+        // 커스텀 셀 선언
+        matchingDetailView.setMatchingDetailTableView.register(MatchingThumbnailCell.self, forCellReuseIdentifier: MatchingThumbnailCell.identifier)
+        matchingDetailView.setMatchingDetailTableView.register(MatchingReviewPhotoCell.self, forCellReuseIdentifier: MatchingReviewPhotoCell.identifier)
+        matchingDetailView.setMatchingDetailTableView.register(MatchingReviewTextCell.self, forCellReuseIdentifier: MatchingReviewTextCell.identifier)
     }
     
     private func setTableViewAttribute(){
@@ -42,12 +42,13 @@ class MatchingDetailVC: UIViewController {
         matchingDetailView.setMatchingDetailTableView.dataSource = self
     }
     
-    private func setCostumCell() {
-        matchingDetailView.setMatchingDetailTableView.register(MatchingThumbnailCell.self, forCellReuseIdentifier: MatchingThumbnailCell.identifier)
-        matchingDetailView.setMatchingDetailTableView.register(MatchingContentsCell.self, forCellReuseIdentifier: MatchingContentsCell.identifier)
-
-    }
     
+    //MARK: - Properties
+    
+    private let matchingDetailView = MatchingDetailView()
+    
+    let reviewText = MatchingReviewTextCell().reviewTextLabel.text
+
     
     // MARK: - Actions
     
@@ -56,9 +57,12 @@ class MatchingDetailVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    
     // MARK: - configureUI
     
-    func setMatchingDetailViewConstraints(){
+    func configureUI(){
+        view.addSubview(matchingDetailView)
+        
         matchingDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -66,17 +70,27 @@ class MatchingDetailVC: UIViewController {
 
 }
 
+
+
+// MARK: - TableView
 extension MatchingDetailVC: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0: return 240
-        case 1: return 300
-        default: return 700
+        case 0:
+            return MatchingThumbnailCell.cellHeight()
+        case 1:
+            return MatchingReviewPhotoCell.cellHeight()
+        case 2:
+            let text = "\(reviewText ?? "")"
+            return MatchingReviewTextCell.calculateHeight(for: text)
+
+        default:
+            return 0
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {2}
+    func numberOfSections(in tableView: UITableView) -> Int {3}
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -89,14 +103,25 @@ extension MatchingDetailVC: UITableViewDelegate, UITableViewDataSource {
             // 매칭 리뷰 썸네일
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingThumbnailCell.identifier) as! MatchingThumbnailCell
             cell.selectionStyle = .none
+            cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
             
             return cell
             
         case 1:
-            // 매칭 리뷰 컨텐츠
-            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingContentsCell.identifier, for: indexPath) as! MatchingContentsCell
+            // 매칭 리뷰 사진
+            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewPhotoCell.identifier, for: indexPath) as! MatchingReviewPhotoCell
             cell.selectionStyle = .none
           
+            return cell
+            
+        case 2:
+            // 매칭 리뷰 컨텐츠
+            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewTextCell.identifier, for: indexPath) as! MatchingReviewTextCell
+            cell.selectionStyle = .none
+          
+            let text = "\(reviewText ?? "")"
+            cell.setReviewText(text)
+            
             return cell
         
         default:
