@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/t2023-m0045/Desktop/Swift/Swift-Project9/ZZin/ZZin/SearchPage/SearchView/LocationPickerView.swift">
+   </FileRef>
+   <FileRef
       location = "group:ZZin.xcodeproj">
    </FileRef>
    <FileRef

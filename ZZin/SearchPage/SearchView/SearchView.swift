@@ -25,8 +25,6 @@ class SearchView: UIView {
     
     
     //MARK: - Properties
-    
-
 
     private let searchResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -52,8 +50,16 @@ class SearchView: UIView {
     
     let menuKeywordButton = KeywordButton(title: "키워드")
     
+    var selectedKeywords: [String] = []
+    
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = ColorGuide.main
+    }
+    
+    public let locationButton = UIButton().then {
+        let iconImage = UIImage(systemName: "location")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = ColorGuide.main
     }
@@ -79,6 +85,7 @@ class SearchView: UIView {
     public let divider2 = UIView().then {
         $0.backgroundColor = .lightGray
     }
+   
     
     //MARK: - UI
     
@@ -100,6 +107,7 @@ class SearchView: UIView {
         addSubview(secondKeywordButton)
         addSubview(menuKeywordButton)
         addSubview(mapButton)
+        addSubview(locationButton)
     }
     
     private func setDividerConstraints() {
@@ -142,6 +150,13 @@ class SearchView: UIView {
             $0.height.equalTo(30)
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(60)
+        }
+        
+        // 현재 위치 버튼
+        locationButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().offset(60)
+            $0.leading.equalToSuperview().offset(20)
         }
         
         // 주변 맛집 버튼

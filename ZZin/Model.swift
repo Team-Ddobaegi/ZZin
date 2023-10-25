@@ -47,3 +47,9 @@ struct ZZinRecommendation {
     var category: Category
     var imageURL: String
 }
+
+struct ZZinKeyword {
+    var with: Company
+    var how: Condition
+    var menu: Category
+}
