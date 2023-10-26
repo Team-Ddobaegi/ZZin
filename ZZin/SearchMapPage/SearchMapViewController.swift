@@ -125,7 +125,7 @@ extension SearchMapViewController: LocationServiceDelegate {
 extension SearchMapViewController: NMFOverlayImageDataSource {
     func view(with overlay: NMFOverlay) -> UIView { // label이 안간다?
         let customInfoWindowView = CustomInfoWindowView()
-        customInfoWindowView.placeNameLabel.text = "맛집 레이블"
+//        customInfoWindowView.placeNameLabel.text = "맛집 레이블"
         return customInfoWindowView
     }
 }
