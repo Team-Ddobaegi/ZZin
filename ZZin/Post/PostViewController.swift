@@ -6,11 +6,15 @@
 //
 // section 0. 가게이름, 1. 가게 연락처, 2. 제목, 3. 동반인, 4. 상황별, 5. 음식종류, 6. 리뷰 내용
 import UIKit
+import SnapKit
+import Then
 
 var placeName: String = ""
 var address: String = ""
 
-class PostViewController: UITableViewController, UITextFieldDelegate {
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var tableView = UITableView()
     
     let placeNameTitle = UILabel().then {
         $0.text = "업체명"
@@ -30,57 +34,16 @@ class PostViewController: UITableViewController, UITextFieldDelegate {
         $0.font = .systemFont(ofSize: 15, weight: .bold)
     }
     
-    var placeholderLabel = UILabel().then{
-        $0.textColor = .systemGroupedBackground
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
-    }
-    
-    let textField = UITextField().then {
-        $0.frame.size.height = 22                       // 프레임 높이
-        $0.borderStyle = .roundedRect                   // 테두리 스타일
-
-        $0.autocorrectionType = .no                     // 자동 수정 활성화 여부
-        $0.spellCheckingType = .no                      // 맞춤법 검사 활성화 여부
-        $0.autocapitalizationType = .none               // 자동 대문자 활성화 여부
-
-//        $0.placeholder = "이메일 입력"                     // 플레이스 홀더
-        $0.clearButtonMode = .always                    // 입력내용 한번에 지우는 x버튼(오른쪽)
-        $0.clearsOnBeginEditing = false
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        placeholderLabel.snp.updateConstraints {
-            $0.centerY.equalTo(textField).offset(-10)
-        }
-        UIView.animate(withDuration: 1) {
-            self.placeholderLabel.font = .systemFont(ofSize: 10)
-            self.placeholderLabel.superview?.layoutIfNeeded()        // Textfield의 슈퍼뷰를 업데이트
-    //      self.view.layoutIfNeeded()                          // viewcontroller의 뷰를 업데이트 (상황에 맞게 사용)
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        placeholderLabel.snp.updateConstraints {
-            $0.center.equalTo(textField)
-        }
-        UIView.animate(withDuration: 0.5) {
-            self.placeholderLabel.font = .systemFont(ofSize: 16)
-            self.placeholderLabel.superview?.layoutIfNeeded()
-    //      self.view.layoutIfNeeded()
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         setNav()
+        setTableView()
     }
     
     func setNav() {
-        self.title = "찐 맛칩 추천하기"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationItem.largeTitleDisplayMode = .automatic
+        self.navigationItem.title = "찐 맛칩 추천하기"
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.tintColor = .label
         
@@ -89,16 +52,154 @@ class PostViewController: UITableViewController, UITextFieldDelegate {
         
         // UISearchBar 설정
         var searchController = UISearchController(searchResultsController: RegionSearchResultController())
+        
         searchController.searchBar.placeholder = "등록할 상호명 검색"
         searchController.obscuresBackgroundDuringPresentation = true
-        self.navigationItem.titleView = searchController.searchBar
-        self.navigationItem.hidesSearchBarWhenScrolling = true
+        self.navigationItem.searchController?.navigationItem.titleView = searchController.searchBar
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchResultsUpdater = searchController.searchResultsController as? RegionSearchResultController
         self.navigationItem.searchController = searchController
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {6}
-
+    func setTableView() {
+        view.addSubview(self.tableView)
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        tableView.backgroundColor = .systemBackground
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.register(PostPlaceInfoCell.self, forCellReuseIdentifier: PostPlaceInfoCell.identifier)
+        tableView.register(ImgSelectionTableViewCell.self, forCellReuseIdentifier: ImgSelectionTableViewCell.identifier)
+        tableView.register(SelectKeywordsTableViewCell.self, forCellReuseIdentifier: SelectKeywordsTableViewCell.identifier)
+        tableView.register(PostPlaceContentCell.self, forCellReuseIdentifier: PostPlaceContentCell.identifier)
+        tableView.separatorStyle = .none
+        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {9}
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0: return 50
+        case 4: return 50
+        case 6: return 160
+        case 7: return 160
+        case 8: return 280
+        default: return 100
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {1}
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        switch indexPath.section {
+        case 0:
+            let cell = UITableViewCell()
+            let titleLabel = UILabel().then {
+                $0.text = "맛집 정보 입력"
+                $0.font = .systemFont(ofSize: 25, weight: .bold)
+            }
+            cell.contentView.addSubview(titleLabel)
+            titleLabel.snp.makeConstraints {
+                $0.left.equalToSuperview().inset(16)
+                $0.centerY.equalToSuperview()
+            }
+            cell.selectionStyle = .none
+            
+            return cell
+        case 1:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            
+            cell.titleLabel.text = "가게 이름"
+            cell.textField.text = placeName
+            cell.selectionStyle = .none
+            return cell
+        case 2:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            
+            cell.titleLabel.text = "가게 주소"
+            cell.textField.text = address
+            cell.selectionStyle = .none
+            return cell
+        case 3:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            
+            cell.titleLabel.text = "가게 연락처"
+            cell.selectionStyle = .none
+            return cell
+        case 4:
+            let cell = UITableViewCell()
+            let titleLabel = UILabel().then {
+                $0.text = "리뷰 정보 입력"
+                $0.font = .systemFont(ofSize: 25, weight: .bold)
+            }
+            cell.contentView.addSubview(titleLabel)
+            titleLabel.snp.makeConstraints {
+                $0.left.equalToSuperview().inset(16)
+                $0.centerY.equalToSuperview()
+            }
+            cell.selectionStyle = .none
+            return cell
+        case 5:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            cell.textField.placeholder = "제목 입력"
+            cell.titleLabel.text = "제목"
+            cell.selectionStyle = .none
+            return cell
+        case 6:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: ImgSelectionTableViewCell.identifier, for: indexPath) as! ImgSelectionTableViewCell
+            
+            cell.selectionStyle = .none
+            return cell
+        case 7:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: SelectKeywordsTableViewCell.identifier, for: indexPath) as! SelectKeywordsTableViewCell
+            
+            //버튼기능
+            cell.firstKeywordButton.addTarget(self, action: #selector(firstButtonTapped), for: .touchUpInside)
+            cell.secondKeywordButton.addTarget(self, action: #selector(secondButtonTapped), for: .touchUpInside)
+            cell.menuKeywordButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+            cell.selectionStyle = .none
+            return cell
+        case 8:
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostPlaceContentCell.identifier, for: indexPath) as! PostPlaceContentCell
+            cell.selectionStyle = .none
+            return cell
+            
+        default: return UITableViewCell()
+        }
+        
+        
+    }
+    
+    @objc func firstButtonTapped(_ sender: UIButton) {
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .with
+        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    @objc func secondButtonTapped(_ sender: UIButton) {
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .condition
+        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    @objc func menuButtonTapped(_ sender: UIButton) {
+        let keywordVC = KeywordVC()
+        keywordVC.selectedKeywordType = .menu
+        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+        
+        navigationController?.present(keywordVC, animated: true)
+    }
 }
 
 
