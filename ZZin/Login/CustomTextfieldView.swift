@@ -10,27 +10,36 @@ import SnapKit
 import Then
 
 class CustomTextfieldView: UIView {
-
+    
     let animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
-        $0.text = "테스트 값"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.text = "Test"
     }
 
     let textfield = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .systemGreen
-        $0.placeholder = "텍스트 값"
+        $0.autocapitalizationType = .none
+        $0.autocorrectionType = .no
+        $0.keyboardType = .default
     }
 
-    let cancleButton = UIButton().then {
-        let image = UIImage(systemName: "x.square.fill")
+    let cancelButton = UIButton().then {
+        let image = UIImage(systemName: "x.circle")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.imageView?.tintColor = .systemGray
+        $0.isHidden = true
         $0.setImage(image, for: .normal)
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(placeholder: String, text: String) {
+        super.init(frame: .zero)
+        textfield.placeholder = placeholder
+        animatingLabel.text = text
+        
         configure()
         setUI()
     }
@@ -46,14 +55,12 @@ class CustomTextfieldView: UIView {
 
 extension CustomTextfieldView {
     func configure() {
-        textfield.delegate = self
-
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray5
         layer.cornerRadius = 12
-        [animatingLabel, textfield].forEach{ addSubview($0) }
+        [animatingLabel, textfield, cancelButton].forEach{ addSubview($0) }
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         addGestureRecognizer(tap)
     }
 
@@ -67,6 +74,12 @@ extension CustomTextfieldView {
             $0.leading.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(5)
             $0.centerY.equalToSuperview()
+        }
+        
+        cancelButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
         }
     }
 
@@ -87,6 +100,8 @@ extension CustomTextfieldView {
         } completion: { position in
             self.textfield.isHidden = false
             self.textfield.becomeFirstResponder()
+            
+            self.cancelButton.isHidden = false
         }
     }
 
@@ -98,8 +113,9 @@ extension CustomTextfieldView {
             self.layer.borderColor = UIColor.clear.cgColor
 
             // visibility
-            self.textfield.isHidden = true
             self.textfield.text = ""
+            self.textfield.isHidden = true
+            self.cancelButton.isHidden = true
 
             // movement
             self.animatingLabel.transform = .identity
@@ -107,7 +123,7 @@ extension CustomTextfieldView {
         movement.startAnimation()
     }
 
-    @objc func labelTapped(_ recognizer: UITapGestureRecognizer) {
+    @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
             print("탭이 종료되었습니다.")
             labelAnimation()
@@ -121,6 +137,11 @@ extension CustomTextfieldView {
 }
 
 extension CustomTextfieldView: UITextFieldDelegate {
+    
+    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
+        textfield.delegate = delegate
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         return true

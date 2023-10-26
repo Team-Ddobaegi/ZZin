@@ -29,7 +29,7 @@
 		7BFC61CB2AE2822E00F46544 /* PlaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61CA2AE2822E00F46544 /* PlaceData.swift */; };
 		7BFC61CE2AE2885A00F46544 /* MatchingThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61CD2AE2885A00F46544 /* MatchingThumbnailCell.swift */; };
 		7BFC61D32AE2898100F46544 /* MatchingContentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61D22AE2898100F46544 /* MatchingContentsCell.swift */; };
-		BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextField.swift */; };
+		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
 		BD3CB5212ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5202ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -138,7 +138,7 @@
 		7BFC61D22AE2898100F46544 /* MatchingContentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingContentsCell.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
-		BD1018832ADD5E61003FAA97 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
@@ -397,7 +397,7 @@
 				BDD983712AE0C24B008168D2 /* UserSearchController.swift */,
 				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
-				BD1018832ADD5E61003FAA97 /* CustomTextField.swift */,
+				BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */,
 				BD69C6802AE611F80042F9AF /* Model */,
 				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
 				BD953A652AE1FC5800E07C36 /* Utility */,
@@ -689,7 +689,7 @@
 			files = (
 				7B4B6A252ADCD94D0075BB34 /* SearchView.swift in Sources */,
 				BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */,
-				BD1018842ADD5E61003FAA97 /* CustomTextField.swift in Sources */,
+				BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */,
 				DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */,
 				FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */,
 				DF1599C52AD6C89300AE129B /* SearchVC.swift in Sources */,
