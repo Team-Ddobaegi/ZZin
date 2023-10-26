@@ -55,12 +55,13 @@ class SearchMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationService.delegate = self
+        searchMapUIView.searchMapView.mapView.delegate = self
         // 사용자 현재 위치 정보 가져오기 시작
         locationService.startUpdatingLocation()
         setupUI()
         setTouchableCardView()
         addTargetButton()
-        addInfoMarker(at: NMGLatLng(lat: 37.5666102, lng: 126.9783881), storeName: "가게 이름")
+        addInfoMarker(at: NMGLatLng(lat: 37.5666102, lng: 126.9783881), storeName: "ㄱㄴㄷㄹ")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,12 +98,20 @@ class SearchMapViewController: UIViewController {
     }
     
     func addInfoMarker(at location: NMGLatLng, storeName: String) {
-        let infoMarkerWidth = 24 + 8 + 16
-        let infoMarkerHeight = 24
-        
         // 1. InfoMarkerView 인스턴스 생성
-        let infoMarkerView = InfoMarkerView(frame: CGRect(x: 0, y: 0, width: infoMarkerWidth, height: infoMarkerHeight))
+        let infoMarkerView = InfoMarkerView()
         infoMarkerView.informationLabel.text = storeName
+        
+        
+        
+        // 텍스트의 너비에 따른 마커 뷰의 전체 너비 계산
+        let textWidth = infoMarkerView.informationLabel.intrinsicContentSize.width
+        let padding: CGFloat = 32 // 기존 패딩 값
+        let totalWidth = textWidth + padding
+        infoMarkerView.frame = CGRect(x: 0, y: 0, width: totalWidth, height: 24) // height는 기존대로
+        
+        // InfoMarkerView 레이아웃 강제 업데이트
+        infoMarkerView.layoutIfNeeded()
         
         // 2. InfoMarkerView에서 이미지 스냅샷 가져오기
         UIGraphicsBeginImageContextWithOptions(infoMarkerView.bounds.size, false, 0.0)
@@ -114,6 +123,9 @@ class SearchMapViewController: UIViewController {
         let marker = NMFMarker()
         marker.position = location
         marker.iconImage = NMFOverlayImage(image: snapshotImage!)
+        marker.anchor = CGPoint(x: 0.5, y: 0.5)
+        
+        
         
         // 4. 마커를 지도에 추가
         marker.mapView = searchMapUIView.searchMapView.mapView
@@ -136,8 +148,17 @@ extension SearchMapViewController: LocationServiceDelegate {
     }
 }
 
-extension SearchMapViewController : NMFMapViewTouchDelegate {
-    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
+//extension SearchMapViewController : NMFMapViewTouchDelegate {
+//    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+//        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
+//        
+//    }
+//}
+
+extension SearchMapViewController: NMFMapViewDelegate {
+    func mapView(_ mapView: NMFMapView, didTap marker: NMFMarker) -> Bool {
+        print("Marker tapped!")
+        // 마커를 클릭하면 해당 가게의 카드뷰도 바뀌어야 함
+        return true
     }
 }

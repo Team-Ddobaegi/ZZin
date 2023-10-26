@@ -22,7 +22,6 @@ class InfoMarkerView: UIView {
         $0.font = .systemFont(ofSize: 16)
         $0.textColor = .black
         $0.backgroundColor = .clear
-        $0.text = "가게 이름름름"
     }
     
     override init(frame: CGRect) {
@@ -38,7 +37,9 @@ class InfoMarkerView: UIView {
     
     func configure(){
         backgroundColor = .lightGray
-        informationLabel.text = "가게 이름"
+        informationLabel.text = "ㄱㄴㄷㄹ"
+        informationLabel.backgroundColor = .red
+
     }
     
     private func attribute() {
@@ -51,9 +52,32 @@ class InfoMarkerView: UIView {
         addSubview(informationLabel)
         
         informationLabel.snp.makeConstraints{
-            $0.width.equalTo(10)
             $0.height.equalTo(20)
-            $0.center.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
     }
 }
+
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+
+@available(iOS 13.0, *)
+struct InfoMarkerView_Preview: PreviewProvider {
+    struct PreviewWrapper: UIViewRepresentable {
+        func makeUIView(context: Context) -> UIView {
+            return InfoMarkerView(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        }
+
+        func updateUIView(_ view: UIView, context: Context) {
+            // update view if needed
+        }
+    }
+
+    static var previews: some View {
+        PreviewWrapper().previewLayout(.sizeThatFits).padding()
+    }
+}
+
+#endif
+
