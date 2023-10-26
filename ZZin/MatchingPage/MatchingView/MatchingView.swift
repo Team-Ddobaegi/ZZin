@@ -40,26 +40,21 @@ class MatchingView: UIView {
         $0.textColor = ColorGuide.main
     }
     
-    private let matchingNotiLabel = UILabel().then {
+     let matchingNotiLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "각 항목을 탭하면 다른 키워드를 선택할 수 있어요!"
         $0.textColor = .systemGray
     }
     
-    
-    let firstKeywordButton = UIButton().customButton(title: "키워드")
-
+    let withKeywordButton = UIButton().customButton()
+    let conditionKeywordButton = UIButton().customButton()
+    let menuKeywordButton = UIButton().customButton()
+   
     let firstPlus = UILabel().plus()
-    
-    let secondKeywordButton = UIButton().customButton(title: "키워드")
-    
     let secondPlus = UILabel().plus()
     
-    let menuKeywordButton = UIButton().customButton(title: "키워드")
-   
-    
     lazy var keywordButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [firstKeywordButton,firstPlus,secondKeywordButton,secondPlus,menuKeywordButton])
+        let stackView = UIStackView(arrangedSubviews: [withKeywordButton,firstPlus,conditionKeywordButton,secondPlus,menuKeywordButton])
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.distribution = .fill
@@ -100,6 +95,7 @@ class MatchingView: UIView {
     public let divider2 = UIView().then {
         $0.backgroundColor = .lightGray
     }
+    
    
     
     //MARK: - UI
@@ -125,7 +121,7 @@ class MatchingView: UIView {
         // 키워드 아래 구분선
         divider2.snp.makeConstraints {
             $0.height.equalTo(0.5)
-            $0.bottom.equalTo(firstKeywordButton).offset(15)
+            $0.bottom.equalTo(withKeywordButton).offset(15)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
         }
@@ -186,12 +182,14 @@ class MatchingView: UIView {
 
 
 extension UIButton {
-    func customButton(title: String) -> UIButton {
-        let button = UIButton()
-        button.setTitle(title, for: .normal)
+    func customButton() -> UIButton {
+        let button = UIButton()        
+        button.setTitle("키워드", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.1
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         button.setTitleColor(.systemGray2, for: .normal)
-        button.setTitleColor(ColorGuide.cherryTomato, for: .highlighted)
         button.backgroundColor = .white
         button.layer.cornerRadius = 40 / 2
         button.layer.borderWidth = 0.5

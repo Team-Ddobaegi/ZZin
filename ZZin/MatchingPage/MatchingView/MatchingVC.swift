@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Then
 
+
 class MatchingVC: UIViewController {
-    
     
     // MARK: - Life Cycle
     
@@ -19,6 +19,7 @@ class MatchingVC: UIViewController {
         
         setView()
         configureUI()
+       
     }
     
     
@@ -26,7 +27,6 @@ class MatchingVC: UIViewController {
     
     private func setView(){
         view.backgroundColor = .white
-        
         
         setMapView()
         setlocationView()
@@ -87,23 +87,27 @@ class MatchingVC: UIViewController {
     }
     
     private func setKeywordView(){
-        matchingView.firstKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
-        matchingView.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
+        matchingView.withKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+        matchingView.conditionKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
         matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
     func updateKeywordButtonTitle() {
-        if keywordVC.selectedWithKeywords.isEmpty {
-            matchingView.firstKeywordButton.titleLabel?.text = "키워드"
-            matchingView.firstKeywordButton.titleLabel?.textColor = .systemGray2
+        if keywordVC.selectedWithMatchingKeywords.isEmpty {
+            matchingView.withKeywordButton.titleLabel?.text = "키워드"
+            matchingView.withKeywordButton.titleLabel?.textColor = .systemGray2
         } else {
-            matchingView.firstKeywordButton.titleLabel?.text = keywordVC.selectedWithKeywords.joined(separator: ", ")
-            matchingView.firstKeywordButton.titleLabel?.textColor = .black
+            matchingView.withKeywordButton.titleLabel?.text = keywordVC.selectedWithMatchingKeywords.joined(separator: ", ")
+            matchingView.withKeywordButton.titleLabel?.textColor = .black
         }
     }
     
     
     //MARK: - Properties
+   
+    var updateWithMatchingKeywords: [String] = []
+    var updateConditionMatchingKeywords: [String] = []
+    var updateMenuMatchingKeywords: [String] = []
     
     private let matchingView = MatchingView()
     
@@ -159,9 +163,10 @@ class MatchingVC: UIViewController {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedKeywordType = .with
+        keywordVC.selectedMatchingKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+        keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
     }
@@ -171,9 +176,10 @@ class MatchingVC: UIViewController {
         print("두 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedKeywordType = .condition
+        keywordVC.selectedMatchingKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
     }
@@ -183,13 +189,13 @@ class MatchingVC: UIViewController {
         print("메뉴 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedKeywordType = .menu
+        keywordVC.selectedMatchingKeywordType = .menu
         keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+        keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
     }
-    
     
     @objc func confirmButtonTapped() {
         // 피커뷰에서 선택된 값을 가져오기
@@ -210,7 +216,6 @@ class MatchingVC: UIViewController {
         
         // 뒷배경 흐리게 해제
         setOpacityView()
-
     }
     
     
@@ -267,6 +272,34 @@ class MatchingVC: UIViewController {
     }
 }
 
+
+
+//MARK: - MatchingVC Delegate
+
+extension MatchingVC: MatchingKeywordDelegate {
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+        let keywordType = keywordType
+        
+        print(keywordType)
+        
+        switch keywordType {
+        case .with:
+            if let updateKeyword = keyword.first {
+                matchingView.withKeywordButton.setTitle(updateKeyword, for: .normal)
+            }
+            
+        case .condition:
+            if let updateKeyword = keyword.first {
+                matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
+            }
+            
+        case .menu:
+            if let updateKeyword = keyword.first {
+                matchingView.menuKeywordButton.setTitle(updateKeyword, for: .normal)
+            }
+        }
+    }
+}
 
 
 //MARK: - CollectionView Delegate, DataSource, Layout

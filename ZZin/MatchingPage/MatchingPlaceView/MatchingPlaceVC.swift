@@ -14,7 +14,7 @@ class MatchingPlaceVC: UIViewController {
     
     //MARK: - Properties
     
-    private let matchingView = MatchingPlaceView()
+    private let matchingPlaceView = MatchingPlaceView()
     
     var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
@@ -41,19 +41,19 @@ class MatchingPlaceVC: UIViewController {
    
         
     private func setXMarkButton(){
-        matchingView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
+        matchingPlaceView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
     }
     
     private func setTableViewAttribute(){
         // 매칭 업체 페이지 테이블뷰
-        matchingView.setMatchingTableView.delegate = self
-        matchingView.setMatchingTableView.dataSource = self
+        matchingPlaceView.setMatchingPlaceTableView.delegate = self
+        matchingPlaceView.setMatchingPlaceTableView.dataSource = self
     }
     
     private func setCustomCell() {
-        matchingView.setMatchingTableView.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
-        matchingView.setMatchingTableView.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
-        matchingView.setMatchingTableView.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
+        matchingPlaceView.setMatchingPlaceTableView.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
+        matchingPlaceView.setMatchingPlaceTableView.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
+        matchingPlaceView.setMatchingPlaceTableView.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
     }
     
     
@@ -78,11 +78,11 @@ class MatchingPlaceVC: UIViewController {
     }
     
     private func addSubViews(){
-        view.addSubview(matchingView)
+        view.addSubview(matchingPlaceView)
     }
     
     private func setConstraints(){
-        matchingView.snp.makeConstraints {
+        matchingPlaceView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -148,9 +148,9 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("매칭 디테일 페이지로 이동합니다.")
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
-            let matchingDetailVC = MatchingDetailVC()
+            let matchingPlaceDetailVC = MatchingPlaceDetailVC()
             
-            self.navigationController?.pushViewController(matchingDetailVC, animated: true)
+            self.navigationController?.pushViewController(matchingPlaceDetailVC, animated: true)
         }
         
     }

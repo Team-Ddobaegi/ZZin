@@ -12,7 +12,7 @@ import Then
 
 //MARK: - 매칭 업체 로컬주민 리뷰 :: TableView 세팅
 
-class MatchingDetailView: UIView {
+class MatchingPlaceDetailView: UIView {
     
     //MARK: - Life Cycle
     
@@ -36,7 +36,7 @@ class MatchingDetailView: UIView {
     }
     
     // 매칭 업체 리뷰가 보여지는 테이블뷰입니두
-    lazy var setMatchingDetailTableView = UITableView().then {
+    lazy var setMatchingPlaceReviewTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.alwaysBounceVertical = true
     }
@@ -50,12 +50,12 @@ class MatchingDetailView: UIView {
     }
     
     private func addSubViews(){
-        addSubview(setMatchingDetailTableView)
+        addSubview(setMatchingPlaceReviewTableView)
     }
     
     
     private func setConstraints() {
-        setMatchingDetailTableView.snp.makeConstraints {
+        setMatchingPlaceReviewTableView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.trailing.equalToSuperview()

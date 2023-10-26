@@ -37,7 +37,7 @@ class MatchingPlaceView: UIView {
     }
     
     // 매칭 업체가 보여지는 테이블뷰입니두
-    lazy var setMatchingTableView = UITableView().then {
+    lazy var setMatchingPlaceTableView = UITableView().then {
         $0.backgroundColor = .white
         $0.alwaysBounceVertical = true
     }
@@ -52,12 +52,12 @@ class MatchingPlaceView: UIView {
     
     private func addsubViews(){
         addSubview(xMarkButton)
-        addSubview(setMatchingTableView)
+        addSubview(setMatchingPlaceTableView)
     }
     
     private func setConstraints() {
         // 매칭 업체 로드 테이블뷰
-        setMatchingTableView.snp.makeConstraints {
+        setMatchingPlaceTableView.snp.makeConstraints {
             $0.top.equalTo(xMarkButton.snp.bottom).offset(5)
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.trailing.equalToSuperview()

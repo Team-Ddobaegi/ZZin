@@ -11,7 +11,7 @@ class MatchingKeywordCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var keywordType: KeywordType = .with
+    var keywordType: MatchingKeywordType = .with
     
     weak var keywordVC: MatchingKeywordVC?
     
@@ -75,11 +75,11 @@ class MatchingKeywordCell: UICollectionViewCell {
         
         switch keywordType {
         case .with:
-            keywordVC?.selectedWithKeywords.append(text)
+            keywordVC?.selectedWithMatchingKeywords.append(text)
         case .condition:
-            keywordVC?.selectedConditionKeywords.append(text)
+            keywordVC?.selectedConditionMatchingKeywords.append(text)
         case .menu:
-            keywordVC?.selectedMenuKeywords.append(text)
+            keywordVC?.selectedMenuMatchingKeywords.append(text)
         }
     }
 
@@ -89,16 +89,16 @@ class MatchingKeywordCell: UICollectionViewCell {
         
         switch keywordType {
         case .with:
-            if let index = keywordVC?.selectedWithKeywords.firstIndex(of: text) {
-                keywordVC?.selectedWithKeywords.remove(at: index)
+            if let index = keywordVC?.selectedWithMatchingKeywords.firstIndex(of: text) {
+                keywordVC?.selectedWithMatchingKeywords.remove(at: index)
             }
         case .condition:
-            if let index = keywordVC?.selectedConditionKeywords.firstIndex(of: text) {
-                keywordVC?.selectedConditionKeywords.remove(at: index)
+            if let index = keywordVC?.selectedConditionMatchingKeywords.firstIndex(of: text) {
+                keywordVC?.selectedConditionMatchingKeywords.remove(at: index)
             }
         case .menu:
-            if let index = keywordVC?.selectedMenuKeywords.firstIndex(of: text) {
-                keywordVC?.selectedMenuKeywords.remove(at: index)
+            if let index = keywordVC?.selectedMenuMatchingKeywords.firstIndex(of: text) {
+                keywordVC?.selectedMenuMatchingKeywords.remove(at: index)
             }
         }
     }

@@ -251,9 +251,9 @@ class SelectKeywordsTableViewCell: UITableViewCell {
     
     static let identifier = "SelectKeywordsTableViewCell"
     
-    var firstKeywordButton = UIButton().customButton(title: "키워드")
-    var secondKeywordButton = UIButton().customButton(title: "키워드")
-    var menuKeywordButton = UIButton().customButton(title: "키워드")
+    var firstKeywordButton = UIButton().customButton()
+    var secondKeywordButton = UIButton().customButton()
+    var menuKeywordButton = UIButton().customButton()
     
     let titleLabel = UILabel().then{
         $0.textColor = .label
