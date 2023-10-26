@@ -110,7 +110,7 @@ func addInfoMarker(at location: NMGLatLng, storeName: String) {
     let textWidth = infoMarkerView.informationLabel.intrinsicContentSize.width
     let padding: CGFloat = 32 // 기존 패딩 값
     let totalWidth = textWidth + padding
-    infoMarkerView.frame = CGRect(x: 0, y: 0, width: totalWidth, height: 24) // height는 기존대로
+    infoMarkerView.frame = CGRect(x: 0, y: 0, width: totalWidth, height: 25) // height는 기존대로
     
     // InfoMarkerView 레이아웃 강제 업데이트
     infoMarkerView.layoutIfNeeded()
@@ -126,6 +126,7 @@ func addInfoMarker(at location: NMGLatLng, storeName: String) {
     marker.position = location
     marker.iconImage = NMFOverlayImage(image: snapshotImage!)
     marker.anchor = CGPoint(x: 0.5, y: 0.5)
+    marker.zIndex = Int.max // 마커 최상단으로 오게 하기 위함
     marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
         print("마커를 탭했습니다람쥐~")
         return true
