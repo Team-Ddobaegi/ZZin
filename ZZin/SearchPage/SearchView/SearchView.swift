@@ -112,15 +112,7 @@ class SearchView: UIView {
     }
     
     private func addSubViews() {
-        addSubview(searchResultLabel)
-        addSubview(mapButton)
-        addSubview(locationButton)
-        addSubview(setLocationButton)
-        addSubview(searchTipLabel)
-        addSubview(searchNotiLabel)
-        addSubview(keywordButtonStackView)
-        addSubview(divider1)
-        addSubview(divider2)
+        [searchResultLabel, mapButton, locationButton, setLocationButton, searchTipLabel, searchNotiLabel, keywordButtonStackView, divider1, divider2 ].forEach { addSubview($0) }
     }
     
     private func setDividerConstraints() {
