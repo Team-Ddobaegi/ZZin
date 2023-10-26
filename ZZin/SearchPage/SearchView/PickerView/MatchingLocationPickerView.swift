@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LocationPickerView: UIView {
+class MatchingLocationPickerView: UIView {
     
     //MARK: - Life Cycles
     

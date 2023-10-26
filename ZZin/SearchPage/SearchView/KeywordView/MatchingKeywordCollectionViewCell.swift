@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class KeywordCollectionViewCell: UICollectionViewCell {
+class MatchingKeywordCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Life Cycle
     
@@ -84,7 +84,7 @@ class KeywordCollectionViewCell: UICollectionViewCell {
     
     var keywordType: KeywordType = .with
     
-    weak var keywordVC: KeywordVC?
+    weak var keywordVC: MatchingKeywordVC?
     
     static let reuseIdentifer: String = "cell"
     

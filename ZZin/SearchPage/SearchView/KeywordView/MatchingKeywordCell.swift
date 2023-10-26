@@ -7,13 +7,13 @@
 
 import UIKit
 
-class KeywordCell: UICollectionViewCell {
+class MatchingKeywordCell: UICollectionViewCell {
     
     // MARK: - Properties
     
     var keywordType: KeywordType = .with
     
-    weak var keywordVC: KeywordVC?
+    weak var keywordVC: MatchingKeywordVC?
     
     static let reuseIdentifer: String = "keywordCell"
     

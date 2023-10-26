@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-class SearchResultCollectionView: UIView {
+class MatchingResultCollectionView: UIView {
     
     //MARK: - Properties
                     
@@ -19,7 +19,7 @@ class SearchResultCollectionView: UIView {
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.identifier)
+        cv.register(MatchingSearchResultCell.self, forCellWithReuseIdentifier: MatchingSearchResultCell.identifier)
         
         return cv
     }()

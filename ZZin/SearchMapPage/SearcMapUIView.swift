@@ -4,7 +4,7 @@ import SnapKit
 
 class SearchMapUIView: UIView {
     
-    var searchView = SearchView()
+    var searchView = MatchingView()
     var storeCardView = StoreCardView()
     var searchMapView = SearchMapView()
     
