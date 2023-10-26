@@ -52,7 +52,7 @@ class MatchingReviewPhotoCell: UITableViewCell {
     // 사용자 리뷰 사진
     private let photoImageView = UIImageView().then {
         $0.backgroundColor = .black
-        $0.image = UIImage.ogudangdang
+        $0.image = UIImage(named: "ogudangdang")
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
