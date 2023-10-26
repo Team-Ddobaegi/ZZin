@@ -23,15 +23,6 @@ class LoginViewController: UIViewController {
     private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일", hasEyeButton: false)
     private let pwTextfield = CustomTextfieldView(placeholder: "세번째", text: "되나요", hasEyeButton: true)
     
-//    private var secureButton = UIButton().then {
-//        let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-//        let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-//        $0.setImage(image, for: .normal)
-//        $0.setImage(selectedImage, for: .selected)
-//        $0.backgroundColor = .clear
-//        $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
-//    }
-    
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -71,7 +62,7 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    //MARK: - Function 선언
+    //MARK: - 메서드 선언
     func configure() {
         view.backgroundColor = .white
         [idTextfield, pwTextfield, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
@@ -176,6 +167,7 @@ extension LoginViewController {
     }
 }
 
+//MARK: - UITextFieldDelegate 선언
 extension LoginViewController: UITextFieldDelegate {
     // 텍스트 필드가 입력되고 있는지 확인, 확인된 텍스트 필드의 label을 없애야 하는 상황
     func textFieldDidBeginEditing(_ textFieldView: UITextField) {
@@ -198,13 +190,13 @@ extension LoginViewController: UITextFieldDelegate {
         return false
     }
     
-    // email Validation 진행 가능
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let emailText = textField.text else { return }
 
         if textField == idTextfield.textfield {
             if idTextfield.validateEmail(emailText) {
-                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
+//                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
                 idTextfield.undo()
             } else {
                 idTextfield.showInvalidMessage()
