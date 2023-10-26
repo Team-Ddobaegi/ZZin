@@ -26,28 +26,55 @@ class MatchingThumbnailCell: UITableViewCell {
     }
     
     
+    // MARK: - Settings
+    
+    private func setView(){
+        configureUI()
+    }
+    
+    static func cellHeight() -> CGFloat {
+            return 250
+    }
+    
+    
     // MARK: - Properties
     
     static let identifier = "MatchingThumbnailCell"
    
-    private let review = ViewForReview().then{
+    private let review = RecommendPlaceReviewThumbnail().then{
         $0.wrap.layer.cornerRadius = 0
-//        $0.underline.backgroundColor = .systemRed
-        $0.underline.backgroundColor = ColorGuide.cherryTomato
     }
     
-    
-    //MARK: - Settings
-    
-    private func setView() {
-       contentView.addSubview(review)
-        
-        configureUI()
+    lazy var xMarkButton = UIButton().then {
+        let iconImage = UIImage(systemName: "xmark")
+        $0.setImage(iconImage, for: .normal)
+        $0.tintColor = .white
     }
+
+    
+    //MARK: - configure UI
     
     private func configureUI(){
+        addSubViews()
+        setConstraints()
+    }
+    
+    private func addSubViews(){
+        contentView.addSubview(review)
+        contentView.addSubview(xMarkButton)
+    }
+    
+    private func setConstraints(){
         review.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        xMarkButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-20)
+        }
     }
+    
 }
+

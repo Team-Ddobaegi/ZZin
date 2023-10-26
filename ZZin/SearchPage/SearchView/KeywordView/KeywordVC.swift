@@ -15,7 +15,8 @@ enum KeywordType {
     case menu       // 메뉴는 무엇인가요?
 }
 
-class KeywordVC: UIViewController {
+
+class KeywordVC: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     // MARK: - Life Cycles
     
@@ -23,9 +24,43 @@ class KeywordVC: UIViewController {
         super.viewDidLoad()
         
         setView()
-        setConstraints()
-        setButtonAttribute()
     }
+    
+    
+    // MARK: - Settings
+    
+    func setView() {
+        view.backgroundColor = .white
+
+        setButtonAttribute()
+        configureUI()
+    }
+    
+    func setButtonAttribute(){
+        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+    }
+    
+    func updateInfoLabel(_ keywordType: KeywordType) {
+        let selectedKeywords: [String]
+        switch keywordType {
+        case .with:
+            selectedKeywords = selectedWithKeywords
+        case .condition:
+            selectedKeywords = selectedConditionKeywords
+        case .menu:
+            selectedKeywords = selectedMenuKeywords
+        }
+        
+        if selectedKeywords.isEmpty {
+            infoLabel.text = "보기를 선택해주세요."
+            infoLabel.textColor = ColorGuide.cherryTomato
+        } else {
+            infoLabel.text = selectedKeywords.joined(separator: ", ")
+            infoLabel.textColor = .black
+        }
+    }
+    
+    
     
     
     // MARK: - Properties
@@ -82,38 +117,6 @@ class KeywordVC: UIViewController {
     }
     
     
-    // MARK: - Settings
-    
-    func setView() {
-        view.backgroundColor = .white
-        [noticeLabel, userChoiceCollectionView, infoLabel, confirmButton].forEach { view.addSubview($0) }
-    }
-    
-    func setButtonAttribute(){
-        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
-    }
-    
-    func updateInfoLabel(_ keywordType: KeywordType) {
-        let selectedKeywords: [String]
-        switch keywordType {
-        case .with:
-            selectedKeywords = selectedWithKeywords
-        case .condition:
-            selectedKeywords = selectedConditionKeywords
-        case .menu:
-            selectedKeywords = selectedMenuKeywords
-        }
-        
-        if selectedKeywords.isEmpty {
-            infoLabel.text = "보기를 선택해주세요."
-            infoLabel.textColor = ColorGuide.cherryTomato
-        } else {
-            infoLabel.text = selectedKeywords.joined(separator: ", ")
-            infoLabel.textColor = .black
-        }
-    }
-    
-    
     // MARK: - Actions
     
     @objc func confirmButtonTapped() {
@@ -125,31 +128,38 @@ class KeywordVC: UIViewController {
     
     // MARK: - ConfigureUI
     
+    func configureUI(){
+        addSubViews()
+        setConstraints()
+    }
+    
+    func addSubViews() {
+        [noticeLabel, userChoiceCollectionView, infoLabel, confirmButton].forEach { view.addSubview($0) }
+    }
+    
     func setConstraints() {
         noticeLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(25)
-            $0.top.equalToSuperview().offset(30)
-            $0.height.equalTo(100)
+            $0.top.equalToSuperview().offset(50)
+            $0.leading.equalToSuperview().offset(30)
         }
         
         userChoiceCollectionView.snp.makeConstraints {
             $0.top.equalTo(noticeLabel.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.height.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.left.right.equalToSuperview().inset(20)
         }
         
         infoLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-150)
-            $0.leading.equalToSuperview().offset(25)
+            $0.bottom.equalTo(confirmButton.snp.top)
+            $0.leading.equalToSuperview().offset(30)
+            $0.height.equalTo(40)
         }
         
         confirmButton.snp.makeConstraints {
-            $0.top.equalTo(infoLabel.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().inset(50)
+            $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(60)
         }
     }
@@ -206,15 +216,15 @@ extension KeywordVC: UICollectionViewDataSource {
 extension KeywordVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? KeywordCell {
-            // 선택한 셀의 인덱스와 텍스트를 출력합니다.
             print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
             
             switch selectedKeywordType {
-            case .with:
+            case .with, .condition, .menu:
                 handleSelectionWithKeyword(cell, collectionView: collectionView)
                 
-            case .condition, .menu:
-                handleSelectionConditionAndMenuKeyword(cell)
+                // 키워드 분위기, 메뉴 개수 제한
+//            case .condition, .menu:
+//                handleSelectionConditionAndMenuKeyword(cell)
             }
         }
     }
@@ -244,6 +254,12 @@ extension KeywordVC: UICollectionViewDelegate {
         }
         // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
         selectCell(cell)
+        
+        // 뷰 컨트롤러의 높이를 조절
+                   let newHeight: CGFloat = 500 // 원하는 높이로 변경
+                   self.view.frame.size.height = newHeight
+                   self.view.setNeedsLayout()
+                   self.view.layoutIfNeeded()
     }
     
     // "condition" 및 "menu" 키워드 타입에 대한 선택 처리 메서드
@@ -260,6 +276,4 @@ extension KeywordVC: UICollectionViewDelegate {
             }
     }
     
-    
 }
-

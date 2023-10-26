@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 
-//MARK: - 컬렉션뷰가 들어갈 UIView
+//MARK: - 매칭 업체 사진들을 넣는 "컬렉션뷰"가 들어갈 UIView
 
 class MatchingPlacePhotoView: UIView {
     
@@ -19,7 +19,7 @@ class MatchingPlacePhotoView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setAddsubView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -35,15 +35,14 @@ class MatchingPlacePhotoView: UIView {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(MatchingPlacePhotoCollectionViewCell.self, forCellWithReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier)
-//        cv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         return cv
     }()
     
     
-    //MARK: - Settings
+    //MARK: - ConfigureUI
     
-    private func setAddsubView() {
+    private func configureUI(){
         addSubview(collectionView)
         
         collectionView.snp.makeConstraints {

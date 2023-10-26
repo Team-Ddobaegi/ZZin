@@ -26,9 +26,7 @@ class SearchVC: UIViewController {
     
     private func setView(){
         view.backgroundColor = .white
-        view.addSubview(searchView)
-        view.addSubview(collectionView)
-        view.addSubview(opacityView)
+        
         
         setMapView()
         setlocationView()
@@ -36,6 +34,7 @@ class SearchVC: UIViewController {
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
+        configureUI()
     }
     
     private func setMapView(){
@@ -152,7 +151,6 @@ class SearchVC: UIViewController {
             self.opacityViewAlpha = 0.7
             self.opacityView.alpha = self.opacityViewAlpha
         }
-        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -218,13 +216,20 @@ class SearchVC: UIViewController {
     
     //MARK: - Configure UI
     
-    func configureUI(){
+    private func configureUI(){
+        addSubViews()
         setSearchViewConstraints()
         setCollectionViewConstraints()
         setOpacityViewConstraints()
     }
     
-    func setSearchViewConstraints(){
+    private func addSubViews(){
+        view.addSubview(searchView)
+        view.addSubview(collectionView)
+        view.addSubview(opacityView)
+    }
+    
+    private func setSearchViewConstraints(){
         searchView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
@@ -232,7 +237,7 @@ class SearchVC: UIViewController {
         }
     }
     
-    func setCollectionViewConstraints(){
+    private func setCollectionViewConstraints(){
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchView.snp.bottom)
             $0.bottom.equalToSuperview().offset(-90)
@@ -241,7 +246,7 @@ class SearchVC: UIViewController {
         }
     }
     
-    func setOpacityViewConstraints(){
+    private func setOpacityViewConstraints(){
         opacityView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
