@@ -11,7 +11,7 @@ class SearchMapViewController: UIViewController {
     
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
-
+    
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -42,7 +42,7 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.storeCardView.addGestureRecognizer(tapGesture)
         searchMapUIView.storeCardView.isUserInteractionEnabled = true
     }
-
+    
     func addTargetButton() {
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
@@ -58,9 +58,9 @@ class SearchMapViewController: UIViewController {
         // 사용자 현재 위치 정보 가져오기 시작
         locationService.startUpdatingLocation()
         setupUI()
-        setInfoWindow()
         setTouchableCardView()
         addTargetButton()
+        addInfoMarker(at: NMGLatLng(lat: 37.5666102, lng: 126.9783881), storeName: "가게 이름")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,10 +71,10 @@ class SearchMapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         self.tabBarController?.tabBar.isHidden = true
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -83,7 +83,7 @@ class SearchMapViewController: UIViewController {
     // MARK: - UI Setting
     
     func moveCamera(_ location: NMGLatLng?) {
-//        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
+        //        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
         let cameraUpdate = NMFCameraUpdate(scrollTo: location ?? NMGLatLng(lat: 37.5666102, lng: 126.9783881))
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
     }
@@ -96,15 +96,29 @@ class SearchMapViewController: UIViewController {
         }
     }
     
-    func setInfoWindow() {
-        let infoWindow = NMFInfoWindow()
-//        let dataSource = NMFInfoWindowDefaultTextSource.data()
+    func addInfoMarker(at location: NMGLatLng, storeName: String) {
+        let infoMarkerWidth = 24 + 8 + 16
+        let infoMarkerHeight = 24
         
-//        dataSource.title = "정보 창 내용"
-        infoWindow.dataSource = self
-        infoWindow.position = NMGLatLng(lat: 37.5666102, lng: 126.9783881)
-        infoWindow.open(with: searchMapUIView.searchMapView.mapView)
+        // 1. InfoMarkerView 인스턴스 생성
+        let infoMarkerView = InfoMarkerView(frame: CGRect(x: 0, y: 0, width: infoMarkerWidth, height: infoMarkerHeight))
+        infoMarkerView.informationLabel.text = storeName
+        
+        // 2. InfoMarkerView에서 이미지 스냅샷 가져오기
+        UIGraphicsBeginImageContextWithOptions(infoMarkerView.bounds.size, false, 0.0)
+        infoMarkerView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // 3. NMFMarker 생성 및 설정
+        let marker = NMFMarker()
+        marker.position = location
+        marker.iconImage = NMFOverlayImage(image: snapshotImage!)
+        
+        // 4. 마커를 지도에 추가
+        marker.mapView = searchMapUIView.searchMapView.mapView
     }
+    
 }
 
 // MARK: - LocationServiceDelegate
@@ -122,10 +136,8 @@ extension SearchMapViewController: LocationServiceDelegate {
     }
 }
 
-extension SearchMapViewController: NMFOverlayImageDataSource {
-    func view(with overlay: NMFOverlay) -> UIView { // label이 안간다?
-        let customInfoWindowView = CustomInfoWindowView()
-//        customInfoWindowView.placeNameLabel.text = "맛집 레이블"
-        return customInfoWindowView
+extension SearchMapViewController : NMFMapViewTouchDelegate {
+    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
     }
 }
