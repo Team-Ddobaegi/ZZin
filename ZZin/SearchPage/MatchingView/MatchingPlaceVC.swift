@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 import Then
 
-class MatchingVC: UIViewController {
+class MatchingPlaceVC: UIViewController {
     
     
     //MARK: - Properties
     
-    private let matchingView = MatchingView()
-        
+    private let matchingView = MatchingPlaceView()
+    
     var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
     // MARK: - Life Cycle
@@ -24,8 +24,6 @@ class MatchingVC: UIViewController {
         super.viewDidLoad()
         
         setView()
-        setXMarkButton()
-        setMatchingViewConstraints()
     }
     
     
@@ -34,10 +32,16 @@ class MatchingVC: UIViewController {
     private func setView(){
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
-        view.addSubview(matchingView)
         
-        setTableViewAttribute()
-        setCostumCell()         // 테이블뷰 셀 선언
+        setXMarkButton()
+        setTableViewAttribute() // 테이블뷰 셀 선언
+        setCustomCell()
+        configureUI()
+    }
+   
+        
+    private func setXMarkButton(){
+        matchingView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
     }
     
     private func setTableViewAttribute(){
@@ -46,26 +50,16 @@ class MatchingVC: UIViewController {
         matchingView.setMatchingTableView.dataSource = self
     }
     
-    private func setCostumCell() {
+    private func setCustomCell() {
         matchingView.setMatchingTableView.register(MatchingPlacePhotoCell.self, forCellReuseIdentifier: MatchingPlacePhotoCell.identifier)
         matchingView.setMatchingTableView.register(MatchingPlaceInfoCell.self, forCellReuseIdentifier: MatchingPlaceInfoCell.identifier)
         matchingView.setMatchingTableView.register(MatchingPlaceReviewCell.self, forCellReuseIdentifier: MatchingPlaceReviewCell.identifier)
     }
     
     
-    // MARK: - configureUI
-    
-    func setMatchingViewConstraints(){
-        matchingView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-    }
-    
-    
-    // MARK: - Settings
-    
-    private func setXMarkButton(){
-        matchingView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
+    private func numberOfMatchingPlaceReviewCells() -> Int {
+        // MatchingPlaceReviewCell의 개수 반환
+        return 1
     }
     
     
@@ -75,18 +69,41 @@ class MatchingVC: UIViewController {
         print("서칭 페이지로 돌아갑니다.")
         self.navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - configureUI
+    
+    private func configureUI(){
+        addSubViews()
+        setConstraints()
+    }
+    
+    private func addSubViews(){
+        view.addSubview(matchingView)
+    }
+    
+    private func setConstraints(){
+        matchingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
+
 
 
 //MARK: - TableView
 
-extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
+extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: return 150
         case 1: return 420
-        case 2: return 600
+        case 2:    
+            // MatchingPlaceReviewCell 섹션의 높이 계산
+            let numberOfReviewCells = numberOfMatchingPlaceReviewCells()
+            let cellHeight: CGFloat = 220 // 미리 정의한 Cell의 높이
+            
+            return CGFloat(numberOfReviewCells) * cellHeight
         default: return 700
         }
     }
@@ -142,7 +159,7 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: - CollectionView Layout
 
-extension MatchingVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // 커스텀 셀 사이즈
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

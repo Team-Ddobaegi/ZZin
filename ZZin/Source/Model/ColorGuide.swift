@@ -33,6 +33,7 @@ enum ColorGuide {
     // 튜터님이 추천해주신 컬러임두
     static let main = UIColor(red: 245/255, green: 89/255, blue: 81/255, alpha: 1.0)
 
+    static let lightGray = UIColor(red: 234/255, green: 235/255, blue: 234/255, alpha: 1.0)
     
     static let black = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
     static let subButton = UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1.0)

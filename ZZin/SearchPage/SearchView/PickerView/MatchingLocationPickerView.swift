@@ -7,26 +7,19 @@
 
 import UIKit
 
-class LocationPickerView: UIView {
+class MatchingLocationPickerView: UIView {
     
     //MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setView()
     }
     
-    // MARK: - Settings
-    
-    private func setView() {
-        addSubViews()
-        setConstraints()
-    }
     
     // MARK: - Properties
     
@@ -54,6 +47,11 @@ class LocationPickerView: UIView {
     
     // MARK: - ConfigureUI
     
+    private func configureUI(){
+        addSubViews()
+        setConstraints()
+    }
+    
     private func addSubViews(){
         addSubview(noticeLabel)
         addSubview(pickerView)
@@ -61,7 +59,6 @@ class LocationPickerView: UIView {
     }
     
     private func setConstraints(){
-        
         noticeLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(50)
             $0.leading.equalToSuperview().offset(25)

@@ -11,28 +11,30 @@ import Then
 
 class OpacityView: UIView {
     
-    //MARK: - Properties
-    
-    let view = UIView().then {
-        $0.backgroundColor = .black
-    }
-    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
+    
+    //MARK: - Properties
+    
+    let view = UIView().then {
+        $0.backgroundColor = .black
+    }
+    
     //MARK: - ConfigureUI
     
-    func setView(){
+    func configureUI(){
         addSubview(view)
+        
         view.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }

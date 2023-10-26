@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchView: UIView {
+class MatchingView: UIView {
     
     //MARK: - Life Cycle
     
@@ -25,43 +25,58 @@ class SearchView: UIView {
     
     
     //MARK: - Properties
+    
+    var selectedKeywords: [String] = []
 
-    private let searchResultLabel = UILabel().then {
+    private let matchingResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.text = "3가지를 가진 맛집"
         $0.textColor = .black
     }
     
-    private let searchTipLabel = UILabel().then {
+    private let matchingTipLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "tip"
         $0.textColor = ColorGuide.main
     }
     
-    private let searchNotiLabel = UILabel().then {
+    private let matchingNotiLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "각 항목을 탭하면 다른 키워드를 선택할 수 있어요!"
         $0.textColor = .systemGray
     }
     
-    let firstKeywordButton = KeywordButton(title: "키워드")
     
-    let secondKeywordButton = KeywordButton(title: "키워드")
+    let firstKeywordButton = UIButton().customButton(title: "키워드")
+
+    let firstPlus = UILabel().plus()
     
-    let menuKeywordButton = KeywordButton(title: "키워드")
+    let secondKeywordButton = UIButton().customButton(title: "키워드")
     
-    var selectedKeywords: [String] = []
+    let secondPlus = UILabel().plus()
+    
+    let menuKeywordButton = UIButton().customButton(title: "키워드")
+   
+    
+    lazy var keywordButtonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [firstKeywordButton,firstPlus,secondKeywordButton,secondPlus,menuKeywordButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
     
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.main
+        $0.tintColor = ColorGuide.cherryTomato
     }
     
     public let locationButton = UIButton().then {
         let iconImage = UIImage(systemName: "location")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.main
+        $0.tintColor = ColorGuide.cherryTomato
     }
     
     public let setLocationButton = UIButton().then {
@@ -90,24 +105,14 @@ class SearchView: UIView {
     //MARK: - UI
     
     private func configureUI(){
-        setUpView()
+        addSubViews()
         setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
     }
     
-    private func setUpView() {
-        addSubview(setLocationButton)
-        addSubview(divider1)
-        addSubview(divider2)
-        addSubview(searchResultLabel)
-        addSubview(searchTipLabel)
-        addSubview(searchNotiLabel)
-        addSubview(firstKeywordButton)
-        addSubview(secondKeywordButton)
-        addSubview(menuKeywordButton)
-        addSubview(mapButton)
-        addSubview(locationButton)
+    private func addSubViews() {
+        [matchingResultLabel, mapButton, locationButton, setLocationButton, matchingTipLabel, matchingNotiLabel, keywordButtonStackView, divider1, divider2 ].forEach { addSubview($0) }
     }
     
     private func setDividerConstraints() {
@@ -121,24 +126,25 @@ class SearchView: UIView {
         divider2.snp.makeConstraints {
             $0.height.equalTo(0.5)
             $0.bottom.equalTo(firstKeywordButton).offset(15)
-            $0.leading.trailing.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
         }
     }
     
     private func setLableConstraints() {
         // 서치 결과:: n가지를 가진 맛집
-        searchResultLabel.snp.makeConstraints {
+        matchingResultLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(115)
         }
         // 서치 팁 레이블:: tip
-        searchTipLabel.snp.makeConstraints {
-            $0.bottom.equalTo(searchResultLabel).offset(30)
+        matchingTipLabel.snp.makeConstraints {
+            $0.bottom.equalTo(matchingResultLabel).offset(30)
             $0.leading.equalToSuperview().offset(70)
         }
         // 서치 팁 문구:: 각 항목을 탭하면 .. ~
-        searchNotiLabel.snp.makeConstraints{
-            $0.bottom.equalTo(searchResultLabel).offset(30)
+        matchingNotiLabel.snp.makeConstraints{
+            $0.bottom.equalTo(matchingResultLabel).offset(30)
             $0.trailing.equalToSuperview().offset(-70)
         }
     }
@@ -166,21 +172,50 @@ class SearchView: UIView {
             $0.trailing.equalToSuperview().offset(-20)
         }
        
-        // 첫번째 키워드 버튼
-        firstKeywordButton.snp.makeConstraints {
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
-            $0.leading.equalToSuperview().offset(20)
-        }
-        // 두번째 키워드 버튼
-        secondKeywordButton.snp.makeConstraints {
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
+        keywordButtonStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(matchingNotiLabel).offset(50)
+
         }
-        // 음식점 키워드 버튼
-        menuKeywordButton.snp.makeConstraints {
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
-            $0.trailing.equalToSuperview().offset(-25)
-        }
+        
     }
    
 }
+
+
+extension UIButton {
+    func customButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.setTitleColor(.systemGray2, for: .normal)
+        button.setTitleColor(ColorGuide.cherryTomato, for: .highlighted)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 40 / 2
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        
+        button.snp.makeConstraints {
+            $0.width.equalTo(105)
+            $0.height.equalTo(40)
+        }
+        return button
+    }
+}
+
+extension UILabel {
+    func plus() -> UILabel {
+        let plus = UILabel()
+        plus.text = "+"
+        plus.textColor = .darkGray
+        plus.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+        plus.snp.makeConstraints {
+            $0.width.height.equalTo(10)
+        }
+        return plus
+    }
+}
+

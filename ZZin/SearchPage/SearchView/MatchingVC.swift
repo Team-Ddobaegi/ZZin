@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchVC: UIViewController {
+class MatchingVC: UIViewController {
     
     
     // MARK: - Life Cycle
@@ -26,9 +26,7 @@ class SearchVC: UIViewController {
     
     private func setView(){
         view.backgroundColor = .white
-        view.addSubview(searchView)
-        view.addSubview(collectionView)
-        view.addSubview(opacityView)
+        
         
         setMapView()
         setlocationView()
@@ -36,14 +34,15 @@ class SearchVC: UIViewController {
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
+        configureUI()
     }
     
     private func setMapView(){
-        searchView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
+        matchingView.mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
     }
     
     private func setlocationView(){
-        searchView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+        matchingView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
     private func setOpacityView(){
@@ -56,7 +55,7 @@ class SearchVC: UIViewController {
     
     // 지역 설정 피커뷰
     private func setPickerView(){
-        searchView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
+        matchingView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
         pickerView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
@@ -88,35 +87,35 @@ class SearchVC: UIViewController {
     }
     
     private func setKeywordView(){
-        searchView.firstKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
-        searchView.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
-        searchView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+        matchingView.firstKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+        matchingView.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
+        matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
     func updateKeywordButtonTitle() {
         if keywordVC.selectedWithKeywords.isEmpty {
-            searchView.firstKeywordButton.titleLabel?.text = "키워드"
-            searchView.firstKeywordButton.titleLabel?.textColor = .systemGray2
+            matchingView.firstKeywordButton.titleLabel?.text = "키워드"
+            matchingView.firstKeywordButton.titleLabel?.textColor = .systemGray2
         } else {
-            searchView.firstKeywordButton.titleLabel?.text = keywordVC.selectedWithKeywords.joined(separator: ", ")
-            searchView.firstKeywordButton.titleLabel?.textColor = .black
+            matchingView.firstKeywordButton.titleLabel?.text = keywordVC.selectedWithKeywords.joined(separator: ", ")
+            matchingView.firstKeywordButton.titleLabel?.textColor = .black
         }
     }
     
     
     //MARK: - Properties
     
-    private let searchView = SearchView()
+    private let matchingView = MatchingView()
     
-    private let collectionView = SearchResultCollectionView()
+    private let collectionView = MatchingResultCollectionView()
     
-    private let keywordVC = KeywordVC()
+    private let keywordVC = MatchingKeywordVC()
 
     private let opacityView = OpacityView()
     
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
 
-    private let pickerView = LocationPickerView()
+    private let pickerView = MatchingLocationPickerView()
     
     
     //dummy location
@@ -152,7 +151,6 @@ class SearchVC: UIViewController {
             self.opacityViewAlpha = 0.7
             self.opacityView.alpha = self.opacityViewAlpha
         }
-        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -160,7 +158,7 @@ class SearchVC: UIViewController {
     @objc func firstKeywordButtonTapped() {
         print("첫 번째 키워드 버튼이 탭됨")
         
-        let keywordVC = KeywordVC()
+        let keywordVC = MatchingKeywordVC()
         keywordVC.selectedKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
@@ -172,7 +170,7 @@ class SearchVC: UIViewController {
     @objc func secondKeywordButtonTapped() {
         print("두 번째 키워드 버튼이 탭됨")
         
-        let keywordVC = KeywordVC()
+        let keywordVC = MatchingKeywordVC()
         keywordVC.selectedKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
@@ -184,7 +182,7 @@ class SearchVC: UIViewController {
     @objc func menuKeywordButtonTapped() {
         print("메뉴 키워드 버튼이 탭됨")
         
-        let keywordVC = KeywordVC()
+        let keywordVC = MatchingKeywordVC()
         keywordVC.selectedKeywordType = .menu
         keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
@@ -202,7 +200,7 @@ class SearchVC: UIViewController {
         let selectedTown = selectedTown[selectedTownRow]
         
         // setLocationButton의 타이틀 업데이트
-        searchView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
+        matchingView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
         
         // PickerView 숨기기
         pickerView.removeFromSuperview()
@@ -218,30 +216,37 @@ class SearchVC: UIViewController {
     
     //MARK: - Configure UI
     
-    func configureUI(){
+    private func configureUI(){
+        addSubViews()
         setSearchViewConstraints()
         setCollectionViewConstraints()
         setOpacityViewConstraints()
     }
     
-    func setSearchViewConstraints(){
-        searchView.snp.makeConstraints {
+    private func addSubViews(){
+        view.addSubview(matchingView)
+        view.addSubview(collectionView)
+        view.addSubview(opacityView)
+    }
+    
+    private func setSearchViewConstraints(){
+        matchingView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
             
         }
     }
     
-    func setCollectionViewConstraints(){
+    private func setCollectionViewConstraints(){
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(searchView.snp.bottom)
+            $0.top.equalTo(matchingView.snp.bottom)
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
     }
     
-    func setOpacityViewConstraints(){
+    private func setOpacityViewConstraints(){
         opacityView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -266,7 +271,7 @@ class SearchVC: UIViewController {
 
 //MARK: - CollectionView Delegate, DataSource, Layout
 
-extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width / 2 - 25, height: collectionView.frame.width / 2 + 40)
@@ -282,7 +287,7 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.identifier ,for: indexPath) as? SearchResultCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingSearchResultCell.identifier ,for: indexPath) as? MatchingSearchResultCell else {
             return UICollectionViewCell()
         }
         return cell
@@ -300,8 +305,8 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("매칭 업체 페이지로 이동합니다.")
-        if collectionView.cellForItem(at: indexPath) is SearchResultCell {
-            let matchingVC = MatchingVC()
+        if collectionView.cellForItem(at: indexPath) is MatchingSearchResultCell {
+            let matchingVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingVC, animated: true)
         }
     }
@@ -311,7 +316,7 @@ extension SearchVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 
 //MARK: - PickerView Delegate, DataSource
 
-extension SearchVC: UIPickerViewDelegate, UIPickerViewDataSource {
+extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }

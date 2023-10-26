@@ -9,29 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class KeywordCollectionViewCell: UICollectionViewCell {
-    
-    //MARK: - Properties
-    
-    var keywordType: KeywordType = .with
-    
-    weak var keywordVC: KeywordVC?
-    
-    static let reuseIdentifer: String = "cell"
-    
-    let cellButton = UIButton().then {
-        $0.setTitle("테스트 제목", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        $0.layer.cornerRadius = 10
-        $0.clipsToBounds = true
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-    }
-    
-    var isButtonSelected = false
-    
-    
+class MatchingKeywordCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Life Cycle
     
@@ -101,6 +79,27 @@ class KeywordCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    
+    //MARK: - Properties
+    
+    var keywordType: KeywordType = .with
+    
+    weak var keywordVC: MatchingKeywordVC?
+    
+    static let reuseIdentifer: String = "cell"
+    
+    let cellButton = UIButton().then {
+        $0.setTitle("테스트 제목", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+    }
+    
+    var isButtonSelected = false
+    
     
     
     // MARK: - ConfigureUI
