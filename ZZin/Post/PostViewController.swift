@@ -175,30 +175,30 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func firstButtonTapped(_ sender: UIButton) {
-        let keywordVC = KeywordVC()
-        keywordVC.selectedKeywordType = .with
-        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+        let matchingKeywordVC = MatchingKeywordVC()
+        matchingKeywordVC.selectedKeywordType = .with
+        matchingKeywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        matchingKeywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
         
-        navigationController?.present(keywordVC, animated: true)
+        navigationController?.present(matchingKeywordVC, animated: true)
     }
     
     @objc func secondButtonTapped(_ sender: UIButton) {
-        let keywordVC = KeywordVC()
-        keywordVC.selectedKeywordType = .condition
-        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        let matchingKeywordVC = MatchingKeywordVC()
+        matchingKeywordVC.selectedKeywordType = .condition
+        matchingKeywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        matchingKeywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
         
-        navigationController?.present(keywordVC, animated: true)
+        navigationController?.present(matchingKeywordVC, animated: true)
     }
     
     @objc func menuButtonTapped(_ sender: UIButton) {
-        let keywordVC = KeywordVC()
-        keywordVC.selectedKeywordType = .menu
-        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+        let matchingKeywordVC = MatchingKeywordVC()
+        matchingKeywordVC.selectedKeywordType = .menu
+        matchingKeywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        matchingKeywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
         
-        navigationController?.present(keywordVC, animated: true)
+        navigationController?.present(matchingKeywordVC, animated: true)
     }
 }
 

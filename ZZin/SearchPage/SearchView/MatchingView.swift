@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class SearchView: UIView {
+class MatchingView: UIView {
     
     //MARK: - Life Cycle
     
@@ -28,19 +28,19 @@ class SearchView: UIView {
     
     var selectedKeywords: [String] = []
 
-    private let searchResultLabel = UILabel().then {
+    private let matchingResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.text = "3가지를 가진 맛집"
         $0.textColor = .black
     }
     
-    private let searchTipLabel = UILabel().then {
+    private let matchingTipLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "tip"
         $0.textColor = ColorGuide.main
     }
     
-    private let searchNotiLabel = UILabel().then {
+    private let matchingNotiLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "각 항목을 탭하면 다른 키워드를 선택할 수 있어요!"
         $0.textColor = .systemGray
@@ -49,17 +49,17 @@ class SearchView: UIView {
     
     let firstKeywordButton = UIButton().customButton(title: "키워드")
 
-    let firstPlusIcon = UILabel().plus()
+    let firstPlus = UILabel().plus()
     
     let secondKeywordButton = UIButton().customButton(title: "키워드")
     
-    let secondPlusIcon = UILabel().plus()
+    let secondPlus = UILabel().plus()
     
     let menuKeywordButton = UIButton().customButton(title: "키워드")
    
     
     lazy var keywordButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [firstKeywordButton,firstPlusIcon,secondKeywordButton,secondPlusIcon,menuKeywordButton])
+        let stackView = UIStackView(arrangedSubviews: [firstKeywordButton,firstPlus,secondKeywordButton,secondPlus,menuKeywordButton])
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.distribution = .fill
@@ -112,7 +112,7 @@ class SearchView: UIView {
     }
     
     private func addSubViews() {
-        [searchResultLabel, mapButton, locationButton, setLocationButton, searchTipLabel, searchNotiLabel, keywordButtonStackView, divider1, divider2 ].forEach { addSubview($0) }
+        [matchingResultLabel, mapButton, locationButton, setLocationButton, matchingTipLabel, matchingNotiLabel, keywordButtonStackView, divider1, divider2 ].forEach { addSubview($0) }
     }
     
     private func setDividerConstraints() {
@@ -133,18 +133,18 @@ class SearchView: UIView {
     
     private func setLableConstraints() {
         // 서치 결과:: n가지를 가진 맛집
-        searchResultLabel.snp.makeConstraints {
+        matchingResultLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(115)
         }
         // 서치 팁 레이블:: tip
-        searchTipLabel.snp.makeConstraints {
-            $0.bottom.equalTo(searchResultLabel).offset(30)
+        matchingTipLabel.snp.makeConstraints {
+            $0.bottom.equalTo(matchingResultLabel).offset(30)
             $0.leading.equalToSuperview().offset(70)
         }
         // 서치 팁 문구:: 각 항목을 탭하면 .. ~
-        searchNotiLabel.snp.makeConstraints{
-            $0.bottom.equalTo(searchResultLabel).offset(30)
+        matchingNotiLabel.snp.makeConstraints{
+            $0.bottom.equalTo(matchingResultLabel).offset(30)
             $0.trailing.equalToSuperview().offset(-70)
         }
     }
@@ -176,7 +176,7 @@ class SearchView: UIView {
             $0.centerX.equalToSuperview()
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(searchNotiLabel).offset(50)
+            $0.bottom.equalTo(matchingNotiLabel).offset(50)
 
         }
         

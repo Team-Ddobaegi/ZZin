@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import Then
 
-class MatchingVC: UIViewController {
+class MatchingPlaceVC: UIViewController {
     
     
     //MARK: - Properties
     
-    private let matchingView = MatchingView()
+    private let matchingView = MatchingPlaceView()
     
     var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
@@ -92,7 +92,7 @@ class MatchingVC: UIViewController {
 
 //MARK: - TableView
 
-extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
+extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
@@ -159,7 +159,7 @@ extension MatchingVC: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: - CollectionView Layout
 
-extension MatchingVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // 커스텀 셀 사이즈
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -12,7 +12,7 @@ import Then
 
 //MARK: - 매칭 업체 뷰 :: TableView 세팅
 
-class MatchingView: UIView {
+class MatchingPlaceView: UIView {
     
     //MARK: - Life Cycle
     
