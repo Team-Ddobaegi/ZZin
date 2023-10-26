@@ -78,9 +78,10 @@ class LoginViewController: UIViewController {
     
     func setUI() {
         setLogo()
+        setCustomView()
         setLoginBtn()
         setSearchBtn()
-        setCustomView()
+        setDelegate()
     }
     
     private func setLogo() {

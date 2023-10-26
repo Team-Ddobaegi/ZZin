@@ -34,6 +34,14 @@ class CustomTextfieldView: UIView {
         $0.setImage(image, for: .normal)
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
+    
+    let validationLabel = UILabel().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "틀렸습니다."
+        $0.textColor = .red
+        $0.isHidden = true
+        $0.font = UIFont.preferredFont(forTextStyle: .caption1)
+    }
 
     init(placeholder: String, text: String) {
         super.init(frame: .zero)
@@ -58,7 +66,7 @@ extension CustomTextfieldView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray5
         layer.cornerRadius = 12
-        [animatingLabel, textfield, cancelButton].forEach{ addSubview($0) }
+        [animatingLabel, textfield, cancelButton, validationLabel].forEach{ addSubview($0) }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         addGestureRecognizer(tap)
@@ -81,22 +89,27 @@ extension CustomTextfieldView {
             $0.trailing.equalToSuperview().inset(5)
             $0.height.width.equalTo(30)
         }
+        
+        validationLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(2)
+            $0.leading.equalToSuperview().inset(5)
+        }
     }
-
+    
+    // Label Animation 적용
     func labelAnimation() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0) {
-            // color
             self.backgroundColor = .white
             self.animatingLabel.textColor = .green
             self.layer.borderWidth = 1
             self.layer.borderColor = self.animatingLabel.textColor.cgColor
 
-            //movement
+            //Animation 적용시 이동 범위
             let movement = CGAffineTransform(translationX: -8, y: -24)
             let scale = CGAffineTransform(scaleX: 0.7, y: 0.7)
             self.animatingLabel.transform = movement.concatenating(scale)
 
-        // 추가 활동
+        //Animation 이후 행동
         } completion: { position in
             self.textfield.isHidden = false
             self.textfield.becomeFirstResponder()
@@ -104,7 +117,8 @@ extension CustomTextfieldView {
             self.cancelButton.isHidden = false
         }
     }
-
+    
+    // Label Animation을 되돌리는 함수
     func undo() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             self.backgroundColor = .systemGray5
@@ -122,14 +136,32 @@ extension CustomTextfieldView {
         }
         movement.startAnimation()
     }
-
+    
+    func showInvalidMessage() {
+        validationLabel.isHidden = false
+        animatingLabel.isHidden = true
+        layer.borderColor = UIColor.systemRed.cgColor
+        textfield.tintColor = .red
+    }
+    
+    func validateEmail(_ email: String) -> Bool {
+        // 이메일 형식이 맞는지 확인
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        if let emailText = textfield.text, !emailText.isEmpty {
+            return emailpred.evaluate(with: email)
+        }
+        return false
+    }
+    
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
             print("탭이 종료되었습니다.")
             labelAnimation()
         }
     }
-
+    
     @objc func cancelTapped(_ sender: UIButton) {
         textfield.resignFirstResponder()
         undo()
@@ -137,7 +169,7 @@ extension CustomTextfieldView {
 }
 
 extension CustomTextfieldView: UITextFieldDelegate {
-    
+    // 타 vc 내 접근 권한 제공
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
         textfield.delegate = delegate
     }
@@ -156,6 +188,14 @@ extension CustomTextfieldView: UITextFieldDelegate {
 
     // email Validation 진행 가능
     func textFieldDidEndEditing(_ textField: UITextField) {
-
+        guard let emailText = textField.text else { return }
+        
+        if validateEmail(emailText) {
+            undo()
+        } else {
+            showInvalidMessage()
+        }
+        
+        textfield.text = ""
     }
 }

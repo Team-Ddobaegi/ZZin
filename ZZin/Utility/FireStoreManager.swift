@@ -169,16 +169,11 @@ class FireStoreManager {
         }
     }
     
-    /// regex 활용 번호 탐색 함수
-    /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
-//    private func validateNumber(_ number: String) -> String {
-//        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
-//        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
-//        if test.evaluate(withObject: number) {
-//            print("숫자가 올바르게 입력됐습니다.")
-//        } else {
-//            print("숫자 형식이 조금 틀립니다.")
-//        }
+//    func validateEmail(_ email: String) -> Bool {
+//        // 이메일 형식이 맞는지 확인
+//        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+//        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+//        return emailpred.evaluate(with: email)
 //    }
     
     // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
