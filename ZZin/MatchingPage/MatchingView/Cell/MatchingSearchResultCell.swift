@@ -30,17 +30,19 @@ class MatchingSearchResultCell: UICollectionViewCell {
     
     static let identifier = "searchResultCell"
     
-    private let review = RecommendPlaceThumbnail().then{
+    let recommendPlaceReview = RecommendPlaceThumbnail().then{
         $0.wrap.layer.cornerRadius = 15
+        $0.wrap.backgroundColor = .lightGray
+        $0.descriptionLabel.text = "줄 서서 먹는 존맛집"
     }
    
     
     //MARK: - ConfigureUI
     
     private func configureUI(){
-        addSubview(review)
+        addSubview(recommendPlaceReview)
         
-        review.snp.makeConstraints {
+        recommendPlaceReview.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

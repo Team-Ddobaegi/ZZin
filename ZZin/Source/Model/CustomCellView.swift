@@ -43,7 +43,7 @@ class RecommendPlaceThumbnail: UIView {
     }
     
     let img = UIImageView().then{
-        $0.image = UIImage(named: "ogudangdang.jpeg") // dummy img 입니다. 추후 변경 예정
+        $0.image = UIImage(named: "ogudangdang.jpeg")
         $0.layer.cornerRadius = 15
         $0.layer.opacity = 0.4
         $0.clipsToBounds = true
@@ -51,7 +51,7 @@ class RecommendPlaceThumbnail: UIView {
     }
     
     let titleLabel = UILabel().then {
-        $0.text = "하남돼지집" // dummy 입니다. 각 VC에서 덮어써서 Custom 하세요.
+        $0.text = "하남돼지집"
         $0.font = .systemFont(ofSize: 22, weight: .bold)
         $0.numberOfLines = 0 // 글자 줄 제한 없음
         $0.textAlignment = .left
@@ -92,12 +92,12 @@ class RecommendPlaceThumbnail: UIView {
         }
         
         descriptionLabel.snp.makeConstraints{
-            $0.left.bottom.equalToSuperview().inset(12)
+            $0.left.bottom.equalToSuperview().inset(15)
         }
         
         titleLabel.snp.makeConstraints{
-            $0.left.right.equalToSuperview().inset(12)
-            $0.bottom.equalTo(descriptionLabel.snp.top).offset(-5)
+            $0.left.right.equalToSuperview().inset(15)
+            $0.bottom.equalTo(descriptionLabel.snp.top).offset(-7)
         }
     }
     

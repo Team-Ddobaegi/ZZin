@@ -107,6 +107,9 @@ class MatchingKeywordVC: UIViewController {
     // 선택된 키워드를 업데이트 시켜줄 배열
     var updateKeywords: [String] = []
     
+    // 선택된 키워드를 저장할 배열
+    var selectedMatchingKeywordCells: [MatchingKeywordCell] = []
+    
     // 키워드타입 초기세팅
     var selectedMatchingKeywordType: MatchingKeywordType = .with
     
@@ -257,11 +260,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
             
             switch selectedMatchingKeywordType {
             case .with, .condition, .menu:
-                handleSelectionWithKeyword(cell, collectionView: collectionView)
-                
-                // 키워드 분위기, 메뉴 개수 제한
-                //            case .condition, .menu:
-                //                handleSelectionConditionAndMenuKeyword(cell)
+                handleSelectionKeyword(cell, collectionView: collectionView)
             }
         }
     }
@@ -273,7 +272,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
         selectedMatchingKeywordCellCount += 1
     }
     
-    // 모든 셀을 선택 해제하는 메서드
+    // 셀을 선택 해제하는 메서드
     private func deselectAllCells(in collectionView: UICollectionView) {
         for visibleCell in collectionView.visibleCells {
             if let visibleKeywordCell = visibleCell as? MatchingKeywordCell {
@@ -284,27 +283,57 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
         selectedMatchingKeywordCellCount = 0
     }
     
-    private func handleSelectionWithKeyword(_ cell: MatchingKeywordCell, collectionView: UICollectionView) {
-        // 이미 선택된 셀이 있을 때, 선택된 셀 해제
+    // 셀 한개 이상 선택시 :: 선택된 셀 선택해제 후 새로운 셀 선택
+    private func handleSelectionKeyword(_ cell: MatchingKeywordCell, collectionView: UICollectionView) {
         if selectedMatchingKeywordCellCount >= 1 {
             deselectAllCells(in: collectionView)
         }
         // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
         selectCell(cell)
+      
+        // 선택된 셀의 값 저장
+        selectedMatchingKeywordCells.append(cell)
     }
     
-    // "condition" 및 "menu" 키워드 타입에 대한 선택 처리 메서드
-    //    private func handleSelectionConditionAndMenuKeyword(_ cell: MatchingKeywordCell) {
-    //        // 선택된 셀의 최대 개수 3개로 제한
-    //        if selectedCellCount < 3 {
-    //                // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
-    //                selectCell(cell)
-    //            } else {
-    //                // 이미 3개 선택된 경우, 경고 메시지 표시
-    //                deselectAllCells(in: userChoiceCollectionView)
-    //                infoLabel.text = "키워드는 세 개까지만 선택 가능합니다."
-    //                infoLabel.textColor = .red
-    //            }
-    //    }
+    
+    // MARK: - with(1개)/condition(3개)/menu(3개) 키워드 개수 제한 메서드
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+//            print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
+//
+//            switch selectedMatchingKeywordType {
+//            case .with, .condition, .menu:
+//                handleSelectionWithKeyword(cell, collectionView: collectionView)
+//
+//                // 키워드 분위기, 메뉴 개수 제한
+//            case .condition, .menu:
+//                handleSelectionConditionAndMenuKeyword(cell)
+//            }
+//        }
+//    }
+    
+//    private func handleSelectionWithKeyword(_ cell: MatchingKeywordCell, collectionView: UICollectionView) {
+//        // 이미 선택된 셀이 있을 때, 선택된 셀 해제
+//        if selectedMatchingKeywordCellCount >= 1 {
+//            deselectAllCells(in: collectionView)
+//        }
+//        // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
+//        selectCell(cell)
+//    }
+    
+//    // "condition" 및 "menu" 키워드 타입에 대한 선택 처리 메서드
+//        private func handleSelectionConditionAndMenuKeyword(_ cell: MatchingKeywordCell) {
+//            // 선택된 셀의 최대 개수 3개로 제한
+//            if selectedCellCount < 3 {
+//                    // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
+//                    selectCell(cell)
+//                } else {
+//                    // 이미 3개 선택된 경우, 경고 메시지 표시
+//                    deselectAllCells(in: userChoiceCollectionView)
+//                    infoLabel.text = "키워드는 세 개까지만 선택 가능합니다."
+//                    infoLabel.textColor = .red
+//                }
+//        }
     
 }

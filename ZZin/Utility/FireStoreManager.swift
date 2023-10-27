@@ -36,6 +36,7 @@ struct Review : Codable {
     var reviewImg: String?
     var like: Int
     var dislike: Int
+    var title: String
     var content: String
     var rate: Double
     var companion: String // 추후 enum case로 정리 필요
@@ -49,6 +50,7 @@ struct Review : Codable {
         case reviewImg
         case like
         case dislike
+        case title
         case content
         case rate
         case companion
@@ -61,7 +63,7 @@ struct Place : Codable {
     var pid: String // UUID.uuidString
     var rid: [String] // [UUID.uuidString]
     var placeName: String
-    var title: String
+    var placeImg: [String]
     var city: String
     var town: String
     var address: String
@@ -72,7 +74,7 @@ struct Place : Codable {
         case pid
         case rid
         case placeName
-        case title
+        case placeImg
         case city
         case town
         case address
@@ -155,7 +157,7 @@ class FireStoreManager {
             "pid": PlaceInfo.pid,
             "rid": FieldValue.arrayUnion(PlaceInfo.rid),
             "placeName": PlaceInfo.placeName,
-            "title": PlaceInfo.title,
+            "placeImg": PlaceInfo.placeImg,
             "city": PlaceInfo.city,
             "town": PlaceInfo.town,
             "address": PlaceInfo.address,

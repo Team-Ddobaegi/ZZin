@@ -75,7 +75,7 @@ class MatchingView: UIView {
     }
     
     public let setLocationButton = UIButton().then {
-        $0.setTitle("서울 강동구", for: .normal)
+        $0.setTitle("지역 미설정", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         
