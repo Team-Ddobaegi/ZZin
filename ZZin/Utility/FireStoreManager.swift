@@ -61,7 +61,8 @@ struct Place : Codable {
     var pid: String // UUID.uuidString
     var rid: [String] // [UUID.uuidString]
     var placeName: String
-    var title: String
+    var placeImg: [String]
+    var placeTelNum: String
     var city: String
     var town: String
     var address: String
@@ -72,7 +73,8 @@ struct Place : Codable {
         case pid
         case rid
         case placeName
-        case title
+        case placeImg
+        case placeTelNum
         case city
         case town
         case address
@@ -155,7 +157,8 @@ class FireStoreManager {
             "pid": PlaceInfo.pid,
             "rid": FieldValue.arrayUnion(PlaceInfo.rid),
             "placeName": PlaceInfo.placeName,
-            "title": PlaceInfo.title,
+            "placeImg": PlaceInfo.placeImg,
+            "placeTelNum": PlaceInfo.placeTelNum,
             "city": PlaceInfo.city,
             "town": PlaceInfo.town,
             "address": PlaceInfo.address,
@@ -270,6 +273,7 @@ class FireStoreManager {
             }
             placeData.remove(at: 0)
             place = self.dictionaryToObject(objectType: Place.self, dictionary: placeData)
+            print(place?.count)
             completion(place) // 성공 시 배열 전달
         }
     }
