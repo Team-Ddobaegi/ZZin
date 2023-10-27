@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Firebase
 
 class MatchingPlaceVC: UIViewController {
     
@@ -15,39 +16,19 @@ class MatchingPlaceVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setDataManager()
-        setView()
+        matchingPlaceInfo()
+      
     }
     
     
     // MARK: - Settings
-    
-    private func setDataManager(){
-        // 플레이스 데이터 불러오기
-        dataManager.getPlaceData { [weak self] result in
-            if let placeData = result {
-                self?.place = placeData
-                self?.collectionView.reloadData()
-            }
-        }
-        
-        // 리뷰 데이터 불러오기
-        dataManager.getReviewData { [weak self] result in
-            if let reviewData = result {
-                self?.review = reviewData
-                self?.collectionView.reloadData()
-            }
-        }
-    }
-    
     
     private func setView(){
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         
         setXMarkButton()
-        setTableViewAttribute() // 테이블뷰 셀 선언
+        setTableViewAttribute() // 리뷰 들어갈 테이블뷰 셀 선언
         setCustomCell()
         configureUI()
     }
@@ -75,14 +56,41 @@ class MatchingPlaceVC: UIViewController {
         return 1
     }
     
+    func matchingPlaceInfo(){
+        // 플레이스 정보 가져오기
+        let db = Firestore.firestore()
+        
+        db.collection("places").document(placeID ?? "").getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+            } else if let document = document, document.exists {
+                if let placeData = document.data() {
+                   
+                    if let placeName = placeData["placeName"] as? String {
+                        print(placeName)
+                        self.placeName = placeName
+                    }
+                    
+                    if let placeAddress = placeData["address"] as? String {
+                        print(placeAddress)
+                        self.placeAddress = placeAddress
+                    }
+                }
+            }
+            
+            self.setView()
+        }
+    }
+    
     
     
     //MARK: - Properties
     
-    // FirestoreManager
-    let dataManager = FireStoreManager()
-    var place: [Place]?
-    var review: [Review]?
+    var placeID: String?
+    
+    var placeName: String?
+    
+    var placeAddress: String?
     
     private let matchingPlaceView = MatchingPlaceView()
     
@@ -156,8 +164,13 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             
         case 1:
             // 매칭 업체의 정보
-            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceInfoCell.identifier, for: indexPath) as! MatchingPlaceInfoCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceInfoCell.identifier,for: indexPath) as? MatchingPlaceInfoCell else {
+                return UITableViewCell()
+            }
             cell.selectionStyle = .none
+            cell.placeTitleLabel.text = self.placeName
+            cell.placeAddresseLabel.text = self.placeAddress
+            
             return cell
             
         case 2:

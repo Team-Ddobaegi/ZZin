@@ -34,14 +34,6 @@ class MatchingVC: UIViewController {
                 self?.collectionView.collectionView.reloadData()
             }
         }
-        
-        // 리뷰 데이터 불러오기
-//        dataManager.getReviewData { [weak self] result in
-//            if let reviewData = result {
-//                self?.review = reviewData
-//                self?.collectionView.collectionView.reloadData()
-//            }
-//        }
     }
     
     private func setView(){
@@ -442,13 +434,7 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
                 }
             }
         }
-//        if let reviewData = review {
-//            let reviewTitle = reviewData[indexPath.item].title
-//            cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
-//            print("------------------------\(reviewTitle)")
-//        }
-        
-        
+
         return cell
     }
     
@@ -467,6 +453,8 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         if collectionView.cellForItem(at: indexPath) is MatchingSearchResultCell {
             let matchingVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingVC, animated: true)
+            
+            matchingVC.placeID = place?[indexPath.item].pid
         }
     }
 }
