@@ -289,7 +289,7 @@ class MainView: UIView {
         
         addSubview(zzinlogoPicture)
         zzinlogoPicture.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(39)
+            $0.top.equalToSuperview().offset(-60)//39
             $0.leading.equalTo(15)
 //            make.trailing.equalToSuperview()
             $0.height.equalTo(100)
@@ -321,21 +321,21 @@ class MainView: UIView {
         
         addSubview(rankButtonStackView)
         rankButtonStackView.snp.makeConstraints {
-            $0.top.equalTo(rangkingLabelStackView.snp.bottom).offset(15)
+            $0.top.equalTo(rangkingLabelStackView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(20)
         }
                 
         addSubview(reviewStackView)
         reviewStackView.snp.makeConstraints {
-            $0.top.equalTo(rankButtonStackView.snp.bottom).offset(15)
+            $0.top.equalTo(rankButtonStackView.snp.bottom).offset(10)
             $0.leading.equalTo(20)
         }
         addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-3)
+            $0.top.equalTo(reviewStackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
-            $0.width.equalTo(353)
-            $0.height.equalTo(145)
+            $0.height.equalTo(237)
+            $0.bottom.equalToSuperview().offset(-20)
         }
     }
     }

@@ -12,7 +12,8 @@ class MainViewController: UIViewController {
     // MARK: - varibles
     
     private let mainView = MainView()
-    
+    private let scrollView = UIScrollView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -23,7 +24,20 @@ class MainViewController: UIViewController {
 
     private extension MainViewController {
         func setupUI() {
-            view = mainView
+            
+            view.addSubview(scrollView)
+            scrollView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+
+            scrollView.addSubview(mainView)
+
+            mainView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+                $0.width.equalTo(scrollView)
+            }
+
+
             mainView.recommendcollectionView.dataSource = self
             mainView.recommendcollectionView.delegate = self
             mainView.reviewCollectionView.dataSource = self
@@ -89,7 +103,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainView.recommendcollectionView {
             return CGSize(width: 76, height: 110)
         } else if collectionView == mainView.reviewCollectionView {
-            return CGSize(width: 353, height: 140)
+            return CGSize(width: 353, height: 237)
         }
         return CGSize(width: 50, height: 50)
     }
