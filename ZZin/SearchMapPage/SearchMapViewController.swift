@@ -11,7 +11,10 @@ class SearchMapViewController: UIViewController {
     
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
-    
+    private var dataManager = FireStoreManager()
+    var user : [User]?
+    var review : [Review]?
+    var place : [Place]?
     // MARK: - Touch Action
     
 
@@ -64,6 +67,18 @@ override func viewDidLoad() {
     setTouchableCardView()
     addTargetButton()
     addInfoMarker(at: NMGLatLng(lat: 37.5666102, lng: 126.9783881), storeName: "ㄱㄴㄷㄹ")
+    dataManager.getUserData { result in
+        self.user = result
+        print("--------------유저\(self.user)------------------")
+    }
+    dataManager.getReviewData { result in
+        self.review = result
+        print("--------------리뷰\(self.review)------------------")
+    }
+    dataManager.getPlaceData { result in
+        self.place = result
+        print("--------------플레이스\(self.place)------------------")
+    }
 }
 
 override func viewDidAppear(_ animated: Bool) {
@@ -136,6 +151,8 @@ func addInfoMarker(at location: NMGLatLng, storeName: String) {
     // 4. 마커를 지도에 추가
     marker.mapView = searchMapUIView.searchMapView.mapView
 }
+    
+    
 
 }
 
