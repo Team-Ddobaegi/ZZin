@@ -30,7 +30,7 @@ class CustomTextfieldView: UIView {
     let validationLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .red
+        $0.textColor = UIColor.init(hexCode: "F55951")
         $0.isHidden = true
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
@@ -170,8 +170,8 @@ extension CustomTextfieldView {
     func showInvalidMessage() {
         validationLabel.isHidden = false
         animatingLabel.isHidden = true
-        layer.borderColor = UIColor.systemRed.cgColor
-        textfield.tintColor = .red
+        layer.borderColor = UIColor.init(hexCode: "F55951").cgColor
+        textfield.tintColor = UIColor.init(hexCode: "F55951")
     }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {

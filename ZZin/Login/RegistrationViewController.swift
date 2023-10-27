@@ -35,7 +35,7 @@ class RegistrationViewController: UIViewController {
     private var confirmButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .red
+        $0.backgroundColor = UIColor.init(hexCode: "F55951")
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
