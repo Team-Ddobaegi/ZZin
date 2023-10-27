@@ -92,16 +92,6 @@ class MatchingVC: UIViewController {
         matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
-    func updateKeywordButtonTitle() {
-        if keywordVC.selectedWithMatchingKeywords.isEmpty {
-            matchingView.withKeywordButton.titleLabel?.text = "키워드"
-            matchingView.withKeywordButton.titleLabel?.textColor = .systemGray2
-        } else {
-            matchingView.withKeywordButton.titleLabel?.text = keywordVC.selectedWithMatchingKeywords.joined(separator: ", ")
-            matchingView.withKeywordButton.titleLabel?.textColor = .black
-        }
-    }
-    
     
     //MARK: - Properties
    
@@ -125,7 +115,7 @@ class MatchingVC: UIViewController {
     //dummy location
     private let selectedCity: [String] = ["서울"]
     
-    private let selectedTown: [String] = ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구",
+    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구",
                                           "도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
                                           "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
     
@@ -286,16 +276,19 @@ extension MatchingVC: MatchingKeywordDelegate {
         case .with:
             if let updateKeyword = keyword.first {
                 matchingView.withKeywordButton.setTitle(updateKeyword, for: .normal)
+                matchingView.withKeywordButton.setTitleColor(.darkGray, for: .normal)
             }
             
         case .condition:
             if let updateKeyword = keyword.first {
                 matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
+                matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
             }
             
         case .menu:
             if let updateKeyword = keyword.first {
                 matchingView.menuKeywordButton.setTitle(updateKeyword, for: .normal)
+                matchingView.menuKeywordButton.setTitleColor(.darkGray, for: .normal)
             }
         }
     }

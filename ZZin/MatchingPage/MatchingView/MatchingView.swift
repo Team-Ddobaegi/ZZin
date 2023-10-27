@@ -65,13 +65,13 @@ class MatchingView: UIView {
     public let mapButton = UIButton().then {
         let iconImage = UIImage(systemName: "map")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.cherryTomato
+        $0.tintColor = ColorGuide.main
     }
     
     public let locationButton = UIButton().then {
         let iconImage = UIImage(systemName: "location")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = ColorGuide.cherryTomato
+        $0.tintColor = ColorGuide.main
     }
     
     public let setLocationButton = UIButton().then {
@@ -168,16 +168,14 @@ class MatchingView: UIView {
             $0.trailing.equalToSuperview().offset(-20)
         }
        
+        // 키워드 버튼 스택뷰
         keywordButtonStackView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(40)
             $0.bottom.equalTo(matchingNotiLabel).offset(50)
-
         }
-        
     }
-   
 }
 
 
@@ -188,7 +186,7 @@ extension UIButton {
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.1
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         button.setTitleColor(.systemGray2, for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 40 / 2

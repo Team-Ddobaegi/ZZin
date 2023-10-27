@@ -69,26 +69,6 @@ class MatchingKeywordVC: UIViewController {
         }
     }
     
-//    func identifySelectedKeywordType() -> String {
-//        switch selectedMatchingKeywordType {
-//        case .with:
-//            return "with"
-//        case .condition:
-//            return "condition"
-//        case .menu:
-//            return "menu"
-//        }
-//    }
-//    
-//    func updateSelectedKeyword(_ selectedKeywords: [String], type: String) {
-//        if selectedKeywords.isEmpty {
-//            print("\(type) 키워드 선택 안됨")
-//        } else {
-//            let updateKeyword = selectedKeywords.first
-//            print("선택 키워드 \(type) : \(updateKeyword ?? "")")
-//        }
-//    }
-    
     func sendData(data: [String], type: MatchingKeywordType){
         let keyword = data
         let type = type

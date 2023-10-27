@@ -25,7 +25,7 @@ class MatchingLocationPickerView: UIView {
     
     public let pickerView = UIPickerView().then {
         $0.backgroundColor = .white
-        $0.tintColor = ColorGuide.cherryTomato
+        $0.tintColor = ColorGuide.main
     }
     
     private let noticeLabel = UILabel().then {
@@ -39,7 +39,7 @@ class MatchingLocationPickerView: UIView {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        $0.backgroundColor = ColorGuide.cherryTomato
+        $0.backgroundColor = ColorGuide.main
         $0.layer.cornerRadius = 15
         $0.clipsToBounds = true
     }

@@ -71,11 +71,11 @@ class MatchingReviewTextCell: UITableViewCell {
     
     let reviewTextLabel = UILabel().then{
         $0.text = "일단 고기를 직접 구워주셔서 너무 좋음!! 편하게 구워주시는대로 먹을 수 있으니 회전율도 나름 빠르고 직원분도 친절하심:) 모둠한판으로 2인 먹었는데 생각보다 양이 괜찮아서 추가 안해도 됐었슴ㅎㅎ 된찌 서비스 주셔서 감동👍 물냉면은 적당히 맛있었는데 도시락 김치볶음밥은 뭔가 금 아쉬웠.. 그래도 메인인 고기는 최고!"
+        
         $0.textColor = .white
         $0.numberOfLines = 0
         $0.font = UIFont.systemFont(ofSize: 14, weight: .medium)
     }
-    
     
     lazy var reviewLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [ddobaegiLabel, reviewTextLabel])

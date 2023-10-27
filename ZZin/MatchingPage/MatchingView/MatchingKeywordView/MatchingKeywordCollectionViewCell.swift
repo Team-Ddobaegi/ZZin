@@ -35,7 +35,7 @@ class MatchingKeywordCollectionViewCell: UICollectionViewCell {
         isSelected = !isSelected
         
         if isSelected {
-            cellButton.layer.borderColor = ColorGuide.cherryTomato.cgColor
+            cellButton.layer.borderColor = ColorGuide.main.cgColor
             addSelectedKeyword()
         } else {
             cellButton.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor

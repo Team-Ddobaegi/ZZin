@@ -143,6 +143,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
         $0.contentVerticalAlignment = .center
+        
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
@@ -177,17 +178,17 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     @objc func callButtonTapped(){
         print("전화하기 버튼 클릭")
-        changeButtonColor(button: placeCallButton, label: placeCallLabel, tintColor: .systemRed)
+        changeButtonColor(button: placeCallButton, label: placeCallLabel, tintColor: ColorGuide.main)
     }
 
     @objc func reviewButtonTapped() {
         print("리뷰쓰기 버튼 클릭")
-        changeButtonColor(button: placeReviewButton, label: placeReviewLabel, tintColor: .systemRed)
+        changeButtonColor(button: placeReviewButton, label: placeReviewLabel, tintColor: ColorGuide.main)
     }
     
     @objc func likeButtonTapped() {
         print("가볼래요 버튼 클릭")
-        changeButtonColor(button: placeLikeButton, label: placeLikeLabel, tintColor: .systemRed)
+        changeButtonColor(button: placeLikeButton, label: placeLikeLabel, tintColor: ColorGuide.main)
     }
     
     
