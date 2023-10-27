@@ -21,7 +21,7 @@ class LoginViewController: UIViewController {
     }
     
     private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일", hasEyeButton: false)
-    private let pwTextfield = CustomTextfieldView(placeholder: "세번째", text: "되나요", hasEyeButton: true)
+    private let pwTextfield = CustomTextfieldView(placeholder: "대문자 + 숫자 또는 특수문자 조합", text: "비밀번호", hasEyeButton: true)
     
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -146,6 +146,9 @@ class LoginViewController: UIViewController {
     
     @objc func searchPwButtonTapped() {
         print("비밀번호 찾기 버튼이 눌렸습니다.")
+        let vc = UserSearchController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     deinit {
@@ -196,8 +199,8 @@ extension LoginViewController: UITextFieldDelegate {
 
         if textField == idTextfield.textfield {
             if idTextfield.validateEmail(emailText) {
-//                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
-                idTextfield.undo()
+                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
+//                idTextfield.undo()
             } else {
                 idTextfield.showInvalidMessage()
             }
