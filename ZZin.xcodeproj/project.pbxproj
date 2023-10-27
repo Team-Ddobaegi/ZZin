@@ -31,6 +31,7 @@
 		7BFC61CE2AE2885A00F46544 /* MatchingThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61CD2AE2885A00F46544 /* MatchingThumbnailCell.swift */; };
 		7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
+		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
 		BD3CB5212ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5202ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -142,6 +143,7 @@
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
+		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */,
 				BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */,
 				BDD983712AE0C24B008168D2 /* UserSearchController.swift */,
+				BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */,
 				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
 				BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */,
@@ -705,6 +708,7 @@
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
 				DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
+				BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				7B1103DB2AE0E927001BBEB2 /* MatchingPlaceVC.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
