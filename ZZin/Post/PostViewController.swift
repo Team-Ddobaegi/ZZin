@@ -190,31 +190,31 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func firstButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedKeywordType = .with
-        matchingKeywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .with
+            matchingKeywordVC.noticeLabel.text = "누구랑\n가시나요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
         
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
-    
-    @objc func secondButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedKeywordType = .condition
-        matchingKeywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        @objc func secondButtonTapped(_ sender: UIButton) {
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .condition
+            matchingKeywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
         
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
-    
-    @objc func menuButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedKeywordType = .menu
-        matchingKeywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
-        
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
+        @objc func menuButtonTapped(_ sender: UIButton) {
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .menu
+            matchingKeywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
 }
 
 extension PostViewController: PHPickerViewControllerDelegate {
