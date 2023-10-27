@@ -109,6 +109,7 @@
 		FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */; };
 		FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */; };
 		FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */; };
+		FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FBB06AEF2AEBAA270091D65A /* SDWebImage */; };
 		FF031D602ADBBA5900206056 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D5F2ADBBA5900206056 /* MainView.swift */; };
 		FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D612ADBBDC100206056 /* FontGuide.swift */; };
 		FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */; };
@@ -236,6 +237,7 @@
 				BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */,
 				BD3CB52B2ADD33D800A9F4A0 /* FirebaseAuth in Frameworks */,
 				BD3CB5352ADD33D800A9F4A0 /* FirebaseDynamicLinks in Frameworks */,
+				FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */,
 				BD3CB5372ADD33D800A9F4A0 /* FirebaseFirestore in Frameworks */,
 				BD3CB54F2ADD33D800A9F4A0 /* FirebaseRemoteConfigSwift in Frameworks */,
 			);
@@ -581,6 +583,7 @@
 				BD3CB5552ADD342000A9F4A0 /* Then */,
 				BD8D6B042ADEE82000F2A8D6 /* Shuffle */,
 				FB3650882AE8AD7600EAEAB7 /* Alamofire */,
+				FBB06AEF2AEBAA270091D65A /* SDWebImage */,
 			);
 			productName = ZZin;
 			productReference = DF1599A92AD6C6E200AE129B /* ZZin.app */;
@@ -616,6 +619,7 @@
 				BD3CB5542ADD341F00A9F4A0 /* XCRemoteSwiftPackageReference "Then" */,
 				BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */,
 				FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FBB06AEE2AEBAA270091D65A /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = DF1599AA2AD6C6E200AE129B /* Products */;
 			projectDirPath = "";
@@ -1025,6 +1029,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		FBB06AEE2AEBAA270091D65A /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1182,6 +1194,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		FBB06AEF2AEBAA270091D65A /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FBB06AEE2AEBAA270091D65A /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
