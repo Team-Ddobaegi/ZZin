@@ -34,10 +34,12 @@ struct Review : Codable {
     var uid: String
     var pid: String // UUID.uuidString
     var reviewImg: String?
+    var title: String
     var like: Int
     var dislike: Int
     var content: String
     var rate: Double
+    var createdAt: Date
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
@@ -47,10 +49,12 @@ struct Review : Codable {
         case uid
         case pid
         case reviewImg
+        case title
         case like
         case dislike
         case content
         case rate
+        case createdAt
         case companion
         case condition
         case kindOfFood
@@ -66,8 +70,8 @@ struct Place : Codable {
     var city: String
     var town: String
     var address: String
-    var lat: Double
-    var long: Double
+    var lat: Double?
+    var long: Double?
     
     enum CodingKeys: String, CodingKey {
         case pid
@@ -84,8 +88,39 @@ struct Place : Codable {
 }
 
 class FireStoreManager {
+    
     let db = Firestore.firestore()
     static let shared = FireStoreManager()
+    
+    func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
+           let docRef = db.collection(collection).document(documentId)
+           docRef.getDocument { (document, error) in
+               if let error = error {
+                   completion(.failure(error))
+                   return
+               }
+               guard let document = document, document.exists, let data = document.data() else {
+                   completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
+                   return
+               }
+               
+               do {
+                   let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+                   let obj = try JSONDecoder().decode(T.self, from: jsonData)
+                   completion(.success(obj))
+               } catch let serializationError {
+                   completion(.failure(serializationError))
+               }
+           }
+       }
+       
+       func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
+           fetchDocument(from: "places", documentId: pid, completion: completion)
+       }
+       
+       func fetchDataWithRid(rid: String, completion: @escaping (Result<Review, Error>) -> Void) {
+           fetchDocument(from: "reviews", documentId: rid, completion: completion)
+       }
     
     func setUserData(_ UserInfo: User) {
         let userRef = db.collection("users").document(UserInfo.uid)
@@ -169,41 +204,6 @@ class FireStoreManager {
                 print("Error adding document: \(err)")
             } else {
                 print("Document added with ID: \(placeRef.documentID)")
-            }
-        }
-    }
-    
-    func 데이터호출() {
-        let collectionRef = db.collection("reviews")
-        
-        collectionRef.getDocuments { (QuerySnapshot, error) in
-            if let error = error {
-                print("에러가 발생했습니다. \(error.localizedDescription)")
-            } else {
-                for document in QuerySnapshot!.documents {
-                    let data = document.data()
-                    print("데이터를 출력합니다. \(data)")
-                }
-            }
-        }
-    }
-    
-    func 데이터호출저장() {
-        let collectionRef = db.collection("reviews")
-        
-        collectionRef.getDocuments { (QuerySnapshot, error) in
-            if let error = error {
-                print("에러가 발생했습니다. \(error.localizedDescription)")
-            } else {
-                var savedData: [[String: Any]] = []
-                
-                for document in QuerySnapshot!.documents {
-                    let data = document.data()
-                    savedData.append(data)
-                }
-                
-                UserDefaults.standard.set(savedData, forKey: "savedData")
-                print("savedData 키 값으로 db 데이터를 저장했습니다.")
             }
         }
     }

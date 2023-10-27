@@ -8,8 +8,10 @@
 import UIKit
 import FirebaseDatabase
 import Firebase
+import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseStorage
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //            let db = Firestore.firestore()
             // [END default_firestore]
-
-//            print(db) // silence warning
+        
+            let storage = Storage.storage()
 
             return true
     }

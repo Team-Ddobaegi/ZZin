@@ -6,14 +6,19 @@
 //
 // section 0. 가게이름, 1. 가게 연락처, 2. 제목, 3. 동반인, 4. 상황별, 5. 음식종류, 6. 리뷰 내용
 import UIKit
+import Foundation
 import SnapKit
 import Then
+import Photos
+import PhotosUI
+import FirebaseStorage
+import Firebase
+
 
 var placeName: String = ""
 var address: String = ""
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     var tableView = UITableView()
     
     let placeNameTitle = UILabel().then {
@@ -84,7 +89,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         switch indexPath.section {
         case 0: return 50
         case 4: return 50
-        case 6: return 160
+        case 6: return 250
         case 7: return 160
         case 8: return 280
         default: return 100
@@ -151,8 +156,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         case 6:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: ImgSelectionTableViewCell.identifier, for: indexPath) as! ImgSelectionTableViewCell
-            
             cell.selectionStyle = .none
+            cell.buttonAction = { [self] in
+                didTappedAddImgButton()
+            }
             return cell
         case 7:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SelectKeywordsTableViewCell.identifier, for: indexPath) as! SelectKeywordsTableViewCell
@@ -165,41 +172,90 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         case 8:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: PostPlaceContentCell.identifier, for: indexPath) as! PostPlaceContentCell
+        
             cell.selectionStyle = .none
             return cell
             
         default: return UITableViewCell()
         }
+    }
+    @objc func didTappedAddImgButton() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
         
-        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
     }
     
     @objc func firstButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedMatchingKeywordType = .with
-        matchingKeywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .with
+            matchingKeywordVC.noticeLabel.text = "누구랑\n가시나요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
         
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
-    
-    @objc func secondButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedMatchingKeywordType = .condition
-        matchingKeywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+        @objc func secondButtonTapped(_ sender: UIButton) {
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .condition
+            matchingKeywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
         
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
-    
-    @objc func menuButtonTapped(_ sender: UIButton) {
-        let matchingKeywordVC = MatchingKeywordVC()
-        matchingKeywordVC.selectedMatchingKeywordType = .menu
-        matchingKeywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        matchingKeywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
-        
-        navigationController?.present(matchingKeywordVC, animated: true)
-    }
+        @objc func menuButtonTapped(_ sender: UIButton) {
+            let matchingKeywordVC = MatchingKeywordVC()
+            matchingKeywordVC.selectedMatchingKeywordType = .menu
+            matchingKeywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+            matchingKeywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
+            
+            navigationController?.present(matchingKeywordVC, animated: true)
+        }
 }
 
+extension PostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+        
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+            guard let self = self, let uiImage = image as? UIImage, let data = uiImage.jpegData(compressionQuality: 0.8) else { return }
+            
+            self.uploadToFirebase(data: data)
+        }
+    }
+    
+    func uploadToFirebase(data: Data) {
+        print("uploadToFirebase")
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        var imagesRef = storageRef.child("images")
+        let imageName = UUID().uuidString
+        let storagePath = "gs://zzin-ios-application.appspot.com//images/\(imageName).jpg"
+        imagesRef = storage.reference(forURL: storagePath)
+    
+        // 유일한 파일 이름을 만들기 위해 UUID를 사용
+        
 
+        let uploadTask = imagesRef.putData(data, metadata: nil) { (metadata, error) in
+          guard let metadata = metadata else {
+            print("Uh-oh, an error occurred!")
+            return
+          }
+          // Metadata contains file metadata such as size, content-type.
+          let size = metadata.size
+          // You can also access to download URL after upload.
+            imagesRef.downloadURL { (url, error) in
+            guard let downloadURL = url else {
+                print("Uh-oh, an error occurred! in down")
+              return
+            }
+          }
+        }
+    }
+}
