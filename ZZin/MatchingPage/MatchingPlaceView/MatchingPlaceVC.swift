@@ -8,22 +8,16 @@
 import UIKit
 import SnapKit
 import Then
+import Firebase
 
 class MatchingPlaceVC: UIViewController {
-    
-    
-    //MARK: - Properties
-    
-    private let matchingPlaceView = MatchingPlaceView()
-    
-    var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setView()
+        matchingPlaceInfo()
+      
     }
     
     
@@ -34,7 +28,7 @@ class MatchingPlaceVC: UIViewController {
         navigationController?.isNavigationBarHidden = true
         
         setXMarkButton()
-        setTableViewAttribute() // 테이블뷰 셀 선언
+        setTableViewAttribute() // 리뷰 들어갈 테이블뷰 셀 선언
         setCustomCell()
         configureUI()
     }
@@ -61,6 +55,47 @@ class MatchingPlaceVC: UIViewController {
         // MatchingPlaceReviewCell의 개수 반환
         return 1
     }
+    
+    func matchingPlaceInfo(){
+        // 플레이스 정보 가져오기
+        let db = Firestore.firestore()
+        
+        db.collection("places").document(placeID ?? "").getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+            } else if let document = document, document.exists {
+                if let placeData = document.data() {
+                   
+                    if let placeName = placeData["placeName"] as? String {
+                        print(placeName)
+                        self.placeName = placeName
+                    }
+                    
+                    if let placeAddress = placeData["address"] as? String {
+                        print(placeAddress)
+                        self.placeAddress = placeAddress
+                    }
+                }
+            }
+            self.setView()
+        }
+    }
+    
+    
+    
+    //MARK: - Properties
+    
+    var placeID: String?
+    
+    var placeName: String?
+    
+    var placeAddress: String?
+    
+    private let matchingPlaceView = MatchingPlaceView()
+    
+    var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
+    
+    
     
     
     // MARK: - Actions
@@ -128,14 +163,22 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             
         case 1:
             // 매칭 업체의 정보
-            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceInfoCell.identifier, for: indexPath) as! MatchingPlaceInfoCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceInfoCell.identifier,for: indexPath) as? MatchingPlaceInfoCell else {
+                return UITableViewCell()
+            }
             cell.selectionStyle = .none
+            cell.placeTitleLabel.text = self.placeName
+            cell.placeAddresseLabel.text = self.placeAddress
+            
             return cell
             
         case 2:
             // 매칭 업체를 추천하는 로컬주민들의 리뷰
-            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceReviewCell.identifier, for: indexPath) as! MatchingPlaceReviewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceReviewCell.identifier,for: indexPath) as? MatchingPlaceReviewCell else {
+                return UITableViewCell()
+            }
             cell.selectionStyle = .none
+            
             return cell
             
         default:

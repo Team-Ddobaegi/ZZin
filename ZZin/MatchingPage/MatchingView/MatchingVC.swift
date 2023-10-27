@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Firebase
 
 
 class MatchingVC: UIViewController {
@@ -17,13 +18,23 @@ class MatchingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setDataManager()
         setView()
         configureUI()
-       
     }
     
     
     // MARK: - Settings
+    
+    func setDataManager(){
+        // 플레이스 데이터 불러오기
+        dataManager.getPlaceData { [weak self] result in
+            if let placeData = result {
+                self?.place = placeData
+                self?.collectionView.collectionView.reloadData()
+            }
+        }
+    }
     
     private func setView(){
         view.backgroundColor = .white
@@ -81,6 +92,32 @@ class MatchingVC: UIViewController {
         }
     }
     
+    // 피커뷰에서 설정한 값 > MatchingView - setLocationButton의 Title 업데이트하는 메서드입니두
+    private func updateLocationButtonTitle(){
+        // 피커뷰에서 선택된 값을 가져오기
+        let selectedCityRow = pickerView.pickerView.selectedRow(inComponent: 0)
+        let selectedTownRow = pickerView.pickerView.selectedRow(inComponent: 1)
+        
+        // 'selectedCityIndex'를 첫 번째 열(시)에서 선택한 값으로 설정
+        selectedCityIndex = selectedCityRow
+        
+        // 'selectedTownIndex'를 두 번째 열(구)에서 선택한 값으로 설정
+        selectedTownIndex = selectedTownRow
+        
+        // 클래스 수준의 속성인 selectedCity와 selectedTown을 사용합니다.
+        let selectedCity = cities[selectedCityIndex]
+        let selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+        
+        // setLocationButton의 타이틀 업데이트
+        matchingView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
+        
+        // PickerView 숨기기
+        pickerView.removeFromSuperview()
+        
+        // 뒷배경 흐리게 해제
+        setOpacityView()
+    }
+    
     private func setCollectionViewAttribute(){
         collectionView.collectionView.delegate = self
         collectionView.collectionView.dataSource = self
@@ -92,36 +129,121 @@ class MatchingVC: UIViewController {
         matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
+    // 피커뷰 외 터치 시 피커뷰 숨기기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: view)
+            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
+            
+            if !pickerView.bounds.contains(convertedTouchLocation) {
+                pickerView.removeFromSuperview()
+                tabBarController?.tabBar.isHidden = false
+                setOpacityView()
+            }
+        }
+    }
+    
+    // 지역 설정 필터링 메서드
+    func filterLocationData() {
+        // 피커뷰에서 선택된 시와 구의 값을 가져옴
+        let selectedCity = cities[selectedCityIndex]
+        let selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+        
+        // Firestore에서 모든 플레이스 데이터를 가져옵니다.
+        dataManager.getPlaceData { [weak self] result in
+            if let placeData = result {
+                var filteredPlaces: [Place] = []
+                
+                if selectedTown == "전체" {
+                    // "구"가 "전체"로 선택된 경우, "시"에 따라 모든 데이터를 가져옵니다.
+                    filteredPlaces = placeData.filter { place in
+                        return place.city == selectedCity
+                    }
+                } else {
+                    // "시"와 "구" 모두 선택된 경우, 선택한 "시"와 "구"와 일치하는 데이터만 필터링합니다.
+                    filteredPlaces = placeData.filter { place in
+                        return place.city == selectedCity && place.town == selectedTown
+                    }
+                }
+                
+                // 필터링된 데이터로 Collection View를 다시 로드합니다.
+                self?.place = filteredPlaces
+                self?.collectionView.collectionView.reloadData()
+            }
+        }
+    }
+    
+    func filterKeywordData(){
+//        if let reviewData = review {
+//            let withKeyword = matchingView.withKeywordButton.titleLabel?.text
+//            let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text
+//            let menuKeyword = matchingView.menuKeywordButton.titleLabel?.text
+//            
+//            var filteredReviews: [Review] = reviewData
+//            
+//            if let withKeyword = withKeyword {
+//                filteredReviews = filteredReviews.filter { $0.companion == withKeyword }
+//            }
+//            if let conditionKeyword = conditionKeyword {
+//                filteredReviews = filteredReviews.filter { $0.condition == conditionKeyword }
+//            }
+//            if let menuKeyword = menuKeyword {
+//                filteredReviews = filteredReviews.filter { $0.kindOfFood == menuKeyword }
+//            }
+//            
+//            self.review = filteredReviews
+//            print(filteredReviews)
+//            collectionView.collectionView.reloadData()
+//        }
+    }
     
     //MARK: - Properties
-   
+    
+    // FirestoreManager
+    let dataManager = FireStoreManager()
+    var place: [Place]?
+    var review: [Review]?
+    
+    // 업데이트된 키워드를 저장하는 배열입니두
     var updateWithMatchingKeywords: [String] = []
     var updateConditionMatchingKeywords: [String] = []
     var updateMenuMatchingKeywords: [String] = []
+    
     
     private let matchingView = MatchingView()
     
     private let collectionView = MatchingResultCollectionView()
     
     private let keywordVC = MatchingKeywordVC()
-
+    
     private let opacityView = OpacityView()
     
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
-
+    
     private let pickerView = MatchingLocationPickerView()
     
     
-    //dummy location
-    private let selectedCity: [String] = ["서울"]
-    
-    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구",
-                                          "도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
-                                          "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
-    
+    // 선택된 "시"의 인덱스
     private var selectedCityIndex: Int = 0
+    // 피커뷰 1열에 들어갈 "시"
+    private let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
     
+  
+    // 선택된 "구"의 인덱스
     private var selectedTownIndex: Int = 0
+    // 피커뷰 2열에 들어갈 "구"
+    private let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+    private let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
+ 
+    
+//    //dummy location
+//    private let selectedCity: [String] = ["지역", "서울", "인천"]
+//    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+////    ,"도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
+////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
+//    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
+    
+    
     
     
     // MARK: - Actions
@@ -155,7 +277,6 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -168,7 +289,6 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -181,32 +301,23 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .menu
         keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
     }
     
     @objc func confirmButtonTapped() {
-        // 피커뷰에서 선택된 값을 가져오기
-        let selectedCityRow = pickerView.pickerView.selectedRow(inComponent: 0)
-        let selectedTownRow = pickerView.pickerView.selectedRow(inComponent: 1)
-        
-        let selectedCity = selectedCity[selectedCityRow]
-        let selectedTown = selectedTown[selectedTownRow]
-        
-        // setLocationButton의 타이틀 업데이트
-        matchingView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
-        
-        // PickerView 숨기기
-        pickerView.removeFromSuperview()
-        
         // 탭바 다시 보이게 하기
         tabBarController?.tabBar.isHidden = false
         
-        // 뒷배경 흐리게 해제
-        setOpacityView()
+        // 지역설정 버튼 타이틀 업데이트
+        updateLocationButtonTitle()
+        
+        // 필터링된 데이터로 Collection View를 다시 로드
+         filterLocationData()
+         collectionView.collectionView.reloadData()
     }
+   
     
     
     //MARK: - Configure UI
@@ -247,19 +358,6 @@ class MatchingVC: UIViewController {
         }
     }
     
-    // 피커뷰 외 터치 시 피커뷰 숨기기
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchLocation = touch.location(in: view)
-            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
-            
-            if !pickerView.bounds.contains(convertedTouchLocation) {
-                pickerView.removeFromSuperview()
-                tabBarController?.tabBar.isHidden = false
-                setOpacityView()
-            }
-        }
-    }
 }
 
 
@@ -295,12 +393,13 @@ extension MatchingVC: MatchingKeywordDelegate {
 }
 
 
+
 //MARK: - CollectionView Delegate, DataSource, Layout
 
 extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2 - 25, height: collectionView.frame.width / 2 + 40)
+        return CGSize(width: collectionView.frame.width / 2 - 28, height: collectionView.frame.width / 2 + 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -308,14 +407,56 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //                return recommendItems.count
-        return 5
+        // 등록된 플레이스 개수만큼 컬렉션뷰셀 반환
+        return place?.count ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingSearchResultCell.identifier ,for: indexPath) as? MatchingSearchResultCell else {
             return UICollectionViewCell()
         }
+        
+        
+        // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
+        if let placeData = place {
+            let placeName = placeData[indexPath.item].placeName
+            cell.recommendPlaceReview.titleLabel.text = placeName
+            
+//            let reviewCollection = dataManager.db.collection("reviews/\(placeData[indexPath.item].rid[0])/title")
+//
+//            reviewCollection.getDocuments { (querySnapshot, error) in
+//                print(querySnapshot)
+//                
+//                if let error = error {
+//                    print("Error getting documents: \(error)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        let content = document.get("title") as? String ?? "No content available"
+//                        print("-----------------------------------------------------------\(content)")
+//                        cell.review.descriptionLabel.text = content
+//                    }
+//                }
+//            }
+        }
+        
+        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
+        let db = Firestore.firestore()
+        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
+        
+        db.collection("reviews").document(reviewID).getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+            } else if let document = document, document.exists {
+                if let reviewData = document.data() {
+                    if let reviewTitle = reviewData["title"] as? String {
+                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
+                        print(reviewTitle)
+                    }
+                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
+                }
+            }
+        }
+
         return cell
     }
     
@@ -334,6 +475,8 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         if collectionView.cellForItem(at: indexPath) is MatchingSearchResultCell {
             let matchingVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingVC, animated: true)
+            
+            matchingVC.placeID = place?[indexPath.item].pid
         }
     }
 }
@@ -349,32 +492,88 @@ extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
-            // City(시)의 개수 반환
-            return selectedCity.count
+            // 첫 번째 열에서 "시"의 개수 반환
+            return cities.count
+            
         } else if component == 1 {
-            // Town(구)의 개수 반환
-            return selectedTown.count
+            // 두 번째 열에서 "구"의 개수 :: 선택된 "시"에 따라 배열 반환
+            if selectedCityIndex == 0 {
+                return seoulTowns.count
+            } else if selectedCityIndex == 1 {
+                return incheonTowns.count
+            }
         }
         return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
-            // City(시) 설정
-            return selectedCity[row]
+            // 첫 번째 열에서 "시" 설정
+            return cities[row]
+            
         } else if component == 1 {
-            // Town(구) 설정
-            return selectedTown[row]
+            // 두 번째 열에서 "구" 설정 ::  선택된 "시"에 따라 배열 반환
+            if selectedCityIndex == 0 {
+                return seoulTowns[row]
+                
+            } else if selectedCityIndex == 1 {
+                return incheonTowns[row]
+            }
         }
         return nil
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 {
-            // City(시) 선택이 변경되었을 때
+            // 첫 번째 열(시)에서 선택한 경우 선택한 "시"의 인덱스를 업데이트
             selectedCityIndex = row
-        } else if component == 1 {
-            // Town(구) 선택이 변경되었을 때
-            selectedTownIndex = row
+            
+            // 두 번째 열(구)의 데이터도 업데이트 :: 두 번째 열 다시 로드
+            pickerView.reloadComponent(1)
+            
+            // 선택한 "시"에 따라 기본적으로 첫 번째 "구"를 선택하게
+            pickerView.selectRow(0, inComponent: 1, animated: true)
         }
     }
+    
+    // MARK: - 기존 피커뷰 코드입니두 ~~
+    //    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    //        if component == 0 {
+    //            // City(시)의 개수 반환
+    //            return selectedCity.count
+    //        } else if component == 1 {
+    //            // Town(구)의 개수 반환
+    //            return selectedTown.count
+    //        }
+    //        return 0
+    //    }
+    
+    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    //        if component == 0 {
+    //            // City(시) 설정
+    //            return selectedCity[row]
+    //        } else if component == 1 {
+    //            // Town(구) 설정
+    //            return selectedTown[row]
+    //        }
+    //        return nil
+    //    }
+    
+    //
+    //    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    //        if component == 0 {
+    //            // City(시) 선택이 변경되었을 때
+    //            selectedCityIndex = row
+    //        } else if component == 1 {
+    //            // Town(구) 선택이 변경되었을 때
+    //            selectedTownIndex = row
+    //        }
+    //        // 선택한 값에 기반하여 데이터를 필터링합니다.
+    //        filterData()
+    //
+    //        // 필터링된 데이터로 Collection View를 다시 로드합니다.
+    //        collectionView.collectionView.reloadData()
+    //    }
+    //
+    
 }

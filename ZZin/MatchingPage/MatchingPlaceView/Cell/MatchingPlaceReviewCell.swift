@@ -38,7 +38,7 @@ class MatchingPlaceReviewCell: UITableViewCell {
     
     static let identifier = "MatchingPlaceReviewCell"
     
-    private let review = RecommendPlaceReviewThumbnail().then{
+    let recommendPlaceReview = RecommendPlaceReviewThumbnail().then{
         $0.regionLabel.text = ""
         $0.underline.backgroundColor = .clear
         $0.reviewTitleLabel.font = .systemFont(ofSize: 22,  weight: .bold)
@@ -50,9 +50,9 @@ class MatchingPlaceReviewCell: UITableViewCell {
     //MARK: - ConfigureUI
     
     private func configureUI(){
-        contentView.addSubview(review)
+        contentView.addSubview(recommendPlaceReview)
         
-        review.snp.makeConstraints {
+        recommendPlaceReview.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)

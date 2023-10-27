@@ -168,6 +168,7 @@ class FireStoreManager {
             "uid": ReviewInfo.uid,
             "pid": ReviewInfo.pid,
             "reviewImg": ReviewInfo.reviewImg,
+            "title": ReviewInfo.title,
             "like": ReviewInfo.like,
             "dislike": ReviewInfo.dislike,
             "content": ReviewInfo.content,
