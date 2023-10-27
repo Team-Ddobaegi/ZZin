@@ -110,6 +110,7 @@
 		FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */; };
 		FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */; };
 		FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FBB06AEF2AEBAA270091D65A /* SDWebImage */; };
+		FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */; };
 		FF031D602ADBBA5900206056 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D5F2ADBBA5900206056 /* MainView.swift */; };
 		FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D612ADBBDC100206056 /* FontGuide.swift */; };
 		FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */; };
@@ -194,6 +195,7 @@
 		FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZinCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsForPostVC.swift; sourceTree = "<group>"; };
+		FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageManager.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FF031D612ADBBDC100206056 /* FontGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGuide.swift; sourceTree = "<group>"; };
 		FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageRecommendCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
+				FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
 				7B47A55A2AE9FEB600A44C2C /* MatchingPlaceVC.swift in Sources */,
 				7BFC61C42AE1C90100F46544 /* MatchingPlaceDetailVC.swift in Sources */,
+				FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
 				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,
