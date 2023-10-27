@@ -5,6 +5,7 @@ target 'ZZin' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'NMapsMap'
+  pod 'FirebaseStorageUI'
   # Pods for ZZin
 
 end
