@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         window = UIWindow(windowScene: windowScene)
 
-        window?.rootViewController = TabBarViewController()
+        window?.rootViewController = LoginViewController()
 //        window?.rootViewController = SearchViewController()
 
         window?.makeKeyAndVisible()

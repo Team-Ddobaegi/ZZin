@@ -1,8 +1,8 @@
 //
-//  userSearchController.swift
+//  PasswordSearchController.swift
 //  ZZin
 //
-//  Created by Jack Lee on 2023/10/19.
+//  Created by Jack Lee on 2023/10/27.
 //
 
 import UIKit
@@ -10,18 +10,42 @@ import SnapKit
 import Then
 
 // MARK: - UIComponent 선언
-class UserSearchController: UIViewController {
-    
-    private let idTextfieldView = CustomTextfieldView(placeholder: "닉네임을 입력해주세요", text: "")
-    private let numberTextfieldView = CustomTextfieldView(placeholder: "- 없이 입력해주세요", text: "")
-    
+class PasswordSearchController: UIViewController {
     private var idLabel: UILabel = {
         let label = UILabel()
-        label.text = "닉네임"
+        label.text = "비밀번호"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var idTextfieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        view.addSubview(idTextField)
+        view.addSubview(idPlaceholder)
+        return view
+    }()
+    
+    private var idPlaceholder: UILabel = {
+        let label = UILabel()
+        label.text = "비밀번호를 입력해 주세요"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var idTextField: UITextField = {
+        var tf = UITextField()
+        tf.backgroundColor = .blue
+        tf.textColor = .white
+        tf.keyboardType = .default
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
     }()
     
     private var numberLabel: UILabel = {
@@ -31,6 +55,34 @@ class UserSearchController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var numberTextfieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        view.addSubview(numberTextField)
+        view.addSubview(numberPlaceholder)
+        return view
+    }()
+    
+    private var numberPlaceholder: UILabel = {
+        let label = UILabel()
+        label.text = "- 없이 입력해주세요"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var numberTextField: UITextField = {
+        var tf = UITextField()
+        tf.backgroundColor = .blue
+        tf.textColor = .white
+        tf.keyboardType = .default
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
     }()
     
     private var confirmButton: UIButton = {
@@ -65,6 +117,14 @@ class UserSearchController: UIViewController {
             $0.height.equalTo(43)
         }
         
+        idPlaceholder.snp.makeConstraints {
+            $0.centerY.equalTo(idLabel.snp.centerY)
+        }
+        
+        idTextField.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+        }
+        
         numberLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
             $0.top.equalTo(idLabel.snp.bottom).offset(88)
@@ -76,7 +136,11 @@ class UserSearchController: UIViewController {
             $0.width.equalTo(208)
             $0.height.equalTo(43)
         }
-
+        
+        numberPlaceholder.snp.makeConstraints {
+            $0.centerY.equalTo(numberLabel.snp.centerY)
+        }
+        
         confirmButton.snp.makeConstraints {
             $0.top.equalTo(numberTextfieldView.snp.bottom).offset(233)
             $0.centerX.equalToSuperview()
@@ -100,7 +164,7 @@ class UserSearchController: UIViewController {
     }
 }
 
-extension UserSearchController {
+extension PasswordSearchController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
