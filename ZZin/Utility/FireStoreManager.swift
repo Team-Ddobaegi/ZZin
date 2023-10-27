@@ -205,6 +205,15 @@ class FireStoreManager {
         }
     }
     
+    func saveUserLoginDataLocally(email: String) {
+        // email = UID, save UID
+        if validateEmail(email) {
+            UserDefaults.standard.set(email, forKey: "UID")
+        } else {
+            print("로컬로 사용자 정보를 저장할 수 없었습니다.")
+        }
+    }
+    
     /**
      @brief userData를 불러온다,
      */
@@ -284,12 +293,12 @@ class FireStoreManager {
 //        } else {
 //            print("숫자 형식이 조금 틀립니다.")
 //        }
-//    func validateEmail(_ email: String) -> Bool {
-//        // 이메일 형식이 맞는지 확인
-//        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-//        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-//        return emailpred.evaluate(with: email)
-//    }
+    func validateEmail(_ email: String) -> Bool {
+        // 이메일 형식이 맞는지 확인
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return emailpred.evaluate(with: email)
+    }
     
     // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
     func validateNumber(_ number: String) -> Bool {
