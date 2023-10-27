@@ -394,13 +394,14 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // 등록된 플레이스 개수만큼 컬렉션뷰셀 반환
-        return place?.count ?? 0
+        return place?.count ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingSearchResultCell.identifier ,for: indexPath) as? MatchingSearchResultCell else {
             return UICollectionViewCell()
         }
+        
         
         // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
         if let placeData = place {
@@ -425,9 +426,26 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         }
         
         // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
+        let db = Firestore.firestore()
+        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
+        
+        db.collection("reviews").document(reviewID).getDocument { (document, error) in
+            if let error = error {
+                print("Error getting document: \(error)")
+            } else if let document = document, document.exists {
+                if let reviewData = document.data() {
+                    if let reviewTitle = reviewData["title"] as? String {
+                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
+                        print(reviewTitle)
+                    }
+                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
+                }
+            }
+        }
 //        if let reviewData = review {
 //            let reviewTitle = reviewData[indexPath.item].title
 //            cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
+//            print("------------------------\(reviewTitle)")
 //        }
         
         

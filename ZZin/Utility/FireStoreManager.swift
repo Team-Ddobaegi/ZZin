@@ -34,9 +34,9 @@ struct Review : Codable {
     var uid: String
     var pid: String // UUID.uuidString
     var reviewImg: String?
+    var title: String
     var like: Int
     var dislike: Int
-    var title: String
     var content: String
     var rate: Double
     var companion: String // 추후 enum case로 정리 필요
@@ -48,9 +48,9 @@ struct Review : Codable {
         case uid
         case pid
         case reviewImg
+        case title
         case like
         case dislike
-        case title
         case content
         case rate
         case companion
@@ -64,17 +64,19 @@ struct Place : Codable {
     var rid: [String] // [UUID.uuidString]
     var placeName: String
     var placeImg: [String]
+    var placeTelNum: String
     var city: String
     var town: String
     var address: String
-    var lat: Double
-    var long: Double
+    var lat: Double?
+    var long: Double?
     
     enum CodingKeys: String, CodingKey {
         case pid
         case rid
         case placeName
         case placeImg
+        case placeTelNum
         case city
         case town
         case address
@@ -133,6 +135,7 @@ class FireStoreManager {
             "uid": ReviewInfo.uid,
             "pid": ReviewInfo.pid,
             "reviewImg": ReviewInfo.reviewImg,
+            "title": ReviewInfo.title,
             "like": ReviewInfo.like,
             "dislike": ReviewInfo.dislike,
             "content": ReviewInfo.content,
@@ -158,6 +161,7 @@ class FireStoreManager {
             "rid": FieldValue.arrayUnion(PlaceInfo.rid),
             "placeName": PlaceInfo.placeName,
             "placeImg": PlaceInfo.placeImg,
+            "placeTelNum": PlaceInfo.placeTelNum,
             "city": PlaceInfo.city,
             "town": PlaceInfo.town,
             "address": PlaceInfo.address,
@@ -272,6 +276,7 @@ class FireStoreManager {
             }
             placeData.remove(at: 0)
             place = self.dictionaryToObject(objectType: Place.self, dictionary: placeData)
+            print(place?.count)
             completion(place) // 성공 시 배열 전달
         }
     }

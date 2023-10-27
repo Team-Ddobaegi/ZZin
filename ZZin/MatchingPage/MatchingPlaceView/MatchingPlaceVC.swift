@@ -11,23 +11,36 @@ import Then
 
 class MatchingPlaceVC: UIViewController {
     
-    
-    //MARK: - Properties
-    
-    private let matchingPlaceView = MatchingPlaceView()
-    
-    var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setDataManager()
         setView()
     }
     
     
     // MARK: - Settings
+    
+    private func setDataManager(){
+        // 플레이스 데이터 불러오기
+        dataManager.getPlaceData { [weak self] result in
+            if let placeData = result {
+                self?.place = placeData
+                self?.collectionView.reloadData()
+            }
+        }
+        
+        // 리뷰 데이터 불러오기
+        dataManager.getReviewData { [weak self] result in
+            if let reviewData = result {
+                self?.review = reviewData
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+    
     
     private func setView(){
         view.backgroundColor = .white
@@ -61,6 +74,21 @@ class MatchingPlaceVC: UIViewController {
         // MatchingPlaceReviewCell의 개수 반환
         return 1
     }
+    
+    
+    
+    //MARK: - Properties
+    
+    // FirestoreManager
+    let dataManager = FireStoreManager()
+    var place: [Place]?
+    var review: [Review]?
+    
+    private let matchingPlaceView = MatchingPlaceView()
+    
+    var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
+    
+    
     
     
     // MARK: - Actions

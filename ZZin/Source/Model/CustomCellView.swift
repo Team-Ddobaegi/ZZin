@@ -61,7 +61,7 @@ class RecommendPlaceThumbnail: UIView {
     let descriptionLabel = UILabel().then {
         $0.text = "분위기 좋은 돼지집"
         $0.font = .systemFont(ofSize: 15, weight: .regular)
-        $0.numberOfLines = 0 // 글자 줄 제한 없음
+        $0.numberOfLines = 1 // 글자 줄 제한 없음
         $0.textAlignment = .left
         $0.baselineAdjustment = .none
     }
@@ -92,7 +92,7 @@ class RecommendPlaceThumbnail: UIView {
         }
         
         descriptionLabel.snp.makeConstraints{
-            $0.left.bottom.equalToSuperview().inset(15)
+            $0.left.right.bottom.equalToSuperview().inset(15)
         }
         
         titleLabel.snp.makeConstraints{
