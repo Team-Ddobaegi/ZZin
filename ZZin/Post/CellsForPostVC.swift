@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import PhotosUI
+
 
 class PostTableViewCell: UITableViewCell {
     
@@ -131,47 +133,11 @@ class PostPlaceInfoCell: UITableViewCell {
     }
 }
 
-
-//func textFieldDidBeginEditing(_ textField: UITextField) {
-//        placeholderLabel.snp.updateConstraints {
-//            $0.centerY.equalTo(textField).offset(-10)
-//        }
-//        UIView.animate(withDuration: 1) {
-//            self.placeholderLabel.font = .systemFont(ofSize: 10)
-//            self.placeholderLabel.superview?.layoutIfNeeded()
-//            // Textfield의 슈퍼뷰를 업데이트
-//            // self.view.layoutIfNeeded()
-//            // viewcontroller의 뷰를 업데이트 (상황에 맞게 사용)
-//        }
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        placeholderLabel.snp.updateConstraints {
-//            $0.center.equalTo(textField)
-//        }
-//        UIView.animate(withDuration: 0.5) {
-//            self.placeholderLabel.font = .systemFont(ofSize: 16)
-//            self.placeholderLabel.superview?.layoutIfNeeded()
-//    //      self.view.layoutIfNeeded()
-//        }
-//    }
-//
-
-
-class ImgSelectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    static let identifier = "ImgSelectionTableViewCell"
+class ImgSelectionTableViewCell: UITableViewCell {
     
-    var imgCount = 1
-    var imgArray: [String] = []
-    var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 10
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        return cv
-    }()
+    
+    static let identifier = "ImgSelectionTableViewCell"
+    var buttonAction: (() -> Void) = {}
     
     var titleLabel = UILabel().then{
         $0.textColor = .label
@@ -179,11 +145,16 @@ class ImgSelectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UICo
         $0.font = .systemFont(ofSize: 15, weight: .light)
     }
     
+    var addImgButton = UIButton().then{
+        $0.setImage(UIImage(named: "add_photo"), for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 10
+        $0.layer.backgroundColor = UIColor.systemGray6.cgColor
+        $0.addTarget(self, action: #selector(didTappedAddImgButton), for: .touchUpInside)
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(ImgSelectionCollectionViewCell.self, forCellWithReuseIdentifier: ImgSelectionCollectionViewCell.identifier)
         setLayout()
     }
     
@@ -191,33 +162,22 @@ class ImgSelectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UICo
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func setLayout() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints{
             $0.top.left.equalToSuperview().inset(16)
         }
-        contentView.addSubview(collectionView)
-        collectionView.snp.makeConstraints{
+        contentView.addSubview(addImgButton)
+        addImgButton.snp.makeConstraints{
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview()
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {imgArray.count + 1}
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImgSelectionCollectionViewCell.identifier, for: indexPath) as! ImgSelectionCollectionViewCell
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//    let interItemSpacing: CGFloat = 10
-//    let width = (collectionView.bounds.width - interItemSpacing * 3) / 5
-//    let height = width
-        return CGSize(width: 100, height: 100)
+    @objc func didTappedAddImgButton(_ sender: Any){
+        buttonAction()
     }
 }
 
@@ -251,9 +211,9 @@ class SelectKeywordsTableViewCell: UITableViewCell {
     
     static let identifier = "SelectKeywordsTableViewCell"
     
-    var firstKeywordButton = UIButton().customButton()
-    var secondKeywordButton = UIButton().customButton()
-    var menuKeywordButton = UIButton().customButton()
+    var firstKeywordButton = UIButton().customButton(title: "키워드")
+    var secondKeywordButton = UIButton().customButton(title: "키워드")
+    var menuKeywordButton = UIButton().customButton(title: "키워드")
     
     let titleLabel = UILabel().then{
         $0.textColor = .label
