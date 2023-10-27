@@ -13,15 +13,10 @@ class CustomTextfieldView: UIView {
     
     let animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textColor = .black
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.text = "Test"
     }
-
+    
     let textfield = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.tintColor = .systemGreen
-        $0.textColor = .black
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.keyboardType = .default
@@ -29,9 +24,8 @@ class CustomTextfieldView: UIView {
     
     let validationLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = ""
-        $0.textColor = UIColor.init(hexCode: "F55951")
         $0.isHidden = true
+        $0.textColor = UIColor.init(hexCode: "F55951")
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
 
@@ -62,10 +56,14 @@ class CustomTextfieldView: UIView {
         setUI()
     }
     
-    init(placeholder: String, text: String, hasEyeButton: Bool) {
+    init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", hasEyeButton: Bool) {
         super.init(frame: .zero)
         textfield.placeholder = placeholder
         animatingLabel.text = text
+        validationLabel.text = alertMessage
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        addGestureRecognizer(tap)
         
         configure()
         setUI()
@@ -88,13 +86,9 @@ class CustomTextfieldView: UIView {
 
 extension CustomTextfieldView {
     func configure() {
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemGray5
-        layer.cornerRadius = 12
+        self.backgroundColor = .systemGray5
+        self.layer.cornerRadius = 12
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        addGestureRecognizer(tap)
     }
 
     func setUI() {
@@ -109,9 +103,9 @@ extension CustomTextfieldView {
         }
 
         textfield.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(5)
-            $0.centerY.equalToSuperview()
         }
     }
     
@@ -138,7 +132,7 @@ extension CustomTextfieldView {
     }
     
     // Label Animation을 되돌리는 함수
-    func undo() {
+    private func undo() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             self.backgroundColor = .systemGray5
             self.animatingLabel.textColor = .systemGray
@@ -168,19 +162,19 @@ extension CustomTextfieldView {
     }
     
     func showInvalidMessage() {
-        validationLabel.isHidden = false
-        animatingLabel.isHidden = true
-        layer.borderColor = UIColor.init(hexCode: "F55951").cgColor
-        textfield.tintColor = UIColor.init(hexCode: "F55951")
+        self.validationLabel.isHidden = false
+        self.animatingLabel.isHidden = true
+        self.layer.borderColor = UIColor.init(hexCode: "F55951").cgColor
+        self.textfield.tintColor = UIColor.init(hexCode: "F55951")
     }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
-        textfield.delegate = delegate
+        self.textfield.delegate = delegate
     }
     
     func addEyeButton() {
         addSubview(secureButton)
-        secureButton.snp.makeConstraints {
+        self.secureButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(5)
             $0.height.width.equalTo(30)
