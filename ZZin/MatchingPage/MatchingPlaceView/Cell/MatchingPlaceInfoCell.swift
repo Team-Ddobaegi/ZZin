@@ -68,7 +68,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }
     
     let placeTypeLabel = UILabel().then {
-        $0.text = "돼지고기집"
+        $0.text = "음식점"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .light)
         $0.textColor = .gray
         $0.textAlignment = .left
@@ -223,7 +223,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         
         placeTypeLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(23)
-            $0.left.equalTo(placeTitleLabel.snp.right).offset(20)
+            $0.left.equalTo(placeTitleLabel.snp.right).offset(10)
         }
         
         placeAddresseLabel.snp.makeConstraints {

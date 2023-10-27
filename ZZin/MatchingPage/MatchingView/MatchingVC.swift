@@ -173,6 +173,30 @@ class MatchingVC: UIViewController {
         }
     }
     
+    func filterKeywordData(){
+//        if let reviewData = review {
+//            let withKeyword = matchingView.withKeywordButton.titleLabel?.text
+//            let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text
+//            let menuKeyword = matchingView.menuKeywordButton.titleLabel?.text
+//            
+//            var filteredReviews: [Review] = reviewData
+//            
+//            if let withKeyword = withKeyword {
+//                filteredReviews = filteredReviews.filter { $0.companion == withKeyword }
+//            }
+//            if let conditionKeyword = conditionKeyword {
+//                filteredReviews = filteredReviews.filter { $0.condition == conditionKeyword }
+//            }
+//            if let menuKeyword = menuKeyword {
+//                filteredReviews = filteredReviews.filter { $0.kindOfFood == menuKeyword }
+//            }
+//            
+//            self.review = filteredReviews
+//            print(filteredReviews)
+//            collectionView.collectionView.reloadData()
+//        }
+    }
+    
     //MARK: - Properties
     
     // FirestoreManager
@@ -253,7 +277,6 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        keywordVC.userChoiceCollectionView.reloadData()  // 첫 번째 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -266,7 +289,6 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 두 번째 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -279,7 +301,6 @@ class MatchingVC: UIViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .menu
         keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        keywordVC.userChoiceCollectionView.reloadData() // 메뉴 키워드로 컬렉션 뷰 로드
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -370,6 +391,7 @@ extension MatchingVC: MatchingKeywordDelegate {
         }
     }
 }
+
 
 
 //MARK: - CollectionView Delegate, DataSource, Layout

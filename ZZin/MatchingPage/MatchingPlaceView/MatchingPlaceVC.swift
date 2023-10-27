@@ -77,7 +77,6 @@ class MatchingPlaceVC: UIViewController {
                     }
                 }
             }
-            
             self.setView()
         }
     }
@@ -175,8 +174,11 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             
         case 2:
             // 매칭 업체를 추천하는 로컬주민들의 리뷰
-            let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceReviewCell.identifier, for: indexPath) as! MatchingPlaceReviewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MatchingPlaceReviewCell.identifier,for: indexPath) as? MatchingPlaceReviewCell else {
+                return UITableViewCell()
+            }
             cell.selectionStyle = .none
+            
             return cell
             
         default:

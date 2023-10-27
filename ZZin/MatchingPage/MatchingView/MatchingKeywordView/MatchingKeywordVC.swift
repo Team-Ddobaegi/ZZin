@@ -91,8 +91,7 @@ class MatchingKeywordVC: UIViewController {
         case .menu:
             sendData(data: selectedMenuMatchingKeywords, type: .menu)
         }
-//        print(selectedMatchingKeywordType)
-   
+        
         self.dismiss(animated: true)
     }
     
@@ -101,6 +100,7 @@ class MatchingKeywordVC: UIViewController {
     
     weak var delegate: MatchingKeywordDelegate?
     
+    var matchingVC = MatchingVC()
     
     var buttonAction: (() -> Void) = {}
     
