@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // [START default_firestore]
             FirebaseApp.configure()
 
-            let db = Firestore.firestore()
+//            let db = Firestore.firestore()
             // [END default_firestore]
         
             let storage = Storage.storage()

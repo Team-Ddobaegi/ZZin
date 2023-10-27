@@ -4,42 +4,50 @@ import SnapKit
 
 class StoreCardView: UIView {
 
-    private lazy var placeNameLabel: UILabel = {
+    lazy var placeNameLabel: UILabel = {
         let label = UILabel()
         label.text = "맛집 이름"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         return label
     }()
     
-    private lazy var placeCategoryLabel: UILabel = {
+    lazy var placeCategoryLabel: UILabel = {
         let label = UILabel()
         label.text = "맛집 카테고리"
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         return label
     }()
     
-    private lazy var placeFilterLabel: UILabel = {
+    lazy var placeCompanionLabel: UILabel = {
         let label = UILabel()
-        label.text = "가게 상황, 가게 특성"
+        label.text = "가게 동행자"
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         return label
     }()
     
-    private lazy var placeRatingLabel: UILabel = {
+    lazy var placeConditionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "가게 특성"
+        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        return label
+    }()
+    
+    
+    lazy var placeRatingLabel: UILabel = {
         let label = UILabel()
         label.text = "가게 평점"
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         return label
     }()
     
-    private lazy var placeReviewLabel: UILabel = {
+    lazy var placeReviewLabel: UILabel = {
         let label = UILabel()
         label.text = "리뷰수"
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         return label
     }()
     
-    private lazy var placeImage: UIImageView = {
+    lazy var placeImage: UIImageView = {
         let image = UIImage(named: "ogudangdang")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
@@ -68,16 +76,15 @@ class StoreCardView: UIView {
 
         addSubview(placeNameLabel)
         addSubview(placeCategoryLabel)
-        addSubview(placeFilterLabel)
+        addSubview(placeConditionLabel)
         addSubview(placeRatingLabel)
         addSubview(placeReviewLabel)
         addSubview(placeImage)
-        
+        addSubview(placeCompanionLabel)
         
         placeNameLabel.snp.makeConstraints {
             $0.top.equalTo(placeImage.snp.top)
             $0.leading.equalTo(placeImage.snp.trailing).offset(20)
-            
         }
         
         placeCategoryLabel.snp.makeConstraints {
@@ -85,13 +92,18 @@ class StoreCardView: UIView {
             $0.leading.equalTo(placeNameLabel)
         }
         
-        placeFilterLabel.snp.makeConstraints {
+        placeCompanionLabel.snp.makeConstraints {
             $0.top.equalTo(placeCategoryLabel.snp.bottom).offset(4)
             $0.leading.equalTo(placeNameLabel)
         }
         
+        placeConditionLabel.snp.makeConstraints {
+            $0.top.equalTo(placeCompanionLabel.snp.top)
+            $0.leading.equalTo(placeCompanionLabel.snp.trailing).offset(10)
+        }
+        
         placeRatingLabel.snp.makeConstraints {
-            $0.top.equalTo(placeFilterLabel.snp.bottom).offset(4)
+            $0.top.equalTo(placeCompanionLabel.snp.bottom).offset(4)
             $0.leading.equalTo(placeNameLabel)
         }
         

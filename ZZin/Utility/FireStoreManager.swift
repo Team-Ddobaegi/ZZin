@@ -192,6 +192,8 @@ class FireStoreManager {
             "pid": PlaceInfo.pid,
             "rid": FieldValue.arrayUnion(PlaceInfo.rid),
             "placeName": PlaceInfo.placeName,
+            "placeImg": PlaceInfo.placeImg,
+            "placeTelNum": PlaceInfo.placeTelNum,
             "city": PlaceInfo.city,
             "town": PlaceInfo.town,
             "address": PlaceInfo.address,
@@ -271,6 +273,7 @@ class FireStoreManager {
             }
             placeData.remove(at: 0)
             place = self.dictionaryToObject(objectType: Place.self, dictionary: placeData)
+            print(place?.count)
             completion(place) // 성공 시 배열 전달
         }
     }
