@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseAuth
 
-struct User {
+struct User : Codable {
     var profileImg: String?
     var uid: String
     var nickname: String
@@ -17,9 +17,19 @@ struct User {
     var rid: [String]? // [UUID.uuidString]
     var pid: [String]? // [UUID.uuidString]
     var password: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case profileImg
+        case uid
+        case nickname
+        case phoneNum
+        case rid
+        case pid
+        case password
+    }
 }
 
-struct Review {
+struct Review : Codable {
     var rid: String // UUID.uuidString
     var uid: String
     var pid: String // UUID.uuidString
@@ -31,9 +41,23 @@ struct Review {
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
+    
+    enum CodingKeys: String, CodingKey {
+        case rid
+        case uid
+        case pid
+        case reviewImg
+        case like
+        case dislike
+        case content
+        case rate
+        case companion
+        case condition
+        case kindOfFood
+    }
 }
 
-struct Place {
+struct Place : Codable {
     var pid: String // UUID.uuidString
     var rid: [String] // [UUID.uuidString]
     var placeName: String
@@ -43,6 +67,18 @@ struct Place {
     var address: String
     var lat: Double
     var long: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case pid
+        case rid
+        case placeName
+        case title
+        case city
+        case town
+        case address
+        case lat
+        case long
+    }
 }
 
 class FireStoreManager {
@@ -169,6 +205,85 @@ class FireStoreManager {
         }
     }
     
+    /**
+     @brief userData를 불러온다,
+     */
+    func getUserData(completion: @escaping ([User]?) -> Void) {
+        var userData: [[String:Any]] = [[:]]
+        var user: [User]?
+        
+        db.collection("users").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(user) // 호출하는 쪽에 빈 배열 전달
+                return
+            }
+            
+            for document in querySnapshot!.documents {
+                userData.append(document.data())
+            }
+            userData.remove(at: 0)
+            user = self.dictionaryToObject(objectType: User.self, dictionary: userData)
+            completion(user) // 성공 시 배열 전달
+        }
+    }
+    
+    /**
+     @brief reviewData를 불러온다,
+     */
+    func getReviewData(completion: @escaping ([Review]?) -> Void) {
+        var reviewData: [[String:Any]] = [[:]]
+        var review: [Review]?
+        
+        db.collection("reviews").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(review) // 호출하는 쪽에 빈 배열 전달
+                return
+            }
+            
+            for document in querySnapshot!.documents {
+                reviewData.append(document.data())
+            }
+            reviewData.remove(at: 0)
+            review = self.dictionaryToObject(objectType: Review.self, dictionary: reviewData)
+            completion(review) // 성공 시 배열 전달
+        }
+    }
+    
+    /**
+     @brief placeData를 불러온다,
+     */
+    func getPlaceData(completion: @escaping ([Place]?) -> Void) {
+        var placeData: [[String:Any]] = [[:]]
+        var place: [Place]?
+        
+        db.collection("places").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(place) // 호출하는 쪽에 빈 배열 전달
+                return
+            }
+            
+            for document in querySnapshot!.documents {
+                placeData.append(document.data())
+            }
+            placeData.remove(at: 0)
+            place = self.dictionaryToObject(objectType: Place.self, dictionary: placeData)
+            completion(place) // 성공 시 배열 전달
+        }
+    }
+    
+    /// regex 활용 번호 탐색 함수
+    /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
+//    private func validateNumber(_ number: String) -> String {
+//        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
+//        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
+//        if test.evaluate(withObject: number) {
+//            print("숫자가 올바르게 입력됐습니다.")
+//        } else {
+//            print("숫자 형식이 조금 틀립니다.")
+//        }
 //    func validateEmail(_ email: String) -> Bool {
 //        // 이메일 형식이 맞는지 확인
 //        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -224,5 +339,36 @@ class FireStoreManager {
             }
             print("결과값은 아래와 같습니다 - \(result?.description)")
         }
+    }
+}
+
+extension FireStoreManager {
+    func dictionaryToObject<T:Decodable>(objectType:T.Type, dictionary:[[String:Any]]) -> [T]? {
+        do {
+            let dictionaries = try JSONSerialization.data(withJSONObject: dictionary)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            let objects = try decoder.decode([T].self, from: dictionaries)
+            return objects
+            
+        } catch let serializationError as NSError where serializationError.domain == NSCocoaErrorDomain {
+            print("JSON Serialization Error: \(serializationError.localizedDescription)")
+        } catch let decodingError as DecodingError {
+            print("Decoding Error: \(decodingError)")
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+        return nil
+    }
+    
+    func dicToObject<T:Decodable>(objectType:T.Type,dictionary:[String:Any]) -> T? {
+        
+        guard let dictionaries = try? JSONSerialization.data(withJSONObject: dictionary) else { return nil }
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        guard let objects = try? decoder.decode(T.self, from: dictionaries) else { return nil }
+        return objects
+        
     }
 }
