@@ -54,8 +54,9 @@ class SearchMapUIView: UIView {
     private func setupUI() {
         addSubview(searchView)
         addSubview(searchMapView)
+        addSubview(storeCardView)
         searchView.addSubview(backButton)
-        searchMapView.addSubview(storeCardView)
+
         searchMapView.addSubview(gpsButton)
         
         searchView.snp.makeConstraints {
