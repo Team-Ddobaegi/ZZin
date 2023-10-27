@@ -20,8 +20,14 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일", hasEyeButton: false)
-    private let pwTextfield = CustomTextfieldView(placeholder: "대문자 + 숫자 또는 특수문자 조합", text: "비밀번호", hasEyeButton: true)
+    private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com",
+                                                  text: "이메일",
+                                                  alertMessage: "이메일을 다시 확인해주세요",
+                                                  hasEyeButton: false)
+    private let pwTextfield = CustomTextfieldView(placeholder: "대문자 + 숫자 또는 특수문자 조합",
+                                                  text: "비밀번호",
+                                                  alertMessage: "비밀번호 형식을 맞춰주세요",
+                                                  hasEyeButton: true)
     
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -63,12 +69,12 @@ class LoginViewController: UIViewController {
     }()
     
     //MARK: - 메서드 선언
-    func configure() {
+    private func configure() {
         view.backgroundColor = .white
         [idTextfield, pwTextfield, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
-    func setUI() {
+    private func setUI() {
         setLogo()
         setCustomView()
         setLoginBtn()
@@ -98,7 +104,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func setLoginBtn() {
+    private func setLoginBtn() {
         loginButton.snp.makeConstraints {
             $0.top.equalTo(pwTextfield.snp.bottom).offset(140)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -106,7 +112,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func setSearchBtn() {
+    private func setSearchBtn() {
         secondaryButtonStack.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
@@ -125,6 +131,10 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
+        
+//        guard let email = idTextfield.textfield.text else { return }
+//        FireStoreManager.shared.saveUserLoginDataLocally(email: email)
+        
         let vc = TabBarViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
@@ -183,6 +193,7 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
+        print(textField.text)
         return true
     }
     
