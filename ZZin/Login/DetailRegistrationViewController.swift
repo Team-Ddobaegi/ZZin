@@ -36,6 +36,7 @@ class DetailRegistrationViewController: UIViewController {
     func configure() {
         [noticeLabel, regionSelectTableView, confirmButton].forEach { view.addSubview($0) }
         view.backgroundColor = .white
+        regionSelectTableView.separatorStyle = .none
         setUI()
     }
     
@@ -46,7 +47,7 @@ class DetailRegistrationViewController: UIViewController {
         }
         
         regionSelectTableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(10)
             $0.top.equalTo(noticeLabel.snp.bottom).offset(16)
             $0.height.equalTo(565)
         }
@@ -54,13 +55,15 @@ class DetailRegistrationViewController: UIViewController {
         confirmButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(regionSelectTableView.snp.bottom)
-            $0.width.equalTo(353)
-            $0.height.equalTo(52)
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     @objc func confirmButtonTapped() {
         print("다음 버튼이 눌렸습니다.")
+        let vc = CardController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
 }
 
@@ -87,7 +90,7 @@ extension DetailRegistrationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

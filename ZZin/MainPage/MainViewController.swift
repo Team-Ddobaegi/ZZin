@@ -18,8 +18,6 @@ class MainViewController: UIViewController {
         view.backgroundColor = .white
         setupUI()
         rankButtonAction()
-        
-        
     }
 }
 

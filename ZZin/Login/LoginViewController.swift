@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import FirebaseAuth
+import SwiftUI
 
 class LoginViewController: UIViewController {
     
@@ -19,17 +20,8 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let idTextfield = CustomTextfieldView(placeholder: "이렇게", text: "되나요?")
-    private let pwTextfield = CustomTextfieldView(placeholder: "두번째", text: "도 바로?")
-    
-    private var secureButton = UIButton().then {
-        let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        $0.setImage(image, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
-        $0.backgroundColor = .clear
-        $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
-    }
+    private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일", hasEyeButton: false)
+    private let pwTextfield = CustomTextfieldView(placeholder: "대문자 + 숫자 또는 특수문자 조합", text: "비밀번호", hasEyeButton: true)
     
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -70,7 +62,7 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    //MARK: - Function 선언
+    //MARK: - 메서드 선언
     func configure() {
         view.backgroundColor = .white
         [idTextfield, pwTextfield, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
@@ -78,9 +70,9 @@ class LoginViewController: UIViewController {
     
     func setUI() {
         setLogo()
+        setCustomView()
         setLoginBtn()
         setSearchBtn()
-        setCustomView()
     }
     
     private func setLogo() {
@@ -123,10 +115,14 @@ class LoginViewController: UIViewController {
     }
     
     private func setDelegate() {
+        // deep copy와 Shallow copy의 차이점
+        //        idTextfield.textfield.delegate = self
+        //        pwTextfield.textfield.delegate = self
+        // shallow copy
         idTextfield.setTextFieldDelegate(delegate: self)
         pwTextfield.setTextFieldDelegate(delegate: self)
     }
-        
+    
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
         let vc = TabBarViewController()
@@ -150,21 +146,13 @@ class LoginViewController: UIViewController {
     
     @objc func searchPwButtonTapped() {
         print("비밀번호 찾기 버튼이 눌렸습니다.")
+        let vc = UserSearchController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
-    @objc func secureButtonTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
-        if sender.isSelected {
-            pwTextfield.textfield.isSecureTextEntry = true
-            print("비밀번호 숨기기 버튼이 눌렸습니다.")
-        } else {
-            pwTextfield.textfield.isSecureTextEntry = false
-            print("비밀번호 숨기기 버튼이 해제됐습니다.")
-        }
-    }
-        
     deinit {
-        print("로그인 페이지가 화면에서 내려갔습니다 - \(#function)")
+        print("로그인 페이지가 화면에서 내려갔습니다")
     }
 }
 
@@ -172,21 +160,20 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("로그인 페이지 - \(#function)")
+        setDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configure()
         setUI()
-        setDelegate()
     }
 }
 
+//MARK: - UITextFieldDelegate 선언
 extension LoginViewController: UITextFieldDelegate {
-    // 텍스트 필드가 입력되고 있는지 확인
-    // 확인된 텍스트 필드의 label을 없애야 하는 상황
-    private func textFieldDidBeginEditing(_ textFieldView: CustomTextfieldView) {
+    // 텍스트 필드가 입력되고 있는지 확인, 확인된 텍스트 필드의 label을 없애야 하는 상황
+    func textFieldDidBeginEditing(_ textFieldView: UITextField) {
         switch textFieldView {
         case idTextfield: idTextfield.animatingLabel.isHidden = true
         case pwTextfield: pwTextfield.animatingLabel.isHidden = true
@@ -194,10 +181,31 @@ extension LoginViewController: UITextFieldDelegate {
         }
     }
     
-    private func textFieldDidEndEditing(_ textFieldView: CustomTextfieldView) {
-        if textFieldView == idTextfield {
-            idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
-        } else if textFieldView == pwTextfield {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        }
+        return false
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let emailText = textField.text else { return }
+
+        if textField == idTextfield.textfield {
+            if idTextfield.validateEmail(emailText) {
+                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
+//                idTextfield.undo()
+            } else {
+                idTextfield.showInvalidMessage()
+            }
+            textField.text = ""
+        } else if textField == pwTextfield {
             pwTextfield.animatingLabel.isHidden = !pwTextfield.textfield.text!.isEmpty
         }
     }

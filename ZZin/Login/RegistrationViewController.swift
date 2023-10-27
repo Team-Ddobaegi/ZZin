@@ -12,330 +12,183 @@ import Then
 class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 생성
-    private lazy var idTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(idTextField)
-        $0.addSubview(idInfoLabel)
-        $0.addSubview(doubleCheckButton)
-    }
     
-    private var idInfoLabel = UILabel().then {
-        $0.text = "이메일을 입력해 주세요"
-        $0.textColor = .white
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private let emailTextField = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일")
+    private let pwTextField = CustomTextfieldView(placeholder: "대문자는 필수입니다! 숫자 또는 특수문자도 섞어주세요 ☺️", text: "비밀번호", hasEyeButton: false)
+    private let nicknameTextField = CustomTextfieldView(placeholder: "내가젤잘나가", text: "닉네임")
+    private let numberTextField = CustomTextfieldView(placeholder: "010-0000-0000", text: "전화번호")
+    private var locationPickerView: UIPickerView!
+    var locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
+    let screenWidth = UIScreen.main.bounds.width - 10
+    let screenHeight = UIScreen.main.bounds.height / 2
+    var selectedRow = 0
     
-    private var idTextField = UITextField().then {
-        $0.textColor = .white
-        $0.keyboardType = .default
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var pwTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(pwTextField)
-        $0.addSubview(pwInfoLabel)
-    }
-    
-    private var pwInfoLabel = UILabel().then {
-        $0.text = "비밀번호를 입력해 주세요"
-        $0.textColor = .white
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private var pwTextField = UITextField().then {
-        $0.textColor = .white
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var checkPwTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(checkPwTextField)
-        $0.addSubview(checkPwInfoLabel)
-    }
-    
-    private var checkPwInfoLabel = UILabel().then {
-        $0.text = "한번만 더 입력해 주세요"
-        $0.textColor = .white
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private var checkPwTextField = UITextField().then {
-        $0.textColor = .white
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var nicknameTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(nicknameTextField)
-        $0.addSubview(nicknameInfoLabel)
-        $0.addSubview(doubleCheckButton)
-    }
-    
-    private var nicknameInfoLabel = UILabel().then {
-        $0.text = "닉네임을 입력해 주세요"
-        $0.textColor = .white
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private var nicknameTextField = UITextField().then {
-        $0.textColor = .white
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var numberTextfieldView = UIView().then {
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addSubview(numberTextField)
-        $0.addSubview(numberInfoLabel)
-    }
-    
-    private var numberInfoLabel = UILabel().then {
-        $0.text = "전화 번호를 입력해주세요"
-        $0.textColor = .white
-        $0.font = UIFont.systemFont(ofSize: 14)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private var numberTextField = UITextField().then {
-        $0.textColor = .white
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.keyboardType = .default
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var doubleCheckButton = UIButton().then {
-        $0.setTitle("중복 확인", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        $0.backgroundColor = .red
-        $0.clipsToBounds = true
-        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
-    }
+//    private lazy var doubleCheckButton = UIButton().then {
+//        $0.setTitle("중복 확인", for: .normal)
+//        $0.setTitleColor(.white, for: .normal)
+//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//        $0.backgroundColor = .red
+//        $0.clipsToBounds = true
+//        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
+//    }
     
     private var confirmButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = .red
+        $0.backgroundColor = UIColor.init(hexCode: "F55951")
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
     private let backbutton = UIButton().then {
         let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
-        $0.contentMode = .scaleAspectFit
+        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     }
     
-    //MARK: - 함수 생성
+    private let locationButton = UIButton().then {
+        let image = UIImage(systemName: "chevron.down")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        $0.setTitle("지역 설정하기", for: .normal)
+        $0.setImage(image, for: .normal)
+        $0.backgroundColor = .gray
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+    }
+    
+    //MARK: - 메서드 생성
     func configure() {
         view.backgroundColor = .white
-        [idTextfieldView, pwTextfieldView, checkPwTextfieldView, nicknameTextfieldView, numberTextfieldView, confirmButton, backbutton].forEach{view.addSubview($0)}
+        [emailTextField, pwTextField, nicknameTextField, numberTextField, confirmButton, backbutton, locationButton].forEach{view.addSubview($0)}
     }
     
     func setUI() {
         setIdTextfield()
         setPwTextField()
-        setNicknameTextfield()
+        setLocation()
+        setNicknameTextField()
         setNumberTextfield()
         setConfirmButton()
         setBackButton()
     }
     
     func setIdTextfield() {
-        idTextfieldView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(184)
+        emailTextField.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(282)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
-        }
-        
-        idInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        idTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        doubleCheckButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalTo(idTextfieldView.snp.trailing).inset(6)
-        }
-    }
-    
-    func setIdButton() {
-        doubleCheckButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     func setPwTextField() {
-        pwTextfieldView.snp.makeConstraints {
-            $0.top.equalTo(idTextfieldView.snp.bottom).offset(40)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
-        }
-        
-        pwInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
         pwTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        checkPwTextfieldView.snp.makeConstraints {
-            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(40)
+            $0.top.equalTo(emailTextField.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
-        }
-        
-        checkPwInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        checkPwTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setNicknameTextfield() {
-        nicknameTextfieldView.snp.makeConstraints {
-            $0.top.equalTo(checkPwTextfieldView.snp.bottom).offset(50)
+    func setLocation() {
+        locationButton.snp.makeConstraints {
+            $0.top.equalTo(pwTextField.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
-        
-        nicknameInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
+    }
+    
+    func setNicknameTextField() {
         nicknameTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
-        doubleCheckButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalTo(nicknameTextfieldView.snp.trailing).inset(6)
-            $0.width.equalTo(73)
-            $0.height.equalTo(33)
+            $0.top.equalTo(locationButton.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     func setNumberTextfield() {
-        numberTextfieldView.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextfieldView.snp.bottom).offset(40)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
-        }
-        
-        numberInfoLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
-        }
-        
         numberTextField.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.top.equalTo(nicknameTextField.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     func setConfirmButton() {
         confirmButton.snp.makeConstraints{
-            $0.top.equalTo(numberTextfieldView.snp.bottom).offset(149)
+            $0.top.equalTo(numberTextField.snp.bottom).offset(61)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(52)
-            $0.width.equalTo(353)
+            $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     func setBackButton() {
         backbutton.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().offset(5)
-            $0.height.width.equalTo(50)
+            $0.leading.equalToSuperview().offset(20)
+            $0.height.width.equalTo(30)
         }
     }
     
-    func setDelegate() {
-        idTextField.delegate = self
-        pwTextField.delegate = self
-        checkPwTextField.delegate = self
-        nicknameTextField.delegate = self
-        numberTextField.delegate = self
+    private func setDelegate() {
+        emailTextField.setTextFieldDelegate(delegate: self)
+        pwTextField.setTextFieldDelegate(delegate: self)
+        nicknameTextField.setTextFieldDelegate(delegate: self)
+        numberTextField.setTextFieldDelegate(delegate: self)
     }
     
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
-        let idText = idTextField
-        let pwText = pwTextField
-        // 값이 모두 입력됐는지 확인
-        let error = FireStoreManager.shared.validateData(id: idText, pw: pwText)
-        if error != nil {
-            print("에러가 발생했습니다. \(error?.description)")
-        } else {
-            // clean 아이디와 비밀번호가 있는지 확인 완료
-            if let idChecked = idText.text, let pwChecked = pwText.text {
-                FireStoreManager.shared.signIn(with: idChecked, password: pwChecked)
-                print("생성되었습니다.")
-            }
-        }
+        let id = emailTextField.textfield.text!
+        let pw = pwTextField.textfield.text!
+        FireStoreManager.shared.signIn(with: id, password: pw)
     }
     
     @objc func doubleCheckButtonTapped() {
         print("중복 확인 버튼이 눌렸습니다.")
         
-        guard let value = numberTextField.text else {
-            print("번호가 입력되지 않았습니다.")
-            return
-        }
-        FireStoreManager.shared.validateNumber(value)
     }
     
     @objc func backbuttonTapped() {
         print("되돌아가기 버튼이 눌렸습니다.")
         self.dismiss(animated: true)
+    }
+    
+    @objc func locationButtonTapped() {
+        print("지역 확인 버튼이 눌렸습니다.")
+        
+        // alertController로 지역 리스트 팝업
+        let vc = ViewController()
+        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
+        vc.view.backgroundColor = .white
+        let locationPickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
+        locationPickerView.dataSource = self
+        locationPickerView.delegate = self
+        
+        locationPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+        vc.view.addSubview(locationPickerView)
+        locationPickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
+        locationPickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
+        
+        let alert = UIAlertController(title: "지역을 선택하세요", message: "", preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = locationButton
+        alert.popoverPresentationController?.sourceRect = locationButton.bounds
+        
+        alert.setValue(vc, forKey: "contentViewController")
+        alert.addAction(UIAlertAction(title: "되돌아가기", style: .cancel, handler: { (UIAlertAction) in
+        }))
+        alert.addAction(UIAlertAction(title: "선택하기", style: .default, handler: { (UIAlertAction) in
+            self.selectedRow = locationPickerView.selectedRow(inComponent: 0)
+            let selected = Array(self.locationList)[self.selectedRow]
+            self.locationButton.setTitle(selected, for: .normal)
+            self.locationButton.backgroundColor = .orange
+        }))
+        
+        self.present(alert, animated: true)
     }
     
     deinit {
@@ -352,40 +205,45 @@ extension RegistrationViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configure()
+        setDelegate()
         setUI()
         setDelegate()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        doubleCheckButton.layer.cornerRadius = doubleCheckButton.frame.height / 2
+}
+
+// MARK: - UITextFieldDelegate 선언
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textFieldView: UITextField) {
+        switch textFieldView {
+        case emailTextField: emailTextField.animatingLabel.isHidden = true
+        case pwTextField: pwTextField.animatingLabel.isHidden = true
+        case nicknameTextField: nicknameTextField.animatingLabel.isHidden = true
+        case numberTextField: numberTextField.animatingLabel.isHidden = true
+        default: print("textfield를 찾지 못했습니다.")
+        }
     }
 }
 
-extension RegistrationViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // label을 위로 옮기는 역할하기 이전 먼저 숨기도록 처리 - Test 형식
-        switch textField {
-        case idTextField: idInfoLabel.isHidden = true
-        case pwTextField: pwInfoLabel.isHidden = true
-        case checkPwTextField: checkPwInfoLabel.isHidden = true
-        case nicknameTextField: nicknameInfoLabel.isHidden = true
-        case numberTextField: numberInfoLabel.isHidden = true
-        default: print("텍스트 필드를 찾을 수 없습니다.")
-        }
+// MARK: - UIPickerViewDelegate & UIPickerViewDataSource 선언
+extension RegistrationViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
+        label.text = Array(locationList)[row]
+        label.sizeToFit()
+        return label
+    }
+}
+
+extension RegistrationViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == idTextField {
-            idInfoLabel.isHidden = !textField.text!.isEmpty
-        } else if textField == pwTextField {
-            pwInfoLabel.isHidden = !textField.text!.isEmpty
-        } else if textField == checkPwTextField {
-            checkPwInfoLabel.isHidden = !textField.text!.isEmpty
-        } else if textField == nicknameTextField {
-            nicknameInfoLabel.isHidden = !textField.text!.isEmpty
-        } else if textField == numberTextField {
-            numberInfoLabel.isHidden = !textField.text!.isEmpty
-        }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return locationList.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 60
     }
 }
