@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 
 struct User : Codable {
     var profileImg: String?
@@ -39,7 +40,7 @@ struct Review : Codable {
     var dislike: Int
     var content: String
     var rate: Double
-//    var createdAt: Date
+    var createdAt: Date
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
@@ -54,7 +55,7 @@ struct Review : Codable {
         case dislike
         case content
         case rate
-//        case createdAt
+        case createdAt
         case companion
         case condition
         case kindOfFood
@@ -72,6 +73,9 @@ struct Place : Codable {
     var address: String
     var lat: Double?
     var long: Double?
+    var companion: String
+    var condition: String
+    var kindOfFood: String
     
     enum CodingKeys: String, CodingKey {
         case pid
@@ -84,6 +88,9 @@ struct Place : Codable {
         case address
         case lat
         case long
+        case companion
+        case condition
+        case kindOfFood
     }
 }
 
@@ -93,122 +100,48 @@ class FireStoreManager {
     static let shared = FireStoreManager()
     
     func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
-           let docRef = db.collection(collection).document(documentId)
-           docRef.getDocument { (document, error) in
-               if let error = error {
-                   completion(.failure(error))
-                   return
-               }
-               guard let document = document, document.exists, let data = document.data() else {
-                   completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
-                   return
-               }
-               
-               do {
-                   let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-                   let obj = try JSONDecoder().decode(T.self, from: jsonData)
-                   completion(.success(obj))
-               } catch let serializationError {
-                   completion(.failure(serializationError))
-               }
-           }
-       }
-       
-       func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
-           fetchDocument(from: "places", documentId: pid, completion: completion)
-       }
-       
-       func fetchDataWithRid(rid: String, completion: @escaping (Result<Review, Error>) -> Void) {
-           fetchDocument(from: "reviews", documentId: rid, completion: completion)
-       }
-    
-    func setUserData(_ UserInfo: User) {
-        let userRef = db.collection("users").document(UserInfo.uid)
-        
-        userRef.setData([
-            "profileImg": (UserInfo.profileImg ?? "basic_profile") as String,
-            "uid": UserInfo.uid,
-            "nickname": UserInfo.nickname,
-            "phoneNum": UserInfo.phoneNum,
-            "rid": UserInfo.rid,
-            "pid": UserInfo.pid
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(userRef.documentID)")
+        let docRef = db.collection(collection).document(documentId)
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let document = document, document.exists, var data = document.data() else {
+                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
+                return
+            }
+
+            // FIRTimestamp를 Date로 변환하고, Date를 문자열로 변환
+            if let timestamp = data["createdAt"] as? Timestamp {
+                let date = timestamp.dateValue()
+                let formatter = ISO8601DateFormatter()
+                let dateString = formatter.string(from: date)
+                data["createdAt"] = dateString
+            }
+
+            let dataAsJSON = try! JSONSerialization.data(withJSONObject: data, options: [])
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            do {
+                let obj = try decoder.decode(T.self, from: dataAsJSON)
+                completion(.success(obj))
+            } catch let decodeError {
+                completion(.failure(decodeError))
             }
         }
     }
-    
-    func updateUserData(_ UserInfo: User) {
-        let userRef = db.collection("users").document(UserInfo.uid)
-        
-        userRef.updateData([
-            "profileImg": (UserInfo.profileImg ?? "https://i.ibb.co/QMVpNXC/todo-main-img.png") as String,
-            "uid": UserInfo.uid,
-            "nickname": UserInfo.nickname,
-            "phoneNum": UserInfo.phoneNum,
-            "rid": FieldValue.arrayUnion(UserInfo.rid ?? []),
-            "pid": FieldValue.arrayUnion(UserInfo.pid ?? [])
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(userRef.documentID)")
-            }
-        }
+
+
+
+    func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
+        fetchDocument(from: "places", documentId: pid, completion: completion)
     }
     
-    func setReview(_ ReviewInfo: Review) {
-        let reviewRef = db.collection("reviews").document(ReviewInfo.rid)
-        
-        reviewRef.setData([
-            "rid": ReviewInfo.rid,
-            "uid": ReviewInfo.uid,
-            "pid": ReviewInfo.pid,
-            "reviewImg": ReviewInfo.reviewImg,
-            "title": ReviewInfo.title,
-            "like": ReviewInfo.like,
-            "dislike": ReviewInfo.dislike,
-            "content": ReviewInfo.content,
-            "rate": ReviewInfo.rate,
-            "companion": ReviewInfo.companion,
-            "condition": ReviewInfo.condition,
-            "kindOfFood": ReviewInfo.kindOfFood
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(reviewRef.documentID)")
-            }
-        }
-        
+    func fetchDataWithRid(rid: String, completion: @escaping (Result<Review, Error>) -> Void) {
+        fetchDocument(from: "reviews", documentId: rid, completion: completion)
     }
-    
-    func setPlace(_ PlaceInfo: Place) {
-        let placeRef = db.collection("places").document(PlaceInfo.pid)
-        
-        placeRef.setData([
-            "pid": PlaceInfo.pid,
-            "rid": FieldValue.arrayUnion(PlaceInfo.rid),
-            "placeName": PlaceInfo.placeName,
-            "placeImg": PlaceInfo.placeImg,
-            "placeTelNum": PlaceInfo.placeTelNum,
-            "city": PlaceInfo.city,
-            "town": PlaceInfo.town,
-            "address": PlaceInfo.address,
-            "lat": PlaceInfo.lat,
-            "long": PlaceInfo.long
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(placeRef.documentID)")
-            }
-        }
-    }
-    
+
     /**
      @brief userData를 불러온다,
      */
@@ -281,20 +214,20 @@ class FireStoreManager {
     
     /// regex 활용 번호 탐색 함수
     /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
-//    private func validateNumber(_ number: String) -> String {
-//        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
-//        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
-//        if test.evaluate(withObject: number) {
-//            print("숫자가 올바르게 입력됐습니다.")
-//        } else {
-//            print("숫자 형식이 조금 틀립니다.")
-//        }
-//    func validateEmail(_ email: String) -> Bool {
-//        // 이메일 형식이 맞는지 확인
-//        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-//        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-//        return emailpred.evaluate(with: email)
-//    }
+    //    private func validateNumber(_ number: String) -> String {
+    //        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
+    //        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
+    //        if test.evaluate(withObject: number) {
+    //            print("숫자가 올바르게 입력됐습니다.")
+    //        } else {
+    //            print("숫자 형식이 조금 틀립니다.")
+    //        }
+    //    func validateEmail(_ email: String) -> Bool {
+    //        // 이메일 형식이 맞는지 확인
+    //        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    //        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+    //        return emailpred.evaluate(with: email)
+    //    }
     
     // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
     func validateNumber(_ number: String) -> Bool {
