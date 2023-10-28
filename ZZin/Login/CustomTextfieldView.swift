@@ -178,18 +178,6 @@ extension CustomTextfieldView {
         movement.startAnimation()
     }
     
-    // MARK: - Auth 관련 함수
-    func validateEmail(_ email: String) -> Bool {
-        // 이메일 형식이 맞는지 확인
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        
-        if let emailText = textfield.text, !emailText.isEmpty {
-            return emailpred.evaluate(with: email)
-        }
-        return false
-    }
-    
     func showInvalidMessage() {
         self.validationLabel.isHidden = false
         self.animatingLabel.isHidden = true
