@@ -39,7 +39,7 @@ struct Review : Codable {
     var dislike: Int
     var content: String
     var rate: Double
-    var createdAt: Date
+//    var createdAt: Date
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
@@ -54,7 +54,7 @@ struct Review : Codable {
         case dislike
         case content
         case rate
-        case createdAt
+//        case createdAt
         case companion
         case condition
         case kindOfFood

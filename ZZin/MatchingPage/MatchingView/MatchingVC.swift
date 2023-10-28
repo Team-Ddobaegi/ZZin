@@ -17,7 +17,7 @@ class MatchingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setDataManager()
         setView()
         configureUI()
@@ -124,9 +124,9 @@ class MatchingVC: UIViewController {
     }
     
     private func setKeywordView(){
-        matchingView.withKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
-        matchingView.conditionKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
-        matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+        matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
     }
     
     // 피커뷰 외 터치 시 피커뷰 숨기기
@@ -172,30 +172,42 @@ class MatchingVC: UIViewController {
             }
         }
     }
-    
-    func filterKeywordData(){
-//        if let reviewData = review {
-//            let withKeyword = matchingView.withKeywordButton.titleLabel?.text
-//            let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text
-//            let menuKeyword = matchingView.menuKeywordButton.titleLabel?.text
-//            
-//            var filteredReviews: [Review] = reviewData
-//            
-//            if let withKeyword = withKeyword {
-//                filteredReviews = filteredReviews.filter { $0.companion == withKeyword }
-//            }
-//            if let conditionKeyword = conditionKeyword {
-//                filteredReviews = filteredReviews.filter { $0.condition == conditionKeyword }
-//            }
-//            if let menuKeyword = menuKeyword {
-//                filteredReviews = filteredReviews.filter { $0.kindOfFood == menuKeyword }
-//            }
-//            
-//            self.review = filteredReviews
-//            print(filteredReviews)
-//            collectionView.collectionView.reloadData()
-//        }
+
+    func filterKeywordData() {
+        let companionKeyword = matchingView.companionKeywordButton.titleLabel?.text ?? ""
+        let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text ?? ""
+        let kindOfFoodKeyword = matchingView.kindOfFoodKeywordButton.titleLabel?.text ?? ""
+        
+        print("Companion: \(companionKeyword), Condition: \(conditionKeyword), KindOfFood: \(kindOfFoodKeyword)")
+                
+        if let reviewIDs = review?.compactMap({ $0.rid }) {
+            for rid in reviewIDs {
+                FireStoreManager.shared.fetchDataWithRid(rid: rid) { result in
+                    switch result {
+                    case .success(let review):
+                        let companion = review.companion
+                        let condition = review.condition
+                        let kindOfFood = review.kindOfFood
+                        
+                        print("-------- Review \(rid): Companion: \(companion), Condition: \(condition), KindOfFood: \(kindOfFood)")
+
+                        // Companion, Condition, KindOfFood 값이 일치하는 경우 리뷰를 선택
+//                        if companion == companionKeyword && condition == conditionKeyword && kindOfFood == kindOfFoodKeyword {
+//                            matchingReviews.append(review)
+//                        }
+
+                    case .failure(let error):
+                        print("Error fetching review: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+//        print("Matching Reviews Count: \(matchingReviews.count)")
+
+        collectionView.collectionView.reloadData()
     }
+    
+    
     
     //MARK: - Properties
     
@@ -203,6 +215,13 @@ class MatchingVC: UIViewController {
     let dataManager = FireStoreManager()
     var place: [Place]?
     var review: [Review]?
+    
+    var companionKeyword: String?
+    
+    var conditionKeyword: String?
+    
+    var kindOfFoodKeyword: String?
+
     
     // 업데이트된 키워드를 저장하는 배열입니두
     var updateWithMatchingKeywords: [String] = []
@@ -228,20 +247,20 @@ class MatchingVC: UIViewController {
     // 피커뷰 1열에 들어갈 "시"
     private let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
     
-  
+    
     // 선택된 "구"의 인덱스
     private var selectedTownIndex: Int = 0
     // 피커뷰 2열에 들어갈 "구"
     private let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
     private let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
- 
     
-//    //dummy location
-//    private let selectedCity: [String] = ["지역", "서울", "인천"]
-//    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
-////    ,"도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
-////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
-//    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
+    
+    //    //dummy location
+    //    private let selectedCity: [String] = ["지역", "서울", "인천"]
+    //    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+    ////    ,"도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
+    ////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
+    //    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
     
     
     
@@ -260,7 +279,6 @@ class MatchingVC: UIViewController {
     
     @objc private func setPickerViewTapped() {
         print("지역 설정 피커뷰 탭")
-        
         setPickerViewAttribute()
         
         UIView.animate(withDuration: 0.1) {
@@ -271,7 +289,7 @@ class MatchingVC: UIViewController {
     }
     
     // 첫 번째 키워드 버튼이 탭될 때
-    @objc func firstKeywordButtonTapped() {
+    @objc func companionKeywordButtonTapped() {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
@@ -283,7 +301,7 @@ class MatchingVC: UIViewController {
     }
     
     // 두 번째 키워드 버튼이 탭될 때
-    @objc func secondKeywordButtonTapped() {
+    @objc func conditionKeywordButtonTapped() {
         print("두 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
@@ -295,7 +313,7 @@ class MatchingVC: UIViewController {
     }
     
     // 메뉴 키워드 버튼이 탭될 때
-    @objc func menuKeywordButtonTapped() {
+    @objc func kindOfFoodKeywordButtonTapped() {
         print("메뉴 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
@@ -314,10 +332,10 @@ class MatchingVC: UIViewController {
         updateLocationButtonTitle()
         
         // 필터링된 데이터로 Collection View를 다시 로드
-         filterLocationData()
-         collectionView.collectionView.reloadData()
+        filterLocationData()
+        collectionView.collectionView.reloadData()
     }
-   
+    
     
     
     //MARK: - Configure UI
@@ -368,13 +386,13 @@ extension MatchingVC: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
         let keywordType = keywordType
         
-        print(keywordType)
-        
         switch keywordType {
         case .with:
             if let updateKeyword = keyword.first {
-                matchingView.withKeywordButton.setTitle(updateKeyword, for: .normal)
-                matchingView.withKeywordButton.setTitleColor(.darkGray, for: .normal)
+                matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
+                matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
+               
+                filterKeywordData()
             }
             
         case .condition:
@@ -385,12 +403,13 @@ extension MatchingVC: MatchingKeywordDelegate {
             
         case .menu:
             if let updateKeyword = keyword.first {
-                matchingView.menuKeywordButton.setTitle(updateKeyword, for: .normal)
-                matchingView.menuKeywordButton.setTitleColor(.darkGray, for: .normal)
+                matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
+                matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
             }
         }
     }
 }
+
 
 
 
@@ -416,47 +435,40 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             return UICollectionViewCell()
         }
         
-        
         // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
         if let placeData = place {
             let placeName = placeData[indexPath.item].placeName
             cell.recommendPlaceReview.titleLabel.text = placeName
-            
-//            let reviewCollection = dataManager.db.collection("reviews/\(placeData[indexPath.item].rid[0])/title")
-//
-//            reviewCollection.getDocuments { (querySnapshot, error) in
-//                print(querySnapshot)
-//                
-//                if let error = error {
-//                    print("Error getting documents: \(error)")
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        let content = document.get("title") as? String ?? "No content available"
-//                        print("-----------------------------------------------------------\(content)")
-//                        cell.review.descriptionLabel.text = content
-//                    }
-//                }
-//            }
         }
         
-        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
-        let db = Firestore.firestore()
         let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
         
-        db.collection("reviews").document(reviewID).getDocument { (document, error) in
-            if let error = error {
-                print("Error getting document: \(error)")
-            } else if let document = document, document.exists {
-                if let reviewData = document.data() {
-                    if let reviewTitle = reviewData["title"] as? String {
-                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
-                        print(reviewTitle)
-                    }
-                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
-                }
+        FireStoreManager.shared.fetchDataWithRid(rid: reviewID) { (result) in
+            switch result {
+            case .success(let review):
+                cell.recommendPlaceReview.descriptionLabel.text = review.title
+            case .failure(let error):
+                print("Error fetching review: \(error.localizedDescription)")
             }
         }
-
+        
+//        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
+//        let db = Firestore.firestore()
+//        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
+//
+//        db.collection("reviews").document(reviewID).getDocument { (document, error) in
+//            if let error = error {
+//                print("Error getting document: \(error)")
+//            } else if let document = document, document.exists {
+//                if let reviewData = document.data() {
+//                    if let reviewTitle = reviewData["title"] as? String {
+//                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
+//                    }
+//                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
+//                }
+//            }
+//        }
+        
         return cell
     }
     
