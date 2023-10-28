@@ -11,7 +11,7 @@ import Then
 
 class CustomTextfieldView: UIView {
     
-    lazy var animatingLabel = UILabel().then {
+    private var animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
 
@@ -22,14 +22,14 @@ class CustomTextfieldView: UIView {
         $0.keyboardType = .default
     }
     
-    private lazy var validationLabel = UILabel().then {
+    private let validationLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.isHidden = true
         $0.textColor = UIColor.init(hexCode: "F55951")
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
 
-    private lazy var cancelButton = UIButton().then {
+    private let cancelButton = UIButton().then {
         let image = UIImage(systemName: "x.circle")
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.imageView?.tintColor = .systemGray
@@ -38,7 +38,7 @@ class CustomTextfieldView: UIView {
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
-    private lazy var secureButton = UIButton().then {
+    private let secureButton = UIButton().then {
         let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(selectedImage, for: .normal)
@@ -54,6 +54,8 @@ class CustomTextfieldView: UIView {
         
         configure()
         setUI()
+        commonInit()
+        
     }
     
     init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", hasEyeButton: Bool) {
@@ -61,12 +63,10 @@ class CustomTextfieldView: UIView {
         textfield.placeholder = placeholder
         animatingLabel.text = text
         validationLabel.text = alertMessage
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        addGestureRecognizer(tap)
-        
+                
         configure()
         setUI()
+        commonInit()
         
         switch hasEyeButton {
         case true: addEyeButton()
@@ -84,13 +84,13 @@ class CustomTextfieldView: UIView {
 }
 
 extension CustomTextfieldView {
-    func configure() {
+    private func configure() {
         self.backgroundColor = .systemGray5
         self.layer.cornerRadius = 12
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
     }
 
-    func setUI() {
+    private func setUI() {
         animatingLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(5)
@@ -108,7 +108,7 @@ extension CustomTextfieldView {
         }
     }
     
-    func addEyeButton() {
+    private func addEyeButton() {
         addSubview(secureButton)
         secureButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -117,13 +117,19 @@ extension CustomTextfieldView {
         }
     }
     
-    func addCancelButton() {
+    private func addCancelButton() {
         addSubview(cancelButton)
         cancelButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(5)
             $0.height.width.equalTo(30)
         }
+    }
+    
+    private func commonInit() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        addGestureRecognizer(tap)
+        self.isUserInteractionEnabled = true
     }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {

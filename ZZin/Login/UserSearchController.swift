@@ -26,7 +26,7 @@ class UserSearchController: UIViewController {
     
     private var numberLabel: UILabel = {
         let label = UILabel()
-        label.text = "전화번호"
+        label.text = ""
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
