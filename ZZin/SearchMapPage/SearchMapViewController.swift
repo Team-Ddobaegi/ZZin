@@ -20,6 +20,8 @@ class SearchMapViewController: UIViewController {
     var kindOfFoodKeyword : [String?]?
     var selectedCity : String?
     var selectedTown : String?
+    private var activeMarkers: [NMFMarker] = []
+
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -119,7 +121,14 @@ class SearchMapViewController: UIViewController {
         filteredPlace?.forEach { addDataToInfoMarker(for: $0) }
     }
     
-    
+    func removeAllMarkers() {
+        for marker in activeMarkers {
+            marker.mapView = nil
+        }
+        activeMarkers.removeAll()
+    }
+
+
     
     func addInfoMarker(at location: NMGLatLng, data: Place) {
         // 1. InfoMarkerView 인스턴스 생성
@@ -176,6 +185,9 @@ class SearchMapViewController: UIViewController {
         
         // 4. 마커를 지도에 추가
         marker.mapView = searchMapUIView.searchMapView.mapView
+        
+        // 5. 활성화된 마커 배열에 추가
+        activeMarkers.append(marker)
     }
 }
 
@@ -260,8 +272,8 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.companionKeyword = [updateKeyword as String?]
+                removeAllMarkers()
                 fetchPlacesWithKeywords()
-                
             }
             
         case .condition:
@@ -270,6 +282,8 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.conditionKeyword = [updateKeyword as String?]
                 fetchPlacesWithKeywords()
+                removeAllMarkers()
+                fetchPlacesWithKeywords()
             }
             
         case .menu:
@@ -277,6 +291,8 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.kindOfFoodKeyword = [updateKeyword as String?]
+                fetchPlacesWithKeywords()
+                removeAllMarkers()
                 fetchPlacesWithKeywords()
             }
         }

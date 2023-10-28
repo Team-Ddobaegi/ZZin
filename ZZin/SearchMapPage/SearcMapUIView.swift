@@ -32,6 +32,15 @@ class SearchMapUIView: UIView {
         return button
     }()
     
+    let resetFilterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("필터 초기화", for: .normal)
+        button.backgroundColor = .systemBlue
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
     lazy var currentLocationButton = UIButton().then {
         let button = UIButton()
         $0.setTitle("이 지역에서 재검색", for: .normal)
@@ -56,7 +65,6 @@ class SearchMapUIView: UIView {
         addSubview(searchMapView)
         addSubview(storeCardView)
         matchingView.addSubview(backButton)
-
         searchMapView.addSubview(gpsButton)
         
         matchingView.snp.makeConstraints {
