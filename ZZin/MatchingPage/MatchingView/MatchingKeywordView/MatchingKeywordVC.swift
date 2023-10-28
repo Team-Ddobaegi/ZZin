@@ -74,14 +74,12 @@ class MatchingKeywordVC: UIViewController {
         let type = type
         
         delegate?.updateKeywords(keyword: keyword, keywordType: type)
-        print(keyword)
     }
     
     
     // MARK: - Actions
     
     @objc func confirmButtonTapped() {
-    
         // 선택된 키워드 타입을 식별하여 처리
         switch selectedMatchingKeywordType {
         case .with:
@@ -99,8 +97,8 @@ class MatchingKeywordVC: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MatchingKeywordDelegate?
-    
-    var matchingVC = MatchingVC()
+        
+    weak var matchingVC: MatchingVC?
     
     var buttonAction: (() -> Void) = {}
     
