@@ -79,7 +79,7 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
         searchMapUIView.matchingView.mapButton.addTarget(self, action: #selector(gridButtonTapped), for: .touchUpInside)
-        searchMapUIView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.locationButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Life Cycle
@@ -90,17 +90,18 @@ class SearchMapViewController: UIViewController {
         // 사용자 현재 위치 정보 가져오기 시작
         locationService.startUpdatingLocation()
         setupUI()
+        updateResetButtonStatus()
         setKeywordView()
         setTouchableCardView()
         addTargetButton()
         fetchPlacesWithKeywords()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         currentUserLocation = locationService.getCurrentLocation()
         moveCamera(currentUserLocation)
-        locationService.stopUpdatingLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,7 +112,7 @@ class SearchMapViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
-        
+        locationService.stopUpdatingLocation()
     }
     
     // MARK: - UI Setting

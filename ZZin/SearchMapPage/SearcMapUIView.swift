@@ -8,14 +8,6 @@ class SearchMapUIView: UIView {
     var storeCardView = StoreCardView()
     var searchMapView = SearchMapView()
     
-    lazy var backButton: UIButton = {
-        let button = UIButton()
-        let iconImage = UIImage(systemName: "arrowshape.backward.fill")
-        button.setImage(iconImage, for: .normal)
-        button.tintColor = .systemRed
-        return button
-    }()
-    
     lazy var gpsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
@@ -34,12 +26,14 @@ class SearchMapUIView: UIView {
     
     let resetFilterButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("필터 초기화", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
+        let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
+        button.setImage(symbolImage, for: .normal)
+        button.backgroundColor = .clear
+        button.tintColor = ColorGuide.cherryTomato
         return button
     }()
+
     
     lazy var currentLocationButton = UIButton().then {
         let button = UIButton()
@@ -65,8 +59,10 @@ class SearchMapUIView: UIView {
         addSubview(searchMapView)
         addSubview(storeCardView)
         matchingView.addSubview(resetFilterButton)
-        matchingView.addSubview(backButton)
         searchMapView.addSubview(gpsButton)
+        
+        let iconImage = UIImage(systemName: "arrowshape.backward.fill")
+        matchingView.locationButton.setImage(iconImage, for: .normal)
         
         matchingView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -76,11 +72,6 @@ class SearchMapUIView: UIView {
         searchMapView.snp.makeConstraints {
             $0.top.equalTo(matchingView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        backButton.snp.makeConstraints {
-            $0.centerY.equalTo(matchingView.mapButton.snp.centerY)
-            $0.leading.equalToSuperview().offset(20)
         }
         
         gpsButton.snp.makeConstraints {
@@ -99,9 +90,9 @@ class SearchMapUIView: UIView {
         
         resetFilterButton.snp.makeConstraints {
             $0.leading.equalTo(matchingView.matchingNotiLabel.snp.trailing).offset(10)
-            $0.top.equalTo(matchingView.matchingNotiLabel.snp.top)
-            $0.width.equalTo(120)
-            $0.height.equalTo(40)
+            $0.top.equalTo(matchingView.matchingNotiLabel.snp.top).offset(-10)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
         }
     }
 }
