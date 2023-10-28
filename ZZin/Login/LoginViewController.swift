@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
         $0.addTarget(self, action: #selector(searchPwButtonTapped), for: .touchUpInside)
     }
     
-    private lazy var secondaryButtonStack: UIStackView = {
+    private lazy var userButtonStack: UIStackView = {
         let stack = UIStackView()
         [memberButton, searchIdButton, searchPwButton].forEach{ stack.addArrangedSubview($0) }
         [memberButton, searchIdButton, searchPwButton].forEach { $0.titleLabel?.font = UIFont.systemFont(ofSize: 15) }
@@ -65,7 +65,8 @@ class LoginViewController: UIViewController {
     //MARK: - 메서드 선언
     private func configure() {
         view.backgroundColor = .white
-        [idTextfieldView, pwTextfieldView, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
+        [idTextfieldView, pwTextfieldView, logoView, loginButton, userButtonStack].forEach{view.addSubview($0)}
+        pwTextfieldView.textfield.isSecureTextEntry = true
     }
     
     private func setUI() {
@@ -107,7 +108,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setSearchBtn() {
-        secondaryButtonStack.snp.makeConstraints{
+        userButtonStack.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(19)
@@ -115,25 +116,29 @@ class LoginViewController: UIViewController {
     }
     
     private func setDelegate() {
-        // deep copy와 Shallow copy의 차이점
-//        idTextfieldView.textfield.delegate = self
-//        pwTextfieldView.textfield.delegate = self
-        // shallow copy
         idTextfieldView.setTextFieldDelegate(delegate: self)
         pwTextfieldView.setTextFieldDelegate(delegate: self)
+    }
+    
+    private func validateID(with email: String, completion: @escaping (Bool) -> Void) {
+        FireStoreManager.shared.crossCheckDB(email) { exists in
+            completion(exists)
+        }
     }
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
         
-        let id = idTextfieldView.textfield.text!
-        if FireStoreManager.shared.validateID(id) {
-            print(id)
-            let vc = TabBarViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        } else {
-            print("불허가")
+        let email = idTextfieldView.textfield.text!
+        self.validateID(with: email) { exists in
+            if exists {
+                print("허가")
+//                let vc = TabBarViewController()
+//                vc.modalPresentationStyle = .fullScreen
+//                present(vc, animated: true)
+            } else {
+                print("불허가")
+            }
         }
     }
     
@@ -213,20 +218,4 @@ extension LoginViewController: UITextFieldDelegate {
             self.pwTextfieldView.textfield.resignFirstResponder()
         }
     }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        guard let emailText = textField.text else { return }
-//
-//        if textField == idTextfield.textfield {
-//            if idTextfield.validateEmail(emailText) {
-//                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
-////                idTextfield.undo()
-//            } else {
-////                idTextfield.showInvalidMessage()
-//            }
-//            textField.text = ""
-//        } else if textField == pwTextfield {
-//            pwTextfield.animatingLabel.isHidden = !pwTextfield.textfield.text!.isEmpty
-//        }
-//    }
 }
