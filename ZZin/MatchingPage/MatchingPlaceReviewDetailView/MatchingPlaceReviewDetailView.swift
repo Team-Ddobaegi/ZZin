@@ -12,7 +12,7 @@ import Then
 
 //MARK: - 매칭 업체 로컬주민 리뷰 :: TableView 세팅
 
-class MatchingPlaceDetailView: UIView {
+class MatchingPlaceReviewDetailView: UIView {
     
     //MARK: - Life Cycle
     
