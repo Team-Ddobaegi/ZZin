@@ -30,7 +30,6 @@ struct User : Codable {
 }
 
 struct Review : Codable {
-    var rid: String // UUID.uuidString
     var uid: String
     var pid: String // UUID.uuidString
     var reviewImg: String?
@@ -45,7 +44,6 @@ struct Review : Codable {
     var kindOfFood: String // 추후 enum case로 정리 필요
     
     enum CodingKeys: String, CodingKey {
-        case rid
         case uid
         case pid
         case reviewImg
@@ -62,7 +60,6 @@ struct Review : Codable {
 }
 
 struct Place : Codable {
-    var pid: String // UUID.uuidString
     var rid: [String] // [UUID.uuidString]
     var placeName: String
     var placeImg: [String]
@@ -74,7 +71,6 @@ struct Place : Codable {
     var long: Double?
     
     enum CodingKeys: String, CodingKey {
-        case pid
         case rid
         case placeName
         case placeImg
@@ -164,7 +160,6 @@ class FireStoreManager {
         let reviewRef = db.collection("reviews").document(ReviewInfo.rid)
         
         reviewRef.setData([
-            "rid": ReviewInfo.rid,
             "uid": ReviewInfo.uid,
             "pid": ReviewInfo.pid,
             "reviewImg": ReviewInfo.reviewImg,
@@ -190,7 +185,6 @@ class FireStoreManager {
         let placeRef = db.collection("places").document(PlaceInfo.pid)
         
         placeRef.setData([
-            "pid": PlaceInfo.pid,
             "rid": FieldValue.arrayUnion(PlaceInfo.rid),
             "placeName": PlaceInfo.placeName,
             "placeImg": PlaceInfo.placeImg,
@@ -278,6 +272,32 @@ class FireStoreManager {
             completion(place) // 성공 시 배열 전달
         }
     }
+    
+    func fetchPlacesWithCompanionKeyword(keyword: String, completion: @escaping (Result<[Place], Error>) -> Void) {
+        let companionKeywordRef = FireStoreManager.shared.db.collection("places")
+        let query = companionKeywordRef.whereField("companion", isEqualTo: keyword)
+        
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
+                return
+            }
+            
+            var places: [Place] = []
+            for document in documents {
+                if let place = try? document.data(as: Place.self) {
+                    places.append(place)
+                }
+            }
+            completion(.success(places))
+        }
+    }
+
     
     /// regex 활용 번호 탐색 함수
     /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
@@ -376,4 +396,6 @@ extension FireStoreManager {
         return objects
         
     }
+    
+    
 }

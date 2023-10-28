@@ -10,9 +10,8 @@ var kindOfFoodKeyword : [String] = []
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
-    
+
     private var searchMapUIView = SearchMapUIView()
-    
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
     private var dataManager = FireStoreManager()
@@ -21,8 +20,6 @@ class SearchMapViewController: UIViewController {
     var place : [Place]?
     var selectedPlaceID : String?
     // MARK: - Touch Action
-    
-    
     
     @objc func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
@@ -49,8 +46,6 @@ class SearchMapViewController: UIViewController {
         currentUserLocation = locationService.getCurrentLocation()
         moveCamera(currentUserLocation)
     }
-    
-    
     
     func setTouchableCardView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(storeCardTapped))
@@ -81,29 +76,21 @@ class SearchMapViewController: UIViewController {
             self.place = result
             self.addMarkersForAllPlaces()
         }
-
+        
+        print("#######\(withFriendPlaces)")
     }
-    
-    
-    
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         currentUserLocation = locationService.getCurrentLocation()
         moveCamera(currentUserLocation)
         print(place!)
         locationService.stopUpdatingLocation()
-        updateKeywords()
-
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.tabBarController?.tabBar.isHidden = true
-        updateKeywords()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -137,9 +124,6 @@ class SearchMapViewController: UIViewController {
         place?.forEach { addDataToInfoMarker(for: $0) }
     }
     
-
-    
-    // placeCategory,
     func addInfoMarker(at location: NMGLatLng, data: Place) {
         // 1. InfoMarkerView 인스턴스 생성
         let infoMarkerView = InfoMarkerView()
@@ -193,13 +177,9 @@ class SearchMapViewController: UIViewController {
             return true
         }
         
-        
         // 4. 마커를 지도에 추가
         marker.mapView = searchMapUIView.searchMapView.mapView
     }
-    
-    
-    
 }
 
 // MARK: - LocationServiceDelegate
@@ -217,6 +197,7 @@ extension SearchMapViewController: LocationServiceDelegate {
     }
 }
 
+// 지도 빈 영역 터치 시 Delegate
 //extension SearchMapViewController : NMFMapViewTouchDelegate {
 //    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
 //        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
