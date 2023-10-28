@@ -207,35 +207,53 @@ class FireStoreManager {
             }
             placeData.remove(at: 0)
             place = self.dictionaryToObject(objectType: Place.self, dictionary: placeData)
-            print(place?.count)
             completion(place) // 성공 시 배열 전달
         }
     }
     
-//    func fetchPlacesWithCompanionKeyword(keyword: String, completion: @escaping (Result<[Place], Error>) -> Void) {
-//        let companionKeywordRef = FireStoreManager.shared.db.collection("places")
-//        let query = companionKeywordRef.whereField("companion", isEqualTo: keyword)
-//        
-//        query.getDocuments { (snapshot, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//            
-//            guard let documents = snapshot?.documents else {
-//                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
-//                return
-//            }
-//            
-//            var places: [Place] = []
-//            for document in documents {
-//                if let place = try? document.data(as: Place.self) {
-//                    places.append(place)
-//                }
-//            }
-//            completion(.success(places))
-//        }
-//    }
+    func fetchPlacesWithKeywords(companion: String?, condition: String?, kindOfFood: String?, completion: @escaping (Result<[Place], Error>) -> Void) {
+        let placesReference = FireStoreManager.shared.db.collection("places")
+        var query: Query = placesReference
+        
+        if let companionValue = companion, !companionValue.isEmpty {
+            query = placesReference.whereField("companion", isEqualTo: companionValue)
+        }
+        if let conditionValue = condition, !conditionValue.isEmpty {
+            query = query.whereField("condition", isEqualTo: conditionValue)
+        }
+        if let kindOfFoodValue = kindOfFood, !kindOfFoodValue.isEmpty {
+            query = query.whereField("kindOfFood", isEqualTo: kindOfFoodValue)
+        }
+
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
+                return
+            }
+            
+            var allData: [[String:Any]] = []
+            
+            for document in documents {
+                let data = document.data()
+                allData.append(data)
+            }
+            
+            if let places = self.dictionaryToObject(objectType: Place.self, dictionary: allData) {
+                completion(.success(places))
+            } else {
+                completion(.failure(NSError(domain: "DecodingError", code: -2, userInfo: ["description": "Error decoding data"])))
+            }
+        }
+    }
+
+
+
+
 
     
     /// regex 활용 번호 탐색 함수

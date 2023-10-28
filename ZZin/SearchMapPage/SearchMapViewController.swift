@@ -10,7 +10,7 @@ var kindOfFoodKeyword : [String] = []
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
-
+    
     private var searchMapUIView = SearchMapUIView()
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
@@ -19,6 +19,7 @@ class SearchMapViewController: UIViewController {
     var review : [Review]?
     var place : [Place]?
     var selectedPlaceID : String?
+    var filteredPlace: [Place]?
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -77,13 +78,21 @@ class SearchMapViewController: UIViewController {
             self.addMarkersForAllPlaces()
         }
         
+        FireStoreManager().fetchPlacesWithKeywords(companion: "👯‍♀️친구랑", condition: "✨️인스타 감성", kindOfFood: "🍥일식"){ result in
+            switch result {
+            case .success(let places):
+                print("@@@@@@\(places)")
+            case .failure(let error):
+                // Handle the error
+                print("Failed to fetch places with error: \(error)")
+            }
+        }
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         currentUserLocation = locationService.getCurrentLocation()
         moveCamera(currentUserLocation)
-        print(place!)
         locationService.stopUpdatingLocation()
     }
     
@@ -161,17 +170,17 @@ class SearchMapViewController: UIViewController {
                let placeID = placeData["Place"]?.pid
             {
                 self.selectedPlaceID = placeID
-               FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
-                   switch result {
-                   case .success(let review):
-                           self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
-                           self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
-                   case .failure(let error):
-                       print("Error fetching review: \(error.localizedDescription)")
-                   }
-               }
+                FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
+                    switch result {
+                    case .success(let review):
+                        self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
+                        self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
+                    case .failure(let error):
+                        print("Error fetching review: \(error.localizedDescription)")
+                    }
+                }
             } else {
-               print("마커를 탭했습니다람쥐~")
+                print("마커를 탭했습니다람쥐~")
             }
             return true
         }
@@ -253,7 +262,6 @@ extension SearchMapViewController {
     func updateKeywords() {
         print("키워드 업데이트!!!")
         if !companionKeyword.isEmpty {
-            print(companionKeyword)
             searchMapUIView.matchingView.companionKeywordButton.setTitle(companionKeyword[0], for: .normal)
         }
         if !conditionKeyword.isEmpty {
