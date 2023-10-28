@@ -93,34 +93,34 @@ class FireStoreManager {
     static let shared = FireStoreManager()
     
     func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
-           let docRef = db.collection(collection).document(documentId)
-           docRef.getDocument { (document, error) in
-               if let error = error {
-                   completion(.failure(error))
-                   return
-               }
-               guard let document = document, document.exists, let data = document.data() else {
-                   completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
-                   return
-               }
-               
-               do {
-                   let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-                   let obj = try JSONDecoder().decode(T.self, from: jsonData)
-                   completion(.success(obj))
-               } catch let serializationError {
-                   completion(.failure(serializationError))
-               }
-           }
-       }
-       
-       func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
-           fetchDocument(from: "places", documentId: pid, completion: completion)
-       }
-       
-       func fetchDataWithRid(rid: String, completion: @escaping (Result<Review, Error>) -> Void) {
-           fetchDocument(from: "reviews", documentId: rid, completion: completion)
-       }
+        let docRef = db.collection(collection).document(documentId)
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let document = document, document.exists, let data = document.data() else {
+                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
+                return
+            }
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+                let obj = try JSONDecoder().decode(T.self, from: jsonData)
+                completion(.success(obj))
+            } catch let serializationError {
+                completion(.failure(serializationError))
+            }
+        }
+    }
+    
+    func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
+        fetchDocument(from: "places", documentId: pid, completion: completion)
+    }
+    
+    func fetchDataWithRid(rid: String, completion: @escaping (Result<Review, Error>) -> Void) {
+        fetchDocument(from: "reviews", documentId: rid, completion: completion)
+    }
     
     func setUserData(_ UserInfo: User) {
         let userRef = db.collection("users").document(UserInfo.uid)
@@ -281,20 +281,40 @@ class FireStoreManager {
     
     /// regex 활용 번호 탐색 함수
     /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
-//    private func validateNumber(_ number: String) -> String {
-//        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
-//        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
-//        if test.evaluate(withObject: number) {
-//            print("숫자가 올바르게 입력됐습니다.")
-//        } else {
-//            print("숫자 형식이 조금 틀립니다.")
-//        }
-//    func validateEmail(_ email: String) -> Bool {
-//        // 이메일 형식이 맞는지 확인
-//        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-//        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-//        return emailpred.evaluate(with: email)
-//    }
+    //    private func validateNumber(_ number: String) -> String {
+    //        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
+    //        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
+    //        if test.evaluate(withObject: number) {
+    //            print("숫자가 올바르게 입력됐습니다.")
+    //        } else {
+    //            print("숫자 형식이 조금 틀립니다.")
+    //        }
+    //    func validateEmail(_ email: String) -> Bool {
+    //        // 이메일 형식이 맞는지 확인
+    //        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    //        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+    //        return emailpred.evaluate(with: email)
+    //    }
+    
+    // 중복 아이디를 검사하는 함수 생성 -> uid로 확인
+    func validateID(_ email: String) -> Bool {
+        guard !email.isEmpty else { return false }
+        
+        // 아이디를 받을 수 있도록 확인
+        db.collection("user").getDocuments { result, error in
+            if let error = error {
+                print("에러가 발생했습니다. \(error)")
+            } else {
+                for doc in result!.documents {
+                    if doc.exists {
+                        let uid = doc.get("uid") as! String
+                        print(uid)
+                    }
+                }
+            }
+        }
+        return true
+    }
     
     // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
     func validateNumber(_ number: String) -> Bool {
@@ -344,6 +364,18 @@ class FireStoreManager {
             }
             print("결과값은 아래와 같습니다 - \(result?.description)")
         }
+    }
+    
+    // UID로 어떻게 접근해야할까? - uid 저장이 필요한 상황.
+    func 데이터로컬저장(email: String) {
+        // 입력받는 아이디와 db에 있는 uid와 확인
+        
+        
+        // uid가 매치할 경우 유저 디폴트로 저장
+        
+        // ㅇ
+        
+        // 유저 디폴트로 저장
     }
 }
 
