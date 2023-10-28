@@ -46,15 +46,15 @@ class MatchingView: UIView {
         $0.textColor = .systemGray
     }
     
-    let withKeywordButton = UIButton().customButton()
+    let companionKeywordButton = UIButton().customButton()
     let conditionKeywordButton = UIButton().customButton()
-    let menuKeywordButton = UIButton().customButton()
+    let kindOfFoodKeywordButton = UIButton().customButton()
    
     let firstPlus = UILabel().plus()
     let secondPlus = UILabel().plus()
     
     lazy var keywordButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [withKeywordButton,firstPlus,conditionKeywordButton,secondPlus,menuKeywordButton])
+        let stackView = UIStackView(arrangedSubviews: [companionKeywordButton,firstPlus,conditionKeywordButton,secondPlus,kindOfFoodKeywordButton])
         stackView.axis = .horizontal
         stackView.spacing = 5
         stackView.distribution = .fill
@@ -121,7 +121,7 @@ class MatchingView: UIView {
         // 키워드 아래 구분선
         divider2.snp.makeConstraints {
             $0.height.equalTo(0.5)
-            $0.bottom.equalTo(withKeywordButton).offset(15)
+            $0.bottom.equalTo(companionKeywordButton).offset(15)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
         }

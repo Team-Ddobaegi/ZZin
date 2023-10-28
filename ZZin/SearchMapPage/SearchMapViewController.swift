@@ -108,7 +108,7 @@ class SearchMapViewController: UIViewController {
     }
     
     func addDataToInfoMarker(for place: Place) {
-        let location = NMGLatLng(lat: place.lat, lng: place.long)
+        let location = NMGLatLng(lat: place.lat ?? 0, lng: place.long ?? 0)
         addInfoMarker(at: location, placeName: place.placeName)
     }
     

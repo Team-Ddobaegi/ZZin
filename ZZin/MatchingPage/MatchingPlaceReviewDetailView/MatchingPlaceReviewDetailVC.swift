@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MatchingPlaceDetailVC: UIViewController {
+class MatchingPlaceReviewDetailVC: UIViewController {
     
     // MARK: - Life Cycle
     
@@ -31,21 +31,21 @@ class MatchingPlaceDetailVC: UIViewController {
     
     private func setCostumCell() {
         // 커스텀 셀 선언
-        matchingPlaceDetailView.setMatchingPlaceReviewTableView.register(MatchingThumbnailCell.self, forCellReuseIdentifier: MatchingThumbnailCell.identifier)
-        matchingPlaceDetailView.setMatchingPlaceReviewTableView.register(MatchingReviewPhotoCell.self, forCellReuseIdentifier: MatchingReviewPhotoCell.identifier)
-        matchingPlaceDetailView.setMatchingPlaceReviewTableView.register(MatchingReviewTextCell.self, forCellReuseIdentifier: MatchingReviewTextCell.identifier)
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.register(MatchingThumbnailCell.self, forCellReuseIdentifier: MatchingThumbnailCell.identifier)
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.register(MatchingReviewPhotoCell.self, forCellReuseIdentifier: MatchingReviewPhotoCell.identifier)
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.register(MatchingReviewTextCell.self, forCellReuseIdentifier: MatchingReviewTextCell.identifier)
     }
     
     private func setTableViewAttribute(){
         // 매칭 업체 페이지 테이블뷰
-        matchingPlaceDetailView.setMatchingPlaceReviewTableView.delegate = self
-        matchingPlaceDetailView.setMatchingPlaceReviewTableView.dataSource = self
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.delegate = self
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.dataSource = self
     }
     
     
     //MARK: - Properties
     
-    private let matchingPlaceDetailView = MatchingPlaceDetailView()
+    private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
     
     let reviewText = MatchingReviewTextCell().reviewTextLabel.text
 
@@ -61,9 +61,9 @@ class MatchingPlaceDetailVC: UIViewController {
     // MARK: - configureUI
     
     func configureUI(){
-        view.addSubview(matchingPlaceDetailView)
+        view.addSubview(matchingPlaceReviewDetailView)
         
-        matchingPlaceDetailView.snp.makeConstraints {
+        matchingPlaceReviewDetailView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
@@ -73,7 +73,7 @@ class MatchingPlaceDetailVC: UIViewController {
 
 
 // MARK: - TableView
-extension MatchingPlaceDetailVC: UITableViewDelegate, UITableViewDataSource {
+extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {

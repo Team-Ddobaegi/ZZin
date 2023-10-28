@@ -191,9 +191,9 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("매칭 디테일 페이지로 이동합니다.")
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
-            let matchingPlaceDetailVC = MatchingPlaceDetailVC()
+            let matchingPlaceReviewDetailVC = MatchingPlaceReviewDetailVC()
             
-            self.navigationController?.pushViewController(matchingPlaceDetailVC, animated: true)
+            self.navigationController?.pushViewController(matchingPlaceReviewDetailVC, animated: true)
         }
         
     }
