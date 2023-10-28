@@ -4,7 +4,7 @@ import SnapKit
 
 class SearchMapUIView: UIView {
     
-    var searchView = MatchingView()
+    var matchingView = MatchingView()
     var storeCardView = StoreCardView()
     var searchMapView = SearchMapView()
     
@@ -38,7 +38,7 @@ class SearchMapUIView: UIView {
     }
     
     func changeSearchView() {
-        searchView.mapButton.setImage(UIImage(systemName: "square.grid.2x2.fill"), for: .normal)
+        matchingView.mapButton.setImage(UIImage(systemName: "square.grid.2x2.fill"), for: .normal)
     }
     
     override init(frame: CGRect) {
@@ -52,25 +52,25 @@ class SearchMapUIView: UIView {
     }
     
     private func setupUI() {
-        addSubview(searchView)
+        addSubview(matchingView)
         addSubview(searchMapView)
         addSubview(storeCardView)
-        searchView.addSubview(backButton)
+        matchingView.addSubview(backButton)
 
         searchMapView.addSubview(gpsButton)
         
-        searchView.snp.makeConstraints {
+        matchingView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
         }
         
         searchMapView.snp.makeConstraints {
-            $0.top.equalTo(searchView.snp.bottom)
+            $0.top.equalTo(matchingView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
         backButton.snp.makeConstraints {
-            $0.centerY.equalTo(searchView.mapButton.snp.centerY)
+            $0.centerY.equalTo(matchingView.mapButton.snp.centerY)
             $0.leading.equalToSuperview().offset(20)
         }
         

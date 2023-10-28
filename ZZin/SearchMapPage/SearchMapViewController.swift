@@ -3,6 +3,10 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
+var companionKeyword : [String] = []
+var conditionKeyword : [String] = []
+var kindOfFoodKeyword : [String] = []
+
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
@@ -46,6 +50,8 @@ class SearchMapViewController: UIViewController {
         moveCamera(currentUserLocation)
     }
     
+    
+    
     func setTouchableCardView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(storeCardTapped))
         searchMapUIView.storeCardView.addGestureRecognizer(tapGesture)
@@ -56,7 +62,7 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
-        searchMapUIView.searchView.mapButton.addTarget(self, action: #selector(gridButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.mapButton.addTarget(self, action: #selector(gridButtonTapped), for: .touchUpInside)
         searchMapUIView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
@@ -68,13 +74,18 @@ class SearchMapViewController: UIViewController {
         // 사용자 현재 위치 정보 가져오기 시작
         locationService.startUpdatingLocation()
         setupUI()
+        setKeywordView()
         setTouchableCardView()
         addTargetButton()
         dataManager.getPlaceData { result in
             self.place = result
             self.addMarkersForAllPlaces()
         }
+
     }
+    
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -82,17 +93,23 @@ class SearchMapViewController: UIViewController {
         moveCamera(currentUserLocation)
         print(place!)
         locationService.stopUpdatingLocation()
+        updateKeywords()
+
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = true
+        updateKeywords()
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        
     }
     
     // MARK: - UI Setting
@@ -213,3 +230,63 @@ extension SearchMapViewController: NMFMapViewTouchDelegate {
     }
 }
 
+extension SearchMapViewController {
+    private func setKeywordView(){
+        searchMapUIView.matchingView.withKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.conditionKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+    }
+    
+    // 첫 번째 키워드 버튼이 탭될 때
+    @objc func firstKeywordButtonTapped() {
+        print("첫 번째 키워드 버튼이 탭됨")
+        
+        let keywordVC = MatchingKeywordVC()
+        keywordVC.selectedMatchingKeywordType = .with
+        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.matchingKeywordVCdelegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 두 번째 키워드 버튼이 탭될 때
+    @objc func secondKeywordButtonTapped() {
+        print("두 번째 키워드 버튼이 탭됨")
+        
+        let keywordVC = MatchingKeywordVC()
+        keywordVC.selectedMatchingKeywordType = .condition
+        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.matchingKeywordVCdelegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 메뉴 키워드 버튼이 탭될 때
+    @objc func menuKeywordButtonTapped() {
+        print("메뉴 키워드 버튼이 탭됨")
+        
+        let keywordVC = MatchingKeywordVC()
+        keywordVC.selectedMatchingKeywordType = .menu
+        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.matchingKeywordVCdelegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    func updateKeywords() {
+        print("키워드 업데이트!!!")
+        if !companionKeyword.isEmpty {
+            print(companionKeyword)
+            searchMapUIView.matchingView.withKeywordButton.setTitle(companionKeyword[0], for: .normal)
+        }
+        if !conditionKeyword.isEmpty {
+            searchMapUIView.matchingView.conditionKeywordButton.setTitle(conditionKeyword[0], for: .normal)
+        }
+        if !kindOfFoodKeyword.isEmpty {
+            searchMapUIView.matchingView.menuKeywordButton.setTitle(kindOfFoodKeyword[0], for: .normal)
+        }
+    }
+}
+
+extension SearchMapViewController: MatchingKeywordVCDelegate {
+    func didDismissMatchingKeywordVC() {
+        updateKeywords()
+    }
+}
