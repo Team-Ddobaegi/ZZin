@@ -15,6 +15,7 @@ class SearchMapViewController: UIViewController {
     var user : [User]?
     var review : [Review]?
     var place : [Place]?
+    var selectedPlaceID : String?
     // MARK: - Touch Action
     
     
@@ -30,6 +31,9 @@ class SearchMapViewController: UIViewController {
     
     @objc func storeCardTapped() {
         print("storeCardView Tapped")
+        let matchingVC = MatchingPlaceVC()
+        matchingVC.placeID = selectedPlaceID
+        navigationController?.pushViewController(matchingVC, animated: true)
     }
     
     @objc func searchCurrentLocationButtonTapped() {
@@ -108,20 +112,21 @@ class SearchMapViewController: UIViewController {
     }
     
     func addDataToInfoMarker(for place: Place) {
-        let location = NMGLatLng(lat: place.lat, lng: place.long)
-        addInfoMarker(at: location, placeName: place.placeName)
+        let location = NMGLatLng(lat: place.lat ?? 0, lng: place.long ?? 0)
+        addInfoMarker(at: location, data: place)
     }
     
     func addMarkersForAllPlaces() {
         place?.forEach { addDataToInfoMarker(for: $0) }
     }
     
+
     
     // placeCategory,
-    func addInfoMarker(at location: NMGLatLng, placeName: String) {
+    func addInfoMarker(at location: NMGLatLng, data: Place) {
         // 1. InfoMarkerView 인스턴스 생성
         let infoMarkerView = InfoMarkerView()
-        infoMarkerView.informationLabel.text = placeName
+        infoMarkerView.informationLabel.text = data.placeName
         
         // 텍스트의 너비에 따른 마커 뷰의 전체 너비 계산
         let textWidth = infoMarkerView.informationLabel.intrinsicContentSize.width
@@ -144,13 +149,29 @@ class SearchMapViewController: UIViewController {
         marker.iconImage = NMFOverlayImage(image: snapshotImage!)
         marker.anchor = CGPoint(x: 0.5, y: 0.5)
         marker.zIndex = Int.max // 마커 최상단으로 오게 하기 위함
-        marker.userInfo = ["storeName": placeName]
+        marker.userInfo = ["Place" : data]
+        
+        
         
         marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
-            if let userInfo = overlay.userInfo as? [String: String], let placeName = userInfo["storeName"] {
-                self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
+            
+            if let placeData = overlay.userInfo as? [String: Place],
+               let placeName = placeData["Place"]?.placeName,
+               let reviewID = placeData["Place"]?.rid,
+               let placeID = placeData["Place"]?.pid
+            {
+                self.selectedPlaceID = placeID
+               FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
+                   switch result {
+                   case .success(let review):
+                           self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
+                           self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
+                   case .failure(let error):
+                       print("Error fetching review: \(error.localizedDescription)")
+                   }
+               }
             } else {
-                print("마커를 탭했습니다람쥐~")
+               print("마커를 탭했습니다람쥐~")
             }
             return true
         }
