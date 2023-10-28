@@ -209,6 +209,15 @@ class FireStoreManager {
         }
     }
     
+    func saveUserLoginDataLocally(email: String) {
+        // email = UID, save UID
+        if validateEmail(email) {
+            UserDefaults.standard.set(email, forKey: "UID")
+        } else {
+            print("로컬로 사용자 정보를 저장할 수 없었습니다.")
+        }
+    }
+    
     /**
      @brief userData를 불러온다,
      */

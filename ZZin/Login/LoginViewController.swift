@@ -63,12 +63,12 @@ class LoginViewController: UIViewController {
     }()
     
     //MARK: - 메서드 선언
-    func configure() {
+    private func configure() {
         view.backgroundColor = .white
         [idTextfieldView, pwTextfieldView, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
-    func setUI() {
+    private func setUI() {
         setLogo()
         setCustomView()
         setLoginBtn()
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func setLoginBtn() {
+    private func setLoginBtn() {
         loginButton.snp.makeConstraints {
             $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -106,7 +106,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func setSearchBtn() {
+    private func setSearchBtn() {
         secondaryButtonStack.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
