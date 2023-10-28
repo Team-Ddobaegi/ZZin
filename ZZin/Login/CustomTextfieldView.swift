@@ -11,14 +11,14 @@ import Then
 
 class CustomTextfieldView: UIView {
     
-    let animatingLabel = UILabel().then {
+    lazy var animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.text = "Test"
     }
 
-    let textfield = UITextField().then {
+    lazy var textfield = UITextField().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .systemGreen
         $0.textColor = .black
@@ -27,7 +27,7 @@ class CustomTextfieldView: UIView {
         $0.keyboardType = .default
     }
     
-    let validationLabel = UILabel().then {
+    private lazy var validationLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
         $0.textColor = UIColor.init(hexCode: "F55951")
@@ -35,7 +35,7 @@ class CustomTextfieldView: UIView {
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
 
-    let cancelButton = UIButton().then {
+    private lazy var cancelButton = UIButton().then {
         let image = UIImage(systemName: "x.circle")
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.imageView?.tintColor = .systemGray
@@ -44,7 +44,7 @@ class CustomTextfieldView: UIView {
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
-    let secureButton = UIButton().then {
+    private lazy var secureButton = UIButton().then {
         let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
@@ -70,10 +70,9 @@ class CustomTextfieldView: UIView {
         configure()
         setUI()
         
-        if hasEyeButton {
-            addEyeButton()
-        } else {
-            addCancelButton()
+        switch hasEyeButton {
+        case true: addEyeButton()
+        case false: addCancelButton()
         }
     }
     
@@ -88,7 +87,7 @@ class CustomTextfieldView: UIView {
 
 extension CustomTextfieldView {
     func configure() {
-        translatesAutoresizingMaskIntoConstraints = false
+//        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemGray5
         layer.cornerRadius = 12
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
@@ -115,8 +114,31 @@ extension CustomTextfieldView {
         }
     }
     
+    func addEyeButton() {
+        addSubview(secureButton)
+        secureButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
+        }
+    }
+    
+    func addCancelButton() {
+        addSubview(cancelButton)
+        cancelButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
+        }
+    }
+    
+    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
+        textfield.delegate = delegate
+    }
+    
+    // MARK: - Animation
     // Label Animation 적용
-    func labelAnimation() {
+    func animateLabel() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0) {
             self.backgroundColor = .white
             self.animatingLabel.textColor = .green
@@ -138,7 +160,7 @@ extension CustomTextfieldView {
     }
     
     // Label Animation을 되돌리는 함수
-    func undo() {
+    func undoLabelAnimation() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             self.backgroundColor = .systemGray5
             self.animatingLabel.textColor = .systemGray
@@ -156,6 +178,7 @@ extension CustomTextfieldView {
         movement.startAnimation()
     }
     
+    // MARK: - Auth 관련 함수
     func validateEmail(_ email: String) -> Bool {
         // 이메일 형식이 맞는지 확인
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -173,39 +196,17 @@ extension CustomTextfieldView {
         layer.borderColor = UIColor.init(hexCode: "F55951").cgColor
         textfield.tintColor = UIColor.init(hexCode: "F55951")
     }
-    
-    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
-        textfield.delegate = delegate
-    }
-    
-    func addEyeButton() {
-        addSubview(secureButton)
-        secureButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(5)
-            $0.height.width.equalTo(30)
-        }
-    }
-    
-    func addCancelButton() {
-        addSubview(cancelButton)
-        cancelButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(5)
-            $0.height.width.equalTo(30)
-        }
-    }
 
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
             print("탭이 눌렸습니다.")
-            labelAnimation()
+            animateLabel()
         }
     }
     
     @objc func cancelTapped(_ sender: UIButton) {
         textfield.resignFirstResponder()
-        undo()
+        undoLabelAnimation()
     }
     
     @objc func secureButtonTapped(_ sender: UIButton) {
@@ -217,9 +218,5 @@ extension CustomTextfieldView {
             textfield.isSecureTextEntry = false
             print("숨겨진 비밀번호가 해제됐습니다.")
         }
-        // 왜 sender 값에 따라 설정하는 방식은 안될까?
-//        if sender.isSelected {
-//            self.textfield.isSecureTextEntry = true
-//        }
     }
 }

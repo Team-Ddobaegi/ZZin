@@ -20,8 +20,8 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let idTextfield = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일", hasEyeButton: false)
-    private let pwTextfield = CustomTextfieldView(placeholder: "대문자 + 숫자 또는 특수문자 조합", text: "비밀번호", hasEyeButton: true)
+    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", hasEyeButton: false)
+    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", hasEyeButton: true)
     
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -65,7 +65,7 @@ class LoginViewController: UIViewController {
     //MARK: - 메서드 선언
     func configure() {
         view.backgroundColor = .white
-        [idTextfield, pwTextfield, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
+        [idTextfieldView, pwTextfieldView, logoView, loginButton, secondaryButtonStack].forEach{view.addSubview($0)}
     }
     
     func setUI() {
@@ -85,22 +85,22 @@ class LoginViewController: UIViewController {
     }
     
     private func setCustomView() {
-        idTextfield.snp.makeConstraints {
+        idTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(logoView.snp.bottom).offset(84)
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
         
-        pwTextfield.snp.makeConstraints {
+        pwTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(idTextfield.snp.bottom).offset(20)
+            $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     func setLoginBtn() {
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(pwTextfield.snp.bottom).offset(140)
+            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
@@ -116,18 +116,25 @@ class LoginViewController: UIViewController {
     
     private func setDelegate() {
         // deep copy와 Shallow copy의 차이점
-        //        idTextfield.textfield.delegate = self
-        //        pwTextfield.textfield.delegate = self
+//        idTextfieldView.textfield.delegate = self
+//        pwTextfieldView.textfield.delegate = self
         // shallow copy
-        idTextfield.setTextFieldDelegate(delegate: self)
-        pwTextfield.setTextFieldDelegate(delegate: self)
+        idTextfieldView.setTextFieldDelegate(delegate: self)
+        pwTextfieldView.setTextFieldDelegate(delegate: self)
     }
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-        let vc = TabBarViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        
+        let id = idTextfieldView.textfield.text!
+        if FireStoreManager.shared.validateID(id) {
+            print(id)
+            let vc = TabBarViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        } else {
+            print("불허가")
+        }
     }
     
     @objc func memberButtonTapped() {
@@ -172,41 +179,54 @@ extension LoginViewController {
 
 //MARK: - UITextFieldDelegate 선언
 extension LoginViewController: UITextFieldDelegate {
-    // 텍스트 필드가 입력되고 있는지 확인, 확인된 텍스트 필드의 label을 없애야 하는 상황
-    func textFieldDidBeginEditing(_ textFieldView: UITextField) {
-        switch textFieldView {
-        case idTextfield: idTextfield.animatingLabel.isHidden = true
-        case pwTextfield: pwTextfield.animatingLabel.isHidden = true
+    
+    // 텍스트필드 수정 중 animatingLabel 숨기기
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case self.idTextfieldView.textfield: idTextfieldView.textfield.placeholder = "honggildong@gmail.com"
+        case self.pwTextfieldView.textfield: pwTextfieldView.textfield.placeholder = "대문자 + 숫자 또는 특수문자 조합"
         default: print("textfield를 찾지 못했습니다.")
         }
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == idTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            idTextfieldView.undoLabelAnimation()
+        } else if textField == pwTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            pwTextfieldView.undoLabelAnimation()
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
+        switchToTextfield(textField)
         return true
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
-            return true
-        }
-        return false
-    }
-    
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let emailText = textField.text else { return }
-
-        if textField == idTextfield.textfield {
-            if idTextfield.validateEmail(emailText) {
-                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
-//                idTextfield.undo()
-            } else {
-                idTextfield.showInvalidMessage()
-            }
-            textField.text = ""
-        } else if textField == pwTextfield {
-            pwTextfield.animatingLabel.isHidden = !pwTextfield.textfield.text!.isEmpty
+    private func switchToTextfield(_ textField: UITextField) {
+        print("다 써써용~")
+        switch textField {
+        case self.idTextfieldView.textfield:
+            self.pwTextfieldView.textfield.becomeFirstResponder()
+        case self.pwTextfieldView.textfield:
+            self.pwTextfieldView.textfield.resignFirstResponder()
+        default:
+            self.pwTextfieldView.textfield.resignFirstResponder()
         }
     }
+    
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        guard let emailText = textField.text else { return }
+//
+//        if textField == idTextfield.textfield {
+//            if idTextfield.validateEmail(emailText) {
+//                idTextfield.animatingLabel.isHidden = !idTextfield.textfield.text!.isEmpty
+////                idTextfield.undo()
+//            } else {
+////                idTextfield.showInvalidMessage()
+//            }
+//            textField.text = ""
+//        } else if textField == pwTextfield {
+//            pwTextfield.animatingLabel.isHidden = !pwTextfield.textfield.text!.isEmpty
+//        }
+//    }
 }
