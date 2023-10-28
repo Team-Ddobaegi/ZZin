@@ -41,8 +41,8 @@ class CustomTextfieldView: UIView {
     private lazy var secureButton = UIButton().then {
         let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        $0.setImage(image, for: .normal)
-        $0.setImage(selectedImage, for: .selected)
+        $0.setImage(selectedImage, for: .normal)
+        $0.setImage(image, for: .selected)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
     }
@@ -102,7 +102,7 @@ extension CustomTextfieldView {
         }
 
         textfield.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(5)
             $0.leading.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(5)
         }
@@ -191,28 +191,6 @@ extension CustomTextfieldView {
         self.textfield.tintColor = UIColor.init(hexCode: "F55951")
     }
     
-    func setTextFieldDelegate(delegate: UITextFieldDelegate) {
-        self.textfield.delegate = delegate
-    }
-    
-    func addEyeButton() {
-        addSubview(secureButton)
-        self.secureButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(5)
-            $0.height.width.equalTo(30)
-        }
-    }
-    
-    func addCancelButton() {
-        addSubview(cancelButton)
-        cancelButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(5)
-            $0.height.width.equalTo(30)
-        }
-    }
-
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
             print("탭이 눌렸습니다.")
@@ -228,11 +206,11 @@ extension CustomTextfieldView {
     @objc func secureButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         if sender.isSelected {
-            textfield.isSecureTextEntry = true
-            print("비밀번호가 숨겨졌습니다.")
-        } else {
             textfield.isSecureTextEntry = false
             print("숨겨진 비밀번호가 해제됐습니다.")
+        } else {
+            textfield.isSecureTextEntry = true
+            print("비밀번호가 숨겨졌습니다.")
         }
     }
 }
