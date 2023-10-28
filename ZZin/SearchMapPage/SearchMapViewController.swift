@@ -21,7 +21,7 @@ class SearchMapViewController: UIViewController {
     var selectedCity : String?
     var selectedTown : String?
     private var activeMarkers: [NMFMarker] = []
-
+    
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -50,6 +50,23 @@ class SearchMapViewController: UIViewController {
         moveCamera(currentUserLocation)
     }
     
+    @objc func resetFilterButtonTapped() {
+        companionKeyword = nil
+        conditionKeyword = nil
+        kindOfFoodKeyword = nil
+        selectedCity = nil
+        selectedTown = "전체"
+        
+        searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
+        searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
+        searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
+        
+        removeAllMarkers()
+        fetchPlacesWithKeywords()
+        
+        updateResetButtonStatus()
+    }
+    
     func setTouchableCardView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(storeCardTapped))
         searchMapUIView.storeCardView.addGestureRecognizer(tapGesture)
@@ -57,6 +74,7 @@ class SearchMapViewController: UIViewController {
     }
     
     func addTargetButton() {
+        searchMapUIView.resetFilterButton.addTarget(self, action: #selector(resetFilterButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
@@ -127,8 +145,15 @@ class SearchMapViewController: UIViewController {
         }
         activeMarkers.removeAll()
     }
-
-
+    
+    func updateResetButtonStatus() {
+        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+            searchMapUIView.resetFilterButton.isEnabled = false
+        } else {
+            searchMapUIView.resetFilterButton.isEnabled = true
+        }
+    }
+    
     
     func addInfoMarker(at location: NMGLatLng, data: Place) {
         // 1. InfoMarkerView 인스턴스 생성
@@ -158,10 +183,7 @@ class SearchMapViewController: UIViewController {
         marker.zIndex = Int.max // 마커 최상단으로 오게 하기 위함
         marker.userInfo = ["Place" : data]
         
-        
-        
         marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
-            
             if let placeData = overlay.userInfo as? [String: Place],
                let placeName = placeData["Place"]?.placeName,
                let reviewID = placeData["Place"]?.rid,
@@ -182,10 +204,8 @@ class SearchMapViewController: UIViewController {
             }
             return true
         }
-        
         // 4. 마커를 지도에 추가
         marker.mapView = searchMapUIView.searchMapView.mapView
-        
         // 5. 활성화된 마커 배열에 추가
         activeMarkers.append(marker)
     }
@@ -205,14 +225,6 @@ extension SearchMapViewController: LocationServiceDelegate {
         print("Failed to get location: \(error.localizedDescription)")
     }
 }
-
-// 지도 빈 영역 터치 시 Delegate
-//extension SearchMapViewController : NMFMapViewTouchDelegate {
-//    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-//        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
-//
-//    }
-//}
 
 extension SearchMapViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
@@ -261,7 +273,6 @@ extension SearchMapViewController {
     }
 }
 
-
 extension SearchMapViewController: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
         let keywordType = keywordType
@@ -272,8 +283,6 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.companionKeyword = [updateKeyword as String?]
-                removeAllMarkers()
-                fetchPlacesWithKeywords()
             }
             
         case .condition:
@@ -281,9 +290,6 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.conditionKeyword = [updateKeyword as String?]
-                fetchPlacesWithKeywords()
-                removeAllMarkers()
-                fetchPlacesWithKeywords()
             }
             
         case .menu:
@@ -291,11 +297,11 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.kindOfFoodKeyword = [updateKeyword as String?]
-                fetchPlacesWithKeywords()
-                removeAllMarkers()
-                fetchPlacesWithKeywords()
             }
         }
+        removeAllMarkers()
+        fetchPlacesWithKeywords()
+        updateResetButtonStatus()
     }
 }
 
@@ -306,11 +312,11 @@ extension SearchMapViewController {
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
         let actualCity = city ?? self.selectedCity ?? nil
         let actualTown = town ?? self.selectedTown ?? "전체"
-
+        
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
-
+                
                 self.filteredPlace = places
                 print(self.filteredPlace?.count)
                 self.addMarkersForAllPlaces()
@@ -319,5 +325,12 @@ extension SearchMapViewController {
             }
         }
     }
-
 }
+
+// 지도 빈 영역 터치 시 Delegate
+//extension SearchMapViewController : NMFMapViewTouchDelegate {
+//    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+//        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
+//
+//    }
+//}

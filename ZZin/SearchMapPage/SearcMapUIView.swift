@@ -64,6 +64,7 @@ class SearchMapUIView: UIView {
         addSubview(matchingView)
         addSubview(searchMapView)
         addSubview(storeCardView)
+        matchingView.addSubview(resetFilterButton)
         matchingView.addSubview(backButton)
         searchMapView.addSubview(gpsButton)
         
@@ -94,6 +95,13 @@ class SearchMapUIView: UIView {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(100)
+        }
+        
+        resetFilterButton.snp.makeConstraints {
+            $0.leading.equalTo(matchingView.matchingNotiLabel.snp.trailing).offset(10)
+            $0.top.equalTo(matchingView.matchingNotiLabel.snp.top)
+            $0.width.equalTo(120)
+            $0.height.equalTo(40)
         }
     }
 }
