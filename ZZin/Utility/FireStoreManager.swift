@@ -279,23 +279,7 @@ class FireStoreManager {
         }
     }
     
-    /// regex 활용 번호 탐색 함수
-    /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
-    //    private func validateNumber(_ number: String) -> String {
-    //        let regex = "^[0-9]{3}-[0-9]{4}-[0-9]{4}"
-    //        let test = NSPredicate(format: "SELF MATCHES %@", arguments: regex)
-    //        if test.evaluate(withObject: number) {
-    //            print("숫자가 올바르게 입력됐습니다.")
-    //        } else {
-    //            print("숫자 형식이 조금 틀립니다.")
-    //        }
-    //    func validateEmail(_ email: String) -> Bool {
-    //        // 이메일 형식이 맞는지 확인
-    //        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-    //        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-    //        return emailpred.evaluate(with: email)
-    //    }
-    
+    //MARK: - 로그인/회원가입 Page
     func fetchUserUID(completion: @escaping ([String]) -> Void) {
         var uids: [String] = []
         db.collection("users").getDocuments { result, error in
@@ -305,6 +289,7 @@ class FireStoreManager {
                 for document in result!.documents {
                     if document.exists {
                         if let uid = document.get("uid") as? String {
+                            print(uid)
                             uids.append(uid)
                         }
                     }
@@ -314,7 +299,9 @@ class FireStoreManager {
         }
     }
     
-    // DB에 있는 값 확인 - 여부를 던져야하기에 completion을 사용
+    //MARK: - 유효성 검사 관련
+    
+    // 중복 UID 확인
     func crossCheckDB(_ id: String, completion: @escaping (Bool) -> Void) {
         fetchUserUID { uids in
             if uids.contains(id) {
@@ -327,10 +314,22 @@ class FireStoreManager {
         }
     }
     
-    // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
+    func checkIdPattern(_ email: String) -> Bool {
+        return true
+    }
+    
+    func checkPasswordPattern(_ password: String) -> Bool {
+        guard !password.isEmpty else { return false }
+        
+        let firstLetter = password.prefix(1)
+        guard firstLetter == firstLetter.uppercased() else { print("첫 단어는 대문자가 필요합니다."); return false }
+        
+        let numbers = password.suffix(1)
+        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else { print("마지막은 숫자를 써주세요"); return false }
+        return true
+    }
+    
     func validateNumber(_ number: String) -> Bool {
-        // 🚨 네트워크 서버에서 존재하는 번호인지 체크할 수 있나?
-        // 가드문으로 확인하는 것보다 if문으로 차례대로 거르는 구조가 해당 영역에 알맞는 errorHandling을 할 수 있기에.
         if number.isEmpty {
             print("번호가 입력이 되지 않았어요")
             return false
@@ -344,21 +343,8 @@ class FireStoreManager {
         return true
     }
     
-    func validatePassword(_ password: String) -> Bool {
-        let passwordCheck = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8}$"
-        let predicate = NSPredicate(format:"SELF MATCHES %@", passwordCheck)
-        return predicate.evaluate(with: password)
-    }
-    
-    func validateData(id: UITextField, pw: UITextField) -> String? {
-        if id.text?.isEmpty == true || pw.text?.isEmpty == true {
-            /// alert 처리 필요
-            return "비어있는 값이 있는지 확인해주세요."
-        }
-        return nil
-    }
-    
-    // 우리가 값을 텍스트 필드로 받고 있는 상황에서 user값으로 로그인과 회원가입을 처리 할 수 있나? -> 불가능
+    //MARK: - Auth 관련
+    // 로그인
     func loginUser(with email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -367,26 +353,20 @@ class FireStoreManager {
         }
     }
     
-    func signIn(with email: String, password: String) {
-        if validatePassword(password) { print("비밀번호를 한번 더 확인 해주세요") }
+    // 회원가입
+    func signIn(with email: String, password: String, completion: @escaping ((Bool) -> Void)) {
+        guard checkPasswordPattern(password) else {
+            completion(false)
+            return
+        }
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("여기가 문제인가요 유저를 생성하는데 에러가 발생했습니다. \(error.localizedDescription)")
+                completion(false)
             }
             print("결과값은 아래와 같습니다 - \(result?.description)")
+            completion(true)
         }
-    }
-    
-    // UID로 어떻게 접근해야할까? - uid 저장이 필요한 상황.
-    func 데이터로컬저장(email: String) {
-        // 입력받는 아이디와 db에 있는 uid와 확인
-        
-        
-        // uid가 매치할 경우 유저 디폴트로 저장
-        
-        // ㅇ
-        
-        // 유저 디폴트로 저장
     }
 }
 
