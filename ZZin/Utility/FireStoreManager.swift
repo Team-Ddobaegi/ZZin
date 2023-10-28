@@ -1,10 +1,3 @@
-//
-//  FireStoreManager.swift
-//  ZZin
-//
-//  Created by t2023-m0055 on 2023/10/23.
-//
-
 import Foundation
 import Firebase
 import FirebaseAuth
@@ -40,7 +33,7 @@ struct Review : Codable {
     var dislike: Int
     var content: String
     var rate: Double
-//    var createdAt: Date
+    var createdAt: Date
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
@@ -55,7 +48,7 @@ struct Review : Codable {
         case dislike
         case content
         case rate
-//        case createdAt
+        case createdAt
         case companion
         case condition
         case kindOfFood
@@ -269,7 +262,7 @@ class FireStoreManager {
 //    func fetchPlacesWithKeywords(companion: String?, condition: String?, kindOfFood: String?, city: String?, town: String?, completion: @escaping (Result<[Place], Error>) -> Void) {
 //        let placesReference = FireStoreManager.shared.db.collection("places")
 //        var query: Query = placesReference
-//        
+//
 //        if let companionValue = companion, !companionValue.isEmpty {
 //            query = query.whereField("companion", isEqualTo: companionValue)
 //        }
@@ -291,19 +284,19 @@ class FireStoreManager {
 //                completion(.failure(error))
 //                return
 //            }
-//            
+//
 //            guard let documents = snapshot?.documents else {
 //                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
 //                return
 //            }
-//            
+//
 //            var allData: [[String:Any]] = []
-//            
+//
 //            for document in documents {
 //                let data = document.data()
 //                allData.append(data)
 //            }
-//            
+//
 //            if let places = self.dictionaryToObject(objectType: Place.self, dictionary: allData) {
 //                completion(.success(places))
 //            } else {
@@ -312,12 +305,6 @@ class FireStoreManager {
 //        }
 //    }
 
-
-
-
-
-
-    
     /// regex 활용 번호 탐색 함수
     /// - Parameter number: 텍스트필드 내 입력된 값으로 대한민국 전화번호 구조인지 확인
     //    private func validateNumber(_ number: String) -> String {

@@ -4,10 +4,19 @@ import CoreLocation
 import SnapKit
 
 
+struct SearchData {
+    var companionKeyword: [String?]?
+    var conditionKeyword: [String?]?
+    var kindOfFoodKeyword: [String?]?
+    var selectedCity: String?
+    var selectedTown: String?
+}
+
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
-    
+    weak var mapViewDelegate: SearchMapViewControllerDelegate?
+    var searchData: SearchData?
     private var searchMapUIView = SearchMapUIView()
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
@@ -26,13 +35,14 @@ class SearchMapViewController: UIViewController {
     
     @objc func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+        sendDataBackToMatchingViewController()
     }
     
     @objc func gridButtonTapped() {
         self.navigationController?.popViewController(animated: false)
         self.navigationController?.pushViewController(MatchingVC(), animated: true)
     }
-    
+
     @objc func storeCardTapped() {
         print("storeCardView Tapped")
         let matchingVC = MatchingPlaceVC()
@@ -51,9 +61,9 @@ class SearchMapViewController: UIViewController {
     }
     
     @objc func resetFilterButtonTapped() {
-        companionKeyword = nil
-        conditionKeyword = nil
-        kindOfFoodKeyword = nil
+        companionKeyword = [nil]
+        conditionKeyword = [nil]
+        kindOfFoodKeyword = [nil]
         selectedCity = nil
         selectedTown = "전체"
         
@@ -63,8 +73,12 @@ class SearchMapViewController: UIViewController {
         
         removeAllMarkers()
         fetchPlacesWithKeywords()
-        
         updateResetButtonStatus()
+        sendDataBackToMatchingViewController()
+    }
+    
+    func sendDataBackToMatchingViewController() {
+        mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, selectedCity: selectedCity, selectedTown: selectedTown)
     }
     
     func setTouchableCardView() {
@@ -95,7 +109,8 @@ class SearchMapViewController: UIViewController {
         setTouchableCardView()
         addTargetButton()
         fetchPlacesWithKeywords()
-
+        setKeywordButtonTitle()
+        print("@@@@@@@\(companionKeyword)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,6 +131,24 @@ class SearchMapViewController: UIViewController {
     }
     
     // MARK: - UI Setting
+    
+    
+    func setKeywordButtonTitle() {
+        let firstCompanionKeyword = companionKeyword?.first ?? nil ?? nil
+        print("#######\(firstCompanionKeyword)")
+        searchMapUIView.matchingView.companionKeywordButton.setTitle(firstCompanionKeyword ?? "키워드", for: .normal)
+        searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
+        
+        let firstConditionKeyword = conditionKeyword?.first ?? nil ?? nil
+        searchMapUIView.matchingView.conditionKeywordButton.setTitle(firstConditionKeyword ?? "키워드", for: .normal)
+        searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
+        
+        let firstKindOfFoodKeyword = kindOfFoodKeyword?.first ?? nil ?? nil
+        searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(firstKindOfFoodKeyword ?? "키워드", for: .normal)
+        searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
+    }
+    
+    
     
     func moveCamera(_ location: NMGLatLng?) {
         //        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
@@ -274,6 +307,8 @@ extension SearchMapViewController {
     }
 }
 
+
+
 extension SearchMapViewController: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
         let keywordType = keywordType
@@ -335,3 +370,9 @@ extension SearchMapViewController {
 //
 //    }
 //}
+
+protocol SearchMapViewControllerDelegate: AnyObject {
+    func didUpdateSearchData(companionKeyword : [String?]?, conditionKeyword : [String?]?, kindOfFoodKeyword : [String?]?, selectedCity : String?, selectedTown : String?)
+}
+
+
