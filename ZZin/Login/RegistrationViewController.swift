@@ -23,15 +23,6 @@ class RegistrationViewController: UIViewController {
     private let screenHeight = UIScreen.main.bounds.height / 2
     private var selectedRow = 0
     
-//    private lazy var doubleCheckButton = UIButton().then {
-//        $0.setTitle("중복 확인", for: .normal)
-//        $0.setTitleColor(.white, for: .normal)
-//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-//        $0.backgroundColor = .red
-//        $0.clipsToBounds = true
-//        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
-//    }
-    
     private var confirmButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
@@ -141,26 +132,60 @@ class RegistrationViewController: UIViewController {
         numberTextFieldView.setTextFieldDelegate(delegate: self)
     }
     
+    // MARK: - Auth 관련 함수
+    private func checkIdPattern(_ email: String) -> Bool {
+        guard !email.isEmpty else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idBlank)
+            return false
+        }
+        
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        guard emailpred.evaluate(with: email) else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idWrongFormat)
+            return false
+        }
+        return true
+    }
+    
     private func validPasswordPattern(_ password: String) -> Bool {
-        guard !password.isEmpty else { return false }
+        guard !password.isEmpty else {
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .passwordBlank)
+            return false
+        }
         
         let firstLetter = password.prefix(1)
-        guard firstLetter == firstLetter.uppercased() else { print("첫 단어는 대문자가 필요합니다."); return false }
+        guard firstLetter == firstLetter.uppercased() else {
+            print("첫 단어는 대문자가 필요합니다.")
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .firstPasswordCap)
+            return false
+        }
         
         let numbers = password.suffix(1)
-        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else { print("마지막은 숫자를 써주세요"); return false }
+        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
+            print("마지막은 숫자를 써주세요")
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .lastPasswordNum)
+            return false
+        }
         return true
     }
     
     func validateNumberPattern(_ number: String) -> Bool {
         if number.isEmpty {
             print("번호가 입력이 되지 않았어요")
-            return false
-        } else if Int(number) == nil {
-            print("번호 형식을 맞춰주세요")
+            numberTextFieldView.showInvalidMessage()
+            showAlert(type: .noValue)
             return false
         } else if number.count != 11 {
             print("번호가 짧아요")
+            numberTextFieldView.showInvalidMessage()
+            showAlert(type: .numberShort)
             return false
         }
         return true
@@ -172,27 +197,40 @@ class RegistrationViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func checkIdPattern(_ email: String) -> Bool {
-        return true
-    }
-    
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
         
-        let id = emailTextFieldView.textfield.text!
-        let pw = pwTextFieldView.textfield.text!
+        guard let id = emailTextFieldView.textfield.text, !id.isEmpty,
+              let pw = pwTextFieldView.textfield.text, !pw.isEmpty,
+              let number = numberTextFieldView.textfield.text, !number.isEmpty else { return }
+
+        guard checkIdPattern(id) else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idError)
+            return
+        }
         
         guard validPasswordPattern(pw) else {
-            showAlert(type: .passwordError)
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .passwordBlank)
+            return
+        }
+        
+        guard validateNumberPattern(number) else {
+            numberTextFieldView.showInvalidMessage()
             return
         }
         
         FireStoreManager.shared.signIn(with: id, password: pw) { success in
             if success {
                 print("유저가 생성되었습니다.")
-                self.dismiss(animated: true)
+                let vc = CardController()
+//                self.dismiss(animated: true)
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
             } else {
                 print("다시 수정해주세요")
+                self.showAlert(type: .signInFailure)
             }
         }
     }
@@ -288,7 +326,6 @@ extension RegistrationViewController: UITextFieldDelegate {
     }
     
     private func switchToTextfield(_ textField: UITextField) {
-        print("다 써써용~")
         switch textField {
         case self.emailTextFieldView.textfield:
             self.nicknameTextFieldView.textfield.becomeFirstResponder()

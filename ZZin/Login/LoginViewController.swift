@@ -120,6 +120,12 @@ class LoginViewController: UIViewController {
         pwTextfieldView.setTextFieldDelegate(delegate: self)
     }
     
+    private func showAlert(type: ErrorHandling) {
+        let alertController = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     private func validateID(with email: String, completion: @escaping (Bool) -> Void) {
         FireStoreManager.shared.crossCheckDB(email) { exists in
             completion(exists)
@@ -133,11 +139,12 @@ class LoginViewController: UIViewController {
         self.validateID(with: email) { exists in
             if exists {
                 print("허가")
-//                let vc = TabBarViewController()
-//                vc.modalPresentationStyle = .fullScreen
-//                present(vc, animated: true)
+                let vc = TabBarViewController()
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
             } else {
                 print("불허가")
+                self.showAlert(type: .noValue)
             }
         }
     }
