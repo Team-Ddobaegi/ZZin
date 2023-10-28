@@ -77,7 +77,6 @@ class SearchMapViewController: UIViewController {
             self.addMarkersForAllPlaces()
         }
         
-        print("#######\(withFriendPlaces)")
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -213,9 +212,9 @@ extension SearchMapViewController: NMFMapViewTouchDelegate {
 
 extension SearchMapViewController {
     private func setKeywordView(){
-        searchMapUIView.matchingView.withKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.companionKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
         searchMapUIView.matchingView.conditionKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
-        searchMapUIView.matchingView.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
     }
     
     // 첫 번째 키워드 버튼이 탭될 때
@@ -255,13 +254,13 @@ extension SearchMapViewController {
         print("키워드 업데이트!!!")
         if !companionKeyword.isEmpty {
             print(companionKeyword)
-            searchMapUIView.matchingView.withKeywordButton.setTitle(companionKeyword[0], for: .normal)
+            searchMapUIView.matchingView.companionKeywordButton.setTitle(companionKeyword[0], for: .normal)
         }
         if !conditionKeyword.isEmpty {
             searchMapUIView.matchingView.conditionKeywordButton.setTitle(conditionKeyword[0], for: .normal)
         }
         if !kindOfFoodKeyword.isEmpty {
-            searchMapUIView.matchingView.menuKeywordButton.setTitle(kindOfFoodKeyword[0], for: .normal)
+            searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(kindOfFoodKeyword[0], for: .normal)
         }
     }
 }

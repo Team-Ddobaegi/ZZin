@@ -31,6 +31,7 @@ struct User : Codable {
 }
 
 struct Review : Codable {
+    var rid: String
     var uid: String
     var pid: String // UUID.uuidString
     var reviewImg: String?
@@ -45,6 +46,7 @@ struct Review : Codable {
     var kindOfFood: String // 추후 enum case로 정리 필요
     
     enum CodingKeys: String, CodingKey {
+        case rid
         case uid
         case pid
         case reviewImg
@@ -61,6 +63,7 @@ struct Review : Codable {
 }
 
 struct Place : Codable {
+    var pid: String
     var rid: [String] // [UUID.uuidString]
     var placeName: String
     var placeImg: [String]
@@ -75,6 +78,7 @@ struct Place : Codable {
     var kindOfFood: String
     
     enum CodingKeys: String, CodingKey {
+        case pid
         case rid
         case placeName
         case placeImg
@@ -208,30 +212,30 @@ class FireStoreManager {
         }
     }
     
-    func fetchPlacesWithCompanionKeyword(keyword: String, completion: @escaping (Result<[Place], Error>) -> Void) {
-        let companionKeywordRef = FireStoreManager.shared.db.collection("places")
-        let query = companionKeywordRef.whereField("companion", isEqualTo: keyword)
-        
-        query.getDocuments { (snapshot, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let documents = snapshot?.documents else {
-                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
-                return
-            }
-            
-            var places: [Place] = []
-            for document in documents {
-                if let place = try? document.data(as: Place.self) {
-                    places.append(place)
-                }
-            }
-            completion(.success(places))
-        }
-    }
+//    func fetchPlacesWithCompanionKeyword(keyword: String, completion: @escaping (Result<[Place], Error>) -> Void) {
+//        let companionKeywordRef = FireStoreManager.shared.db.collection("places")
+//        let query = companionKeywordRef.whereField("companion", isEqualTo: keyword)
+//        
+//        query.getDocuments { (snapshot, error) in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//            
+//            guard let documents = snapshot?.documents else {
+//                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
+//                return
+//            }
+//            
+//            var places: [Place] = []
+//            for document in documents {
+//                if let place = try? document.data(as: Place.self) {
+//                    places.append(place)
+//                }
+//            }
+//            completion(.success(places))
+//        }
+//    }
 
     
     /// regex 활용 번호 탐색 함수
