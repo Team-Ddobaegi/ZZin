@@ -141,13 +141,52 @@ class RegistrationViewController: UIViewController {
         numberTextFieldView.setTextFieldDelegate(delegate: self)
     }
     
+    private func validPasswordPattern(_ password: String) -> Bool {
+        guard !password.isEmpty else { return false }
+        
+        let firstLetter = password.prefix(1)
+        guard firstLetter == firstLetter.uppercased() else { print("첫 단어는 대문자가 필요합니다."); return false }
+        
+        let numbers = password.suffix(1)
+        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else { print("마지막은 숫자를 써주세요"); return false }
+        return true
+    }
+    
+    func validateNumberPattern(_ number: String) -> Bool {
+        if number.isEmpty {
+            print("번호가 입력이 되지 않았어요")
+            return false
+        } else if Int(number) == nil {
+            print("번호 형식을 맞춰주세요")
+            return false
+        } else if number.count != 11 {
+            print("번호가 짧아요")
+            return false
+        }
+        return true
+    }
+    
+    private func showAlert(type: ErrorHandling) {
+        let alertController = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func checkIdPattern(_ email: String) -> Bool {
+        return true
+    }
+    
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
         
         let id = emailTextFieldView.textfield.text!
         let pw = pwTextFieldView.textfield.text!
         
-        FireStoreManager.shared.checkPasswordPattern(pw)
+        guard validPasswordPattern(pw) else {
+            showAlert(type: .passwordError)
+            return
+        }
+        
         FireStoreManager.shared.signIn(with: id, password: pw) { success in
             if success {
                 print("유저가 생성되었습니다.")

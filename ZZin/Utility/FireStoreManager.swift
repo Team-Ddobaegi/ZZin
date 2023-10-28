@@ -300,7 +300,6 @@ class FireStoreManager {
     }
     
     //MARK: - 유효성 검사 관련
-    
     // 중복 UID 확인
     func crossCheckDB(_ id: String, completion: @escaping (Bool) -> Void) {
         fetchUserUID { uids in
@@ -312,35 +311,6 @@ class FireStoreManager {
                 completion(false)
             }
         }
-    }
-    
-    func checkIdPattern(_ email: String) -> Bool {
-        return true
-    }
-    
-    func checkPasswordPattern(_ password: String) -> Bool {
-        guard !password.isEmpty else { return false }
-        
-        let firstLetter = password.prefix(1)
-        guard firstLetter == firstLetter.uppercased() else { print("첫 단어는 대문자가 필요합니다."); return false }
-        
-        let numbers = password.suffix(1)
-        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else { print("마지막은 숫자를 써주세요"); return false }
-        return true
-    }
-    
-    func validateNumber(_ number: String) -> Bool {
-        if number.isEmpty {
-            print("번호가 입력이 되지 않았어요")
-            return false
-        } else if Int(number) == nil {
-            print("번호 형식을 맞춰주세요")
-            return false
-        } else if number.count != 11 {
-            print("번호가 짧아요")
-            return false
-        }
-        return true
     }
     
     //MARK: - Auth 관련
@@ -355,10 +325,6 @@ class FireStoreManager {
     
     // 회원가입
     func signIn(with email: String, password: String, completion: @escaping ((Bool) -> Void)) {
-        guard checkPasswordPattern(password) else {
-            completion(false)
-            return
-        }
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("여기가 문제인가요 유저를 생성하는데 에러가 발생했습니다. \(error.localizedDescription)")
