@@ -3,9 +3,6 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
-var companionKeyword : [String] = []
-var conditionKeyword : [String] = []
-var kindOfFoodKeyword : [String] = []
 
 class SearchMapViewController: UIViewController {
     
@@ -14,12 +11,15 @@ class SearchMapViewController: UIViewController {
     private var searchMapUIView = SearchMapUIView()
     let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
-    private var dataManager = FireStoreManager()
     var user : [User]?
     var review : [Review]?
-    var place : [Place]?
     var selectedPlaceID : String?
     var filteredPlace: [Place]?
+    var companionKeyword : [String?]?
+    var conditionKeyword : [String?]?
+    var kindOfFoodKeyword : [String?]?
+    var selectedCity : String?
+    var selectedTown : String?
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -73,20 +73,7 @@ class SearchMapViewController: UIViewController {
         setKeywordView()
         setTouchableCardView()
         addTargetButton()
-        dataManager.getPlaceData { result in
-            self.place = result
-            self.addMarkersForAllPlaces()
-        }
-        
-        FireStoreManager().fetchPlacesWithKeywords(companion: "👯‍♀️친구랑", condition: "✨️인스타 감성", kindOfFood: "🍥일식"){ result in
-            switch result {
-            case .success(let places):
-                print("@@@@@@\(places)")
-            case .failure(let error):
-                // Handle the error
-                print("Failed to fetch places with error: \(error)")
-            }
-        }
+        fetchPlacesWithKeywords()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,8 +116,10 @@ class SearchMapViewController: UIViewController {
     }
     
     func addMarkersForAllPlaces() {
-        place?.forEach { addDataToInfoMarker(for: $0) }
+        filteredPlace?.forEach { addDataToInfoMarker(for: $0) }
     }
+    
+    
     
     func addInfoMarker(at location: NMGLatLng, data: Place) {
         // 1. InfoMarkerView 인스턴스 생성
@@ -233,7 +222,7 @@ extension SearchMapViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .with
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
-        keywordVC.matchingKeywordVCdelegate = self
+        keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
     
@@ -244,7 +233,7 @@ extension SearchMapViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
         keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-        keywordVC.matchingKeywordVCdelegate = self
+        keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
     
@@ -255,26 +244,64 @@ extension SearchMapViewController {
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .menu
         keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
-        keywordVC.matchingKeywordVCdelegate = self
+        keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
-    
-    func updateKeywords() {
-        print("키워드 업데이트!!!")
-        if !companionKeyword.isEmpty {
-            searchMapUIView.matchingView.companionKeywordButton.setTitle(companionKeyword[0], for: .normal)
-        }
-        if !conditionKeyword.isEmpty {
-            searchMapUIView.matchingView.conditionKeywordButton.setTitle(conditionKeyword[0], for: .normal)
-        }
-        if !kindOfFoodKeyword.isEmpty {
-            searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(kindOfFoodKeyword[0], for: .normal)
+}
+
+
+extension SearchMapViewController: MatchingKeywordDelegate {
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+        let keywordType = keywordType
+        
+        switch keywordType {
+        case .with:
+            if let updateKeyword = keyword.first {
+                searchMapUIView.matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
+                searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.companionKeyword = [updateKeyword as String?]
+                fetchPlacesWithKeywords()
+                
+            }
+            
+        case .condition:
+            if let updateKeyword = keyword.first {
+                searchMapUIView.matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
+                searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.conditionKeyword = [updateKeyword as String?]
+                fetchPlacesWithKeywords()
+            }
+            
+        case .menu:
+            if let updateKeyword = keyword.first {
+                searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
+                searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.kindOfFoodKeyword = [updateKeyword as String?]
+                fetchPlacesWithKeywords()
+            }
         }
     }
 }
 
-extension SearchMapViewController: MatchingKeywordVCDelegate {
-    func didDismissMatchingKeywordVC() {
-        updateKeywords()
+extension SearchMapViewController {
+    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = "전체") {
+        let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
+        let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
+        let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
+        let actualCity = city ?? self.selectedCity ?? nil
+        let actualTown = town ?? self.selectedTown ?? "전체"
+
+        FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
+            switch result {
+            case .success(let places):
+
+                self.filteredPlace = places
+                print(self.filteredPlace?.count)
+                self.addMarkersForAllPlaces()
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
+
 }

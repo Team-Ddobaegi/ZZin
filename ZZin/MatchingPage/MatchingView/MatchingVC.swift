@@ -270,6 +270,9 @@ class MatchingVC: UIViewController {
     @objc private func mapButtonTapped() {
         print("지도 버튼 탭")
         let mapViewController = SearchMapViewController()
+        mapViewController.companionKeyword = [companionKeyword]
+        mapViewController.conditionKeyword = [conditionKeyword]
+        mapViewController.kindOfFoodKeyword = [kindOfFoodKeyword]
         navigationController?.pushViewController(mapViewController, animated: true)
     }
     

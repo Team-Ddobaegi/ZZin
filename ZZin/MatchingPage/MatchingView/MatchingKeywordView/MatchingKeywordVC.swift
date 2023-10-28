@@ -84,24 +84,19 @@ class MatchingKeywordVC: UIViewController {
         switch selectedMatchingKeywordType {
         case .with:
             sendData(data: selectedWithMatchingKeywords, type: .with)
-            companionKeyword = selectedWithMatchingKeywords
         case .condition:
             sendData(data: selectedConditionMatchingKeywords, type: .condition)
-            conditionKeyword = selectedConditionMatchingKeywords
         case .menu:
             sendData(data: selectedMenuMatchingKeywords, type: .menu)
-            kindOfFoodKeyword = selectedMenuMatchingKeywords
         }
         
         self.dismiss(animated: true)
-        self.matchingKeywordVCdelegate?.didDismissMatchingKeywordVC()
     }
     
     
     // MARK: - Properties
     
     weak var delegate: MatchingKeywordDelegate?
-    weak var matchingKeywordVCdelegate: MatchingKeywordVCDelegate?
 
 //    var matchingVC = MatchingVC()
     
@@ -341,6 +336,3 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
     
 }
 
-protocol MatchingKeywordVCDelegate: AnyObject {
-    func didDismissMatchingKeywordVC()
-}

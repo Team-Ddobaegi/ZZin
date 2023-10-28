@@ -211,12 +211,12 @@ class FireStoreManager {
         }
     }
     
-    func fetchPlacesWithKeywords(companion: String?, condition: String?, kindOfFood: String?, completion: @escaping (Result<[Place], Error>) -> Void) {
+    func createQuery(companion: String?, condition: String?, kindOfFood: String?, city: String?, town: String?) -> Query {
         let placesReference = FireStoreManager.shared.db.collection("places")
         var query: Query = placesReference
         
         if let companionValue = companion, !companionValue.isEmpty {
-            query = placesReference.whereField("companion", isEqualTo: companionValue)
+            query = query.whereField("companion", isEqualTo: companionValue)
         }
         if let conditionValue = condition, !conditionValue.isEmpty {
             query = query.whereField("condition", isEqualTo: conditionValue)
@@ -224,25 +224,34 @@ class FireStoreManager {
         if let kindOfFoodValue = kindOfFood, !kindOfFoodValue.isEmpty {
             query = query.whereField("kindOfFood", isEqualTo: kindOfFoodValue)
         }
+        if let cityValue = city, !cityValue.isEmpty {
+            query = query.whereField("city", isEqualTo: cityValue)
+        }
+        if let townValue = town, townValue != "전체" {
+            query = query.whereField("town", isEqualTo: townValue)
+        }
 
+        return query
+    }
+
+    func fetchPlacesWithQuery(query: Query, completion: @escaping (Result<[Place], Error>) -> Void) {
         query.getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let documents = snapshot?.documents else {
                 completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
                 return
             }
-            
+
             var allData: [[String:Any]] = []
-            
             for document in documents {
                 let data = document.data()
                 allData.append(data)
             }
-            
+
             if let places = self.dictionaryToObject(objectType: Place.self, dictionary: allData) {
                 completion(.success(places))
             } else {
@@ -250,6 +259,59 @@ class FireStoreManager {
             }
         }
     }
+    
+    func fetchPlacesWithKeywords(companion: String?, condition: String?, kindOfFood: String?, city: String?, town: String?, completion: @escaping (Result<[Place], Error>) -> Void) {
+        let query = createQuery(companion: companion, condition: condition, kindOfFood: kindOfFood, city: city, town: town)
+        fetchPlacesWithQuery(query: query, completion: completion)
+    }
+
+    
+//    func fetchPlacesWithKeywords(companion: String?, condition: String?, kindOfFood: String?, city: String?, town: String?, completion: @escaping (Result<[Place], Error>) -> Void) {
+//        let placesReference = FireStoreManager.shared.db.collection("places")
+//        var query: Query = placesReference
+//        
+//        if let companionValue = companion, !companionValue.isEmpty {
+//            query = query.whereField("companion", isEqualTo: companionValue)
+//        }
+//        if let conditionValue = condition, !conditionValue.isEmpty {
+//            query = query.whereField("condition", isEqualTo: conditionValue)
+//        }
+//        if let kindOfFoodValue = kindOfFood, !kindOfFoodValue.isEmpty {
+//            query = query.whereField("kindOfFood", isEqualTo: kindOfFoodValue)
+//        }
+//        if let cityValue = city, !cityValue.isEmpty {
+//            query = query.whereField("city", isEqualTo: cityValue)
+//        }
+//        if let townValue = town, townValue != "전체" {
+//            query = query.whereField("town", isEqualTo: townValue)
+//        }
+//
+//        query.getDocuments { (snapshot, error) in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//            
+//            guard let documents = snapshot?.documents else {
+//                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
+//                return
+//            }
+//            
+//            var allData: [[String:Any]] = []
+//            
+//            for document in documents {
+//                let data = document.data()
+//                allData.append(data)
+//            }
+//            
+//            if let places = self.dictionaryToObject(objectType: Place.self, dictionary: allData) {
+//                completion(.success(places))
+//            } else {
+//                completion(.failure(NSError(domain: "DecodingError", code: -2, userInfo: ["description": "Error decoding data"])))
+//            }
+//        }
+//    }
+
 
 
 
