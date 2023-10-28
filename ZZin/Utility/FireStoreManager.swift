@@ -209,15 +209,6 @@ class FireStoreManager {
         }
     }
     
-    func saveUserLoginDataLocally(email: String) {
-        // email = UID, save UID
-        if validateEmail(email) {
-            UserDefaults.standard.set(email, forKey: "UID")
-        } else {
-            print("로컬로 사용자 정보를 저장할 수 없었습니다.")
-        }
-    }
-    
     /**
      @brief userData를 불러온다,
      */
@@ -305,24 +296,35 @@ class FireStoreManager {
     //        return emailpred.evaluate(with: email)
     //    }
     
-    // 중복 아이디를 검사하는 함수 생성 -> uid로 확인
-    func validateID(_ email: String) -> Bool {
-        guard !email.isEmpty else { return false }
-        
-        // 아이디를 받을 수 있도록 확인
-        db.collection("user").getDocuments { result, error in
+    func fetchUserUID(completion: @escaping ([String]) -> Void) {
+        var uids: [String] = []
+        db.collection("users").getDocuments { result, error in
             if let error = error {
-                print("에러가 발생했습니다. \(error)")
+                print("오류가 발생했습니다.")
             } else {
-                for doc in result!.documents {
-                    if doc.exists {
-                        let uid = doc.get("uid") as! String
-                        print(uid)
+                for document in result!.documents {
+                    if document.exists {
+                        if let uid = document.get("uid") as? String {
+                            uids.append(uid)
+                        }
                     }
                 }
+                completion(uids)
             }
         }
-        return true
+    }
+    
+    // DB에 있는 값 확인 - 여부를 던져야하기에 completion을 사용
+    func crossCheckDB(_ id: String, completion: @escaping (Bool) -> Void) {
+        fetchUserUID { uids in
+            if uids.contains(id) {
+                print("아이디가 데이터베이스에 이미 있습니다.")
+                completion(true)
+            } else {
+                print("아이디가 데이터베이스에 없습니다.")
+                completion(false)
+            }
+        }
     }
     
     // 중복 버튼으로 임시 배치, textfield에서 자동으로 확인할 수 있도록 처리
