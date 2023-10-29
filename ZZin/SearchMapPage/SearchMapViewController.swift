@@ -3,25 +3,12 @@ import NMapsMap
 import CoreLocation
 import SnapKit
 
-
-struct SearchData {
-    var companionKeyword: [String?]?
-    var conditionKeyword: [String?]?
-    var kindOfFoodKeyword: [String?]?
-    var selectedCity: String?
-    var selectedTown: String?
-}
-
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
     weak var mapViewDelegate: SearchMapViewControllerDelegate?
-    var searchData: SearchData?
     private var searchMapUIView = SearchMapUIView()
-    let locationService = LocationService()
     private var currentUserLocation: NMGLatLng?
-    var user : [User]?
-    var review : [Review]?
     var selectedPlaceID : String?
     var filteredPlace: [Place]?
     var companionKeyword : [String?]?
@@ -56,7 +43,7 @@ class SearchMapViewController: UIViewController {
     
     @objc func gpsButtonTapped() {
         print("MoveToCurrentLocation")
-        currentUserLocation = locationService.getCurrentLocation()
+        currentUserLocation = LocationService.shared.getCurrentLocation()
         moveCamera(currentUserLocation)
     }
     
@@ -99,10 +86,8 @@ class SearchMapViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationService.delegate = self
+        LocationService.shared.delegate = self
         searchMapUIView.searchMapView.mapView.touchDelegate = self
-        // 사용자 현재 위치 정보 가져오기 시작
-        locationService.startUpdatingLocation()
         setupUI()
         updateResetButtonStatus()
         setKeywordView()
@@ -110,12 +95,11 @@ class SearchMapViewController: UIViewController {
         addTargetButton()
         fetchPlacesWithKeywords()
         setKeywordButtonTitle()
-        print("@@@@@@@\(companionKeyword)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        currentUserLocation = locationService.getCurrentLocation()
+        currentUserLocation = LocationService.shared.getCurrentLocation()
         moveCamera(currentUserLocation)
     }
     
@@ -127,7 +111,6 @@ class SearchMapViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
-        locationService.stopUpdatingLocation()
     }
     
     // MARK: - UI Setting

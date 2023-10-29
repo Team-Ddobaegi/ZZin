@@ -8,11 +8,13 @@ protocol LocationServiceDelegate: AnyObject {
 }
 
 class LocationService: NSObject, NMFLocationManagerDelegate, CLLocationManagerDelegate {
+    
+    static let shared = LocationService()
+
     private var locationManager: NMFLocationManager
     weak var delegate: LocationServiceDelegate?
 
-    
-    override init() {
+    private override init() {
         locationManager = NMFLocationManager()
         super.init()
         locationManager.add(self)
@@ -30,7 +32,6 @@ class LocationService: NSObject, NMFLocationManagerDelegate, CLLocationManagerDe
         return locationManager.currentLatLng()
     }
 
-    
     // NMFLocationManagerDelegate
     func locationManager(_ locationManager: NMFLocationManager, didUpdateLocation location: CLLocation, with error: Error?) {
         delegate?.didUpdateLocation(lat: location.coordinate.latitude, lng: location.coordinate.longitude)
