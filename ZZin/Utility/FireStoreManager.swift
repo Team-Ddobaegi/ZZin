@@ -278,13 +278,6 @@ class FireStoreManager {
         }
     }
 
-
-
-    func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
-        fetchDocument(from: "places", documentId: pid, completion: completion)
-    }
-    
-
     func updateUserRidAndPid(pid: String?, rid: String, uid: String){
         let userRef = db.collection("users").document(uid)
         
