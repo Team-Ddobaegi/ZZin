@@ -1,10 +1,3 @@
-//
-//  SearchViewController.swift
-//  ZZin
-//
-//  Created by t2023-m0061 on 2023/10/11.
-//
-
 import UIKit
 import SnapKit
 import Then
@@ -48,6 +41,7 @@ class MatchingVC: UIViewController {
         super.viewWillAppear(true)
         
         setKeywordButtonTitle()
+        updateLocationTitle()
     }
     
     
@@ -132,17 +126,21 @@ class MatchingVC: UIViewController {
         selectedTownIndex = selectedTownRow
         
         // 클래스 수준의 속성인 selectedCity와 selectedTown을 사용합니다.
-        let selectedCity = cities[selectedCityIndex]
-        let selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+        self.selectedCity = cities[selectedCityIndex]
+        self.selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
         
         // setLocationButton의 타이틀 업데이트
-        matchingView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
+        matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")", for: .normal)
         
         // PickerView 숨기기
         pickerView.removeFromSuperview()
         
         // 뒷배경 흐리게 해제
         setOpacityView()
+    }
+    
+    private func updateLocationTitle() {
+        matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")", for: .normal)
     }
     
     private func setCollectionViewAttribute(){
@@ -242,17 +240,9 @@ class MatchingVC: UIViewController {
     let dataManager = FireStoreManager()
     var place: [Place]?
     var review: [Review]?
-    var selectedCity: String?
-    var selectedTown: String?
+    var selectedCity: String? = "지역"
+    var selectedTown: String? = "미설정"
     var currentLocation: NMGLatLng?
-    
-    
-    //    var companionKeyword: String?
-    //
-    //    var conditionKeyword: String?
-    //
-    //    var kindOfFoodKeyword: String?
-    
     
     // 업데이트된 키워드를 저장하는 배열입니두
     var updateWithMatchingKeywords: [String?]?
@@ -271,13 +261,6 @@ class MatchingVC: UIViewController {
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
     
     private let pickerView = MatchingLocationPickerView()
-    
-    //    //dummy location
-    //    private let selectedCity: [String] = ["지역", "서울", "인천"]
-    //    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
-    ////    ,"도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
-    ////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
-    //    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
     
     // MARK: - Actions
     @objc private func mapButtonTapped() {
@@ -365,6 +348,7 @@ class MatchingVC: UIViewController {
         setSearchViewConstraints()
         setCollectionViewConstraints()
         setOpacityViewConstraints()
+        updateLocationTitle()
     }
     
     private func addSubViews(){
