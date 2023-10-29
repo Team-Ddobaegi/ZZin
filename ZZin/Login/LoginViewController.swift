@@ -134,19 +134,21 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-        
-        let email = idTextfieldView.textfield.text!
-        self.validateID(with: email) { exists in
-            if exists {
-                print("허가")
-                let vc = TabBarViewController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
-            } else {
-                print("불허가")
-                self.showAlert(type: .noValue)
-            }
-        }
+        let vc = TabBarViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+//        let email = idTextfieldView.textfield.text!
+//        self.validateID(with: email) { exists in
+//            if exists {
+//                print("허가")
+//                let vc = TabBarViewController()
+//                vc.modalPresentationStyle = .fullScreen
+//                self.present(vc, animated: true)
+//            } else {
+//                print("불허가")
+//                self.showAlert(type: .noValue)
+//            }
+//        }
     }
     
     @objc func memberButtonTapped() {
