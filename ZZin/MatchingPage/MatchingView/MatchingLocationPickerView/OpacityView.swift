@@ -28,6 +28,7 @@ class OpacityView: UIView {
     
     let view = UIView().then {
         $0.backgroundColor = .black
+        $0.alpha = 0.7
     }
     
     //MARK: - ConfigureUI

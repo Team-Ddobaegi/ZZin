@@ -68,7 +68,6 @@ class MatchingVC: UIViewController {
         
         setMapView()
         setlocationView()
-        setOpacityView()
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
@@ -83,41 +82,12 @@ class MatchingVC: UIViewController {
         matchingView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
-    private func setOpacityView(){
-        // 피커뷰가 올라올 때 뒷배경에 들어갈 검은 화면임니두
-        UIView.animate(withDuration: 0.3) {
-            self.opacityViewAlpha = 0.0
-            self.opacityView.alpha = self.opacityViewAlpha
-        }
-    }
-    
     // 지역 설정 피커뷰
     private func setPickerView(){
         matchingView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
         pickerView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
-    // 피커뷰 속성 설정
-    private func setPickerViewAttribute(){
-        // 피커뷰 서브뷰 설정
-        view.addSubview(pickerView)
-        pickerView.backgroundColor = .white
-        
-        // 피커뷰 델리게이트 설정
-        pickerView.pickerView.delegate = self
-        pickerView.pickerView.dataSource = self
-        
-        // 피커뷰 모서리 둥글게
-        pickerView.layer.cornerRadius = 15
-        pickerView.layer.masksToBounds = true
-        
-        // 피커뷰 레이아웃
-        pickerView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
-            $0.height.equalTo(500)
-        }
-    }
     
     // 피커뷰에서 설정한 값 > MatchingView - setLocationButton의 Title 업데이트하는 메서드입니두
     private func updateLocationButtonTitle(){
@@ -140,9 +110,7 @@ class MatchingVC: UIViewController {
         
         // PickerView 숨기기
         pickerView.removeFromSuperview()
-        
-        // 뒷배경 흐리게 해제
-        setOpacityView()
+        opacityView.removeFromSuperview()
     }
     
     private func setCollectionViewAttribute(){
@@ -156,19 +124,7 @@ class MatchingVC: UIViewController {
         matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
     }
     
-    // 피커뷰 외 터치 시 피커뷰 숨기기
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchLocation = touch.location(in: view)
-            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
-            
-            if !pickerView.bounds.contains(convertedTouchLocation) {
-                pickerView.removeFromSuperview()
-                tabBarController?.tabBar.isHidden = false
-                setOpacityView()
-            }
-        }
-    }
+    
     
     // 지역 설정 필터링 메서드
     func filterLocationData() {
@@ -246,14 +202,6 @@ class MatchingVC: UIViewController {
     var selectedTown: String?
     var currentLocation: NMGLatLng?
     
-    
-    //    var companionKeyword: String?
-    //
-    //    var conditionKeyword: String?
-    //
-    //    var kindOfFoodKeyword: String?
-    
-    
     // 업데이트된 키워드를 저장하는 배열입니두
     var updateWithMatchingKeywords: [String?]?
     var updateConditionMatchingKeywords: [String?]?
@@ -267,17 +215,9 @@ class MatchingVC: UIViewController {
     private let keywordVC = MatchingKeywordVC()
     
     private let opacityView = OpacityView()
-    
-    private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
-    
+        
     private let pickerView = MatchingLocationPickerView()
     
-    //    //dummy location
-    //    private let selectedCity: [String] = ["지역", "서울", "인천"]
-    //    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
-    ////    ,"도봉구","동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구",
-    ////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
-    //    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
     
     // MARK: - Actions
     @objc private func mapButtonTapped() {
@@ -299,12 +239,24 @@ class MatchingVC: UIViewController {
     
     @objc private func setPickerViewTapped() {
         print("지역 설정 피커뷰 탭")
-        setPickerViewAttribute()
-        
-        UIView.animate(withDuration: 0.1) {
-            self.opacityViewAlpha = 0.7
-            self.opacityView.alpha = self.opacityViewAlpha
+        // 뷰 세팅
+        view.addSubview(opacityView)
+        view.addSubview(pickerView)
+
+        // 피커뷰 델리게이트 설정
+        pickerView.pickerView.delegate = self
+        pickerView.pickerView.dataSource = self
+    
+        // 피커뷰 레이아웃
+        pickerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+        
+        // 피커뷰 뒤 검은 배경
+        opacityView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -364,13 +316,11 @@ class MatchingVC: UIViewController {
         addSubViews()
         setSearchViewConstraints()
         setCollectionViewConstraints()
-        setOpacityViewConstraints()
     }
     
     private func addSubViews(){
         view.addSubview(matchingView)
         view.addSubview(collectionView)
-        view.addSubview(opacityView)
     }
     
     private func setSearchViewConstraints(){
@@ -391,9 +341,7 @@ class MatchingVC: UIViewController {
     }
     
     private func setOpacityViewConstraints(){
-        opacityView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+       
     }
     
     
@@ -577,6 +525,19 @@ extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
             
             // 선택한 "시"에 따라 기본적으로 첫 번째 "구"를 선택하게
             pickerView.selectRow(0, inComponent: 1, animated: true)
+        }
+    }
+    
+    // 피커뷰 외 터치 시 피커뷰 숨기기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: view)
+            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
+            
+            if !pickerView.bounds.contains(convertedTouchLocation) {
+                pickerView.removeFromSuperview()
+                tabBarController?.tabBar.isHidden = false
+            }
         }
     }
 }
