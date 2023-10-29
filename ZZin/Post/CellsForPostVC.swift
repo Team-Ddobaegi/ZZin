@@ -11,7 +11,7 @@ import Then
 import PhotosUI
 
 
-class PostTableViewCell: UITableViewCell {
+class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     static let identifier = "PostTableViewCell"
     
@@ -65,6 +65,14 @@ class PostTableViewCell: UITableViewCell {
             $0.size.equalTo(CGSize(width: UIScreen.main.bounds.width - 32, height: 50))
         }
     }
+
+    final func textFieldDidEndEditing(_ textField: UITextField) -> String {
+        let text = textField.text ?? ""
+        return text
+    }
+    
+    
+    
 }
 
 extension UITextField {
@@ -146,8 +154,8 @@ class ImgSelectionTableViewCell: UITableViewCell {
     }
     
     var addImgButton = UIButton().then{
-        $0.setImage(UIImage(named: "add_photo"), for: .normal)
-        $0.imageView?.contentMode = .scaleAspectFit
+        $0.imageView?.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
         $0.layer.cornerRadius = 10
         $0.layer.backgroundColor = UIColor.systemGray6.cgColor
         $0.addTarget(self, action: #selector(didTappedAddImgButton), for: .touchUpInside)
@@ -172,48 +180,51 @@ class ImgSelectionTableViewCell: UITableViewCell {
         addImgButton.snp.makeConstraints{
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(240)
         }
     }
     
-    @objc func didTappedAddImgButton(_ sender: Any){
+    @objc func didTappedAddImgButton(_ sender: UIButton){
         buttonAction()
     }
 }
 
-class ImgSelectionCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "ImgSelectionCollectionViewCell"
-    
-    var addImgButton = UIButton().then {
-        $0.setImage(UIImage(named: "add_photo"), for: .normal)
-        $0.layer.cornerRadius = 10
-        $0.layer.backgroundColor = UIColor.systemGray6.cgColor
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(addImgButton)
-        addImgButton.snp.makeConstraints{
-            $0.top.left.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 100, height: 100))
-        }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-
-}
+//class ImgSelectionCollectionViewCell: UICollectionViewCell {
+//
+//    static let identifier = "ImgSelectionCollectionViewCell"
+//
+//    var addImgButton = UIButton().then {
+//        $0.setImage(UIImage(named: "add_photo"), for: .normal)
+//        $0.layer.cornerRadius = 10
+//        $0.layer.backgroundColor = UIColor.systemGray6.cgColor
+//    }
+//
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        contentView.addSubview(addImgButton)
+//        addImgButton.snp.makeConstraints{
+//            $0.top.left.equalToSuperview()
+//            $0.size.equalToSuperview()
+//        }
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//
+//}
 
 class SelectKeywordsTableViewCell: UITableViewCell {
+
     
+    let matchingView = MatchingView()
+
     static let identifier = "SelectKeywordsTableViewCell"
     
-    var firstKeywordButton = UIButton().customButton()
-    var secondKeywordButton = UIButton().customButton()
-    var menuKeywordButton = UIButton().customButton()
+    var firstKeywordButton = UIButton()
+    var secondKeywordButton = UIButton()
+    var menuKeywordButton = UIButton()
     
     let titleLabel = UILabel().then{
         $0.textColor = .label
@@ -241,8 +252,8 @@ class SelectKeywordsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setButton()
         setLayout()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -281,7 +292,7 @@ class SelectKeywordsTableViewCell: UITableViewCell {
         contentView.addSubview(firstKeywordButton)
         firstKeywordButton.snp.makeConstraints{
             $0.top.equalTo(searchNotiLabel.snp.bottom).offset(16)
-            $0.left.equalToSuperview().inset(16)
+            $0.left.equalToSuperview().inset(30)
         }
         
         contentView.addSubview(secondKeywordButton)
@@ -293,13 +304,20 @@ class SelectKeywordsTableViewCell: UITableViewCell {
         contentView.addSubview(menuKeywordButton)
         menuKeywordButton.snp.makeConstraints{
             $0.top.equalTo(searchNotiLabel.snp.bottom).offset(16)
-            $0.right.equalToSuperview().inset(16)
+            $0.right.equalToSuperview().inset(30)
         }
     }
+    func setButton() {
+        firstKeywordButton = matchingView.companionKeywordButton
+        secondKeywordButton = matchingView.conditionKeywordButton
+        menuKeywordButton = matchingView.kindOfFoodKeywordButton
+    }
+
+    
 }
 
 
-class PostPlaceContentCell: UITableViewCell {
+class PostPlaceContentCell: UITableViewCell, UITextViewDelegate {
     
     static let identifier = "PostPlaceContentCell"
     
@@ -318,7 +336,6 @@ class PostPlaceContentCell: UITableViewCell {
         $0.autocorrectionType = .no
         $0.spellCheckingType = .no
         $0.autocapitalizationType = .none
-        $0.text = "당신의 찐 맛집을 소개해주세요."
         $0.textColor = .lightGray
         $0.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
@@ -367,21 +384,10 @@ class PostPlaceContentCell: UITableViewCell {
         
 
     }
+
+    func textViewDidChange(_ textView: UITextView, completion: (String) -> Void) {
+        let text = textView.text ?? ""
+        completion(text)
+    }
     
-}
-
-extension PostPlaceContentCell: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "당신의 찐 맛집을 소개해주세요." {
-            textView.text = nil
-            textView.textColor = .label
-        }
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "당신의 찐 맛집을 소개해주세요."
-            textView.textColor = .lightGray
-        }
-    }
 }
