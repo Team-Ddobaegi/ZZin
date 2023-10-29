@@ -66,6 +66,14 @@ class StoreCardView: UIView {
         setupUI()
     }
     
+    func updateStoreCardView(with review: Review, reviewCount: Int) {
+            placeCategoryLabel.text = review.kindOfFood
+            placeCompanionLabel.text = review.companion
+            placeConditionLabel.text = review.condition
+            placeRatingLabel.text = "\(Int(review.rate))"
+            placeReviewLabel.text = "\(reviewCount)"
+    }
+    
     private func setupUI() {
         backgroundColor = .white
         layer.cornerRadius = 10

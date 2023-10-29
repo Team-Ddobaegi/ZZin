@@ -13,12 +13,14 @@ class MainViewController: UIViewController {
     
     private let mainView = MainView()
     private let scrollView = UIScrollView()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
         rankButtonAction()
+        LocationService.shared.startUpdatingLocation()
     }
 }
 

@@ -97,8 +97,8 @@ class MatchingKeywordVC: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MatchingKeywordDelegate?
-        
-    weak var matchingVC: MatchingVC?
+
+//    var matchingVC = MatchingVC()
     
     var buttonAction: (() -> Void) = {}
     
@@ -335,3 +335,4 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
 //        }
     
 }
+
