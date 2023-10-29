@@ -100,7 +100,7 @@ class MatchingKeywordVC: UIViewController {
     
     weak var delegate: MatchingKeywordDelegate?
     
-    var matchingVC = MatchingVC()
+//    var matchingVC = MatchingVC()
     
     var buttonAction: (() -> Void) = {}
     

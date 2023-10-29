@@ -13,14 +13,77 @@ class MainViewController: UIViewController {
     
     private let mainView = MainView()
     private let scrollView = UIScrollView()
+    
+    lazy var reviewData: [Review]? = []
+    lazy var dataTest1: [Review] = []
+    lazy var dataTest2: [Review] = []
+    lazy var dataTest3: [Review] = []
+    lazy var dataTest4: [Review] = []
+    lazy var dataTest5: [Review] = []
 
+
+//    var reviews:[Review] = []
+//    var resultTitle: String = ""
+    //컨페니언 "페치플레이스윗키워드"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setupUI()
         rankButtonAction()
+//        datafatch()
+        fetchdata()
+        setupUI()
+
+//        reviewTitle = Review.title
+
     }
+    
+
+    func fetchdata() {
+        
+        FireStoreManager.shared.getReviewDatas { data in
+            switch data {
+            case.success(let result):
+                self.reviewData = result
+                self.dataTest1.append(result[0])
+                self.dataTest2.append(result[1])
+                self.dataTest3.append(result[2])
+                self.dataTest4.append(result[3])
+                self.dataTest5.append(result[4])
+
+                print(result[0].kindOfFood)
+//                print("===========================데이터\(self.dataTest1)")
+                print("===========================데이터\(self.reviewData)")
+
+            case.failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    //    func datafatch() {
+    //
+    //        FireStoreManager().getReviewData { data in
+    //            if let result = data {
+    //                self.resultTitle = result[0].title
+    //            } else {
+    //            }
+    //        }
+    //        print(resultTitle)
+    //
+    //    }
+    
+//        FireStoreManager.shared.fetchDataWithRid(rid: "yJE4OAYRhdoKCwlEqzKr") { (result) in
+//            switch result {
+//            case .success(let review):
+//                print(review.title)  // 예시로 리뷰 제목을 출력
+//            case .failure(let error):
+//                print("Error fetching review: \(error.localizedDescription)")
+//            }
+//        }
+//    }
 }
+
 
     private extension MainViewController {
         func setupUI() {
@@ -88,7 +151,12 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                guard let secondCell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageReviewCollectionViewCell.identifier, for: indexPath) as? MainPageReviewCollectionViewCell else {
                     fatalError()
                 }
+            if let review = reviewData{
                 
+                var reviewTitle = reviewData?[indexPath.item].title
+                secondCell.reviewUiView.reviewTitleLabel.text = reviewTitle
+                print("\(reviewData?.count)--------------")
+            }
 //            secondCell.layer.borderWidth = 1.0
             secondCell.layer.cornerRadius = 30
             secondCell.layer.masksToBounds = true
@@ -128,3 +196,4 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
     }
 }
+

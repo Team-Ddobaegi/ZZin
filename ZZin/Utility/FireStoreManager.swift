@@ -93,27 +93,38 @@ class FireStoreManager {
     static let shared = FireStoreManager()
     
     func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
-           let docRef = db.collection(collection).document(documentId)
-           docRef.getDocument { (document, error) in
-               if let error = error {
-                   completion(.failure(error))
-                   return
-               }
-               guard let document = document, document.exists, let data = document.data() else {
-                   completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
-                   return
-               }
-               
-               do {
-                   let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-                   let obj = try JSONDecoder().decode(T.self, from: jsonData)
-                   completion(.success(obj))
-               } catch let serializationError {
-                   completion(.failure(serializationError))
-               }
-           }
-       }
-       
+        let docRef = db.collection(collection).document(documentId)
+        docRef.getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let document = document, document.exists, var data = document.data() else {
+                completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
+                return
+            }
+
+            // FIRTimestamp를 Date로 변환하고, Date를 문자열로 변환
+            if let timestamp = data["createdAt"] as? Timestamp {
+                let date = timestamp.dateValue()
+                let formatter = ISO8601DateFormatter()
+                let dateString = formatter.string(from: date)
+                data["createdAt"] = dateString
+            }
+
+            let dataAsJSON = try! JSONSerialization.data(withJSONObject: data, options: [])
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            do {
+                let obj = try decoder.decode(T.self, from: dataAsJSON)
+                completion(.success(obj))
+            } catch let decodeError {
+                completion(.failure(decodeError))
+            }
+        }
+    }
+
        func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
            fetchDocument(from: "places", documentId: pid, completion: completion)
        }
@@ -208,7 +219,61 @@ class FireStoreManager {
             }
         }
     }
+    //---------------------------------------
+    func convertFirestoreData(data: [String: Any], objectType: Decodable.Type) -> Result<Decodable, Error> {
+        var mutableData = data
+        
+        if let timestamp = mutableData["createdAt"] as? Timestamp {
+            let date = timestamp.dateValue()
+            let formatter = ISO8601DateFormatter()
+            let dateString = formatter.string(from: date)
+            mutableData["createdAt"] = dateString
+        }
+        
+        let dataAsJSON = try! JSONSerialization.data(withJSONObject: mutableData, options: [])
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        do {
+            let obj = try decoder.decode(objectType, from: dataAsJSON)
+            return .success(obj)
+        } catch let decodeError {
+            return .failure(decodeError)
+        }
+    }
+
+
+
+    func fetchCollectionData<T: Decodable>(from collection: String, objectType: T.Type, completion: @escaping (Result<[T], Error>) -> Void) {
+        db.collection(collection).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            var objects: [T] = []
+            
+            for document in querySnapshot!.documents {
+                let data = document.data()
+                switch self.convertFirestoreData(data: data, objectType: objectType) {
+                case .success(let obj):
+                    if let objT = obj as? T {
+                        objects.append(objT)
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                    return
+                }
+            }
+            completion(.success(objects))
+        }
+    }
+
     
+    func getReviewDatas(completion: @escaping (Result<[Review], Error>) -> Void) {
+        fetchCollectionData(from: "reviews", objectType: Review.self, completion: completion)
+    }
+
     /**
      @brief userData를 불러온다,
      */
