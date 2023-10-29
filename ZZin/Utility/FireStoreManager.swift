@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 
 struct User : Codable {
     var profileImg: String?
@@ -39,7 +40,7 @@ struct Review : Codable {
     var dislike: Int
     var content: String
     var rate: Double
-//    var createdAt: Date
+    var createdAt: Date
     var companion: String // 추후 enum case로 정리 필요
     var condition: String // 추후 enum case로 정리 필요
     var kindOfFood: String // 추후 enum case로 정리 필요
@@ -54,7 +55,7 @@ struct Review : Codable {
         case dislike
         case content
         case rate
-//        case createdAt
+        case createdAt
         case companion
         case condition
         case kindOfFood
@@ -72,6 +73,9 @@ struct Place : Codable {
     var address: String
     var lat: Double?
     var long: Double?
+    var companion: String
+    var condition: String
+    var kindOfFood: String
     
     enum CodingKeys: String, CodingKey {
         case pid
@@ -84,6 +88,9 @@ struct Place : Codable {
         case address
         case lat
         case long
+        case companion
+        case condition
+        case kindOfFood
     }
 }
 
@@ -99,17 +106,28 @@ class FireStoreManager {
                 completion(.failure(error))
                 return
             }
-            guard let document = document, document.exists, let data = document.data() else {
+            guard let document = document, document.exists, var data = document.data() else {
                 completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No document or data"])))
                 return
             }
             
+            // FIRTimestamp를 Date로 변환하고, Date를 문자열로 변환
+            if let timestamp = data["createdAt"] as? Timestamp {
+                let date = timestamp.dateValue()
+                let formatter = ISO8601DateFormatter()
+                let dateString = formatter.string(from: date)
+                data["createdAt"] = dateString
+            }
+            
+            let dataAsJSON = try! JSONSerialization.data(withJSONObject: data, options: [])
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-                let obj = try JSONDecoder().decode(T.self, from: jsonData)
+                let obj = try decoder.decode(T.self, from: dataAsJSON)
                 completion(.success(obj))
-            } catch let serializationError {
-                completion(.failure(serializationError))
+            } catch let decodeError {
+                completion(.failure(decodeError))
             }
         }
     }
@@ -122,141 +140,184 @@ class FireStoreManager {
         fetchDocument(from: "reviews", documentId: rid, completion: completion)
     }
     
-    func setUserData(_ UserInfo: User) {
-        let userRef = db.collection("users").document(UserInfo.uid)
+    // 별도의 함수로 데이터 변환 로직을 분리
+    func convertFirestoreData(data: [String: Any], objectType: Decodable.Type) -> Result<Decodable, Error> {
+        var mutableData = data
         
-        userRef.setData([
-            "profileImg": (UserInfo.profileImg ?? "basic_profile") as String,
-            "uid": UserInfo.uid,
-            "nickname": UserInfo.nickname,
-            "phoneNum": UserInfo.phoneNum,
-            "rid": UserInfo.rid,
-            "pid": UserInfo.pid
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(userRef.documentID)")
-            }
+        if let timestamp = mutableData["createdAt"] as? Timestamp {
+            let date = timestamp.dateValue()
+            let formatter = ISO8601DateFormatter()
+            let dateString = formatter.string(from: date)
+            mutableData["createdAt"] = dateString
+        }
+        
+        let dataAsJSON = try! JSONSerialization.data(withJSONObject: mutableData, options: [])
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        do {
+            let obj = try decoder.decode(objectType, from: dataAsJSON)
+            return .success(obj)
+        } catch let decodeError {
+            return .failure(decodeError)
         }
     }
     
-    func updateUserData(_ UserInfo: User) {
-        let userRef = db.collection("users").document(UserInfo.uid)
-        
-        userRef.updateData([
-            "profileImg": (UserInfo.profileImg ?? "https://i.ibb.co/QMVpNXC/todo-main-img.png") as String,
-            "uid": UserInfo.uid,
-            "nickname": UserInfo.nickname,
-            "phoneNum": UserInfo.phoneNum,
-            "rid": FieldValue.arrayUnion(UserInfo.rid ?? []),
-            "pid": FieldValue.arrayUnion(UserInfo.pid ?? [])
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(userRef.documentID)")
-            }
-        }
-    }
     
-    func setReview(_ ReviewInfo: Review) {
-        let reviewRef = db.collection("reviews").document(ReviewInfo.rid)
-        
-        reviewRef.setData([
-            "rid": ReviewInfo.rid,
-            "uid": ReviewInfo.uid,
-            "pid": ReviewInfo.pid,
-            "reviewImg": ReviewInfo.reviewImg,
-            "title": ReviewInfo.title,
-            "like": ReviewInfo.like,
-            "dislike": ReviewInfo.dislike,
-            "content": ReviewInfo.content,
-            "rate": ReviewInfo.rate,
-            "companion": ReviewInfo.companion,
-            "condition": ReviewInfo.condition,
-            "kindOfFood": ReviewInfo.kindOfFood
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(reviewRef.documentID)")
-            }
-        }
-        
-    }
     
-    func setPlace(_ PlaceInfo: Place) {
-        let placeRef = db.collection("places").document(PlaceInfo.pid)
-        
-        placeRef.setData([
-            "pid": PlaceInfo.pid,
-            "rid": FieldValue.arrayUnion(PlaceInfo.rid),
-            "placeName": PlaceInfo.placeName,
-            "placeImg": PlaceInfo.placeImg,
-            "placeTelNum": PlaceInfo.placeTelNum,
-            "city": PlaceInfo.city,
-            "town": PlaceInfo.town,
-            "address": PlaceInfo.address,
-            "lat": PlaceInfo.lat,
-            "long": PlaceInfo.long
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(placeRef.documentID)")
-            }
-        }
-    }
-    
-    /**
-     @brief userData를 불러온다,
-     */
-    func getUserData(completion: @escaping ([User]?) -> Void) {
-        var userData: [[String:Any]] = [[:]]
-        var user: [User]?
-        
-        db.collection("users").getDocuments { (querySnapshot, error) in
+    func fetchCollectionData<T: Decodable>(from collection: String, objectType: T.Type, completion: @escaping (Result<[T], Error>) -> Void) {
+        db.collection(collection).getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents: \(error)")
-                completion(user) // 호출하는 쪽에 빈 배열 전달
+                completion(.failure(error))
                 return
             }
             
-            for document in querySnapshot!.documents {
-                userData.append(document.data())
-            }
-            userData.remove(at: 0)
-            user = self.dictionaryToObject(objectType: User.self, dictionary: userData)
-            completion(user) // 성공 시 배열 전달
-        }
-    }
-    
-    /**
-     @brief reviewData를 불러온다,
-     */
-    func getReviewData(completion: @escaping ([Review]?) -> Void) {
-        var reviewData: [[String:Any]] = [[:]]
-        var review: [Review]?
-        
-        db.collection("reviews").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error getting documents: \(error)")
-                completion(review) // 호출하는 쪽에 빈 배열 전달
-                return
-            }
+            var objects: [T] = []
             
             for document in querySnapshot!.documents {
-                reviewData.append(document.data())
+                let data = document.data()
+                switch self.convertFirestoreData(data: data, objectType: objectType) {
+                case .success(let obj):
+                    if let objT = obj as? T {
+                        objects.append(objT)
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                    return
+                }
             }
-            reviewData.remove(at: 0)
-            review = self.dictionaryToObject(objectType: Review.self, dictionary: reviewData)
-            completion(review) // 성공 시 배열 전달
+            completion(.success(objects))
         }
     }
     
+    
+    func getReviewData(completion: @escaping (Result<[Review], Error>) -> Void) {
+        fetchCollectionData(from: "reviews", objectType: Review.self, completion: completion)
+    }
+    
+    func getPlaceData(completion: @escaping (Result<[Place], Error>) -> Void) {
+        fetchCollectionData(from: "places", objectType: Place.self, completion: completion)
+    }
+    
+    // 전체 데이터 저장 및 업데이트
+    func setData(uid: String, dataWillSet: [String: Any?]){
+        // 1. rid 생성
+        let rid = UUID().uuidString
+        
+        // 2. rid를 이용해서 firebase Storage에 업로드
+        let imgData = dataWillSet["imgData"] as! Data // nil 처리를 어떻게 해야할지 모르겠음
+        uploadImgToFirebase(imgData: imgData, rid: rid) // 업로드 method
+        
+        // 3. pid 생성
+        let pid = UUID().uuidString
+        
+        // 4. reviewData 생성
+        let reviewDictionary: [String: Any] = ["rid": rid,
+                                               "uid": uid,
+                                               "pid": pid,
+                                               "reviewImg": "reviews/\(rid).jpeg",
+                                               "title": dataWillSet["title"] as? String ?? "나의 리뷰",
+                                               "like": 0,
+                                               "dislike": 0,
+                                               "content": dataWillSet["content"] as? String ?? "내용 없음",
+                                               "rate": 100, // 추후 계산하는 알고리즘 추가
+                                               "createdAt": Timestamp(date: Date()),
+                                               "companion": dataWillSet["companion"] as? String ?? "nil",
+                                               "condition": dataWillSet["condition"] as? String ?? "nil",
+                                               "kindOfFood": dataWillSet["kindOfFood"] as? String ?? "nil"]
+        
+        // 5. reviewData 저장
+        setReviewData(reviewDictionary: reviewDictionary)
+        
+        // 6. uid를 이용해서 rid 배열과 pid 배열 업데이트
+        updateUserRidAndPid(pid: pid, rid: rid, uid: uid)
+        
+        // 7. place데이터 저장
+        let path = "reviews/\(rid).jpeg"
+        setPlaceData(dataWillSet: dataWillSet, pid: pid, uid: uid, rid: rid, path: path)
+    }
+    
+    func uploadImgToFirebase(imgData: Data, rid: String) {
+        print("uploadImgToFirebase")
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        var imagesRef = storageRef.child("images")
+        let imageName = rid // reviewID와 같아야 함
+        let storagePath = "gs://zzin-ios-application.appspot.com//reviews/\(imageName).jpeg"
+        imagesRef = storage.reference(forURL: storagePath)
+        
+        
+        let uploadTask = imagesRef.putData(imgData, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                print("Uh-oh, an error occurred!")
+                return
+            }
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+            // You can also access to download URL after upload.
+            imagesRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    print("Uh-oh, an error occurred! in down")
+                    return
+                }
+            }
+        }
+    }
+    
+    func setReviewData(reviewDictionary: [String: Any]){
+        // FireStoreManager 안으로 옮기고 난 후에 수정
+        let db = FireStoreManager.shared.db
+        let reviewRef = db.collection("reviews").document(reviewDictionary["rid"] as! String)
+        
+        reviewRef.setData(reviewDictionary){ err in
+            if let err = err {
+                print("setReviewData: Error writing document: \(err)")
+            } else {
+                print("setReviewData: Document successfully written!")
+            }
+        }
+    }
+    
+    func updateUserRidAndPid(pid: String?, rid: String, uid: String){
+        let userRef = db.collection("users").document(uid)
+        
+        userRef.updateData(["rid": FieldValue.arrayUnion([rid]),
+                            "pid": FieldValue.arrayUnion([pid] as? [String] ?? [])]){ err in
+            if let err = err {
+                print("updateUserAppendingRid: Error adding document: \(err)")
+            } else {
+                print("updateUserAppendingRid: Document added with ID: \(userRef.documentID)")
+            }
+        }
+    }
+    
+    func setPlaceData(dataWillSet: [String: Any?], pid: String, uid: String, rid: String, path: String) {
+        let placeRef = db.collection("places").document(pid)
+        placeRef.setData(["pid": pid,
+                          "uid": uid,
+                          "rid": FieldValue.arrayUnion([rid]),
+                          "placeImg": FieldValue.arrayUnion([path]),
+                          "city": "인천광역시",
+                          "town": "부평구",
+                          "address": dataWillSet["address"] as! String,
+                          "placeName": dataWillSet["placeName"] as! String,
+                          "placeTelNum": dataWillSet["placeTelNum"] as! String,
+                          "lat": dataWillSet["mapx"] as! Double,
+                          "long": dataWillSet["mapy"] as! Double,
+                          "companion": dataWillSet["companion"] as! String,
+                          "condition": dataWillSet["condition"] as! String,
+                          "kindOfFood": dataWillSet["kindOfFood"] as! String]){ err in
+            if let err = err {
+                print("setPlaceData: Error writing document: \(err)")
+            } else {
+                print("setPlaceData: Document successfully written!")
+            }
+        }
+        
+    }
+    
     /**
-     @brief placeData를 불러온다,
+     @brief placeData를 불러온다 >> 주연님 코드에서 현재 적용중인 상황
      */
     func getPlaceData(completion: @escaping ([Place]?) -> Void) {
         var placeData: [[String:Any]] = [[:]]
