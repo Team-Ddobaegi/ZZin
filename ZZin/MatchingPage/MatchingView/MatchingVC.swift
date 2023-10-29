@@ -10,31 +10,13 @@ class MatchingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setDataManager()
         setView()
         configureUI()
-        
-        let locationService = LocationService.shared
-        locationService.startUpdatingLocation()
-        locationService.delegate = self
-        
-        
-        locationService.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
-            if let error = error {
-                print("Error getting address: \(error.localizedDescription)")
-                return
-            }
-            
-            if let address = address {
-                print("Current address: \(address)")
-                self.selectedCity = address.first
-                self.selectedTown = address.last
-            } else {
-                print("Address not found.")
-            }
-        }
-        
+        locationSetting()
+        currentLocation = LocationService.shared.getCurrentLocation()
+        getAddress()
+        updateLocationTitle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +28,34 @@ class MatchingVC: UIViewController {
     
     
     // MARK: - Settings
+    func locationSetting() {
+        LocationService.shared.delegate = self
+    }
+    
+    func getAddress() {
+        self.currentLocation = LocationService.shared.getCurrentLocation()
+        LocationService.shared.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
+            if let error = error {
+                print("Error getting address: \(error.localizedDescription)")
+                return
+            }
+            
+            if let address = address {
+                print("Current address: \(address)")
+                
+                if let city = address.first, city.count >= 2 {
+                    self.selectedCity = String(city.prefix(2))
+                }
+                
+                self.selectedTown = address.last
+                
+                print("@@@@@@@\(self.selectedCity),\(self.selectedTown)")
+            } else {
+                print("Address not found.")
+            }
+        }
+    }
+
     
     func setDataManager(){
         // 플레이스 데이터 불러오기
@@ -249,6 +259,7 @@ class MatchingVC: UIViewController {
     var updateConditionMatchingKeywords: [String?]?
     var updateMenuMatchingKeywords: [String?]?
     
+
     
     private let matchingView = MatchingView()
     
@@ -272,12 +283,13 @@ class MatchingVC: UIViewController {
         mapViewController.selectedCity = selectedCity
         mapViewController.selectedTown = selectedTown
         mapViewController.mapViewDelegate = self
-        navigationController?.pushViewController(mapViewController, animated: true)
+        self.navigationController?.pushViewController(mapViewController, animated: true)
     }
     
     @objc private func locationButtonTapped() {
         print("현재 위치 버튼 탭")
-        //        LocationService.shared.getAddressFromLocation(lat: <#T##Double#>, lng: <#T##Double#>, completion: <#T##(String?, Error?) -> Void#>)
+        getAddress()
+        updateLocationTitle()
     }
     
     @objc private func setPickerViewTapped() {
@@ -348,7 +360,6 @@ class MatchingVC: UIViewController {
         setSearchViewConstraints()
         setCollectionViewConstraints()
         setOpacityViewConstraints()
-        updateLocationTitle()
     }
     
     private func addSubViews(){
@@ -596,5 +607,5 @@ let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
 // 선택된 "구"의 인덱스
 var selectedTownIndex: Int = 0
 // 피커뷰 2열에 들어갈 "구"
-let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
 let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]

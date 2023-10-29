@@ -2,6 +2,7 @@ import UIKit
 import NMapsMap
 import CoreLocation
 import SnapKit
+import FirebaseStorage
 
 class SearchMapViewController: UIViewController {
     
@@ -49,7 +50,7 @@ class SearchMapViewController: UIViewController {
     @objc func gpsButtonTapped() {
         print("MoveToCurrentLocation")
         currentUserLocation = LocationService.shared.getCurrentLocation()
-        moveCamera(currentUserLocation)
+        moveCamera(location: currentUserLocation, animation: .linear)
     }
     
     @objc func resetFilterButtonTapped() {
@@ -100,18 +101,19 @@ class SearchMapViewController: UIViewController {
         setKeywordView()
         setTouchableCardView()
         addTargetButton()
-        fetchPlacesWithKeywords()
         setKeywordButtonTitle()
         setPickerView()
         setOpacityView()
         updateLocationTitle()
+        
         print("\(String(describing: self.selectedCity)),\(String(describing: self.selectedTown))---------------")
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         currentUserLocation = LocationService.shared.getCurrentLocation()
-        moveCamera(currentUserLocation)
+        moveCamera(location: currentUserLocation, animation: .none)
+        fetchPlacesWithKeywords()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,6 +124,10 @@ class SearchMapViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    deinit{
+        print("deinit SearchMapViewController")
     }
     
     // MARK: - UI Setting
@@ -148,14 +154,17 @@ class SearchMapViewController: UIViewController {
     
     
     
-    func moveCamera(_ location: NMGLatLng?) {
-        //        let cameraUpdate = NMFCameraUpdate(scrollTo: location!)
+    func moveCamera(location: NMGLatLng?, animation: NMFCameraUpdateAnimation) {
         let cameraUpdate = NMFCameraUpdate(scrollTo: location ?? NMGLatLng(lat: 37.5666102, lng: 126.9783881))
+        cameraUpdate.animation = animation
+        cameraUpdate.animationDuration = 0.3
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
     }
     
     // MARK: - setupUI
     func setupUI() {
+        searchMapUIView.storeCardView.isHidden = true
+        
         view.backgroundColor = .white
         view.addSubview(searchMapUIView)
         view.addSubview(opacityView)
@@ -225,14 +234,21 @@ class SearchMapViewController: UIViewController {
             if let placeData = overlay.userInfo as? [String: Place],
                let placeName = placeData["Place"]?.placeName,
                let reviewID = placeData["Place"]?.rid,
-               let placeID = placeData["Place"]?.pid
+               let placeID = placeData["Place"]?.pid,
+               let placeLat = placeData["Place"]?.lat,
+               let placeLong = placeData["Place"]?.long
             {
+                self.searchMapUIView.storeCardView.isHidden = false
                 self.selectedPlaceID = placeID
                 FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
                     switch result {
                     case .success(let review):
                         self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
                         self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
+                        FireStorageManager().downloadImgFromStorage(useage: .review, id: reviewID[0], imageView: self.searchMapUIView.storeCardView.placeImage)
+                        let location = NMGLatLng(lat: placeLat , lng: placeLong)
+                        self.moveCamera(location: location, animation: .linear)
+                        print("===========\(placeID)")
                     case .failure(let error):
                         print("Error fetching review: \(error.localizedDescription)")
                     }
@@ -246,6 +262,7 @@ class SearchMapViewController: UIViewController {
         marker.mapView = searchMapUIView.searchMapView.mapView
         // 5. 활성화된 마커 배열에 추가
         activeMarkers.append(marker)
+        
     }
 }
 
@@ -346,13 +363,13 @@ extension SearchMapViewController: MatchingKeywordDelegate {
 }
 
 extension SearchMapViewController {
-    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = "전체") {
+    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = nil) {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
         let actualCity = city ?? self.selectedCity ?? nil
         let actualTown = town ?? self.selectedTown ?? "전체"
-        
+        print("@@@@@@@\(actualCity)\(actualTown)")
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
