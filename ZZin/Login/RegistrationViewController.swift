@@ -13,24 +13,15 @@ class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 생성
     
-    private let emailTextField = CustomTextfieldView(placeholder: "honggildong@gmail.com", text: "이메일")
-    private let pwTextField = CustomTextfieldView(placeholder: "대문자는 필수입니다! 숫자 또는 특수문자도 섞어주세요 ☺️", text: "비밀번호", hasEyeButton: false)
-    private let nicknameTextField = CustomTextfieldView(placeholder: "내가젤잘나가", text: "닉네임")
-    private let numberTextField = CustomTextfieldView(placeholder: "010-0000-0000", text: "전화번호")
+    private let emailTextFieldView = CustomTextfieldView(placeholder: "", text: "이메일")
+    private let pwTextFieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", hasEyeButton: false)
+    private let nicknameTextFieldView = CustomTextfieldView(placeholder: "", text: "닉네임")
+    private let numberTextFieldView = CustomTextfieldView(placeholder: "", text: "전화번호")
     private var locationPickerView: UIPickerView!
-    var locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
-    let screenWidth = UIScreen.main.bounds.width - 10
-    let screenHeight = UIScreen.main.bounds.height / 2
-    var selectedRow = 0
-    
-//    private lazy var doubleCheckButton = UIButton().then {
-//        $0.setTitle("중복 확인", for: .normal)
-//        $0.setTitleColor(.white, for: .normal)
-//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-//        $0.backgroundColor = .red
-//        $0.clipsToBounds = true
-//        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
-//    }
+    private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
+    private let screenWidth = UIScreen.main.bounds.width - 10
+    private let screenHeight = UIScreen.main.bounds.height / 2
+    private var selectedRow = 0
     
     private var confirmButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
@@ -65,68 +56,68 @@ class RegistrationViewController: UIViewController {
     //MARK: - 메서드 생성
     func configure() {
         view.backgroundColor = .white
-        [emailTextField, pwTextField, nicknameTextField, numberTextField, confirmButton, backbutton, locationButton].forEach{view.addSubview($0)}
+        [emailTextFieldView, pwTextFieldView, nicknameTextFieldView, numberTextFieldView, confirmButton, backbutton, locationButton].forEach{view.addSubview($0)}
     }
     
-    func setUI() {
-        setIdTextfield()
-        setPwTextField()
-        setLocation()
-        setNicknameTextField()
-        setNumberTextfield()
-        setConfirmButton()
+    private func setUI() {
         setBackButton()
+        setIdTextfieldView()
+        setPwTextFieldView()
+        setLocation()
+        setNicknameTextFieldView()
+        setNumberTextfieldView()
+        setConfirmButton()
     }
     
-    func setIdTextfield() {
-        emailTextField.snp.makeConstraints {
+    private func setIdTextfieldView() {
+        emailTextFieldView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(282)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setPwTextField() {
-        pwTextField.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(20)
+    private func setPwTextFieldView() {
+        pwTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setLocation() {
+    private func setLocation() {
         locationButton.snp.makeConstraints {
-            $0.top.equalTo(pwTextField.snp.bottom).offset(20)
+            $0.top.equalTo(pwTextFieldView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setNicknameTextField() {
-        nicknameTextField.snp.makeConstraints {
+    private func setNicknameTextFieldView() {
+        nicknameTextFieldView.snp.makeConstraints {
             $0.top.equalTo(locationButton.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setNumberTextfield() {
-        numberTextField.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextField.snp.bottom).offset(20)
+    private func setNumberTextfieldView() {
+        numberTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(nicknameTextFieldView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setConfirmButton() {
+    private func setConfirmButton() {
         confirmButton.snp.makeConstraints{
-            $0.top.equalTo(numberTextField.snp.bottom).offset(61)
+            $0.top.equalTo(numberTextFieldView.snp.bottom).offset(61)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
-    func setBackButton() {
+    private func setBackButton() {
         backbutton.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(20)
@@ -135,22 +126,117 @@ class RegistrationViewController: UIViewController {
     }
     
     private func setDelegate() {
-        emailTextField.setTextFieldDelegate(delegate: self)
-        pwTextField.setTextFieldDelegate(delegate: self)
-        nicknameTextField.setTextFieldDelegate(delegate: self)
-        numberTextField.setTextFieldDelegate(delegate: self)
+        emailTextFieldView.setTextFieldDelegate(delegate: self)
+        pwTextFieldView.setTextFieldDelegate(delegate: self)
+        nicknameTextFieldView.setTextFieldDelegate(delegate: self)
+        numberTextFieldView.setTextFieldDelegate(delegate: self)
+    }
+    
+    // MARK: - Auth 관련 함수
+    private func checkIdPattern(_ email: String) -> Bool {
+        guard !email.isEmpty else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idBlank)
+            return false
+        }
+        
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        guard emailpred.evaluate(with: email) else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idWrongFormat)
+            return false
+        }
+        return true
+    }
+    
+    private func validPasswordPattern(_ password: String) -> Bool {
+        guard !password.isEmpty else {
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .passwordBlank)
+            return false
+        }
+        
+        let firstLetter = password.prefix(1)
+        guard firstLetter == firstLetter.uppercased() else {
+            print("첫 단어는 대문자가 필요합니다.")
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .firstPasswordCap)
+            return false
+        }
+        
+        let numbers = password.suffix(1)
+        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
+            print("마지막은 숫자를 써주세요")
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .lastPasswordNum)
+            return false
+        }
+        return true
+    }
+    
+    func validateNumberPattern(_ number: String) -> Bool {
+        if number.isEmpty {
+            print("번호가 입력이 되지 않았어요")
+            numberTextFieldView.showInvalidMessage()
+            showAlert(type: .noValue)
+            return false
+        } else if number.count != 11 {
+            print("번호가 짧아요")
+            numberTextFieldView.showInvalidMessage()
+            showAlert(type: .numberShort)
+            return false
+        }
+        return true
+    }
+    
+    private func showAlert(type: ErrorHandling) {
+        let alertController = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
-        let id = emailTextField.textfield.text!
-        let pw = pwTextField.textfield.text!
-        FireStoreManager.shared.signIn(with: id, password: pw)
+        
+        guard let id = emailTextFieldView.textfield.text, !id.isEmpty,
+              let pw = pwTextFieldView.textfield.text, !pw.isEmpty,
+              let number = numberTextFieldView.textfield.text, !number.isEmpty else { return }
+
+        guard checkIdPattern(id) else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .idError)
+            return
+        }
+        
+        guard validPasswordPattern(pw) else {
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .passwordBlank)
+            return
+        }
+        
+        guard validateNumberPattern(number) else {
+            numberTextFieldView.showInvalidMessage()
+            return
+        }
+        
+        FireStoreManager.shared.signIn(with: id, password: pw) { success in
+            if success {
+                print("유저가 생성되었습니다.")
+                let vc = CardController()
+//                self.dismiss(animated: true)
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+            } else {
+                print("다시 수정해주세요")
+                self.showAlert(type: .signInFailure)
+            }
+        }
     }
     
     @objc func doubleCheckButtonTapped() {
         print("중복 확인 버튼이 눌렸습니다.")
-        
     }
     
     @objc func backbuttonTapped() {
@@ -200,26 +286,57 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configure()
-        setDelegate()
         setUI()
-        setDelegate()
     }
 }
 
 // MARK: - UITextFieldDelegate 선언
 extension RegistrationViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textFieldView: UITextField) {
-        switch textFieldView {
-        case emailTextField: emailTextField.animatingLabel.isHidden = true
-        case pwTextField: pwTextField.animatingLabel.isHidden = true
-        case nicknameTextField: nicknameTextField.animatingLabel.isHidden = true
-        case numberTextField: numberTextField.animatingLabel.isHidden = true
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case self.emailTextFieldView.textfield: emailTextFieldView.textfield.placeholder = "자주 쓰는 이메일이 있나요?"
+        case self.nicknameTextFieldView.textfield: nicknameTextFieldView.textfield.placeholder = "나만의 닉넴은?"
+        case self.numberTextFieldView.textfield: numberTextFieldView.textfield.placeholder = "여러분의 전화번호를 적어주세요"
+        case self.pwTextFieldView.textfield: pwTextFieldView.textfield.placeholder = "철통보안!"
         default: print("textfield를 찾지 못했습니다.")
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == emailTextFieldView.textfield, let text = textField.text, text.isEmpty {
+            emailTextFieldView.undoLabelAnimation()
+        } else if textField == nicknameTextFieldView.textfield, let text = textField.text, text.isEmpty {
+            nicknameTextFieldView.undoLabelAnimation()
+        } else if textField == numberTextFieldView.textfield, let text = textField.text, text.isEmpty {
+            numberTextFieldView.undoLabelAnimation()
+        } else if textField == pwTextFieldView.textfield, let text = textField.text, text.isEmpty {
+            pwTextFieldView.undoLabelAnimation()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switchToTextfield(textField)
+        return true
+    }
+    
+    private func switchToTextfield(_ textField: UITextField) {
+        switch textField {
+        case self.emailTextFieldView.textfield:
+            self.nicknameTextFieldView.textfield.becomeFirstResponder()
+        case self.nicknameTextFieldView.textfield:
+            self.numberTextFieldView.textfield.becomeFirstResponder()
+        case self.numberTextFieldView.textfield:
+            self.pwTextFieldView.textfield.becomeFirstResponder()
+        case self.pwTextFieldView.textfield:
+            self.pwTextFieldView.textfield.resignFirstResponder()
+        default:
+            self.pwTextFieldView.textfield.resignFirstResponder()
         }
     }
 }

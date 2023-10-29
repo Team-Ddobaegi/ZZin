@@ -19,6 +19,12 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
         super.viewDidLoad()
         tableView.register(RegionSearchResultTableViewCell.self, forCellReuseIdentifier: RegionSearchResultTableViewCell.identifier)
     }
+    
+    // dismiss 후 PostVC의 tableView reload를 위해
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name("DismissThenViewWillAppear"), object: nil, userInfo: nil)
+    }
 
     // MARK: - Table view data source
 
@@ -51,11 +57,14 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
         
         let selectedPlace: Item = resultArray[indexPath.row]
         
-        placeName = selectedPlace.title ?? ""
+        placeName = selectedPlace.title?.htmlEscaped ?? ""
         address = selectedPlace.roadAddress ?? ""
+        mapx = Double(selectedPlace.mapx ?? "0") ?? 0
+        mapy = Double(selectedPlace.mapy ?? "0") ?? 0
         
         self.dismiss(animated: true)
     }
+
     
     func updateSearchResults(for searchController: UISearchController) {
         query = searchController.searchBar.text ?? ""
@@ -135,3 +144,4 @@ extension String {
         }
     }
 }
+

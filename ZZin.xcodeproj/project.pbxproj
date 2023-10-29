@@ -32,6 +32,7 @@
 		7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
+		BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3698632AED858800E4125A /* ErrorHandling.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
 		BD3CB5212ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5202ADD33D800A9F4A0 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -147,6 +148,7 @@
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
+		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 			isa = PBXGroup;
 			children = (
 				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
+				BD3698632AED858800E4125A /* ErrorHandling.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -707,6 +710,7 @@
 				7BFC61B92AE160A500F46544 /* MatchingPlaceInfoCell.swift in Sources */,
 				DF1599B12AD6C6E200AE129B /* ViewController.swift in Sources */,
 				7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */,
+				BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */,
 				BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */,
 				7B61D3902ADF733000A226EB /* MatchingSearchResultCell.swift in Sources */,
 				7B47A55E2AE9FF0F00A44C2C /* MatchingThumbnailCell.swift in Sources */,
