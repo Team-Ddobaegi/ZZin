@@ -17,7 +17,7 @@ class SearchMapViewController: UIViewController {
     var selectedCity : String?
     var selectedTown : String?
     private var activeMarkers: [NMFMarker] = []
-    
+
     // MARK: - Touch Action
     
     @objc func backButtonTapped() {
@@ -63,7 +63,6 @@ class SearchMapViewController: UIViewController {
         updateResetButtonStatus()
         sendDataBackToMatchingViewController()
     }
-    
     func sendDataBackToMatchingViewController() {
         mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, selectedCity: selectedCity, selectedTown: selectedTown)
     }
@@ -95,6 +94,7 @@ class SearchMapViewController: UIViewController {
         addTargetButton()
         fetchPlacesWithKeywords()
         setKeywordButtonTitle()
+//        searchMapUIView.storeCardView.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -139,7 +139,10 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
     }
     
+    // MARK: - setupUI
     func setupUI() {
+//        setOpacityView()
+//        setPickerView()
         view.backgroundColor = .white
         view.addSubview(searchMapUIView)
         searchMapUIView.snp.makeConstraints {
@@ -346,16 +349,6 @@ extension SearchMapViewController {
     }
 }
 
-// 지도 빈 영역 터치 시 Delegate
-//extension SearchMapViewController : NMFMapViewTouchDelegate {
-//    func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-//        print("lat : \(latlng.lat) /// lng : \(latlng.lng)")
-//
-//    }
-//}
-
 protocol SearchMapViewControllerDelegate: AnyObject {
     func didUpdateSearchData(companionKeyword : [String?]?, conditionKeyword : [String?]?, kindOfFoodKeyword : [String?]?, selectedCity : String?, selectedTown : String?)
 }
-
-

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import Firebase
+import NMapsMap
 
 
 class MatchingVC: UIViewController {
@@ -16,10 +17,31 @@ class MatchingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setDataManager()
         setView()
         configureUI()
+        
+        let locationService = LocationService.shared
+        locationService.startUpdatingLocation()
+        locationService.delegate = self
+        
+        
+        locationService.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
+            if let error = error {
+                print("Error getting address: \(error.localizedDescription)")
+                return
+            }
+            
+            if let address = address {
+                print("Current address: \(address)")
+                self.selectedCity = address.first
+                self.selectedTown = address.last
+            } else {
+                print("Address not found.")
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -177,14 +199,14 @@ class MatchingVC: UIViewController {
             }
         }
     }
-
+    
     func filterKeywordData() {
         let companionKeyword = matchingView.companionKeywordButton.titleLabel?.text ?? ""
         let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text ?? ""
         let kindOfFoodKeyword = matchingView.kindOfFoodKeywordButton.titleLabel?.text ?? ""
         
         print("Companion: \(companionKeyword), Condition: \(conditionKeyword), KindOfFood: \(kindOfFoodKeyword)")
-                
+        
         if let reviewIDs = review?.compactMap({ $0.rid }) {
             for rid in reviewIDs {
                 FireStoreManager.shared.fetchDataWithRid(rid: rid) { result in
@@ -195,20 +217,20 @@ class MatchingVC: UIViewController {
                         let kindOfFood = review.kindOfFood
                         
                         print("-------- Review \(rid): Companion: \(companion), Condition: \(condition), KindOfFood: \(kindOfFood)")
-
+                        
                         // Companion, Condition, KindOfFood 값이 일치하는 경우 리뷰를 선택
-//                        if companion == companionKeyword && condition == conditionKeyword && kindOfFood == kindOfFoodKeyword {
-//                            matchingReviews.append(review)
-//                        }
-
+                        //                        if companion == companionKeyword && condition == conditionKeyword && kindOfFood == kindOfFoodKeyword {
+                        //                            matchingReviews.append(review)
+                        //                        }
+                        
                     case .failure(let error):
                         print("Error fetching review: \(error.localizedDescription)")
                     }
                 }
             }
         }
-//        print("Matching Reviews Count: \(matchingReviews.count)")
-
+        //        print("Matching Reviews Count: \(matchingReviews.count)")
+        
         collectionView.collectionView.reloadData()
     }
     
@@ -222,13 +244,15 @@ class MatchingVC: UIViewController {
     var review: [Review]?
     var selectedCity: String?
     var selectedTown: String?
+    var currentLocation: NMGLatLng?
     
-//    var companionKeyword: String?
-//    
-//    var conditionKeyword: String?
-//    
-//    var kindOfFoodKeyword: String?
-
+    
+    //    var companionKeyword: String?
+    //
+    //    var conditionKeyword: String?
+    //
+    //    var kindOfFoodKeyword: String?
+    
     
     // 업데이트된 키워드를 저장하는 배열입니두
     var updateWithMatchingKeywords: [String?]?
@@ -248,20 +272,6 @@ class MatchingVC: UIViewController {
     
     private let pickerView = MatchingLocationPickerView()
     
-    
-    // 선택된 "시"의 인덱스
-    private var selectedCityIndex: Int = 0
-    // 피커뷰 1열에 들어갈 "시"
-    private let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
-    
-    
-    // 선택된 "구"의 인덱스
-    private var selectedTownIndex: Int = 0
-    // 피커뷰 2열에 들어갈 "구"
-    private let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
-    private let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
-    
-    
     //    //dummy location
     //    private let selectedCity: [String] = ["지역", "서울", "인천"]
     //    private let selectedTown: [String] = ["전체","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
@@ -269,13 +279,7 @@ class MatchingVC: UIViewController {
     ////    "송파구", "양천구", "영등포구","용산구", "은평구", "종로구", "중구", "중랑구"]
     //    private let selectedIncheonTown: [String] = ["전체", "중구", "동구", "남구"]
     
-    
-    
-    
     // MARK: - Actions
-    
-
-    
     @objc private func mapButtonTapped() {
         print("지도 버튼 탭")
         let mapViewController = SearchMapViewController()
@@ -290,6 +294,7 @@ class MatchingVC: UIViewController {
     
     @objc private func locationButtonTapped() {
         print("현재 위치 버튼 탭")
+        //        LocationService.shared.getAddressFromLocation(lat: <#T##Double#>, lng: <#T##Double#>, completion: <#T##(String?, Error?) -> Void#>)
     }
     
     @objc private func setPickerViewTapped() {
@@ -391,7 +396,7 @@ class MatchingVC: UIViewController {
         }
     }
     
-
+    
     func setKeywordButtonTitle() {
         let firstCompanionKeyword = updateWithMatchingKeywords?.first ?? nil ?? nil
         matchingView.companionKeywordButton.setTitle(firstCompanionKeyword ?? "키워드", for: .normal)
@@ -440,9 +445,6 @@ extension MatchingVC: MatchingKeywordDelegate {
     }
 }
 
-
-
-
 //MARK: - CollectionView Delegate, DataSource, Layout
 
 extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -482,22 +484,22 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             }
         }
         
-//        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
-//        let db = Firestore.firestore()
-//        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
-//
-//        db.collection("reviews").document(reviewID).getDocument { (document, error) in
-//            if let error = error {
-//                print("Error getting document: \(error)")
-//            } else if let document = document, document.exists {
-//                if let reviewData = document.data() {
-//                    if let reviewTitle = reviewData["title"] as? String {
-//                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
-//                    }
-//                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
-//                }
-//            }
-//        }
+        //        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
+        //        let db = Firestore.firestore()
+        //        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
+        //
+        //        db.collection("reviews").document(reviewID).getDocument { (document, error) in
+        //            if let error = error {
+        //                print("Error getting document: \(error)")
+        //            } else if let document = document, document.exists {
+        //                if let reviewData = document.data() {
+        //                    if let reviewTitle = reviewData["title"] as? String {
+        //                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
+        //                    }
+        //                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
+        //                }
+        //            }
+        //        }
         
         return cell
     }
@@ -577,47 +579,6 @@ extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
             pickerView.selectRow(0, inComponent: 1, animated: true)
         }
     }
-    
-    // MARK: - 기존 피커뷰 코드입니두 ~~
-    //    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    //        if component == 0 {
-    //            // City(시)의 개수 반환
-    //            return selectedCity.count
-    //        } else if component == 1 {
-    //            // Town(구)의 개수 반환
-    //            return selectedTown.count
-    //        }
-    //        return 0
-    //    }
-    
-    //    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    //        if component == 0 {
-    //            // City(시) 설정
-    //            return selectedCity[row]
-    //        } else if component == 1 {
-    //            // Town(구) 설정
-    //            return selectedTown[row]
-    //        }
-    //        return nil
-    //    }
-    
-    //
-    //    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    //        if component == 0 {
-    //            // City(시) 선택이 변경되었을 때
-    //            selectedCityIndex = row
-    //        } else if component == 1 {
-    //            // Town(구) 선택이 변경되었을 때
-    //            selectedTownIndex = row
-    //        }
-    //        // 선택한 값에 기반하여 데이터를 필터링합니다.
-    //        filterData()
-    //
-    //        // 필터링된 데이터로 Collection View를 다시 로드합니다.
-    //        collectionView.collectionView.reloadData()
-    //    }
-    //
-    
 }
 
 extension MatchingVC: SearchMapViewControllerDelegate {
@@ -629,3 +590,27 @@ extension MatchingVC: SearchMapViewControllerDelegate {
         self.selectedTown = selectedTown
     }
 }
+
+extension MatchingVC: LocationServiceDelegate {
+    func didUpdateLocation(lat: Double, lng: Double) {
+        print("\(lat)")
+    }
+    
+    func didFailWithError(error: Error) {
+        print("\(error)")
+    }
+    
+    
+}
+
+// 선택된 "시"의 인덱스
+var selectedCityIndex: Int = 0
+// 피커뷰 1열에 들어갈 "시"
+let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
+
+
+// 선택된 "구"의 인덱스
+var selectedTownIndex: Int = 0
+// 피커뷰 2열에 들어갈 "구"
+let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
