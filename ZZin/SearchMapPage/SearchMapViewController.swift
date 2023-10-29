@@ -56,8 +56,8 @@ class SearchMapViewController: UIViewController {
         companionKeyword = [nil]
         conditionKeyword = [nil]
         kindOfFoodKeyword = [nil]
-        selectedCity = nil
-        selectedTown = "전체"
+//        selectedCity = nil
+//        selectedTown = "전체"
         
         searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
         searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
@@ -394,7 +394,9 @@ extension SearchMapViewController {
         print("확인 버튼 탭탭\(self.selectedCity)\(self.selectedTown)")
         sendDataBackToMatchingViewController()
         // 필터링된 데이터로 Collection View를 다시 로드
-        fetchPlacesWithKeywords()
+        removeAllMarkers()
+//        fetchPlacesWithKeywords()
+        fetchPlacesWithKeywords(city: selectedCity, town: selectedTown)
     }
     
     private func updateLocationButtonTitle(){
