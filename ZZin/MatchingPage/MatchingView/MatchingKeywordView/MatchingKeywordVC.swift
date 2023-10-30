@@ -15,12 +15,10 @@ enum MatchingKeywordType {
     case menu       // 메뉴는 무엇인가요?
 }
 
-
 // MatchingVC로 데이터 전달
 protocol MatchingKeywordDelegate: AnyObject {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType)
 }
-
 
 class MatchingKeywordVC: UIViewController {
     

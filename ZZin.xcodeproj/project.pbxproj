@@ -10,6 +10,7 @@
 		4D331FF6A61C1D5A3679A247 /* Pods_ZZin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */; };
 		7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */; };
 		7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */; };
+		7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */; };
 		7B47A54E2AE8A34600A44C2C /* MatchingLocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B47A54D2AE8A34600A44C2C /* MatchingLocationPickerView.swift */; };
 		7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B47A5552AE91CF500A44C2C /* MatchingReviewTextCell.swift */; };
 		7B47A5582AE935CA00A44C2C /* CustomCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B47A5572AE935CA00A44C2C /* CustomCellView.swift */; };
@@ -130,6 +131,7 @@
 		7AAC40E023A86C944BAF3917 /* Pods-ZZin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.release.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.release.xcconfig"; sourceTree = "<group>"; };
 		7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceView.swift; sourceTree = "<group>"; };
 		7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoCell.swift; sourceTree = "<group>"; };
+		7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingLocationPickerVC.swift; sourceTree = "<group>"; };
 		7B47A54D2AE8A34600A44C2C /* MatchingLocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingLocationPickerView.swift; sourceTree = "<group>"; };
 		7B47A5552AE91CF500A44C2C /* MatchingReviewTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingReviewTextCell.swift; sourceTree = "<group>"; };
 		7B47A5572AE935CA00A44C2C /* CustomCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellView.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 			children = (
 				7B5A24AB2AE75B1B00CD9227 /* OpacityView.swift */,
 				7B47A54D2AE8A34600A44C2C /* MatchingLocationPickerView.swift */,
+				7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */,
 			);
 			path = MatchingLocationPickerView;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
+				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* MatchingKeywordVC.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
