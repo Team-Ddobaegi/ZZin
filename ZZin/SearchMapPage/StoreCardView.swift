@@ -14,21 +14,21 @@ class StoreCardView: UIView {
     lazy var placeCategoryLabel: UILabel = {
         let label = UILabel()
         label.text = "맛집 카테고리"
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     lazy var placeCompanionLabel: UILabel = {
         let label = UILabel()
         label.text = "가게 동행자"
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     lazy var placeConditionLabel: UILabel = {
         let label = UILabel()
         label.text = "가게 특성"
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
@@ -36,14 +36,14 @@ class StoreCardView: UIView {
     lazy var placeRatingLabel: UILabel = {
         let label = UILabel()
         label.text = "가게 평점"
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
     lazy var placeReviewLabel: UILabel = {
         let label = UILabel()
         label.text = "리뷰수"
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
@@ -70,8 +70,8 @@ class StoreCardView: UIView {
             placeCategoryLabel.text = review.kindOfFood
             placeCompanionLabel.text = review.companion
             placeConditionLabel.text = review.condition
-            placeRatingLabel.text = "\(Int(review.rate))"
-            placeReviewLabel.text = "\(reviewCount)"
+            placeRatingLabel.text = "찐농도 \(Int(review.rate))%"
+            placeReviewLabel.text = "리뷰 \(reviewCount)개"
     }
     
     private func setupUI() {
@@ -96,7 +96,7 @@ class StoreCardView: UIView {
         }
         
         placeCategoryLabel.snp.makeConstraints {
-            $0.top.equalTo(placeNameLabel.snp.bottom).offset(8)
+            $0.top.equalTo(placeNameLabel.snp.bottom).offset(5)
             $0.leading.equalTo(placeNameLabel)
         }
         
@@ -117,7 +117,7 @@ class StoreCardView: UIView {
         
         placeReviewLabel.snp.makeConstraints {
             $0.top.equalTo(placeRatingLabel.snp.top)
-            $0.leading.equalTo(placeNameLabel.snp.trailing)
+            $0.leading.equalTo(placeRatingLabel.snp.trailing).offset(10)
         }
         
         placeImage.snp.makeConstraints {
