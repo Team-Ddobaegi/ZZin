@@ -18,6 +18,7 @@ enum FoodCardData {
     case hamburger
     case curry
     case tteokboki
+    case coldNoodle
     
     var title: String {
         switch self {
@@ -27,6 +28,8 @@ enum FoodCardData {
             return "카레"
         case .tteokboki:
             return "떡볶이"
+        case .coldNoodle:
+            return "냉면"
         }
     }
     
@@ -37,6 +40,8 @@ enum FoodCardData {
         case .curry:
             return ""
         case .tteokboki:
+            return ""
+        case .coldNoodle:
             return ""
         }
     }
