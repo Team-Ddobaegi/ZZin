@@ -76,6 +76,12 @@
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
 		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
+		C0A634472AEF7C8100BF6B55 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634462AEF7C8100BF6B55 /* ProfileCell.swift */; };
+		C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */; };
+		C0A6344B2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */; };
+		C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */; };
+		C0A6344F2AEF7CFD00BF6B55 /* RewardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */; };
+		C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
 		DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */; };
@@ -162,6 +168,12 @@
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		C0A634462AEF7C8100BF6B55 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
+		C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedPlaceCell.swift; sourceTree = "<group>"; };
+		C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCell.swift; sourceTree = "<group>"; };
+		C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeader.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
 		DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang_review.jpeg; sourceTree = "<group>"; };
@@ -515,6 +527,12 @@
 				FBA7B0C12AE0C18E00F79031 /* profile.png */,
 				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
 				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
+				C0A634462AEF7C8100BF6B55 /* ProfileCell.swift */,
+				C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */,
+				C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */,
+				C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */,
+				C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */,
+				C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -721,11 +739,13 @@
 				7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */,
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
 				DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */,
+				C0A6344B2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift in Sources */,
 				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
 				DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */,
+				C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */,
 				DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */,
 				7B47A5582AE935CA00A44C2C /* CustomCellView.swift in Sources */,
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
@@ -740,6 +760,7 @@
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
 				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,
 				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,
+				C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */,
 				7BFC61BE2AE1987C00F46544 /* MatchingKeywordCollectionViewCell.swift in Sources */,
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
 				7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */,
@@ -748,6 +769,7 @@
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */,
 				7B47A54E2AE8A34600A44C2C /* MatchingLocationPickerView.swift in Sources */,
+				C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */,
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
@@ -759,6 +781,7 @@
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
+				C0A6344F2AEF7CFD00BF6B55 /* RewardCell.swift in Sources */,
 				FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
@@ -770,6 +793,7 @@
 				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */,
+				C0A634472AEF7C8100BF6B55 /* ProfileCell.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 				BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */,
 				FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */,
