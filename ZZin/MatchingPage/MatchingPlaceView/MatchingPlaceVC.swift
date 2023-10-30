@@ -58,6 +58,7 @@ class MatchingPlaceVC: UIViewController {
     
     func matchingPlaceInfo(){
         // 플레이스 정보 가져오기
+        
         let db = Firestore.firestore()
         
         db.collection("places").document(placeID ?? "").getDocument { (document, error) in
@@ -84,6 +85,10 @@ class MatchingPlaceVC: UIViewController {
     
     
     //MARK: - Properties
+    
+    let dataManager = FireStoreManager()
+    var place: [Place?]?
+    var review: [Review]?
     
     var placeID: String?
     
