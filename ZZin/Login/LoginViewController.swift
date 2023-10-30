@@ -20,8 +20,10 @@ class LoginViewController: UIViewController {
         $0.contentMode = .scaleAspectFill
     }
     
-    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", hasEyeButton: false)
-    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", hasEyeButton: true)
+    private let userData = Auth.auth().currentUser?.uid
+    
+    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
+    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -120,37 +122,90 @@ class LoginViewController: UIViewController {
         pwTextfieldView.setTextFieldDelegate(delegate: self)
     }
     
+//    private func validateID(with email: String, completion: @escaping (Bool) -> Void) {
+//        FireStoreManager.shared.crossCheckDB(email) { exists in
+//            completion(exists)
+//        }
+//    }
+    
+    private func checkIdPattern(_ email: String) -> Bool {
+        guard !email.isEmpty else {
+            idTextfieldView.showInvalidMessage()
+            showAlert(type: .idBlank)
+            return false
+        }
+        
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        
+        guard emailpred.evaluate(with: email) else {
+            idTextfieldView.showInvalidMessage()
+            showAlert(type: .idWrongFormat)
+            return false
+        }
+        return true
+    }
+    
+    private func validPasswordPattern(_ password: String) -> Bool {
+        guard !password.isEmpty else {
+            pwTextfieldView.showInvalidMessage()
+            showAlert(type: .passwordBlank)
+            return false
+        }
+        
+        let firstLetter = password.prefix(1)
+        guard firstLetter == firstLetter.uppercased() else {
+            print("첫 단어는 대문자가 필요합니다.")
+            pwTextfieldView.showInvalidMessage()
+            showAlert(type: .firstPasswordCap)
+            return false
+        }
+        
+        let numbers = password.suffix(1)
+        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
+            print("마지막은 숫자를 써주세요")
+            pwTextfieldView.showInvalidMessage()
+            showAlert(type: .lastPasswordNum)
+            return false
+        }
+        return true
+    }
+    
     private func showAlert(type: ErrorHandling) {
         let alertController = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "확인", style: .default))
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func validateID(with email: String, completion: @escaping (Bool) -> Void) {
-        FireStoreManager.shared.crossCheckDB(email) { exists in
-            completion(exists)
-        }
-    }
-    
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
         
-        let email = idTextfieldView.textfield.text!
-        self.validateID(with: email) { exists in
-            if exists {
-                print("허가")
+        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+            print("이메일 형식이 맞지 않습니다.")
+            return
+        }
+        
+        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+            print("비밀번호 형식이 맞지 않습니다.")
+            return
+        }
+        
+        FireStoreManager.shared.loginUser(with: email, password: pw) { success in
+            if success {
+                print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
             } else {
-                print("불허가")
-                self.showAlert(type: .noValue)
+                print("사용자 로그인이 불가능합니다.")
+                self.showAlert(type: .loginFailure)
             }
         }
     }
     
     @objc func memberButtonTapped() {
         print("찐회원 버튼이 눌렸습니다.")
+        
         let vc = RegistrationViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -158,6 +213,7 @@ class LoginViewController: UIViewController {
     
     @objc func searchIdButtonTapped() {
         print("아이디 찾기 버튼이 눌렸습니다.")
+        
         let vc = UserSearchController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -165,6 +221,7 @@ class LoginViewController: UIViewController {
     
     @objc func searchPwButtonTapped() {
         print("비밀번호 찾기 버튼이 눌렸습니다.")
+        
         let vc = UserSearchController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -216,6 +273,7 @@ extension LoginViewController: UITextFieldDelegate {
     
     private func switchToTextfield(_ textField: UITextField) {
         print("다 써써용~")
+        
         switch textField {
         case self.idTextfieldView.textfield:
             self.pwTextfieldView.textfield.becomeFirstResponder()
