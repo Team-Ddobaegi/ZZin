@@ -81,9 +81,6 @@ class ModalViewController: UIViewController {
     
     @objc func confirmButtonTapped() {
         print("내 정보를 찾았습니다.")
-//        self.presentedViewController?.dismiss(animated: true, completion: {
-//            self.presentingViewController?.dismiss(animated: true)
-//        })
         let presentingViewController = self.presentingViewController
         self.presentingViewController?.presentingViewController?.dismiss(animated: true)
     }

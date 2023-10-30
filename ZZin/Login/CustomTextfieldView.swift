@@ -151,6 +151,7 @@ extension CustomTextfieldView {
     }
     
     private func commonInit() {
+        backgroundColor = .gray
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         addGestureRecognizer(tap)
         self.isUserInteractionEnabled = true
