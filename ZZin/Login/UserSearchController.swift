@@ -12,8 +12,12 @@ import Then
 // MARK: - UIComponent 선언
 class UserSearchController: UIViewController {
     
-    private let idTextfieldView = CustomTextfieldView(placeholder: "닉네임을 입력해주세요", text: "")
-    private let numberTextfieldView = CustomTextfieldView(placeholder: "- 없이 입력해주세요", text: "")
+    private var idStorage: [String: Any] = [:]
+    private var nickName: String?
+    private var phoneNumber: String?
+    private var uid: String?
+    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "닉네임을 입력해주세요")
+    private let numberTextfieldView = CustomTextfieldView(placeholder: "", text: "- 없이 입력해주세요")
     
     private var idLabel: UILabel = {
         let label = UILabel()
@@ -26,7 +30,7 @@ class UserSearchController: UIViewController {
     
     private var numberLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = "전화번호"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +53,6 @@ class UserSearchController: UIViewController {
     private func configure() {
         view.backgroundColor = .white
         [idLabel, numberLabel, idTextfieldView, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
-        setUI()
     }
     
     private func setUI() {
@@ -59,10 +62,9 @@ class UserSearchController: UIViewController {
         }
         
         idTextfieldView.snp.makeConstraints {
-            $0.centerY.equalTo(idLabel.snp.centerY)
+            $0.top.equalToSuperview().offset(296)
             $0.leading.equalTo(idLabel.snp.trailing).offset(23)
-            $0.width.equalTo(208)
-            $0.height.equalTo(43)
+            $0.size.equalTo(CGSize(width: 208, height: 43))
         }
         
         numberLabel.snp.makeConstraints {
@@ -71,18 +73,38 @@ class UserSearchController: UIViewController {
         }
         
         numberTextfieldView.snp.makeConstraints {
-            $0.centerY.equalTo(numberLabel.snp.centerY)
+            $0.top.equalTo(idTextfieldView.snp.bottom).offset(67)
             $0.leading.equalTo(numberLabel.snp.trailing).offset(5)
-            $0.width.equalTo(208)
-            $0.height.equalTo(43)
+            $0.size.equalTo(CGSize(width: 208, height: 43))
         }
 
         confirmButton.snp.makeConstraints {
             $0.top.equalTo(numberTextfieldView.snp.bottom).offset(233)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(223)
-            $0.height.equalTo(60)
+            $0.size.equalTo(CGSize(width: 223, height: 60))
         }
+    }
+    
+    private func fetchId() {
+        FireStoreManager.shared.testFetchId { success in
+            self.idStorage = success
+            print("===== \(self.idStorage) =====")
+            
+            if let id = self.idStorage["uid"] as? String {
+                self.uid = id
+                print("출력된건가 \(self.uid)")
+            }
+            
+            if let phoneData = self.idStorage["phoneNum"] as? String {
+                self.phoneNumber = phoneData
+                print("출력된건가 \(self.phoneNumber)")
+            }
+        }
+    }
+    
+    func setDelegate() {
+        idTextfieldView.setTextFieldDelegate(delegate: self)
+        numberTextfieldView.setTextFieldDelegate(delegate: self)
     }
     
     @objc func confirmButtonTapped() {
@@ -103,6 +125,31 @@ class UserSearchController: UIViewController {
 extension UserSearchController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDelegate()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configure()
+        setUI()
+        fetchId()
+    }
+}
+
+extension UserSearchController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case self.idTextfieldView.textfield: idTextfieldView.textfield.placeholder = "닉네임을 적어주세요"
+        case self.numberTextfieldView.textfield: numberTextfieldView.textfield.placeholder = "전화번호를 적어주세요"
+        default: print("textfield를 찾지 못했습니다.")
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == idTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            idTextfieldView.undoLabelAnimation()
+        } else if textField == numberTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            numberTextfieldView.undoLabelAnimation()
+        }
     }
 }
