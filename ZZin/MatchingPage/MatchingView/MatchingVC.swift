@@ -115,7 +115,6 @@ class MatchingVC: UIViewController {
         
         // PickerView 숨기기
         pickerView.removeFromSuperview()
-        
     }
     
     private func updateLocationTitle() {
@@ -169,13 +168,6 @@ class MatchingVC: UIViewController {
    
     var currentLocation: NMGLatLng?
     
-    // 업데이트된 키워드를 저장하는 배열입니두
-    var updateWithMatchingKeywords: [String?]?
-    var updateConditionMatchingKeywords: [String?]?
-    var updateMenuMatchingKeywords: [String?]?
-    
-
-    
     private let matchingView = MatchingView()
     
     private let collectionView = MatchingResultCollectionView()
@@ -190,9 +182,9 @@ class MatchingVC: UIViewController {
     @objc private func mapButtonTapped() {
         print("지도 버튼 탭")
         let mapViewController = SearchMapViewController()
-        mapViewController.companionKeyword = updateWithMatchingKeywords
-        mapViewController.conditionKeyword = updateConditionMatchingKeywords
-        mapViewController.kindOfFoodKeyword = updateMenuMatchingKeywords
+        mapViewController.companionKeyword = companionKeyword
+        mapViewController.conditionKeyword = conditionKeyword
+        mapViewController.kindOfFoodKeyword = kindOfFoodKeyword
         mapViewController.selectedCity = selectedCity
         mapViewController.selectedTown = selectedTown
         mapViewController.mapViewDelegate = self
@@ -323,15 +315,15 @@ class MatchingVC: UIViewController {
     }
     
     func setKeywordButtonTitle() {
-        let firstCompanionKeyword = updateWithMatchingKeywords?.first ?? nil ?? nil
+        let firstCompanionKeyword = companionKeyword?.first ?? nil ?? nil
         matchingView.companionKeywordButton.setTitle(firstCompanionKeyword ?? "키워드", for: .normal)
         matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
         
-        let firstConditionKeyword = updateConditionMatchingKeywords?.first ?? nil ?? nil
+        let firstConditionKeyword = conditionKeyword?.first ?? nil ?? nil
         matchingView.conditionKeywordButton.setTitle(firstConditionKeyword ?? "키워드", for: .normal)
         matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
         
-        let firstKindOfFoodKeyword = updateMenuMatchingKeywords?.first ?? nil ?? nil
+        let firstKindOfFoodKeyword = kindOfFoodKeyword?.first ?? nil ?? nil
         matchingView.kindOfFoodKeywordButton.setTitle(firstKindOfFoodKeyword ?? "키워드", for: .normal)
         matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
     }
@@ -520,9 +512,9 @@ extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
 
 extension MatchingVC: SearchMapViewControllerDelegate {
     func didUpdateSearchData(companionKeyword: [String?]?, conditionKeyword: [String?]?, kindOfFoodKeyword: [String?]?, selectedCity: String?, selectedTown: String?) {
-        self.updateWithMatchingKeywords = companionKeyword
-        self.updateConditionMatchingKeywords = conditionKeyword
-        self.updateMenuMatchingKeywords = kindOfFoodKeyword
+        self.companionKeyword = companionKeyword
+        self.conditionKeyword = conditionKeyword
+        self.kindOfFoodKeyword = kindOfFoodKeyword
         self.selectedCity = selectedCity
         self.selectedTown = selectedTown
     }
