@@ -126,6 +126,10 @@ class FireStoreManager {
         }
     }
     
+    func fetchDataWithUid(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
+        fetchDocument(from: "users", documentId: uid, completion: completion)
+    }
+    
     func fetchDataWithPid(pid: String, completion: @escaping (Result<Place, Error>) -> Void) {
         fetchDocument(from: "places", documentId: pid, completion: completion)
     }
