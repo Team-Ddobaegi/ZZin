@@ -32,8 +32,9 @@ enum Useage {
 }
 
 class FireStorageManager {
+    let dataManager = FireStoreManager.shared
     let db = Firestore.firestore()
-    let storage = Storage.storage()
+    let storageRef = Storage.storage().reference()
     
     func downloadImgFromStorage(useage: Useage, id: String, imageView: UIImageView) {
         // Placeholder image
@@ -77,9 +78,108 @@ class FireStorageManager {
                 return
             }
             
-            let reference = self.storage.reference().child(path)
+            let reference = self.storageRef.child(path)
             // Load the image using SDWebImage
             imageView.sd_setImage(with: reference, placeholderImage: placeholderImage)
         }
     }
+    
+    func bindProfileImgOnStorage(uid: String, profileImgView: UIImageView) {
+        
+        print("============================== bindProfileImgOnStorage start")
+        // Placeholder image
+        let placeholderImage = UIImage(named: "profile")
+        
+        var path: String?
+        
+        DispatchQueue.main.async { [self] in
+            dataManager.fetchDataWithUid(uid: uid) { result in
+                switch result {
+                case .success(let user):
+                    path = user.profileImg
+                    print("THIS IS PROFILE IMAGE PATH", path)
+                    let profileRef = storageRef.child(path ?? "")
+                    print("============================== bindProfileImgOnStorage start binding")
+                    profileImgView.sd_setImage(with: profileRef, placeholderImage: placeholderImage)
+                    print("============================== bindProfileImgOnStorage end")
+                case .failure(let error):
+                    print("Error fetching place: \(error.localizedDescription)")
+                    return
+                }
+            }
+        }
+    }
+    
+    func bindPlaceImgWithPath(path: String?, imageView: UIImageView) {
+    
+        let placeholderImage = UIImage(named: "add_photo")
+        let ref = storageRef.child(path ?? "")
+        imageView.sd_setImage(with: ref, placeholderImage: placeholderImage)
+    }
+    
+    func getPidAndRidWithUid(uid: String, completion: @escaping ([String:[String]?]) -> Void?){
+        print("############################START getPidAndRidWithUid")
+        // user 정보에서 pid 배열 불러오기
+        var pidArr: [String]?
+        var ridArr: [String]?
+        var dict: [String:[String]?] = [:]
+        dataManager.fetchDataWithUid(uid: uid) { result in
+            switch result {
+            case .success(let user):
+                pidArr = user.pid
+                ridArr = user.rid
+                dict = ["pidArr": pidArr, "ridArr": ridArr]
+                ("############################END getPidAndRidWithUid")
+                completion(dict)
+            case .failure(let error):
+                print("Error fetching place: \(error.localizedDescription)")
+                return
+            }
+        }
+    }
+    
+    func bindViewOnStorageWithPid(pid: String, placeImgView: UIImageView?, title: UILabel?, description: UILabel?) {
+        
+        // placeholderImage
+        let placeholderImage = UIImage(named: "add_photo.png")
+        
+        dataManager.fetchDataWithPid(pid: pid) { result in
+            switch result {
+            case .success(let place):
+//                print("place : ", place)
+                let path = place.placeImg[0]
+                let ref = self.storageRef.child(path)
+                placeImgView?.sd_setImage(with: ref, placeholderImage: placeholderImage)
+                title?.text = place.placeName
+                description?.text = place.kindOfFood
+            case .failure(let error):
+                print("Error fetching place: \(error.localizedDescription)")
+                return
+            }
+        }
+    }
+    
+    func bindViewOnStorageWithRid(rid: String, reviewImgView: UIImageView?, title: UILabel?, companion: UILabel?, condition: UILabel?, town: UILabel?) {
+        
+        // placeholderImage
+        let placeholderImage = UIImage(named: "add_photo.png")
+        
+        dataManager.fetchDataWithRid(rid: rid) { result in
+            switch result {
+            case .success(let review):
+//                print("review : ", review)
+                let path = review.reviewImg ?? "" // nil일 때 표시할 이미지 경로 추가
+                let ref = self.storageRef.child(path)
+                reviewImgView?.sd_setImage(with: ref, placeholderImage: placeholderImage)
+                title?.text = review.title
+                companion?.text = review.companion
+                condition?.text = review.condition
+
+            case .failure(let error):
+                print("Error fetching place: \(error.localizedDescription)")
+                return
+            }
+        }
+    }
+    
 }
