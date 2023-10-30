@@ -1,10 +1,3 @@
-//
-//  SearchViewController.swift
-//  ZZin
-//
-//  Created by t2023-m0061 on 2023/10/11.
-//
-
 import UIKit
 import SnapKit
 import Then
@@ -104,15 +97,11 @@ class MatchingVC: UIViewController {
         selectedTownIndex = selectedTownRow
         
         // 클래스 수준의 속성인 selectedCity와 selectedTown을 사용합니다.
-        let selectedCity = cities[selectedCityIndex]
-        let selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+        self.selectedCity = cities[selectedCityIndex]
+        self.selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
         
         // setLocationButton의 타이틀 업데이트
-        matchingView.setLocationButton.setTitle("\(selectedCity) \(selectedTown)", for: .normal)
-        
-        // PickerView 숨기기
-        pickerView.removeFromSuperview()
-        opacityView.removeFromSuperview()
+        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
     }
     
     private func setCollectionViewAttribute(){
@@ -120,12 +109,6 @@ class MatchingVC: UIViewController {
         collectionView.collectionView.dataSource = self
     }
     
-    private func setKeywordView(){
-        matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
-        matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
-        matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
-    }
-
     
     func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = "전체") {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
@@ -263,16 +246,20 @@ class MatchingVC: UIViewController {
     }
     
     @objc func confirmButtonTapped() {
+        print("피커뷰 확인 버튼 탭")
+
+        // PickerView 숨기기
+        pickerView.removeFromSuperview()
+        opacityView.removeFromSuperview()
+        
         // 탭바 다시 보이게 하기
         tabBarController?.tabBar.isHidden = false
         
         // 지역설정 버튼 타이틀 업데이트
         updateLocationButtonTitle()
         
-        // 필터링된 데이터로 Collection View를 다시 로드
-        fetchPlacesWithKeywords()
-//        filterLocationData()
-        collectionView.collectionView.reloadData()
+        // 필터링된 데이터로 CollectionView를 다시 로드
+        fetchPlacesWithKeywords(city: selectedCity, town: selectedTown)
     }
     
     
@@ -294,7 +281,6 @@ class MatchingVC: UIViewController {
         matchingView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
-            
         }
     }
     
@@ -311,6 +297,11 @@ class MatchingVC: UIViewController {
        
     }
     
+    private func setKeywordView(){
+        matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
+    }
     
     func setKeywordButtonTitle() {
         let firstCompanionKeyword = updateWithMatchingKeywords?.first ?? nil ?? nil
@@ -340,7 +331,6 @@ extension MatchingVC: MatchingKeywordDelegate {
                 matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.companionKeyword = keyword
-                print("!!!!!!!!!!\(keyword)")
             }
             
         case .condition:
