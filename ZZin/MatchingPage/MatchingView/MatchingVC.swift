@@ -10,26 +10,31 @@ class MatchingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setDataManager()
         setView()
         configureUI()
-        locationService()
+        locationSetting()
+        currentLocation = LocationService.shared.getCurrentLocation()
+        getAddress()
+        updateLocationTitle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         setKeywordButtonTitle()
+        updateLocationTitle()
     }
     
-    func locationService(){
-        let locationService = LocationService.shared
-        locationService.startUpdatingLocation()
-        locationService.delegate = self
-        
-        
-        locationService.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
+    
+    // MARK: - Settings
+    func locationSetting() {
+        LocationService.shared.delegate = self
+    }
+    
+    func getAddress() {
+        self.currentLocation = LocationService.shared.getCurrentLocation()
+        LocationService.shared.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
             if let error = error {
                 print("Error getting address: \(error.localizedDescription)")
                 return
@@ -37,15 +42,20 @@ class MatchingVC: UIViewController {
             
             if let address = address {
                 print("Current address: \(address)")
-                self.selectedCity = address.first
+                
+                if let city = address.first, city.count >= 2 {
+                    self.selectedCity = String(city.prefix(2))
+                }
+                
                 self.selectedTown = address.last
+                
+                print("@@@@@@@\(self.selectedCity),\(self.selectedTown)")
             } else {
                 print("Address not found.")
             }
         }
     }
-    
-    
+  
     // MARK: - Settings
     
     func setDataManager(){
@@ -101,7 +111,17 @@ class MatchingVC: UIViewController {
         self.selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
         
         // setLocationButton의 타이틀 업데이트
-        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
+        matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")", for: .normal)
+        
+        // PickerView 숨기기
+        pickerView.removeFromSuperview()
+        
+        // 뒷배경 흐리게 해제
+        setOpacityView()
+    }
+    
+    private func updateLocationTitle() {
+        matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")", for: .normal)
     }
     
     private func setCollectionViewAttribute(){
@@ -133,22 +153,22 @@ class MatchingVC: UIViewController {
             }
         }
     }
-
-    
-    
+  
     //MARK: - Properties
     
     // FirestoreManager
     let dataManager = FireStoreManager()
     var place: [Place?]?
     var review: [Review]?
+
+    var selectedCity: String? = "지역"
+    var selectedTown: String? = "미설정"
+
     
     var companionKeyword : [String?]?
     var conditionKeyword : [String?]?
     var kindOfFoodKeyword : [String?]?
    
-    var selectedCity: String?
-    var selectedTown: String?
     var currentLocation: NMGLatLng?
     
     // 업데이트된 키워드를 저장하는 배열입니두
@@ -156,6 +176,7 @@ class MatchingVC: UIViewController {
     var updateConditionMatchingKeywords: [String?]?
     var updateMenuMatchingKeywords: [String?]?
     
+
     
     private let matchingView = MatchingView()
     
@@ -167,7 +188,6 @@ class MatchingVC: UIViewController {
         
     private let pickerView = MatchingLocationPickerView()
     
-    
     // MARK: - Actions
     @objc private func mapButtonTapped() {
         print("지도 버튼 탭")
@@ -178,12 +198,13 @@ class MatchingVC: UIViewController {
         mapViewController.selectedCity = selectedCity
         mapViewController.selectedTown = selectedTown
         mapViewController.mapViewDelegate = self
-        navigationController?.pushViewController(mapViewController, animated: true)
+        self.navigationController?.pushViewController(mapViewController, animated: true)
     }
     
     @objc private func locationButtonTapped() {
         print("현재 위치 버튼 탭")
-        //        LocationService.shared.getAddressFromLocation(lat: <#T##Double#>, lng: <#T##Double#>, completion: <#T##(String?, Error?) -> Void#>)
+        getAddress()
+        updateLocationTitle()
     }
     
     @objc private func setPickerViewTapped() {
@@ -432,8 +453,6 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
 }
 
-
-
 //MARK: - PickerView Delegate, DataSource
 
 extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -532,5 +551,5 @@ let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
 // 선택된 "구"의 인덱스
 var selectedTownIndex: Int = 0
 // 피커뷰 2열에 들어갈 "구"
-let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구"]
+let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
 let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
