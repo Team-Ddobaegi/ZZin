@@ -157,7 +157,7 @@ class MatchingVC: UIViewController {
     let dataManager = FireStoreManager()
     var place: [Place?]?
     var review: [Review]?
-
+    var pidArr: [String]? = []
     var selectedCity: String? = "지역"
     var selectedTown: String? = "미설정"
 
@@ -383,42 +383,30 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingSearchResultCell.identifier ,for: indexPath) as? MatchingSearchResultCell else {
             return UICollectionViewCell()
         }
-        
-        // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
+//
+//        let placeImg = place?[indexPath.item]?.placeImg[]
+//        FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
+//        
+//        // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
         if let placeData = place {
-            
             let placeName = placeData[indexPath.item]?.placeName
             cell.recommendPlaceReview.titleLabel.text = placeName
         }
         
         let reviewID = place?[indexPath.item]?.rid[0] ?? "타이틀"
-        
+        let placeImg = place?[indexPath.item]?.placeImg[0]
+
         FireStoreManager.shared.fetchDataWithRid(rid: reviewID) { (result) in
             switch result {
             case .success(let review):
                 cell.recommendPlaceReview.descriptionLabel.text = review.title
+                FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
+
             case .failure(let error):
                 print("Error fetching review: \(error.localizedDescription)")
             }
         }
-        
-        //        // 리뷰에 등록된 타이틀 컬렉션뷰 셀 타이틀로 반환
-        //        let db = Firestore.firestore()
-        //        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
-        //
-        //        db.collection("reviews").document(reviewID).getDocument { (document, error) in
-        //            if let error = error {
-        //                print("Error getting document: \(error)")
-        //            } else if let document = document, document.exists {
-        //                if let reviewData = document.data() {
-        //                    if let reviewTitle = reviewData["title"] as? String {
-        //                        cell.recommendPlaceReview.descriptionLabel.text = reviewTitle
-        //                    }
-        //                    // 여기에서 다른 필드에 액세스하거나 필요한 데이터 처리를 수행할 수 있습니다.
-        //                }
-        //            }
-        //        }
-        
+       
         return cell
     }
     
