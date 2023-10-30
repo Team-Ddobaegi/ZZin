@@ -236,7 +236,8 @@ class SearchMapViewController: UIViewController {
                let reviewID = placeData["Place"]?.rid,
                let placeID = placeData["Place"]?.pid,
                let placeLat = placeData["Place"]?.lat,
-               let placeLong = placeData["Place"]?.long
+               let placeLong = placeData["Place"]?.long,
+               let placeImgPath = placeData["Place"]?.placeImg
             {
                 self.searchMapUIView.storeCardView.isHidden = false
                 self.selectedPlaceID = placeID
@@ -245,7 +246,7 @@ class SearchMapViewController: UIViewController {
                     case .success(let review):
                         self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
                         self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
-                        FireStorageManager().downloadImgFromStorage(useage: .review, id: reviewID[0], imageView: self.searchMapUIView.storeCardView.placeImage)
+                        FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
                         let location = NMGLatLng(lat: placeLat , lng: placeLong)
                         self.moveCamera(location: location, animation: .linear)
                         print("===========\(placeID)")
