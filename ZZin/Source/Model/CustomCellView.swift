@@ -136,7 +136,7 @@ class RecommendPlaceReviewThumbnail: UIView {
         $0.backgroundColor = .black
     }
     
-    let img = UIImageView().then{
+    var img = UIImageView().then{
         $0.image = UIImage(named: "ogudangdang_review.jpeg")
         $0.layer.cornerRadius = 15
         $0.layer.opacity = 0.4
@@ -144,7 +144,7 @@ class RecommendPlaceReviewThumbnail: UIView {
         $0.contentMode = .scaleToFill
     }
     
-    let reviewTitleLabel: UILabel = {
+    var reviewTitleLabel: UILabel = {
         let label = UILabel()
         let text = "식감도 맛도 너무 좋은 '삼겹살' 맛집, 하남돼지집"
         // 폰트 변경
@@ -167,7 +167,7 @@ class RecommendPlaceReviewThumbnail: UIView {
         return label
     }()
     
-    let regionLabel = UILabel().then {
+    var regionLabel = UILabel().then {
         $0.text = "강남구" // dummy 입니다. 각 VC에서 덮어써서 Custom 하세요.
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.textColor = .white
@@ -176,13 +176,13 @@ class RecommendPlaceReviewThumbnail: UIView {
         $0.baselineAdjustment = .alignBaselines
     }
     
-    let withKeywordLabel = UILabel().then {
+    var withKeywordLabel = UILabel().then {
         $0.text = "#가족과 함께💜" // dummy 입니다. 각 VC에서 덮어써서 Custom 하세요.
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.textColor = .white
     }
     
-    let conditionKeywordLabel = UILabel().then {
+    var conditionKeywordLabel = UILabel().then {
         $0.text = "#고급 분위기🍷" // dummy 입니다. 각 VC에서 덮어써서 Custom 하세요.
         $0.font = .systemFont(ofSize: 15, weight: .regular)
         $0.textColor = .white

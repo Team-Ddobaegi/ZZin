@@ -44,9 +44,9 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
 //        return button
 //    }()
     
-    private let recommendLabel: UILabel = {
+    var recommendLabel: UILabel = {
         let label = UILabel()
-        label.text = "00구"
+        label.text = "강남구"
         label.font = FontGuide.size16
         label.textColor = .black
         label.textAlignment = .center
