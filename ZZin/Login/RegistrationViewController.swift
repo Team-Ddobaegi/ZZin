@@ -13,8 +13,8 @@ class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 생성
     
-    private let emailTextFieldView = CustomTextfieldView(placeholder: "", text: "이메일")
-    private let pwTextFieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", hasEyeButton: false)
+    private let emailTextFieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
+    private let pwTextFieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     private let nicknameTextFieldView = CustomTextfieldView(placeholder: "", text: "닉네임")
     private let numberTextFieldView = CustomTextfieldView(placeholder: "", text: "전화번호")
     private var locationPickerView: UIPickerView!
@@ -145,7 +145,7 @@ class RegistrationViewController: UIViewController {
         
         guard emailpred.evaluate(with: email) else {
             emailTextFieldView.showInvalidMessage()
-            showAlert(type: .idWrongFormat)
+            showAlert(type: .firstTimeID)
             return false
         }
         return true
@@ -162,7 +162,7 @@ class RegistrationViewController: UIViewController {
         guard firstLetter == firstLetter.uppercased() else {
             print("첫 단어는 대문자가 필요합니다.")
             pwTextFieldView.showInvalidMessage()
-            showAlert(type: .firstPasswordCap)
+            showAlert(type: .firstTimePass)
             return false
         }
         
@@ -170,7 +170,7 @@ class RegistrationViewController: UIViewController {
         guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
             print("마지막은 숫자를 써주세요")
             pwTextFieldView.showInvalidMessage()
-            showAlert(type: .lastPasswordNum)
+            showAlert(type: .firstTimeID)
             return false
         }
         return true
@@ -202,7 +202,10 @@ class RegistrationViewController: UIViewController {
         
         guard let id = emailTextFieldView.textfield.text, !id.isEmpty,
               let pw = pwTextFieldView.textfield.text, !pw.isEmpty,
-              let number = numberTextFieldView.textfield.text, !number.isEmpty else { return }
+              let number = numberTextFieldView.textfield.text, !number.isEmpty else {
+            showAlert(type: .doubleCheck)
+            return
+        }
 
         guard checkIdPattern(id) else {
             emailTextFieldView.showInvalidMessage()
@@ -221,11 +224,10 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        FireStoreManager.shared.signIn(with: id, password: pw) { success in
+        FireStoreManager.shared.signInUser(with: id, password: pw) { success in
             if success {
                 print("유저가 생성되었습니다.")
                 let vc = CardController()
-//                self.dismiss(animated: true)
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
             } else {
@@ -233,10 +235,6 @@ class RegistrationViewController: UIViewController {
                 self.showAlert(type: .signInFailure)
             }
         }
-    }
-    
-    @objc func doubleCheckButtonTapped() {
-        print("중복 확인 버튼이 눌렸습니다.")
     }
     
     @objc func backbuttonTapped() {
