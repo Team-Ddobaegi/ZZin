@@ -55,7 +55,8 @@ class MatchingVC: UIViewController {
             }
         }
     }
-
+  
+    // MARK: - Settings
     
     func setDataManager(){
         // 플레이스 데이터 불러오기
@@ -72,7 +73,6 @@ class MatchingVC: UIViewController {
         
         setMapView()
         setlocationView()
-        setOpacityView()
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
@@ -87,41 +87,12 @@ class MatchingVC: UIViewController {
         matchingView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
-    private func setOpacityView(){
-        // 피커뷰가 올라올 때 뒷배경에 들어갈 검은 화면임니두
-        UIView.animate(withDuration: 0.3) {
-            self.opacityViewAlpha = 0.0
-            self.opacityView.alpha = self.opacityViewAlpha
-        }
-    }
-    
     // 지역 설정 피커뷰
     private func setPickerView(){
         matchingView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
         pickerView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
-    // 피커뷰 속성 설정
-    private func setPickerViewAttribute(){
-        // 피커뷰 서브뷰 설정
-        view.addSubview(pickerView)
-        pickerView.backgroundColor = .white
-        
-        // 피커뷰 델리게이트 설정
-        pickerView.pickerView.delegate = self
-        pickerView.pickerView.dataSource = self
-        
-        // 피커뷰 모서리 둥글게
-        pickerView.layer.cornerRadius = 15
-        pickerView.layer.masksToBounds = true
-        
-        // 피커뷰 레이아웃
-        pickerView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
-            $0.height.equalTo(500)
-        }
-    }
     
     // 피커뷰에서 설정한 값 > MatchingView - setLocationButton의 Title 업데이트하는 메서드입니두
     private func updateLocationButtonTitle(){
@@ -158,100 +129,46 @@ class MatchingVC: UIViewController {
         collectionView.collectionView.dataSource = self
     }
     
-    private func setKeywordView(){
-        matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
-        matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
-        matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
-    }
     
-    // 피커뷰 외 터치 시 피커뷰 숨기기
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchLocation = touch.location(in: view)
-            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
-            
-            if !pickerView.bounds.contains(convertedTouchLocation) {
-                pickerView.removeFromSuperview()
-                tabBarController?.tabBar.isHidden = false
-                setOpacityView()
-            }
-        }
-    }
-    
-    // 지역 설정 필터링 메서드
-    func filterLocationData() {
-        // 피커뷰에서 선택된 시와 구의 값을 가져옴
-        let selectedCity = cities[selectedCityIndex]
-        let selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
-        
-        // Firestore에서 모든 플레이스 데이터를 가져옵니다.
-        dataManager.getPlaceData { [weak self] result in
-            if let placeData = result {
-                var filteredPlaces: [Place] = []
+    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = "전체") {
+        let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
+        let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
+        let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
+        let actualCity = city ?? self.selectedCity ?? nil
+        let actualTown = town ?? self.selectedTown ?? "전체"
                 
-                if selectedTown == "전체" {
-                    // "구"가 "전체"로 선택된 경우, "시"에 따라 모든 데이터를 가져옵니다.
-                    filteredPlaces = placeData.filter { place in
-                        return place.city == selectedCity
-                    }
-                } else {
-                    // "시"와 "구" 모두 선택된 경우, 선택한 "시"와 "구"와 일치하는 데이터만 필터링합니다.
-                    filteredPlaces = placeData.filter { place in
-                        return place.city == selectedCity && place.town == selectedTown
-                    }
+        FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
+            switch result {
+            case .success(let places):
+                self.place = places
+                
+                print("----------", self.place?.count ?? "")
+                
+                DispatchQueue.main.async {
+                    self.collectionView.collectionView.reloadData()
                 }
                 
-                // 필터링된 데이터로 Collection View를 다시 로드합니다.
-                self?.place = filteredPlaces
-                self?.collectionView.collectionView.reloadData()
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
     }
-    
-    func filterKeywordData() {
-        let companionKeyword = matchingView.companionKeywordButton.titleLabel?.text ?? ""
-        let conditionKeyword = matchingView.conditionKeywordButton.titleLabel?.text ?? ""
-        let kindOfFoodKeyword = matchingView.kindOfFoodKeywordButton.titleLabel?.text ?? ""
-        
-        print("Companion: \(companionKeyword), Condition: \(conditionKeyword), KindOfFood: \(kindOfFoodKeyword)")
-        
-        if let reviewIDs = review?.compactMap({ $0.rid }) {
-            for rid in reviewIDs {
-                FireStoreManager.shared.fetchDataWithRid(rid: rid) { result in
-                    switch result {
-                    case .success(let review):
-                        let companion = review.companion
-                        let condition = review.condition
-                        let kindOfFood = review.kindOfFood
-                        
-                        print("-------- Review \(rid): Companion: \(companion), Condition: \(condition), KindOfFood: \(kindOfFood)")
-                        
-                        // Companion, Condition, KindOfFood 값이 일치하는 경우 리뷰를 선택
-                        //                        if companion == companionKeyword && condition == conditionKeyword && kindOfFood == kindOfFoodKeyword {
-                        //                            matchingReviews.append(review)
-                        //                        }
-                        
-                    case .failure(let error):
-                        print("Error fetching review: \(error.localizedDescription)")
-                    }
-                }
-            }
-        }
-        //        print("Matching Reviews Count: \(matchingReviews.count)")
-        
-        collectionView.collectionView.reloadData()
-    }
-    
-    
-    
+  
     //MARK: - Properties
     
     // FirestoreManager
     let dataManager = FireStoreManager()
-    var place: [Place]?
+    var place: [Place?]?
     var review: [Review]?
+
     var selectedCity: String? = "지역"
     var selectedTown: String? = "미설정"
+
+    
+    var companionKeyword : [String?]?
+    var conditionKeyword : [String?]?
+    var kindOfFoodKeyword : [String?]?
+   
     var currentLocation: NMGLatLng?
     
     // 업데이트된 키워드를 저장하는 배열입니두
@@ -268,9 +185,7 @@ class MatchingVC: UIViewController {
     private let keywordVC = MatchingKeywordVC()
     
     private let opacityView = OpacityView()
-    
-    private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
-    
+        
     private let pickerView = MatchingLocationPickerView()
     
     // MARK: - Actions
@@ -294,12 +209,24 @@ class MatchingVC: UIViewController {
     
     @objc private func setPickerViewTapped() {
         print("지역 설정 피커뷰 탭")
-        setPickerViewAttribute()
-        
-        UIView.animate(withDuration: 0.1) {
-            self.opacityViewAlpha = 0.7
-            self.opacityView.alpha = self.opacityViewAlpha
+        // 뷰 세팅
+        view.addSubview(opacityView)
+        view.addSubview(pickerView)
+
+        // 피커뷰 델리게이트 설정
+        pickerView.pickerView.delegate = self
+        pickerView.pickerView.dataSource = self
+    
+        // 피커뷰 레이아웃
+        pickerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+        
+        // 피커뷰 뒤 검은 배경
+        opacityView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -312,7 +239,7 @@ class MatchingVC: UIViewController {
         keywordVC.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
         
-        navigationController?.present(keywordVC, animated: true)
+        present(keywordVC, animated: true)
     }
     
     // 두 번째 키워드 버튼이 탭될 때
@@ -340,15 +267,20 @@ class MatchingVC: UIViewController {
     }
     
     @objc func confirmButtonTapped() {
+        print("피커뷰 확인 버튼 탭")
+
+        // PickerView 숨기기
+        pickerView.removeFromSuperview()
+        opacityView.removeFromSuperview()
+        
         // 탭바 다시 보이게 하기
         tabBarController?.tabBar.isHidden = false
         
         // 지역설정 버튼 타이틀 업데이트
         updateLocationButtonTitle()
         
-        // 필터링된 데이터로 Collection View를 다시 로드
-        filterLocationData()
-        collectionView.collectionView.reloadData()
+        // 필터링된 데이터로 CollectionView를 다시 로드
+        fetchPlacesWithKeywords(city: selectedCity, town: selectedTown)
     }
     
     
@@ -359,20 +291,17 @@ class MatchingVC: UIViewController {
         addSubViews()
         setSearchViewConstraints()
         setCollectionViewConstraints()
-        setOpacityViewConstraints()
     }
     
     private func addSubViews(){
         view.addSubview(matchingView)
         view.addSubview(collectionView)
-        view.addSubview(opacityView)
     }
     
     private func setSearchViewConstraints(){
         matchingView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(232)
-            
         }
     }
     
@@ -386,11 +315,14 @@ class MatchingVC: UIViewController {
     }
     
     private func setOpacityViewConstraints(){
-        opacityView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+       
     }
     
+    private func setKeywordView(){
+        matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
+        matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
+    }
     
     func setKeywordButtonTitle() {
         let firstCompanionKeyword = updateWithMatchingKeywords?.first ?? nil ?? nil
@@ -419,24 +351,24 @@ extension MatchingVC: MatchingKeywordDelegate {
             if let updateKeyword = keyword.first {
                 matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.updateWithMatchingKeywords = keyword
-                print("!!!!!!!!!!\(keyword)")
+                self.companionKeyword = keyword
             }
             
         case .condition:
             if let updateKeyword = keyword.first {
                 matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.updateConditionMatchingKeywords = keyword
+                self.conditionKeyword = keyword
             }
             
         case .menu:
             if let updateKeyword = keyword.first {
                 matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.updateMenuMatchingKeywords = keyword
+                self.kindOfFoodKeyword = keyword
             }
         }
+        fetchPlacesWithKeywords()
     }
 }
 
@@ -464,11 +396,12 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
         if let placeData = place {
-            let placeName = placeData[indexPath.item].placeName
+            
+            let placeName = placeData[indexPath.item]?.placeName
             cell.recommendPlaceReview.titleLabel.text = placeName
         }
         
-        let reviewID = place?[indexPath.item].rid[0] ?? "타이틀"
+        let reviewID = place?[indexPath.item]?.rid[0] ?? "타이틀"
         
         FireStoreManager.shared.fetchDataWithRid(rid: reviewID) { (result) in
             switch result {
@@ -515,12 +448,10 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             let matchingVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingVC, animated: true)
             
-            matchingVC.placeID = place?[indexPath.item].pid
+            matchingVC.placeID = place?[indexPath.item]?.pid
         }
     }
 }
-
-
 
 //MARK: - PickerView Delegate, DataSource
 
@@ -572,6 +503,19 @@ extension MatchingVC: UIPickerViewDelegate, UIPickerViewDataSource {
             
             // 선택한 "시"에 따라 기본적으로 첫 번째 "구"를 선택하게
             pickerView.selectRow(0, inComponent: 1, animated: true)
+        }
+    }
+    
+    // 피커뷰 외 터치 시 피커뷰 숨기기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: view)
+            let convertedTouchLocation = pickerView.convert(touchLocation, from: view)
+            
+            if !pickerView.bounds.contains(convertedTouchLocation) {
+                pickerView.removeFromSuperview()
+                tabBarController?.tabBar.isHidden = false
+            }
         }
     }
 }
