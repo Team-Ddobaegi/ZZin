@@ -116,8 +116,6 @@ class MatchingVC: UIViewController {
         // PickerView 숨기기
         pickerView.removeFromSuperview()
         
-        // 뒷배경 흐리게 해제
-        setOpacityView()
     }
     
     private func updateLocationTitle() {
