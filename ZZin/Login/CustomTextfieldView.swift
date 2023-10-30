@@ -11,6 +11,12 @@ import Then
 
 class CustomTextfieldView: UIView {
     
+    enum ButtonType {
+        case cancelButton
+        case hideButton
+        case doubleCheckButton
+    }
+    
     private var animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -46,6 +52,15 @@ class CustomTextfieldView: UIView {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
     }
+    
+    private let doubleCheckButton = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("중복 체크", for: .normal)
+        $0.backgroundColor = .green
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
+    }
 
     init(placeholder: String, text: String) {
         super.init(frame: .zero)
@@ -55,10 +70,9 @@ class CustomTextfieldView: UIView {
         configure()
         setUI()
         commonInit()
-        
     }
     
-    init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", hasEyeButton: Bool) {
+    init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", button: ButtonType) {
         super.init(frame: .zero)
         textfield.placeholder = placeholder
         animatingLabel.text = text
@@ -68,9 +82,10 @@ class CustomTextfieldView: UIView {
         setUI()
         commonInit()
         
-        switch hasEyeButton {
-        case true: addEyeButton()
-        case false: addCancelButton()
+        switch button {
+        case .cancelButton: addCancelButton()
+        case .hideButton: addEyeButton()
+        case .doubleCheckButton: addDoubleCheckButton()
         }
     }
     
@@ -120,6 +135,15 @@ extension CustomTextfieldView {
     private func addCancelButton() {
         addSubview(cancelButton)
         cancelButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
+        }
+    }
+    
+    private func addDoubleCheckButton() {
+        addSubview(doubleCheckButton)
+        doubleCheckButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(5)
             $0.height.width.equalTo(30)
@@ -206,5 +230,9 @@ extension CustomTextfieldView {
             textfield.isSecureTextEntry = true
             print("비밀번호가 숨겨졌습니다.")
         }
+    }
+    
+    @objc func doubleCheckButtonTapped(_ sender: UIButton) {
+        print("중복 검사를 진행합니다.")
     }
 }
