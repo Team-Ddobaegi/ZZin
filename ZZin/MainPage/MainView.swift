@@ -103,6 +103,9 @@ class MainView: UIView {
     let rank1Button: UIButton = {
         let button = UIButton()
         button.setTitle("1위", for: .normal)
+        button.setBackgroundImage(UIImage(named: "대갈"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
@@ -121,6 +124,10 @@ class MainView: UIView {
     let rank2Button: UIButton = {
         let button = UIButton()
         button.setTitle("2위", for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+
+        button.setBackgroundImage(UIImage(named: "마리오"), for: .normal)
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
@@ -139,6 +146,10 @@ class MainView: UIView {
     let rank3Button: UIButton = {
         let button = UIButton()
         button.setTitle("3위", for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+
+        button.setBackgroundImage(UIImage(named: "바위파스타"), for: .normal)
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
@@ -165,6 +176,10 @@ class MainView: UIView {
     let rank4Button: UIButton = {
         let button = UIButton()
         button.setTitle("4위", for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+
+        button.setBackgroundImage(UIImage(named: "소감"), for: .normal)
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
@@ -183,6 +198,10 @@ class MainView: UIView {
     let rank5Button: UIButton = {
         let button = UIButton()
         button.setTitle("5위", for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+
+        button.setBackgroundImage(UIImage(named: "송계옥"), for: .normal)
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
@@ -201,6 +220,10 @@ class MainView: UIView {
     let rank6Button: UIButton = {
         let button = UIButton()
         button.setTitle("6위", for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+
+        button.setBackgroundImage(UIImage(named: "멘쇼"), for: .normal)
         button.titleLabel?.font = FontGuide.size16Bold
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = ColorGuide.subButton
