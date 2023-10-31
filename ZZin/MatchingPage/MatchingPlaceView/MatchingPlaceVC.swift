@@ -58,9 +58,6 @@ class MatchingPlaceVC: UIViewController {
     
     func matchingPlaceInfo(){
         // 플레이스 정보 가져오기
-        
-        let db = Firestore.firestore()
-        
         db.collection("places").document(placeID ?? "").getDocument { (document, error) in
             if let error = error {
                 print("Error getting document: \(error)")
@@ -76,6 +73,11 @@ class MatchingPlaceVC: UIViewController {
                         print(placeAddress)
                         self.placeAddress = placeAddress
                     }
+                    
+                    if let placeImg = placeData["placeImg"] as? String {
+                        self.placeImg = placeImg
+                    }
+                
                 }
             }
             self.setView()
@@ -86,17 +88,17 @@ class MatchingPlaceVC: UIViewController {
     
     //MARK: - Properties
     
+    private let matchingPlaceView = MatchingPlaceView()
     let dataManager = FireStoreManager()
+    let db = Firestore.firestore()
+
     var place: [Place?]?
     var review: [Review]?
-    
+
     var placeID: String?
-    
     var placeName: String?
-    
     var placeAddress: String?
-    
-    private let matchingPlaceView = MatchingPlaceView()
+    var placeImg: String?
     
     var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
@@ -125,6 +127,35 @@ class MatchingPlaceVC: UIViewController {
         matchingPlaceView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+}
+
+
+
+//MARK: - 최상단 업체사진이 들어갈 CollectionView :: Layout
+
+extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // 커스텀 셀 사이즈
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 150)
+    }
+    
+    // 커스텀 셀 개수
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return placeImg?.count ?? 1
+    }
+    
+    // 커스텀 셀 호출
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier ,for: indexPath) as? MatchingPlacePhotoCollectionViewCell else {
+            return UICollectionViewCell()
+            
+            }
+        let placeImgPath = place?[indexPath.item]?.placeImg[0]
+        FireStorageManager().bindPlaceImgWithPath(path: placeImgPath, imageView: cell.placeImage)
+
+        return cell
     }
 }
 
@@ -184,6 +215,16 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             }
             cell.selectionStyle = .none
             
+            if let placeData = place {
+                let companionKeyword = placeData[indexPath.item]?.companion
+                cell.recommendPlaceReview.withKeywordLabel.text = companionKeyword
+                
+                let conditionKeyword = placeData[indexPath.item]?.condition
+                cell.recommendPlaceReview.conditionKeywordLabel.text = conditionKeyword
+                
+                let title = placeData[indexPath.item]?.rid[0] ?? "title"
+                cell.recommendPlaceReview.reviewTitleLabel.text = title
+            }
             return cell
             
         default:
@@ -204,24 +245,3 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-
-//MARK: - CollectionView Layout
-
-extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    // 커스텀 셀 사이즈
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150, height: 150)
-    }
-    
-    // 커스텀 셀 개수
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {3}
-    
-    // 커스텀 셀 호출
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier ,for: indexPath) as? MatchingPlacePhotoCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        return cell
-    }
-}

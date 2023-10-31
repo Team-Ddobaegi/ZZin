@@ -334,7 +334,7 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingSearchResultCell.identifier ,for: indexPath) as? MatchingSearchResultCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingResultCell.identifier ,for: indexPath) as? MatchingResultCell else {
             return UICollectionViewCell()
         }
 
@@ -368,7 +368,7 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("매칭 업체 페이지로 이동합니다.")
-        if collectionView.cellForItem(at: indexPath) is MatchingSearchResultCell {
+        if collectionView.cellForItem(at: indexPath) is MatchingResultCell {
             let matchingVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingVC, animated: true)
             

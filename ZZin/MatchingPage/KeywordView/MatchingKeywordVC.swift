@@ -30,7 +30,6 @@ class MatchingKeywordVC: UIViewController {
         setView()
     }
     
-    
     // MARK: - Settings
     
     func setView() {
