@@ -59,7 +59,7 @@ class MatchingVC: UIViewController {
         dataManager.getPlaceData { [weak self] result in
             if let placeData = result {
                 self?.place = placeData
-                self?.collectionView.collectionView.reloadData()
+                self?.resultCV.collectionView.reloadData()
             }
         }
     }
@@ -86,11 +86,22 @@ class MatchingVC: UIViewController {
     private func setPickerView(){
         matchingView.setLocationButton.addTarget(self, action: #selector(setPickerViewTapped), for: .touchUpInside)
     }
+    
+    private func configureSheetPresentation(_ sheet: UISheetPresentationController) {
+        sheet.preferredCornerRadius = 15
+        sheet.prefersGrabberVisible = true
+
+        if #available(iOS 16.0, *) {
+            sheet.detents = [.custom { $0.maximumDetentValue * 0.65 }]
+        }
+
+        sheet.largestUndimmedDetentIdentifier = .large
+    }
 
     
     private func setCollectionViewAttribute(){
-        collectionView.collectionView.delegate = self
-        collectionView.collectionView.dataSource = self
+        resultCV.collectionView.delegate = self
+        resultCV.collectionView.dataSource = self
     }
     
     
@@ -98,8 +109,8 @@ class MatchingVC: UIViewController {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
-        let actualCity = city ?? locationPickerVC.selectedCity ?? nil
-        let actualTown = town ?? locationPickerVC.selectedTown ?? "전체"
+        let actualCity = city ?? self.currentCity ?? nil
+        let actualTown = town ?? self.currentTown ?? "전체"
                 
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
@@ -109,7 +120,7 @@ class MatchingVC: UIViewController {
                 print("----------", self.place?.count ?? "")
                 
                 DispatchQueue.main.async {
-                    self.collectionView.collectionView.reloadData()
+                    self.resultCV.collectionView.reloadData()
                 }
                 
             case .failure(let error):
@@ -124,18 +135,18 @@ class MatchingVC: UIViewController {
     let dataManager = FireStoreManager()
     var place: [Place?]?
     var review: [Review]?
-    var pidArr: [String]? = []
     
     var companionKeyword : [String?]?
     var conditionKeyword : [String?]?
     var kindOfFoodKeyword : [String?]?
+    var currentCity : String?
+    var currentTown : String?
    
     var currentLocation: NMGLatLng?
     
     private let matchingView = MatchingView()
     private let locationPickerVC = MatchingLocationPickerVC()
-    private let collectionView = MatchingResultCollectionView()
-    
+    private let resultCV = MatchingResultCollectionView()
     private let keywordVC = MatchingKeywordVC()
     
         
@@ -155,25 +166,16 @@ class MatchingVC: UIViewController {
     @objc private func locationButtonTapped() {
         print("현재 위치 버튼 탭")
         getAddress()
-//        updateLocationTitle()
     }
     
     @objc private func setPickerViewTapped() {
         print("위치 설정 피커뷰 탭")
-
+        
         let pickerViewVC = MatchingLocationPickerVC()
         pickerViewVC.pickerViewDelegate = self
         
         if let sheet = pickerViewVC.sheetPresentationController {
-            sheet.preferredCornerRadius = 15
-            sheet.prefersGrabberVisible = true
-            if #available(iOS 16.0, *) {
-                sheet.detents = [
-                    .custom(resolver: {
-                        0.65 * $0.maximumDetentValue
-                    })]
-            } else { }
-            sheet.largestUndimmedDetentIdentifier = .large
+            configureSheetPresentation(sheet)
         }
         present(pickerViewVC, animated: true)
     }
@@ -223,7 +225,7 @@ class MatchingVC: UIViewController {
     
     private func addSubViews(){
         view.addSubview(matchingView)
-        view.addSubview(collectionView)
+        view.addSubview(resultCV)
     }
     
     private func setSearchViewConstraints(){
@@ -234,7 +236,7 @@ class MatchingVC: UIViewController {
     }
     
     private func setCollectionViewConstraints(){
-        collectionView.snp.makeConstraints {
+        resultCV.snp.makeConstraints {
             $0.top.equalTo(matchingView.snp.bottom)
             $0.bottom.equalToSuperview().offset(-90)
             $0.leading.equalToSuperview()
@@ -268,13 +270,15 @@ class MatchingVC: UIViewController {
 
 extension MatchingVC: LocationPickerViewDelegate {
     func updateLocation(city: String?, town: String?) {
-        let updateCity = city
-        let updateTown = town
+        let selectedCity = city
+        let selectedTown = town
         
-        matchingView.setLocationButton.setTitle("\(updateCity ?? "") \(updateTown ?? "")", for: .normal)
+        // 피커뷰에서 선택된 지역으로 타이틀 업데이트
+        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
+        self.currentCity = selectedCity
+        self.currentTown = selectedTown
         
-        print("asdfsdfsdfsdfsdfsdfsdfsdf\(updateCity ?? "") \(updateTown ?? "")")
-        
+        // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
     }
 }
@@ -338,22 +342,14 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         if let placeData = place {
             let placeName = placeData[indexPath.item]?.placeName
             cell.recommendPlaceReview.titleLabel.text = placeName
+          
+            let placeImg = place?[indexPath.item]?.placeImg[0]
+            FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
+            
+            let placeTown = place?[indexPath.item]?.town
+            cell.recommendPlaceReview.descriptionLabel.text = placeTown
         }
         
-        let reviewID = place?[indexPath.item]?.rid[0] ?? "타이틀"
-        let placeImg = place?[indexPath.item]?.placeImg[0]
-
-        FireStoreManager.shared.fetchDataWithRid(rid: reviewID) { (result) in
-            switch result {
-            case .success(let review):
-                cell.recommendPlaceReview.descriptionLabel.text = review.title
-                FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
-
-            case .failure(let error):
-                print("Error fetching review: \(error.localizedDescription)")
-            }
-        }
-       
         return cell
     }
     
@@ -386,8 +382,8 @@ extension MatchingVC: SearchMapViewControllerDelegate {
         self.companionKeyword = companionKeyword
         self.conditionKeyword = conditionKeyword
         self.kindOfFoodKeyword = kindOfFoodKeyword
-        locationPickerVC.selectedCity = locationPickerVC.selectedCity
-        locationPickerVC.selectedTown = locationPickerVC.selectedTown
+        self.currentCity = selectedTown
+        self.currentTown = selectedTown
     }
 }
 
@@ -399,6 +395,4 @@ extension MatchingVC: LocationServiceDelegate {
     func didFailWithError(error: Error) {
         print("\(error)")
     }
-    
-    
 }

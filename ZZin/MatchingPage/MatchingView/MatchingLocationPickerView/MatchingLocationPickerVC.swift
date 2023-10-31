@@ -39,7 +39,6 @@ class MatchingLocationPickerVC: UIViewController {
         
         setView()
         setConfirmButton()
-        selectedLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +98,9 @@ class MatchingLocationPickerVC: UIViewController {
     
     @objc func confirmButtonTapped() {
 //        print("확인 버튼 탭")
+        
+        selectedLocation()
+
         updateLocation(city: self.selectedCity, town: self.selectedTown)
         
         print("-----------------------","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")
