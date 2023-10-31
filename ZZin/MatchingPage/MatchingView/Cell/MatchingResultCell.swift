@@ -11,7 +11,7 @@ import Then
 
 // MARK: - SearchView 하단에 나올 "검색결과" 컬렉션뷰 :: 키워드 입력 완료 시 나오는 뷰
 
-class MatchingSearchResultCell: UICollectionViewCell {
+class MatchingResultCell: UICollectionViewCell {
     
     // MARK: - Life Cycles
     
