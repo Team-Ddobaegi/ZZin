@@ -1,3 +1,4 @@
+
 import UIKit
 import SnapKit
 import Then
@@ -184,8 +185,8 @@ class MatchingVC: UIViewController {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedMatchingKeywordType = .with
-        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.selectedMatchingKeywordType = .companion
+        keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
         
         present(keywordVC, animated: true)
@@ -196,7 +197,7 @@ class MatchingVC: UIViewController {
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
-        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -206,8 +207,8 @@ class MatchingVC: UIViewController {
         print("메뉴 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedMatchingKeywordType = .menu
-        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.selectedMatchingKeywordType = .kindOfFood
+        keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.delegate = self
         
         navigationController?.present(keywordVC, animated: true)
@@ -290,7 +291,7 @@ extension MatchingVC: MatchingKeywordDelegate {
         let keywordType = keywordType
         
         switch keywordType {
-        case .with:
+        case .companion:
             if let updateKeyword = keyword.first {
                 matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
@@ -304,7 +305,7 @@ extension MatchingVC: MatchingKeywordDelegate {
                 self.conditionKeyword = keyword
             }
             
-        case .menu:
+        case .kindOfFood:
             if let updateKeyword = keyword.first {
                 matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
@@ -318,11 +319,15 @@ extension MatchingVC: MatchingKeywordDelegate {
 
 //MARK: - CollectionView Delegate, DataSource, Layout
 
-extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MatchingVC: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width / 2 - 28, height: collectionView.frame.width / 2 + 40)
     }
+}
+
+
+extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)

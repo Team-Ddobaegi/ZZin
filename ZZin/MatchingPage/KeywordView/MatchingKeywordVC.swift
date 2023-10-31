@@ -1,18 +1,13 @@
-//
-//  KeywordPage.swift
-//  ZZin
-//
-//  Created by Jack Lee on 2023/10/19.
-//
+
 
 import UIKit
 import SnapKit
 import Then
 
 enum MatchingKeywordType {
-    case with       // 누구랑 가시나요?
+    case companion       // 누구랑 가시나요?
     case condition  // 어떤 분위기를 원하시나요?
-    case menu       // 메뉴는 무엇인가요?
+    case kindOfFood       // 메뉴는 무엇인가요?
 }
 
 // MatchingVC로 데이터 전달
@@ -22,47 +17,61 @@ protocol MatchingKeywordDelegate: AnyObject {
 
 class MatchingKeywordVC: UIViewController {
     
+    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setView()
+        setButtonAttribute()
+        setCollectionViewAttribute()
     }
+
     
     // MARK: - Settings
     
+    
     func setView() {
         view.backgroundColor = .white
-        
-        setButtonAttribute()
-        configureUI()
+        view.addSubview(matchingKeywordView)
+       
+        matchingKeywordView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     func setButtonAttribute(){
-        confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+        matchingKeywordView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+    }
+    
+    func setCollectionViewAttribute(){
+        matchingKeywordView.collectionViewUI.delegate = self
+        matchingKeywordView.collectionViewUI.dataSource = self
+        matchingKeywordView.collectionViewUI.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
+
     }
     
     func updateInfoLabel(_ keywordType: MatchingKeywordType) {
         let selectedKeywords: [String]
         switch keywordType {
-        case .with:
-            selectedKeywords = selectedWithMatchingKeywords
+        case .companion:
+            selectedKeywords = selectedCompanionMatchingKeywords
         case .condition:
             selectedKeywords = selectedConditionMatchingKeywords
-        case .menu:
+        case .kindOfFood:
             selectedKeywords = selectedMenuMatchingKeywords
         }
         
         if selectedKeywords.isEmpty {
-            infoLabel.text = "보기를 선택해주세요."
-            infoLabel.textColor = ColorGuide.cherryTomato
+            matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+            matchingKeywordView.infoLabel.textColor = ColorGuide.cherryTomato
             
         } else {
-            infoLabel.text = selectedKeywords.joined(separator: ", ")
-            infoLabel.textColor = .black
-            confirmButton.isEnabled = true
-            confirmButton.backgroundColor = ColorGuide.main
+            matchingKeywordView.infoLabel.text = selectedKeywords.joined(separator: ", ")
+            matchingKeywordView.infoLabel.textColor = .black
+            matchingKeywordView.confirmButton.isEnabled = true
+            matchingKeywordView.confirmButton.backgroundColor = ColorGuide.main
         }
     }
     
@@ -79,14 +88,13 @@ class MatchingKeywordVC: UIViewController {
     @objc func confirmButtonTapped() {
         // 선택된 키워드 타입을 식별하여 처리
         switch selectedMatchingKeywordType {
-        case .with:
-            sendData(data: selectedWithMatchingKeywords, type: .with)
+        case .companion:
+            sendData(data: selectedCompanionMatchingKeywords, type: .companion)
         case .condition:
             sendData(data: selectedConditionMatchingKeywords, type: .condition)
-        case .menu:
-            sendData(data: selectedMenuMatchingKeywords, type: .menu)
+        case .kindOfFood:
+            sendData(data: selectedMenuMatchingKeywords, type: .kindOfFood)
         }
-        
         self.dismiss(animated: true)
     }
     
@@ -94,19 +102,15 @@ class MatchingKeywordVC: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MatchingKeywordDelegate?
+    var matchingKeywordView = MatchingKeywordView()
 
-//    var matchingVC = MatchingVC()
-    
-    var buttonAction: (() -> Void) = {}
-    
     // 선택된 키워드를 업데이트 시켜줄 배열
     var updateKeywords: [String] = []
     
-    // 선택된 키워드를 저장할 배열
-    var selectedMatchingKeywordCells: [MatchingKeywordCell] = []
+    var selectedMatchingKeywordCells: [MatchingKeywordCell] = []        // 선택된 키워드를 저장할 배열
     
     // 키워드타입 초기세팅
-    var selectedMatchingKeywordType: MatchingKeywordType = .with
+    var selectedMatchingKeywordType: MatchingKeywordType = .companion
     
     // 각 키워드페이지에 맞춰 키워드 모델 호출
     let firstMatchingKeywords = Keyword().with
@@ -117,108 +121,31 @@ class MatchingKeywordVC: UIViewController {
     var selectedMatchingKeywordCellCount: Int = 0
     
     // 선택된 셀을 저장할 배열
-    var selectedWithMatchingKeywords: [String] = []
+    var selectedCompanionMatchingKeywords: [String] = []
     var selectedConditionMatchingKeywords: [String] = []
     var selectedMenuMatchingKeywords: [String] = []
-    
-    let noticeLabel = UILabel().then {
-        $0.text = "누구랑\n가시나요?"
-        $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
-        $0.numberOfLines = 0
-        $0.textAlignment = .left
-    }
-    
-    private var layout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.minimumLineSpacing = 20
-    }
-    
-    lazy var userChoiceCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
-        $0.dataSource = self
-        $0.delegate = self
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
-    }
-    
-    var infoLabel = UILabel().then {
-        $0.text = "보기를 선택해주세요."
-        $0.textColor = ColorGuide.cherryTomato
-        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-    }
-    
-    private let confirmButton = UIButton().then {
-        $0.isEnabled = false
-        $0.setTitle("확인", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        $0.backgroundColor = .lightGray
-        $0.layer.cornerRadius = 15
-    }
-    
-    
-    
-    // MARK: - ConfigureUI
-    
-    func configureUI(){
-        addSubViews()
-        setConstraints()
-    }
-    
-    func addSubViews() {
-        [noticeLabel, userChoiceCollectionView, infoLabel, confirmButton].forEach { view.addSubview($0) }
-    }
-    
-    func setConstraints() {
-        noticeLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(50)
-            $0.leading.equalToSuperview().offset(30)
-        }
-        
-        userChoiceCollectionView.snp.makeConstraints {
-            $0.top.equalTo(noticeLabel.snp.bottom).offset(50)
-            $0.centerX.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(20)
-        }
-        
-        infoLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(confirmButton.snp.top)
-            $0.leading.equalToSuperview().offset(30)
-            $0.height.equalTo(40)
-        }
-        
-        confirmButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(50)
-            $0.left.right.equalToSuperview().inset(20)
-            $0.height.equalTo(60)
-        }
-    }
 }
+    
 
-
-
-
-
-
+    
 // MARK: - CollectionView
 
 extension MatchingKeywordVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (userChoiceCollectionView.frame.width-20)/2, height: 50)
+        return CGSize(width: (matchingKeywordView.collectionViewUI.frame.width-20)/2, height: 50)
     }
 }
 
 extension MatchingKeywordVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch selectedMatchingKeywordType {
-        case .with:
+        case .companion:
             return firstMatchingKeywords.count
             
         case .condition:
             return secondMatchingKeywords.count
             
-        case .menu:
+        case .kindOfFood:
             return menuMatchingKeywords.count
         }
     }
@@ -229,17 +156,17 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         switch selectedMatchingKeywordType {
-        case .with:
+        case .companion:
             cell.label.text = "\(firstMatchingKeywords[indexPath.item])"
-            cell.keywordType = .with
+            cell.keywordType = .companion
             
         case .condition:
             cell.label.text = "\(secondMatchingKeywords[indexPath.item])"
             cell.keywordType = .condition
             
-        case .menu:
+        case .kindOfFood:
             cell.label.text = "\(menuMatchingKeywords[indexPath.item])"
-            cell.keywordType = .menu
+            cell.keywordType = .kindOfFood
         }
         
         cell.keywordVC = self
@@ -254,7 +181,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
             print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
             
             switch selectedMatchingKeywordType {
-            case .with, .condition, .menu:
+            case .companion, .condition, .kindOfFood:
                 handleSelectionKeyword(cell, collectionView: collectionView)
             }
         }
@@ -291,7 +218,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
     }
     
     
-    // MARK: - with(1개)/condition(3개)/menu(3개) 키워드 개수 제한 메서드
+    // MARK: - companion(1개)/condition(3개)/menu(3개) 키워드 개수 제한 메서드
     
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {

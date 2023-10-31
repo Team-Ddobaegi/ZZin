@@ -37,7 +37,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let keywordType = keywordType
         
         switch keywordType {
-        case .with:
+        case .companion:
             if let updateKeyword = keyword.first {
                 print(updateKeyword)
                 firstKeywordText = updateKeyword
@@ -55,7 +55,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.tableView.reloadData()
             }
             
-        case .menu:
+        case .kindOfFood:
             if let updateKeyword = keyword.first {
                 print(updateKeyword)
                 menuKeywordText = updateKeyword
@@ -285,8 +285,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedMatchingKeywordType = .with
-        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.selectedMatchingKeywordType = .companion
+        keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
         
         present(keywordVC, animated: true)
@@ -297,7 +297,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let keywordVC = MatchingKeywordVC()
             keywordVC.selectedMatchingKeywordType = .condition
-            keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+            keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
             keywordVC.delegate = self
             
             present(keywordVC, animated: true)
@@ -307,8 +307,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("메뉴 키워드 버튼이 탭됨")
             
             let keywordVC = MatchingKeywordVC()
-            keywordVC.selectedMatchingKeywordType = .menu
-            keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+            keywordVC.selectedMatchingKeywordType = .kindOfFood
+            keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
             keywordVC.delegate = self
             
            present(keywordVC, animated: true)
