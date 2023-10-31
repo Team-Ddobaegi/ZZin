@@ -38,29 +38,51 @@ class RecommendPlaceThumbnail: UIView {
     // MARK: - Properties
     
     let wrap = UIView().then {
+//        $0.image = UIImage(named: "wrapBackground.jpeg")
         $0.layer.cornerRadius = 15
-        $0.backgroundColor = .systemBackground
+        $0.clipsToBounds = true
+        $0.backgroundColor = .black
     }
     
     let img = UIImageView().then{
         $0.image = UIImage(named: "ogudangdang.jpeg")
         $0.layer.cornerRadius = 15
-        $0.layer.opacity = 0.4
+        $0.layer.opacity = 0.7
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
     }
     
     let titleLabel = UILabel().then {
         $0.text = "하남돼지집"
+        $0.textColor = .white
         $0.font = .systemFont(ofSize: 22, weight: .bold)
         $0.numberOfLines = 0 // 글자 줄 제한 없음
         $0.textAlignment = .left
         $0.baselineAdjustment = .alignBaselines
     }
     
-    let descriptionLabel = UILabel().then {
-        $0.text = "분위기 좋은 돼지집"
-        $0.font = .systemFont(ofSize: 15, weight: .regular)
+    let placeTownLabel = UILabel().then {
+        $0.text = "강남구"
+        $0.textColor = .white
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
+        $0.numberOfLines = 1
+        $0.textAlignment = .left
+        $0.baselineAdjustment = .none
+    }
+    
+    let dotLabel = UILabel().then {
+        $0.text = "·"
+        $0.textColor = .white
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
+        $0.numberOfLines = 1
+        $0.textAlignment = .left
+        $0.baselineAdjustment = .none
+    }
+    
+    let placeMenuLabel = UILabel().then {
+        $0.text = "일식집"
+        $0.textColor = .white
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.numberOfLines = 1
         $0.textAlignment = .left
         $0.baselineAdjustment = .none
@@ -77,8 +99,10 @@ class RecommendPlaceThumbnail: UIView {
     func addSubViews(){
         addSubview(wrap)
         wrap.addSubview(img)
-        wrap.addSubview(descriptionLabel)
         wrap.addSubview(titleLabel)
+        wrap.addSubview(placeTownLabel)
+        wrap.addSubview(dotLabel)
+        wrap.addSubview(placeMenuLabel)
     }
     
     func setConstraints() {
@@ -91,14 +115,25 @@ class RecommendPlaceThumbnail: UIView {
             $0.edges.equalToSuperview()
         }
         
-        descriptionLabel.snp.makeConstraints{
-            $0.left.right.bottom.equalToSuperview().inset(15)
-        }
-        
         titleLabel.snp.makeConstraints{
             $0.left.right.equalToSuperview().inset(15)
-            $0.bottom.equalTo(descriptionLabel.snp.top).offset(-7)
+            $0.bottom.equalTo(placeTownLabel.snp.top).offset(-7)
         }
+        
+        placeTownLabel.snp.makeConstraints{
+            $0.left.bottom.equalToSuperview().inset(15)
+        }
+        
+        dotLabel.snp.makeConstraints{
+            $0.left.equalTo(placeTownLabel.snp.right).offset(4)
+            $0.bottom.equalToSuperview().inset(15)
+        }
+        
+        placeMenuLabel.snp.makeConstraints{
+            $0.left.equalTo(dotLabel.snp.right).offset(5)
+            $0.right.bottom.equalToSuperview().inset(15)
+        }
+        
     }
     
 }
@@ -189,7 +224,7 @@ class RecommendPlaceReviewThumbnail: UIView {
     }
     
     let underline = UIView().then {
-        $0.backgroundColor = ColorGuide.cherryTomato
+        $0.backgroundColor = ColorGuide.main
     }
     
     

@@ -19,7 +19,7 @@ class SearchMapViewController: UIViewController {
     var selectedTown : String?
     private var activeMarkers: [NMFMarker] = []
     private let pickerView = MatchingLocationPickerView()
-    private let opacityView = OpacityView()
+//    private let opacityView = OpacityView()
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
 
 
@@ -166,14 +166,14 @@ class SearchMapViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(searchMapUIView)
-        view.addSubview(opacityView)
+//        view.addSubview(opacityView)
 
         searchMapUIView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        opacityView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+//        opacityView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
     
     func addDataToInfoMarker(for place: Place) {
@@ -401,7 +401,7 @@ extension SearchMapViewController {
         
         UIView.animate(withDuration: 0.1) {
             self.opacityViewAlpha = 0.7
-            self.opacityView.alpha = self.opacityViewAlpha
+//            self.opacityView.alpha = self.opacityViewAlpha
         }
     }
     
@@ -445,7 +445,7 @@ extension SearchMapViewController {
         // 피커뷰가 올라올 때 뒷배경에 들어갈 검은 화면임니두
         UIView.animate(withDuration: 0.3) {
             self.opacityViewAlpha = 0.0
-            self.opacityView.alpha = self.opacityViewAlpha
+//            self.opacityView.alpha = self.opacityViewAlpha
         }
     }
     

@@ -347,7 +347,10 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
             
             let placeTown = place?[indexPath.item]?.town
-            cell.recommendPlaceReview.descriptionLabel.text = placeTown
+            cell.recommendPlaceReview.placeTownLabel.text = placeTown
+            
+            let placeMenu = place?[indexPath.item]?.kindOfFood
+            cell.recommendPlaceReview.placeMenuLabel.text = placeMenu
         }
         
         return cell

@@ -30,11 +30,7 @@ class MatchingSearchResultCell: UICollectionViewCell {
     
     static let identifier = "searchResultCell"
     
-    let recommendPlaceReview = RecommendPlaceThumbnail().then{
-        $0.wrap.layer.cornerRadius = 15
-        $0.wrap.backgroundColor = .lightGray
-        $0.descriptionLabel.text = "줄 서서 먹는 존맛집"
-    }
+    let recommendPlaceReview = RecommendPlaceThumbnail()
    
     
     //MARK: - ConfigureUI
