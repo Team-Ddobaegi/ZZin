@@ -16,14 +16,15 @@ class UserSearchController: UIViewController {
     private var nickName: String?
     private var phoneNumber: String?
     private var uid: String?
-    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "닉네임을 입력해주세요")
-    private let numberTextfieldView = CustomTextfieldView(placeholder: "", text: "- 없이 입력해주세요")
+
+    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "적어주세요", alertMessage: "", button: .noButton)
+    private let numberTextfieldView = CustomTextfieldView(placeholder: "", text: "적어주세요")
     
     private var idLabel: UILabel = {
         let label = UILabel()
         label.text = "닉네임"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -32,7 +33,7 @@ class UserSearchController: UIViewController {
         let label = UILabel()
         label.text = "전화번호"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,7 +43,7 @@ class UserSearchController: UIViewController {
         button.setTitle("확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor.init(hexCode: "F55951")
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
@@ -59,23 +60,25 @@ class UserSearchController: UIViewController {
         idLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
             $0.top.equalToSuperview().offset(305)
+            $0.size.equalTo(CGSize(width: 56, height: 24))
         }
         
         idTextfieldView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(296)
+            $0.centerY.equalTo(idLabel.snp.centerY)
             $0.leading.equalTo(idLabel.snp.trailing).offset(23)
-            $0.size.equalTo(CGSize(width: 208, height: 43))
+            $0.size.equalTo(CGSize(width: 208, height: 52))
         }
         
         numberLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
             $0.top.equalTo(idLabel.snp.bottom).offset(88)
+            $0.size.equalTo(CGSize(width: 74, height: 24))
         }
         
         numberTextfieldView.snp.makeConstraints {
-            $0.top.equalTo(idTextfieldView.snp.bottom).offset(67)
+            $0.centerY.equalTo(numberLabel.snp.centerY)
             $0.leading.equalTo(numberLabel.snp.trailing).offset(5)
-            $0.size.equalTo(CGSize(width: 208, height: 43))
+            $0.size.equalTo(CGSize(width: 208, height: 52))
         }
 
         confirmButton.snp.makeConstraints {
@@ -139,8 +142,12 @@ extension UserSearchController {
 extension UserSearchController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
-        case self.idTextfieldView.textfield: idTextfieldView.textfield.placeholder = "닉네임을 적어주세요"
-        case self.numberTextfieldView.textfield: numberTextfieldView.textfield.placeholder = "전화번호를 적어주세요"
+        case self.idTextfieldView.textfield:
+            idTextfieldView.animateLabel()
+            idTextfieldView.textfield.placeholder = "닉네임을 적어주세요"
+        case self.numberTextfieldView.textfield:
+            numberTextfieldView.animateLabel()
+            numberTextfieldView.textfield.placeholder = "전화번호를 적어주세요"
         default: print("textfield를 찾지 못했습니다.")
         }
     }
