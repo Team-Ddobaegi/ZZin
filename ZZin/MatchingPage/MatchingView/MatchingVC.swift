@@ -374,10 +374,11 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("매칭 업체 페이지로 이동합니다.")
         if collectionView.cellForItem(at: indexPath) is MatchingResultCell {
-            let matchingVC = MatchingPlaceVC()
-            self.navigationController?.pushViewController(matchingVC, animated: true)
+            let matchingPlaceVC = MatchingPlaceVC()
+            self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
             
-            matchingVC.placeID = place?[indexPath.item]?.pid
+            matchingPlaceVC.placeID = place?[indexPath.item]?.pid
+            matchingPlaceVC.reviewID = place?[indexPath.item]?.rid
         }
     }
 }
