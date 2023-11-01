@@ -125,7 +125,6 @@ extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate,
                 let placeImgPath = place.placeImg[indexPath.item]
                 FireStorageManager().bindPlaceImgWithPath(path: placeImgPath, imageView: cell.placeImage)
 
-
             case .failure(let error):
                 print("Error fetching review: \(error.localizedDescription)")
             }

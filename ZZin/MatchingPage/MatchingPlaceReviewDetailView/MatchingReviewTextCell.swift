@@ -20,13 +20,18 @@ class MatchingReviewTextCell: UITableViewCell {
         $0.layer.cornerRadius = 25
     }
     
+    private let textMessageView2 = UIImageView().then {
+        $0.image = UIImage(named: "textMessage.png")
+        $0.contentMode = .scaleAspectFill
+    }
+    
     private let ddobaegiLabel = UILabel().then {
         $0.text = "💬 또배기의 한마디"
         $0.textColor = .white
         $0.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
     
-    lazy var reviewTextLabel = UILabel().then{
+    lazy var reviewContentLabel = UILabel().then{
         $0.text = ""
         $0.textColor = .white
         $0.numberOfLines = 0
@@ -34,8 +39,9 @@ class MatchingReviewTextCell: UITableViewCell {
         $0.textAlignment = .justified
     }
 
+
     lazy var reviewLabelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [ddobaegiLabel, reviewTextLabel])
+        let stackView = UIStackView(arrangedSubviews: [ddobaegiLabel, reviewContentLabel])
         stackView.axis = .vertical
         stackView.spacing = 10
         
@@ -67,14 +73,14 @@ class MatchingReviewTextCell: UITableViewCell {
     //MARK: - configure UI
     
     func updateLabelText(_ text: String) {
-        reviewTextLabel.text = text
+        reviewContentLabel.text = text
         updateLabelHeight()
     }
     
     
     private func updateLabelHeight() {
-        let labelSize = reviewTextLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 50, height: CGFloat.greatestFiniteMagnitude))
-        reviewTextLabel.snp.remakeConstraints { make in
+        let labelSize = reviewContentLabel.sizeThatFits(CGSize(width: UIScreen.main.bounds.width - 50, height: CGFloat.greatestFiniteMagnitude))
+        reviewContentLabel.snp.remakeConstraints { make in
             make.height.equalTo(labelSize.height + 20)
         }
         textMessageViewHeightConstraint?.update(offset: labelSize.height + 100)
@@ -88,11 +94,19 @@ class MatchingReviewTextCell: UITableViewCell {
     }
     
     private func addSubViews(){
+        contentView.addSubview(textMessageView2)
         contentView.addSubview(textMessageView)
         textMessageView.addSubview(reviewLabelStackView)
     }
     
     private func setConstraints(){
+        textMessageView2.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(textMessageView.snp.bottom).inset(30)
+            $0.left.equalTo(textMessageView.snp.left)
+            
+        }
+        
         textMessageView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20)
         }

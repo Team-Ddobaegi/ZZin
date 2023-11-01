@@ -9,6 +9,12 @@ import UIKit
 
 class MatchingPlaceReviewDetailVC: UIViewController {
     
+    //MARK: - Properties
+    
+    private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
+    var reviewID: [String?]?
+    lazy var updateText = "업데이트 확인용 텍스트라벨"
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -16,7 +22,6 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         
         setView()
     }
-    
     
     // MARK: - Settings
     
@@ -41,22 +46,8 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.delegate = self
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.dataSource = self
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.rowHeight = UITableView.automaticDimension
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.estimatedRowHeight = UITableView.automaticDimension
     }
-    
-    
-
-    
-    
-    //MARK: - Properties
-    
-    private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
-    var reviewID: [String?]?
-    lazy var updateText = "업데이트 확인용 텍스트라벨"
-
-    
-
     
     // MARK: - Actions
     
@@ -64,7 +55,6 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         print("매칭 업체 페이지로 돌아갑니다.")
         self.navigationController?.popViewController(animated: true)
     }
-    
     
     // MARK: - configureUI
     
@@ -75,12 +65,12 @@ class MatchingPlaceReviewDetailVC: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-    
 }
 
 
 
 // MARK: - TableView
+
 extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -152,16 +142,17 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
                     switch result {
                     case .success(let review):
                         let content = review.content
-                        cell.reviewTextLabel.text = content
+                        cell.reviewContentLabel.text = content
                         cell.updateLabelText(content)
 
-                        print("$$$$$$$$ 업데이트 확인", cell.reviewTextLabel.text ?? "")
+                        print("$$$$$$$$ 업데이트 확인", cell.reviewContentLabel.text ?? "")
 
-                        // 업데이트된 셀만 리로드
-                        tableView.beginUpdates()
-                        tableView.reloadRows(at: [indexPath], with: .none)
-                        tableView.endUpdates()
-
+                        // 테이블 뷰 업데이트 (한 번만 호출)
+                        DispatchQueue.main.async {
+                           tableView.beginUpdates()
+                           tableView.endUpdates()
+                        }
+                        
                     case .failure(let error):
                         print("Error fetching review: \(error.localizedDescription)")
                     }
@@ -175,10 +166,5 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             return cell
         }
     }
-    
-
-        func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableView.automaticDimension
-        }
-    
 }
+

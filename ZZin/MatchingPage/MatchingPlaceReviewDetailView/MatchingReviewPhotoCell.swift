@@ -49,6 +49,12 @@ class MatchingReviewPhotoCell: UITableViewCell {
         $0.layer.cornerRadius = 25
     }
     
+    private let photoMessageView2 = UIImageView().then {
+        $0.image = UIImage(named: "photoMessage.png")
+        $0.contentMode = .scaleAspectFill
+    }
+    
+    
     // 사용자 리뷰 사진
    let photoImageView = UIImageView().then {
         $0.backgroundColor = .black
@@ -66,6 +72,7 @@ class MatchingReviewPhotoCell: UITableViewCell {
     }
     
     private func addSubViews(){
+        contentView.addSubview(photoMessageView2)
         contentView.addSubview(photoMessageView)
         photoMessageView.addSubview(photoImageView)
     }
@@ -74,6 +81,13 @@ class MatchingReviewPhotoCell: UITableViewCell {
         photoMessageView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20)
             $0.height.equalTo(270)
+        }
+        
+        photoMessageView2.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+            $0.top.equalTo(photoMessageView.snp.bottom).inset(30)
+            $0.left.equalTo(photoMessageView.snp.left)
+            
         }
         
         photoImageView.snp.makeConstraints {
