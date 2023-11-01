@@ -41,15 +41,21 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.delegate = self
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.dataSource = self
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.rowHeight = UITableView.automaticDimension
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.estimatedRowHeight = UITableView.automaticDimension
     }
+    
+    
+
     
     
     //MARK: - Properties
     
     private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
-    let reviewText = MatchingReviewTextCell().reviewTextLabel.text
     var reviewID: [String?]?
+    lazy var updateText = "업데이트 확인용 텍스트라벨"
 
+    
 
     
     // MARK: - Actions
@@ -69,7 +75,7 @@ class MatchingPlaceReviewDetailVC: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
+    
 }
 
 
@@ -84,15 +90,18 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
         case 1:
             return MatchingReviewPhotoCell.cellHeight()
         case 2:
-            let text = "\(reviewText ?? "")"
-            return MatchingReviewTextCell.calculateHeight(for: text)
-
+            return UITableView.automaticDimension
+          
         default:
             return 0
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {3}
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 40
+        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -138,19 +147,25 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
         case 2:
             // 매칭 리뷰 컨텐츠
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewTextCell.identifier, for: indexPath) as! MatchingReviewTextCell
-            cell.selectionStyle = .none
-        
-            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { (result) in
-                switch result {
-                case .success(let review):
-                    let content = review.content
-                    
-                    cell.setReviewText(content)
 
-                case .failure(let error):
-                    print("Error fetching review: \(error.localizedDescription)")
+            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { [weak self] result in
+                    switch result {
+                    case .success(let review):
+                        let content = review.content
+                        cell.reviewTextLabel.text = content
+                        cell.updateLabelText(content)
+
+                        print("$$$$$$$$ 업데이트 확인", cell.reviewTextLabel.text ?? "")
+
+                        // 업데이트된 셀만 리로드
+                        tableView.beginUpdates()
+                        tableView.reloadRows(at: [indexPath], with: .none)
+                        tableView.endUpdates()
+
+                    case .failure(let error):
+                        print("Error fetching review: \(error.localizedDescription)")
+                    }
                 }
-            }
             
             return cell
         
@@ -161,5 +176,9 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+
+        func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+            return UITableView.automaticDimension
+        }
     
 }

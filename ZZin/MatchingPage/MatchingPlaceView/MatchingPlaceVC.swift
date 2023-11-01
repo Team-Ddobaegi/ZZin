@@ -225,7 +225,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
         print("매칭 디테일 페이지로 이동합니다.")
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
             let matchingPlaceReviewDetailVC = MatchingPlaceReviewDetailVC()
-            matchingPlaceReviewDetailVC.reviewID = self.reviewID
+            matchingPlaceReviewDetailVC.reviewID = reviewID
 
             self.navigationController?.pushViewController(matchingPlaceReviewDetailVC, animated: true)
         }
