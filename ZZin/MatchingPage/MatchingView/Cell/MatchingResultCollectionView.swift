@@ -19,7 +19,7 @@ class MatchingResultCollectionView: UIView {
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(MatchingSearchResultCell.self, forCellWithReuseIdentifier: MatchingSearchResultCell.identifier)
+        cv.register(MatchingResultCell.self, forCellWithReuseIdentifier: MatchingResultCell.identifier)
         
         return cv
     }()

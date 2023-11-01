@@ -22,14 +22,9 @@ class MatchingLocationPickerView: UIView {
     
     
     // MARK: - Properties
-    let opacityView = UIView().then {
-        $0.backgroundColor = .black
-        $0.alpha = 0.7
-    }
+    
     let backgroundView = UIView().then {
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 15
-        $0.layer.masksToBounds = true
     }
     
     let pickerView = UIPickerView().then {
@@ -70,9 +65,7 @@ class MatchingLocationPickerView: UIView {
     
     private func setConstraints(){
         backgroundView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
-            $0.height.equalTo(500)
+            $0.edges.equalToSuperview()
         }
         
         noticeLabel.snp.makeConstraints {

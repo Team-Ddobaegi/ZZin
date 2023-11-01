@@ -11,7 +11,7 @@ import Then
 
 // MARK: - SearchView 하단에 나올 "검색결과" 컬렉션뷰 :: 키워드 입력 완료 시 나오는 뷰
 
-class MatchingSearchResultCell: UICollectionViewCell {
+class MatchingResultCell: UICollectionViewCell {
     
     // MARK: - Life Cycles
     
@@ -30,11 +30,7 @@ class MatchingSearchResultCell: UICollectionViewCell {
     
     static let identifier = "searchResultCell"
     
-    let recommendPlaceReview = RecommendPlaceThumbnail().then{
-        $0.wrap.layer.cornerRadius = 15
-        $0.wrap.backgroundColor = .lightGray
-        $0.descriptionLabel.text = "줄 서서 먹는 존맛집"
-    }
+    let recommendPlaceReview = RecommendPlaceThumbnail()
    
     
     //MARK: - ConfigureUI

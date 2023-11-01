@@ -30,18 +30,33 @@ class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MatchingPlacePhotoCollectionViewCell"
     
-    let placePhotoView = UIImageView().then{
-        $0.backgroundColor = .lightGray
-    }
+    var placeImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "")
+        image.backgroundColor = .systemGray6
+        image.contentMode = .scaleAspectFill
+        
+        return image
+    }()
     
+    let infoLabel = UILabel().then {
+        $0.text = "등록된 이미지가\n없습니다."
+        $0.textAlignment = .center
+    }
     
     // MARK: - ConfigureUI
     
     func configureUI(){
-        addSubview(placePhotoView)
+        addSubview(placeImage)
+//        addSubview(infoLabel)
         
-        placePhotoView.snp.makeConstraints {
+        placeImage.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+//        infoLabel.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.height.equalToSuperview()
+//        }
     }
 }

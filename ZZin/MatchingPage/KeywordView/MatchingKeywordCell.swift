@@ -11,7 +11,7 @@ class MatchingKeywordCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    var keywordType: MatchingKeywordType = .with
+    var keywordType: MatchingKeywordType = .companion
     
     weak var keywordVC: MatchingKeywordVC?
     
@@ -74,11 +74,11 @@ class MatchingKeywordCell: UICollectionViewCell {
         guard let text = label.text else { return }
         
         switch keywordType {
-        case .with:
-            keywordVC?.selectedWithMatchingKeywords.append(text)
+        case .companion:
+            keywordVC?.selectedCompanionMatchingKeywords.append(text)
         case .condition:
             keywordVC?.selectedConditionMatchingKeywords.append(text)
-        case .menu:
+        case .kindOfFood:
             keywordVC?.selectedMenuMatchingKeywords.append(text)
         }
     }
@@ -88,15 +88,15 @@ class MatchingKeywordCell: UICollectionViewCell {
         guard let text = label.text else { return }
         
         switch keywordType {
-        case .with:
-            if let index = keywordVC?.selectedWithMatchingKeywords.firstIndex(of: text) {
-                keywordVC?.selectedWithMatchingKeywords.remove(at: index)
+        case .companion:
+            if let index = keywordVC?.selectedCompanionMatchingKeywords.firstIndex(of: text) {
+                keywordVC?.selectedCompanionMatchingKeywords.remove(at: index)
             }
         case .condition:
             if let index = keywordVC?.selectedConditionMatchingKeywords.firstIndex(of: text) {
                 keywordVC?.selectedConditionMatchingKeywords.remove(at: index)
             }
-        case .menu:
+        case .kindOfFood:
             if let index = keywordVC?.selectedMenuMatchingKeywords.firstIndex(of: text) {
                 keywordVC?.selectedMenuMatchingKeywords.remove(at: index)
             }

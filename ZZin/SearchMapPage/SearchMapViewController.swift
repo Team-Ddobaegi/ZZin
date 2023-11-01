@@ -19,7 +19,7 @@ class SearchMapViewController: UIViewController {
     var selectedTown : String?
     private var activeMarkers: [NMFMarker] = []
     private let pickerView = MatchingLocationPickerView()
-    private let opacityView = OpacityView()
+//    private let opacityView = OpacityView()
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
 
 
@@ -153,7 +153,6 @@ class SearchMapViewController: UIViewController {
     }
     
     
-    
     func moveCamera(location: NMGLatLng?, animation: NMFCameraUpdateAnimation) {
         let cameraUpdate = NMFCameraUpdate(scrollTo: location ?? NMGLatLng(lat: 37.5666102, lng: 126.9783881))
         cameraUpdate.animation = animation
@@ -167,14 +166,14 @@ class SearchMapViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(searchMapUIView)
-        view.addSubview(opacityView)
+//        view.addSubview(opacityView)
 
         searchMapUIView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        opacityView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+//        opacityView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
     
     func addDataToInfoMarker(for place: Place) {
@@ -300,8 +299,8 @@ extension SearchMapViewController {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedMatchingKeywordType = .with
-        keywordVC.noticeLabel.text = "누구랑\n가시나요?"
+        keywordVC.selectedMatchingKeywordType = .companion
+        keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
@@ -312,7 +311,7 @@ extension SearchMapViewController {
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
-        keywordVC.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
@@ -322,8 +321,8 @@ extension SearchMapViewController {
         print("메뉴 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
-        keywordVC.selectedMatchingKeywordType = .menu
-        keywordVC.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.selectedMatchingKeywordType = .kindOfFood
+        keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.delegate = self
         navigationController?.present(keywordVC, animated: true)
     }
@@ -336,7 +335,7 @@ extension SearchMapViewController: MatchingKeywordDelegate {
         let keywordType = keywordType
         
         switch keywordType {
-        case .with:
+        case .companion:
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
@@ -350,7 +349,7 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 self.conditionKeyword = [updateKeyword as String?]
             }
             
-        case .menu:
+        case .kindOfFood:
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
@@ -402,7 +401,7 @@ extension SearchMapViewController {
         
         UIView.animate(withDuration: 0.1) {
             self.opacityViewAlpha = 0.7
-            self.opacityView.alpha = self.opacityViewAlpha
+//            self.opacityView.alpha = self.opacityViewAlpha
         }
     }
     
@@ -446,7 +445,7 @@ extension SearchMapViewController {
         // 피커뷰가 올라올 때 뒷배경에 들어갈 검은 화면임니두
         UIView.animate(withDuration: 0.3) {
             self.opacityViewAlpha = 0.0
-            self.opacityView.alpha = self.opacityViewAlpha
+//            self.opacityView.alpha = self.opacityViewAlpha
         }
     }
     
@@ -537,3 +536,14 @@ extension SearchMapViewController: UIPickerViewDelegate, UIPickerViewDataSource 
         }
     }
 }
+
+// 선택된 "시"와 "구"의 인덱스
+var selectedCityIndex: Int = 0
+var selectedTownIndex: Int = 0
+
+// 피커뷰 1열에 들어갈 "시"
+let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
+
+// 피커뷰 2열에 들어갈 "구"
+let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
+let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
