@@ -12,12 +12,12 @@ import Then
 // MARK: - UIComponent 선언
 class PasswordSearchController: UIViewController {
     
-    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "적어주세요", alertMessage: "", button: .noButton)
+    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "적어주세요", alertMessage: "", button: .noButton)
     private let numberTextfieldView = CustomTextfieldView(placeholder: "", text: "적어주세요")
     
-    private var idLabel: UILabel = {
+    private var pwLabel: UILabel = {
         let label = UILabel()
-        label.text = "아이디"
+        label.text = "비밀번호"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,25 +49,25 @@ class PasswordSearchController: UIViewController {
     // MARK: - 함수 선언
     private func configure() {
         view.backgroundColor = .white
-        [idLabel, idTextfieldView, numberLabel, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
+        [pwLabel, pwTextfieldView, numberLabel, numberTextfieldView, confirmButton].forEach{view.addSubview($0)}
     }
     
     private func setUI() {
-        idLabel.snp.makeConstraints {
+        pwLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
             $0.top.equalToSuperview().offset(305)
             $0.size.equalTo(CGSize(width: 56, height: 24))
         }
         
-        idTextfieldView.snp.makeConstraints {
-            $0.centerY.equalTo(idLabel.snp.centerY)
-            $0.leading.equalTo(idLabel.snp.trailing).offset(23)
+        pwTextfieldView.snp.makeConstraints {
+            $0.centerY.equalTo(pwLabel.snp.centerY)
+            $0.leading.equalTo(pwLabel.snp.trailing).offset(23)
             $0.size.equalTo(CGSize(width: 208, height: 52))
         }
         
         numberLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(49)
-            $0.top.equalTo(idLabel.snp.bottom).offset(88)
+            $0.top.equalTo(pwLabel.snp.bottom).offset(88)
             $0.size.equalTo(CGSize(width: 74, height: 24))
         }
         
@@ -85,7 +85,7 @@ class PasswordSearchController: UIViewController {
     }
     
     private func setDelegate() {
-            idTextfieldView.setTextFieldDelegate(delegate: self)
+            pwTextfieldView.setTextFieldDelegate(delegate: self)
             numberTextfieldView.setTextFieldDelegate(delegate: self)
     }
     
@@ -120,9 +120,9 @@ extension PasswordSearchController {
 extension PasswordSearchController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
-        case self.idTextfieldView.textfield:
-            idTextfieldView.animateLabel()
-            idTextfieldView.textfield.placeholder = "닉네임을 적어주세요"
+        case self.pwTextfieldView.textfield:
+            pwTextfieldView.animateLabel()
+            pwTextfieldView.textfield.placeholder = "닉네임을 적어주세요"
         case self.numberTextfieldView.textfield:
             numberTextfieldView.animateLabel()
             numberTextfieldView.textfield.placeholder = "전화번호를 적어주세요"
@@ -131,8 +131,8 @@ extension PasswordSearchController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == idTextfieldView.textfield, let text = textField.text, text.isEmpty {
-            idTextfieldView.undoLabelAnimation()
+        if textField == pwTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            pwTextfieldView.undoLabelAnimation()
         } else if textField == numberTextfieldView.textfield, let text = textField.text, text.isEmpty {
             numberTextfieldView.undoLabelAnimation()
         }
