@@ -15,10 +15,7 @@ import FirebaseStorage
 import Firebase
 
 
-var placeName: String = ""
-var address: String = ""
-var mapx: Double = 0
-var mapy: Double = 0
+var searchedInfo: Document?
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MatchingKeywordDelegate {
     let matchingView = MatchingView()
@@ -187,21 +184,21 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         case 1:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 1)) as! PostTableViewCell
-            if placeName != "" {
-                cell.textField.text = placeName
+            if searchedInfo != nil {
+                cell.textField.text = searchedInfo?.placeName
             }
             cell.titleLabel.text = "가게 이름"
             cell.textField.placeholder = "상호명을 검색해주세요."
             let text = cell.textFieldDidEndEditing(cell.textField)
             dataWillSet.updateValue(text, forKey: "placeName")
-            dataWillSet.updateValue(mapx, forKey: "mapx") // 위도
-            dataWillSet.updateValue(mapy, forKey: "mapy") // 경도
+            dataWillSet.updateValue(searchedInfo?.y, forKey: "lat") // 위도
+            dataWillSet.updateValue(searchedInfo?.x, forKey: "long") // 경도
             cell.selectionStyle = .none
             return cell
         case 2:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 2)) as! PostTableViewCell
-            if address != "" {
-                cell.textField.text = address
+            if searchedInfo != nil {
+                cell.textField.text = searchedInfo?.roadAddressName
             }
             cell.titleLabel.text = "가게 주소"
             cell.textField.placeholder = "상호명을 검색해주세요."
@@ -214,6 +211,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.titleLabel.text = "가게 연락처"
             cell.textField.placeholder = "연락처 입력"
+            if searchedInfo != nil {
+                cell.textField.text = searchedInfo?.phone
+            }
             let text = cell.textFieldDidEndEditing(cell.textField)
             dataWillSet.updateValue(text, forKey: "placeTelNum")
             cell.selectionStyle = .none
