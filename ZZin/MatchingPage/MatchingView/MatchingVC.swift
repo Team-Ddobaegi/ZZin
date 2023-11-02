@@ -279,7 +279,9 @@ extension MatchingVC: LocationPickerViewDelegate {
         self.currentCity = selectedCity
         self.currentTown = selectedTown
         
-        print("@@@@@@@@!!!!!!", self.currentCity, self.currentTown)
+        print("~~피커뷰 선택값 전달받았읍니두~~","\(self.currentCity ?? "지역") \(self.currentTown ?? "미설정")")
+        
+      
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
     }

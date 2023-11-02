@@ -65,7 +65,7 @@ class MatchingKeywordVC: UIViewController {
         
         if selectedKeywords.isEmpty {
             matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
-            matchingKeywordView.infoLabel.textColor = ColorGuide.cherryTomato
+            matchingKeywordView.infoLabel.textColor = ColorGuide.main
             
         } else {
             matchingKeywordView.infoLabel.text = selectedKeywords.joined(separator: ", ")

@@ -73,7 +73,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }
     
     
-    let placeCallButton = UIButton().then {
+    var placeCallButton = UIButton().then {
         let iconImage = UIImage(systemName: "phone.fill")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
@@ -81,9 +81,10 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
+        $0.addTarget(self, action: #selector(didTappedButton), for: .touchUpInside)
     }
     
-    let placeCallLabel = UILabel().then {
+    var placeCallLabel = UILabel().then {
         $0.text = "전화하기"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -97,17 +98,18 @@ class MatchingPlaceInfoCell: UITableViewCell {
         return stackView
     }()
     
-    let placeReviewButton = UIButton().then {
+    var placeReviewButton = UIButton().then {
         let iconImage = UIImage(systemName: "square.and.pencil")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
         $0.contentVerticalAlignment = .center
+        $0.isHighlighted = false
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
     }
     
-    let placeReviewLabel = UILabel().then {
+    var placeReviewLabel = UILabel().then {
         $0.text = "리뷰쓰기"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -122,7 +124,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }()
     
     
-    let placeLikeButton = UIButton().then {
+    var placeLikeButton = UIButton().then {
         let iconImage = UIImage(systemName: "arrow.down.heart")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
@@ -133,7 +135,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         }
     }
     
-    let placeLikeLabel = UILabel().then {
+    var placeLikeLabel = UILabel().then {
         $0.text = "가볼게요"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -155,10 +157,9 @@ class MatchingPlaceInfoCell: UITableViewCell {
         
         return stackView
     }()
-    
-    private var isCallButtonSelected = false
-    private var isReviewButtonSelected = false
-    private var isLikeButtonSelected = false
+
+    var colorChange: (() -> Void) = {}
+
 
     
     //MARK: - Settings
@@ -174,46 +175,15 @@ class MatchingPlaceInfoCell: UITableViewCell {
         placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
         placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
 
-        // Button Click Effect
-        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
-        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
     }
     
-   
-    
-    //MARK: - Actions
-    
-    @objc func callButtonTapped(){
-        print("전화하기 버튼 클릭")
-        isCallButtonSelected.toggle()
-        updateButtonState(button: placeCallButton, label: placeCallLabel, isSelected: isCallButtonSelected)
-    }
-    
-    @objc func reviewButtonTapped() {
-        print("리뷰쓰기 버튼 클릭")
-        isReviewButtonSelected.toggle()
-        updateButtonState(button: placeReviewButton, label: placeReviewLabel, isSelected: isReviewButtonSelected)
-    }
-    
-    @objc func likeButtonTapped() {
-        print("가볼래요 버튼 클릭")
-        isLikeButtonSelected.toggle()
-        updateButtonState(button: placeLikeButton, label: placeLikeLabel, isSelected: isLikeButtonSelected)
+    @objc func didTappedButton(_ sender: UIButton){
+        colorChange()
     }
     
     
     //MARK: - ConfigureUI
-    
-    private func updateButtonState(button: UIButton, label: UILabel, isSelected: Bool) {
-        if isSelected {
-            button.tintColor = ColorGuide.main
-            label.textColor = ColorGuide.main
-        } else {
-            button.tintColor = .darkGray
-            label.textColor = .darkGray
-        }
-    }
+
     
     private func configureUI() {
         addSubViews()
@@ -246,8 +216,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
         footerDivider.snp.makeConstraints {
             $0.bottom.left.right.equalToSuperview()
             $0.height.equalTo(5)
-//            $0.bottom.equalToSuperview()
-//            $0.left.right.equalToSuperview().inset(23)
         }
         
         placeTitleLabel.snp.makeConstraints {

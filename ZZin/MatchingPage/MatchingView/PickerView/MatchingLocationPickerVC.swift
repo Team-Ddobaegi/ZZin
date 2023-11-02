@@ -103,7 +103,7 @@ class MatchingLocationPickerVC: UIViewController {
         
         updateLocation(city: self.selectedCity, town: self.selectedTown)
         
-        print("-----------------------","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")
+        print("~~피커뷰 선택값 전달합니두~~","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")
         self.dismiss(animated: true)
     }
 }

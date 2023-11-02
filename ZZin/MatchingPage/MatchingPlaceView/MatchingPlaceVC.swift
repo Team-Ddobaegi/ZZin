@@ -15,10 +15,15 @@ class MatchingPlaceVC: UIViewController {
     //MARK: - Properties
     
     private let matchingPlaceView = MatchingPlaceView()
+    var infoCell =  MatchingPlaceInfoCell()
     let dataManager = FireStoreManager()
     let db = Firestore.firestore()
     var placeID: String?
     var reviewID: [String?]?
+    var placeNum: String?
+    var isCallButtonSelected = false
+    var isReviewButtonSelected = false
+    var isLikeButtonSelected = false
     
     
     // MARK: - Life Cycle
@@ -68,7 +73,33 @@ class MatchingPlaceVC: UIViewController {
         return 1
     }
     
+    func fetchPlaces(){
+        FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
+            switch result {
+            case .success(let place):
+                let placeNum = place.placeTelNum
+                
+                self.placeNum = placeNum
+                
+            case .failure(let error):
+                print("Error fetching review: \(error.localizedDescription)")
+            }
+        }
+    }
     
+    func makePlaceCall(placeNumber: String) {
+        if let palceURL = URL(string: "tel://\(placeNumber)") {
+            if UIApplication.shared.canOpenURL(palceURL) {
+                UIApplication.shared.open(palceURL, options: [:], completionHandler: nil)
+            } else {
+                // 전화 걸기가 지원되지 않을 경우 사용자에게 메시지 표시
+                let alert = UIAlertController(title: "실패", message: "이 기기에서는 전화를 지원하지 않습니다.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alert.addAction(okAction)
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
     
     
     // MARK: - Actions
@@ -78,7 +109,53 @@ class MatchingPlaceVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func callButtonTapped(){
+        print("전화하기 버튼 선택: \(isCallButtonSelected)")
+        isCallButtonSelected.toggle()
+        
+        let callAlert = UIAlertController(title: "전화 걸기", message: "전화번호: \(self.placeNum ?? "")", preferredStyle: .alert)
+        let callAction = UIAlertAction(title: "전화걸기", style: .default) { [weak self] _ in
+            self?.makePlaceCall(placeNumber: self?.placeNum ?? "")
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+        callAlert.addAction(cancelAction)
+        callAlert.addAction(callAction)
+
+        self.present(callAlert, animated: true, completion: nil)
+    }
+   
+    
+    @objc func reviewButtonTapped() {
+        print("리뷰 작성 페이지로 이동합니다")
+        print("리뷰 버튼 선택: \(isReviewButtonSelected)")
+
+        isReviewButtonSelected.toggle()
+        
+        let postVC = PostViewController()
+        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        present(postVC, animated: true)
+    }
+    
+    @objc func likeButtonTapped() {
+        print("가볼래요 버튼 선택: \(isLikeButtonSelected)")
+        isLikeButtonSelected.toggle()
+        
+    }
+    
+
+    
     // MARK: - configureUI
+    
+    func updateButtonColor(button: UIButton, label: UILabel, isSelected: Bool) {
+        if isSelected {
+            button.tintColor = ColorGuide.main
+            label.textColor = ColorGuide.main
+        } else {
+            button.tintColor = .darkGray
+            label.textColor = .darkGray
+        }
+    }
     
     private func configureUI(){
         addSubViews()
@@ -184,7 +261,16 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             cell.selectionStyle = .none
+            cell.placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
+            cell.placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
+            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
+//            cell.colorChange  = { [self] in
+//                updateButtonColor(button: cell.placeCallButton, label: cell.placeCallLabel, isSelected: isCallButtonSelected)
+//                updateButtonColor(button: cell.placeReviewButton, label: cell.placeReviewLabel, isSelected: isReviewButtonSelected)
+//                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
+//            }
+
             FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
                 switch result {
                 case .success(let place):
@@ -221,10 +307,13 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("매칭 디테일 페이지로 이동합니다.")
+//        tableView.deselectRow(at: indexPath, animated: true)
+
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
+            print("매칭 디테일 페이지로 이동합니다.")
+
             let matchingPlaceReviewDetailVC = MatchingPlaceReviewDetailVC()
-            matchingPlaceReviewDetailVC.reviewID = reviewID
+            matchingPlaceReviewDetailVC.reviewID = reviewID?[indexPath.row]
 
             self.navigationController?.pushViewController(matchingPlaceReviewDetailVC, animated: true)
         }
