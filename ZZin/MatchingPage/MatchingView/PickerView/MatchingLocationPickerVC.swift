@@ -100,7 +100,7 @@ class MatchingLocationPickerVC: UIViewController {
 //        print("확인 버튼 탭")
         
         selectedLocation()
-
+        
         updateLocation(city: self.selectedCity, town: self.selectedTown)
         
         print("-----------------------","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")

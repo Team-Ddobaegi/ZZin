@@ -27,31 +27,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }
     
     
-    //MARK: - Settings
-    
-    private func setView(){
-        configureUI()
-        setButtonAttribute()
-    }
-    
-    private func setButtonAttribute(){
-        // Button Size Resizing
-        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-
-        // Button Click Effect
-        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
-        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
-    }
-    
-    private func changeButtonColor(button: UIButton, label: UILabel, tintColor: UIColor) {
-        button.tintColor = tintColor
-        label.textColor = tintColor
-    }
-    
-    
     // MARK: - Properties
     
     static let identifier = "MatchingRestaurantInfoCell"
@@ -83,6 +58,14 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     let divider = UIView().then {
         $0.backgroundColor = .lightGray
+    }
+    
+    let headerDivider = UIView().then {
+        $0.backgroundColor = .lightGray
+    }
+  
+    let footerDivider = UIView().then {
+        $0.backgroundColor = .lightGray.withAlphaComponent(0.3)
     }
     
     let placeMapView = UIView().then {
@@ -173,27 +156,64 @@ class MatchingPlaceInfoCell: UITableViewCell {
         return stackView
     }()
     
+    private var isCallButtonSelected = false
+    private var isReviewButtonSelected = false
+    private var isLikeButtonSelected = false
+
     
+    //MARK: - Settings
+    
+    private func setView(){
+        configureUI()
+        setButtonAttribute()
+    }
+    
+    private func setButtonAttribute(){
+        // Button Size Resizing
+        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+
+        // Button Click Effect
+        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
+        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
+        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+    }
+    
+   
     
     //MARK: - Actions
     
     @objc func callButtonTapped(){
         print("전화하기 버튼 클릭")
-        changeButtonColor(button: placeCallButton, label: placeCallLabel, tintColor: ColorGuide.main)
+        isCallButtonSelected.toggle()
+        updateButtonState(button: placeCallButton, label: placeCallLabel, isSelected: isCallButtonSelected)
     }
-
+    
     @objc func reviewButtonTapped() {
         print("리뷰쓰기 버튼 클릭")
-        changeButtonColor(button: placeReviewButton, label: placeReviewLabel, tintColor: ColorGuide.main)
+        isReviewButtonSelected.toggle()
+        updateButtonState(button: placeReviewButton, label: placeReviewLabel, isSelected: isReviewButtonSelected)
     }
     
     @objc func likeButtonTapped() {
         print("가볼래요 버튼 클릭")
-        changeButtonColor(button: placeLikeButton, label: placeLikeLabel, tintColor: ColorGuide.main)
+        isLikeButtonSelected.toggle()
+        updateButtonState(button: placeLikeButton, label: placeLikeLabel, isSelected: isLikeButtonSelected)
     }
     
     
     //MARK: - ConfigureUI
+    
+    private func updateButtonState(button: UIButton, label: UILabel, isSelected: Bool) {
+        if isSelected {
+            button.tintColor = ColorGuide.main
+            label.textColor = ColorGuide.main
+        } else {
+            button.tintColor = .darkGray
+            label.textColor = .darkGray
+        }
+    }
     
     private func configureUI() {
         addSubViews()
@@ -202,6 +222,8 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     private func addSubViews() {
         contentView.addSubview(view)
+        contentView.addSubview(headerDivider)
+        contentView.addSubview(footerDivider)
         view.addSubview(placeTitleLabel)
         view.addSubview(placeTypeLabel)
         view.addSubview(placeAddresseLabel)
@@ -214,6 +236,18 @@ class MatchingPlaceInfoCell: UITableViewCell {
         // 업체 정보를 보여줄 뷰
         view.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        headerDivider.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(0.3)
+        }
+        
+        footerDivider.snp.makeConstraints {
+            $0.bottom.left.right.equalToSuperview()
+            $0.height.equalTo(5)
+//            $0.bottom.equalToSuperview()
+//            $0.left.right.equalToSuperview().inset(23)
         }
         
         placeTitleLabel.snp.makeConstraints {
