@@ -9,6 +9,12 @@ import UIKit
 
 class MatchingPlaceReviewDetailVC: UIViewController {
     
+    //MARK: - Properties
+    
+    private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
+    var reviewID: [String?]?
+    lazy var updateText = "업데이트 확인용 텍스트라벨"
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -16,7 +22,6 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         
         setView()
     }
-    
     
     // MARK: - Settings
     
@@ -40,15 +45,9 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         // 매칭 업체 페이지 테이블뷰
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.delegate = self
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.dataSource = self
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.estimatedRowHeight = UITableView.automaticDimension
     }
-    
-    
-    //MARK: - Properties
-    
-    private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
-    
-    let reviewText = MatchingReviewTextCell().reviewTextLabel.text
-
     
     // MARK: - Actions
     
@@ -56,7 +55,6 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         print("매칭 업체 페이지로 돌아갑니다.")
         self.navigationController?.popViewController(animated: true)
     }
-    
     
     // MARK: - configureUI
     
@@ -67,12 +65,12 @@ class MatchingPlaceReviewDetailVC: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
 }
 
 
 
 // MARK: - TableView
+
 extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -82,9 +80,8 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
         case 1:
             return MatchingReviewPhotoCell.cellHeight()
         case 2:
-            let text = "\(reviewText ?? "")"
-            return MatchingReviewTextCell.calculateHeight(for: text)
-
+            return UITableView.automaticDimension
+          
         default:
             return 0
         }
@@ -92,8 +89,17 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
     
     func numberOfSections(in tableView: UITableView) -> Int {3}
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 40
+        }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0: return 1
+        case 1: return 1
+        case 2: return 1
+        default: return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,6 +111,9 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             cell.selectionStyle = .none
             cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
             
+            FireStorageManager().bindViewOnStorageWithRid(rid: reviewID?[indexPath.row] ?? "", reviewImgView: cell.review.img, title: cell.review.reviewTitleLabel, companion: cell.review.withKeywordLabel, condition: cell.review.conditionKeywordLabel, town: cell.review.regionLabel)
+            
+            
             return cell
             
         case 1:
@@ -112,15 +121,42 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewPhotoCell.identifier, for: indexPath) as! MatchingReviewPhotoCell
             cell.selectionStyle = .none
           
+            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { (result) in
+                switch result {
+                case .success(let review):
+                    let reviewImg = review.reviewImg
+                    FireStorageManager().bindPlaceImgWithPath(path: reviewImg, imageView: cell.photoImageView)
+                    
+                case .failure(let error):
+                    print("Error fetching review: \(error.localizedDescription)")
+                }
+            }
+            
             return cell
             
         case 2:
             // 매칭 리뷰 컨텐츠
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewTextCell.identifier, for: indexPath) as! MatchingReviewTextCell
-            cell.selectionStyle = .none
-          
-            let text = "\(reviewText ?? "")"
-            cell.setReviewText(text)
+
+            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { [weak self] result in
+                    switch result {
+                    case .success(let review):
+                        let content = review.content
+                        cell.reviewContentLabel.text = content
+                        cell.updateLabelText(content)
+
+                        print("$$$$$$$$ 업데이트 확인", cell.reviewContentLabel.text ?? "")
+
+                        // 테이블 뷰 업데이트 (한 번만 호출)
+                        DispatchQueue.main.async {
+                           tableView.beginUpdates()
+                           tableView.endUpdates()
+                        }
+                        
+                    case .failure(let error):
+                        print("Error fetching review: \(error.localizedDescription)")
+                    }
+                }
             
             return cell
         
@@ -130,6 +166,5 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             return cell
         }
     }
-    
-    
 }
+
