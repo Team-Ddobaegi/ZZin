@@ -179,28 +179,28 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-        
-        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
-            print("이메일 형식이 맞지 않습니다.")
-            return
-        }
-        
-        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
-            print("비밀번호 형식이 맞지 않습니다.")
-            return
-        }
-        
-        FireStoreManager.shared.loginUser(with: email, password: pw) { success in
-            if success {
-                print("사용자가 로그인했습니다.")
+//        
+//        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+//            print("이메일 형식이 맞지 않습니다.")
+//            return
+//        }
+//        
+//        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+//            print("비밀번호 형식이 맞지 않습니다.")
+//            return
+//        }
+//        
+//        FireStoreManager.shared.loginUser(with: email, password: pw) { success in
+//            if success {
+//                print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
-            } else {
-                print("사용자 로그인이 불가능합니다.")
-                self.showAlert(type: .loginFailure)
-            }
-        }
+//            } else {
+//                print("사용자 로그인이 불가능합니다.")
+//                self.showAlert(type: .loginFailure)
+//            }
+//        }
     }
     
     @objc func memberButtonTapped() {
