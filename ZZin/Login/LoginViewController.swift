@@ -179,7 +179,6 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-        
 //        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
 //            print("이메일 형식이 맞지 않습니다.")
 //            return

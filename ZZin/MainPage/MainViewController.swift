@@ -30,6 +30,7 @@ class MainViewController: UIViewController {
         fetchdata()
         placsFetchdata()
         setupUI()
+        LocationService.shared.startUpdatingLocation()
         
         DispatchQueue.main.async {[self] in
             storageManager.getPidAndRidWithUid(uid: uid){ [self] result in
