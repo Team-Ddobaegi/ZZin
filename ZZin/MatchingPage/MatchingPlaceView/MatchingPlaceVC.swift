@@ -12,13 +12,24 @@ import Firebase
 
 class MatchingPlaceVC: UIViewController {
     
+    //MARK: - Properties
+    
+    private let matchingPlaceView = MatchingPlaceView()
+    let dataManager = FireStoreManager()
+    let db = Firestore.firestore()
+    var placeID: String?
+    var reviewID: [String?]?
+    
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        matchingPlaceInfo()
-      
+
+        setView()
     }
+    
+    
     
     
     // MARK: - Settings
@@ -42,6 +53,7 @@ class MatchingPlaceVC: UIViewController {
         // 매칭 업체 페이지 테이블뷰
         matchingPlaceView.setMatchingPlaceTableView.delegate = self
         matchingPlaceView.setMatchingPlaceTableView.dataSource = self
+        matchingPlaceView.setMatchingPlaceTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     private func setCustomCell() {
@@ -55,52 +67,6 @@ class MatchingPlaceVC: UIViewController {
         // MatchingPlaceReviewCell의 개수 반환
         return 1
     }
-    
-    func matchingPlaceInfo(){
-        // 플레이스 정보 가져오기
-        db.collection("places").document(placeID ?? "").getDocument { (document, error) in
-            if let error = error {
-                print("Error getting document: \(error)")
-            } else if let document = document, document.exists {
-                if let placeData = document.data() {
-                   
-                    if let placeName = placeData["placeName"] as? String {
-                        print(placeName)
-                        self.placeName = placeName
-                    }
-                    
-                    if let placeAddress = placeData["address"] as? String {
-                        print(placeAddress)
-                        self.placeAddress = placeAddress
-                    }
-                    
-                    if let placeImg = placeData["placeImg"] as? String {
-                        self.placeImg = placeImg
-                    }
-                
-                }
-            }
-            self.setView()
-        }
-    }
-    
-    
-    
-    //MARK: - Properties
-    
-    private let matchingPlaceView = MatchingPlaceView()
-    let dataManager = FireStoreManager()
-    let db = Firestore.firestore()
-
-    var place: [Place?]?
-    var review: [Review]?
-
-    var placeID: String?
-    var placeName: String?
-    var placeAddress: String?
-    var placeImg: String?
-    
-    var collectionView: UICollectionView!  // 테이블셀에 넣을 컬렉션뷰 선언
     
     
     
@@ -143,18 +109,26 @@ extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate,
     
     // 커스텀 셀 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return placeImg?.count ?? 1
+        return reviewID?.count ?? 0
     }
     
     // 커스텀 셀 호출
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier ,for: indexPath) as? MatchingPlacePhotoCollectionViewCell else {
             return UICollectionViewCell()
-            
             }
-        let placeImgPath = place?[indexPath.item]?.placeImg[0]
-        FireStorageManager().bindPlaceImgWithPath(path: placeImgPath, imageView: cell.placeImage)
+        
+        FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
+            switch result {
+            case .success(let place):
+               
+                let placeImgPath = place.placeImg[indexPath.item]
+                FireStorageManager().bindPlaceImgWithPath(path: placeImgPath, imageView: cell.placeImage)
 
+            case .failure(let error):
+                print("Error fetching review: \(error.localizedDescription)")
+            }
+        }
         return cell
     }
 }
@@ -164,7 +138,8 @@ extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate,
 //MARK: - TableView
 
 extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
-    
+  
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: return 150
@@ -172,7 +147,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
         case 2:    
             // MatchingPlaceReviewCell 섹션의 높이 계산
             let numberOfReviewCells = numberOfMatchingPlaceReviewCells()
-            let cellHeight: CGFloat = 220 // 미리 정의한 Cell의 높이
+            let cellHeight: CGFloat = 230 // 미리 정의한 Cell의 높이
             
             return CGFloat(numberOfReviewCells) * cellHeight
         default: return 700
@@ -182,8 +157,14 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {3}
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0: return 1
+        case 1: return 1
+        case 2: return reviewID?.count ?? 0
+        default: return 1
+        }
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
@@ -203,8 +184,21 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             cell.selectionStyle = .none
-            cell.placeTitleLabel.text = self.placeName
-            cell.placeAddresseLabel.text = self.placeAddress
+            
+            FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
+                switch result {
+                case .success(let place):
+                    let placeName = place.placeName
+                    let placeAddress = place.address
+                  
+                    cell.placeTitleLabel.text = placeName
+                    cell.placeAddresseLabel.text = placeAddress
+                   
+                case .failure(let error):
+                    print("Error fetching review: \(error.localizedDescription)")
+                }
+            }
+          
             
             return cell
             
@@ -214,17 +208,9 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             cell.selectionStyle = .none
-            
-            if let placeData = place {
-                let companionKeyword = placeData[indexPath.item]?.companion
-                cell.recommendPlaceReview.withKeywordLabel.text = companionKeyword
-                
-                let conditionKeyword = placeData[indexPath.item]?.condition
-                cell.recommendPlaceReview.conditionKeywordLabel.text = conditionKeyword
-                
-                let title = placeData[indexPath.item]?.rid[0] ?? "title"
-                cell.recommendPlaceReview.reviewTitleLabel.text = title
-            }
+
+            FireStorageManager().bindViewOnStorageWithRid(rid: reviewID?[indexPath.row] ?? "", reviewImgView: cell.recommendPlaceReview.img, title: cell.recommendPlaceReview.reviewTitleLabel, companion: cell.recommendPlaceReview.withKeywordLabel, condition: cell.recommendPlaceReview.conditionKeywordLabel, town: cell.recommendPlaceReview.regionLabel)
+           
             return cell
             
         default:
@@ -238,10 +224,11 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
         print("매칭 디테일 페이지로 이동합니다.")
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
             let matchingPlaceReviewDetailVC = MatchingPlaceReviewDetailVC()
-            
+            matchingPlaceReviewDetailVC.reviewID = reviewID
+
             self.navigationController?.pushViewController(matchingPlaceReviewDetailVC, animated: true)
         }
-        
+    
     }
 }
 

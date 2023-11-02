@@ -56,7 +56,7 @@ class MatchingPlaceReviewCell: UITableViewCell {
             $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(180)
+            $0.height.equalTo(210)
         }
     }
 }
