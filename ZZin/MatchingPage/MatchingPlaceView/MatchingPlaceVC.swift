@@ -25,12 +25,11 @@ class MatchingPlaceVC: UIViewController {
     var isReviewButtonSelected = false
     var isLikeButtonSelected = false
     
-    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setView()
     }
     
@@ -48,8 +47,8 @@ class MatchingPlaceVC: UIViewController {
         setCustomCell()
         configureUI()
     }
-   
-        
+    
+    
     private func setXMarkButton(){
         matchingPlaceView.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
     }
@@ -110,7 +109,7 @@ class MatchingPlaceVC: UIViewController {
     }
     
     @objc func callButtonTapped(){
-        print("전화하기 버튼 선택: \(isCallButtonSelected)")
+        print("전화하기 버튼 선택: \(!isCallButtonSelected)")
         isCallButtonSelected.toggle()
         
         let callAlert = UIAlertController(title: "전화 걸기", message: "전화번호: \(self.placeNum ?? "")", preferredStyle: .alert)
@@ -118,19 +117,17 @@ class MatchingPlaceVC: UIViewController {
             self?.makePlaceCall(placeNumber: self?.placeNum ?? "")
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-
-        callAlert.addAction(cancelAction)
+        
         callAlert.addAction(callAction)
-
+        callAlert.addAction(cancelAction)
+        
         self.present(callAlert, animated: true, completion: nil)
     }
-   
+    
     
     @objc func reviewButtonTapped() {
+        print("리뷰 버튼 선택: \(!isReviewButtonSelected)")
         print("리뷰 작성 페이지로 이동합니다")
-        print("리뷰 버튼 선택: \(isReviewButtonSelected)")
-
-        isReviewButtonSelected.toggle()
         
         let postVC = PostViewController()
         postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
@@ -138,12 +135,13 @@ class MatchingPlaceVC: UIViewController {
     }
     
     @objc func likeButtonTapped() {
-        print("가볼래요 버튼 선택: \(isLikeButtonSelected)")
+        print("가볼래요 버튼 선택: \(!isLikeButtonSelected)")
         isLikeButtonSelected.toggle()
         
+        updateLikePlace()
     }
     
-
+    
     
     // MARK: - configureUI
     
@@ -154,6 +152,19 @@ class MatchingPlaceVC: UIViewController {
         } else {
             button.tintColor = .darkGray
             label.textColor = .darkGray
+        }
+    }
+    
+    func updateLikePlace() {
+        if isLikeButtonSelected {
+            let alert = UIAlertController(title: "알림", message: "맛집이 저장되었습니다.", preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+            
+        } else {
+            let alert = UIAlertController(title: "알림", message: "맛집 저장이 취소되었습니다.", preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
         }
     }
     
@@ -179,6 +190,11 @@ class MatchingPlaceVC: UIViewController {
 
 extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    // 커스텀 셀 간격
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
     // 커스텀 셀 사이즈
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 150, height: 150)
@@ -193,15 +209,15 @@ extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier ,for: indexPath) as? MatchingPlacePhotoCollectionViewCell else {
             return UICollectionViewCell()
-            }
+        }
         
         FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
             switch result {
             case .success(let place):
-               
+                
                 let placeImgPath = place.placeImg[indexPath.item]
                 FireStorageManager().bindPlaceImgWithPath(path: placeImgPath, imageView: cell.placeImage)
-
+                
             case .failure(let error):
                 print("Error fetching review: \(error.localizedDescription)")
             }
@@ -215,13 +231,13 @@ extension MatchingPlaceVC: UICollectionViewDataSource, UICollectionViewDelegate,
 //MARK: - TableView
 
 extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
-  
-
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: return 150
         case 1: return 420
-        case 2:    
+        case 2:
             // MatchingPlaceReviewCell 섹션의 높이 계산
             let numberOfReviewCells = numberOfMatchingPlaceReviewCells()
             let cellHeight: CGFloat = 230 // 미리 정의한 Cell의 높이
@@ -265,26 +281,24 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             cell.placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
             cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
-//            cell.colorChange  = { [self] in
-//                updateButtonColor(button: cell.placeCallButton, label: cell.placeCallLabel, isSelected: isCallButtonSelected)
-//                updateButtonColor(button: cell.placeReviewButton, label: cell.placeReviewLabel, isSelected: isReviewButtonSelected)
-//                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
-//            }
-
+            cell.colorChange  = { [self] in
+                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
+            }
+            
             FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
                 switch result {
                 case .success(let place):
                     let placeName = place.placeName
                     let placeAddress = place.address
-                  
+                    
                     cell.placeTitleLabel.text = placeName
                     cell.placeAddresseLabel.text = placeAddress
-                   
+                    
                 case .failure(let error):
                     print("Error fetching review: \(error.localizedDescription)")
                 }
             }
-          
+            
             
             return cell
             
@@ -294,9 +308,9 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
                 return UITableViewCell()
             }
             cell.selectionStyle = .none
-
+            
             FireStorageManager().bindViewOnStorageWithRid(rid: reviewID?[indexPath.row] ?? "", reviewImgView: cell.recommendPlaceReview.img, title: cell.recommendPlaceReview.reviewTitleLabel, companion: cell.recommendPlaceReview.withKeywordLabel, condition: cell.recommendPlaceReview.conditionKeywordLabel, town: cell.recommendPlaceReview.regionLabel)
-           
+            
             return cell
             
         default:
@@ -307,17 +321,17 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-
+        //        tableView.deselectRow(at: indexPath, animated: true)
+        
         if tableView.cellForRow(at: indexPath) is MatchingPlaceReviewCell {
             print("매칭 디테일 페이지로 이동합니다.")
-
+            
             let matchingPlaceReviewDetailVC = MatchingPlaceReviewDetailVC()
             matchingPlaceReviewDetailVC.reviewID = reviewID?[indexPath.row]
-
+            
             self.navigationController?.pushViewController(matchingPlaceReviewDetailVC, animated: true)
         }
-    
+        
     }
 }
 

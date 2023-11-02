@@ -9,6 +9,14 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MatchingPlaceInfoCellDelegate: MatchingPlaceVC {
+    // 위임할 기능을 적는다.
+    func touchUpCallButton()
+    
+    func touchUpReviewButton()
+    
+    func touchUpLikeButton()
+}
 
 //MARK: - 매칭 업체 정보가 나오는 TableView Cell
 
@@ -30,7 +38,8 @@ class MatchingPlaceInfoCell: UITableViewCell {
     // MARK: - Properties
     
     static let identifier = "MatchingRestaurantInfoCell"
-    
+    weak var delegate: MatchingPlaceInfoCellDelegate?
+
     let view = UIView().then {
         $0.backgroundColor = .white
     }
