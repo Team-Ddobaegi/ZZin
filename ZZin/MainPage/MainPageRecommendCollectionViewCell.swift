@@ -12,86 +12,64 @@ class MainPageRecommendCollectionViewCell: UICollectionViewCell {
     static let identifier = "MainPageRecommendCollectionViewCell"
     private var isBookmarked = false
     
-    private let view: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-//        view.layer.cornerRadius = 38
-        view.clipsToBounds = true
-        return view
-    }()
-
-    let recommendPicture: UIImageView = {
-        let imageView = UIImageView()
-//        imageView.image = UIImage(named: "")
-        imageView.backgroundColor = ColorGuide.subButton
-        imageView.layer.cornerRadius = 38
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.isUserInteractionEnabled = true
-        imageView.snp.makeConstraints {
+    private let containerView = UIView().then {
+        $0.backgroundColor = .systemBackground
+    }
+    
+    let recommendPictureView = UIImageView().then {
+        $0.backgroundColor = ColorGuide.subButton
+        $0.layer.cornerRadius = 38
+        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFill
+        $0.isUserInteractionEnabled = true
+        $0.snp.makeConstraints {
             $0.height.width.equalTo(76)
         }
-        return imageView
-    }()
-
-//    let recommendButton: UIButton = {
-//        let button = UIButton()
-//        button.backgroundColor = .systemGray6
-//        button.layer.cornerRadius = 38
-//        button.snp.makeConstraints {
-//            $0.height.width.equalTo(76)
-//        }
-//        return button
-//    }()
+    }
     
-    var recommendLabel: UILabel = {
-        let label = UILabel()
-        label.text = "강남구"
-        label.font = FontGuide.size16
-        label.textColor = .black
-        label.textAlignment = .center
-        label.snp.makeConstraints {
-            $0.height.equalTo(20)
-            $0.width.equalTo(50)
+    var recommendLabel = UILabel().then {
+        $0.text = "강남구"
+        $0.font = FontGuide.size16
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.snp.makeConstraints {
+            $0.size.equalTo(CGSize(width: 50, height: 20))
         }
-        return label
-    }()
-
+    }
+    
     private lazy var recommendStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [recommendPicture, recommendLabel])
+        let stackView = UIStackView(arrangedSubviews: [recommendPictureView, recommendLabel])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 5
         return stackView
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configure()
         setupUI()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func prepareForReuse() {
-        super .prepareForReuse()
+    
+    func configure() {
+        [containerView, recommendStackView].forEach { self.addSubview($0) }
     }
-}
-
-extension MainPageRecommendCollectionViewCell {
+    
     func setupUI() {
-        
-        self.addSubview(view)
-        view.snp.makeConstraints {
+        containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        view.addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
-//            $0.edges.equalToSuperview()
-            }
-
-
         }
+    }
 }

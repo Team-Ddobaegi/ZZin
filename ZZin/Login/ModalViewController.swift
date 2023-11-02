@@ -13,26 +13,20 @@ class ModalViewController: UIViewController {
     var userID: String?
     var password: String?
     
-    private let noticeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "당신의 찐 ID를 찾았어요!"
-        label.font = UIFont.systemFont(ofSize: 20)
-        return label
-    }()
+    private let noticeLabel = UILabel().then {
+        $0.text = "당신의 찐 ID를 찾았어요!"
+        $0.font = UIFont.systemFont(ofSize: 20)
+    }
     
-    private var userInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "테스트 명칭"
-        label.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-        return label
-    }()
+    private var userInfoLabel = UILabel().then {
+        $0.text = "테스트 명칭"
+        $0.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+    }
     
-    private let endNoticeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "입니다"
-        label.font = UIFont.systemFont(ofSize: 20)
-        return label
-    }()
+    private let endNoticeLabel = UILabel().then {
+        $0.text = "입니다"
+        $0.font = UIFont.systemFont(ofSize: 20)
+    }
     
     private lazy var noticeStackView: UIStackView = {
         let stackView = UIStackView()
@@ -45,17 +39,15 @@ class ModalViewController: UIViewController {
         return stackView
     }()
     
-    private let confirmButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        button.setTitle("확인", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.cornerRadius = 20
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let confirmButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        $0.setTitle("확인", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.layer.cornerRadius = 20
+        $0.clipsToBounds = true
+        $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
+    }
     
     func configure() {
         [noticeStackView, confirmButton].forEach{view.addSubview($0)}

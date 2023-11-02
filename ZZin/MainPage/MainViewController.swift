@@ -40,9 +40,9 @@ class MainViewController: UIViewController {
                 print("pidArr", pidArr)
                 print("ridArr", ridArr)
                 self.mainView.reviewCollectionView.reloadData()
-                self.mainView.recommendcollectionView.reloadData()
+                self.mainView.recommendCollectionView.reloadData()
             }
-        }
+        }        
     }
     
     func fetchdata() {
@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
                 self.reviewData = result
                 
                 self.mainView.reviewCollectionView.reloadData()
-                self.mainView.recommendcollectionView.reloadData()
+                self.mainView.recommendCollectionView.reloadData()
                 
             case.failure(let error):
                 print(error)
@@ -67,7 +67,7 @@ class MainViewController: UIViewController {
                 self.placeData = result
                 
                 self.mainView.reviewCollectionView.reloadData()
-                self.mainView.recommendcollectionView.reloadData()
+                self.mainView.recommendCollectionView.reloadData()
 
             case.failure(let error):
                 print(error)
@@ -89,8 +89,8 @@ class MainViewController: UIViewController {
                 $0.width.equalTo(scrollView)
             }
             
-            mainView.recommendcollectionView.dataSource = self
-            mainView.recommendcollectionView.delegate = self
+            mainView.recommendCollectionView.dataSource = self
+            mainView.recommendCollectionView.delegate = self
             mainView.reviewCollectionView.dataSource = self
             mainView.reviewCollectionView.delegate = self
             
@@ -107,19 +107,19 @@ class MainViewController: UIViewController {
         }
         
         @objc func rankButtonAction() {
-            mainView.rank1Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
-            mainView.rank2Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
-            mainView.rank3Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
-            mainView.rank4Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
-            mainView.rank5Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
-            mainView.rank6Button.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.topRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.secondRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.thirdRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.fourthRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.fifthRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
+            mainView.sixthRankButton.addTarget(self, action: #selector(rankButtonAction), for: .touchUpInside)
             
-            mainView.rank1Button.tag = 1
-            mainView.rank2Button.tag = 2
-            mainView.rank3Button.tag = 3
-            mainView.rank4Button.tag = 4
-            mainView.rank5Button.tag = 5
-            mainView.rank6Button.tag = 6
+            mainView.topRankButton.tag = 1
+            mainView.secondRankButton.tag = 2
+            mainView.thirdRankButton.tag = 3
+            mainView.fourthRankButton.tag = 4
+            mainView.fifthRankButton.tag = 5
+            mainView.sixthRankButton.tag = 6
 
         }
         
@@ -157,14 +157,14 @@ class MainViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            if collectionView == mainView.recommendcollectionView {
+            if collectionView == mainView.recommendCollectionView {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainPageRecommendCollectionViewCell.identifier, for: indexPath) as? MainPageRecommendCollectionViewCell else {
                     fatalError()
                 }
-                let arry2 = ["강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구"]
-                let arry = ["강남구","강서구","강북구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구"]
-                cell.recommendLabel.text = arry[indexPath.item]
-                cell.recommendPicture.image = UIImage(named: arry2[indexPath.item])
+//                let arry2 = ["강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구","강남","송파구","성수동","중구"]
+//                let arry = ["강남구","강서구","강북구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구","서대문구","마포구","강남구","강서구"]
+//                cell.recommendLabel.text = arry[indexPath.item]
+//                cell.recommendPicture.image = UIImage(named: arry2[indexPath.item])
 //                let rid = ridArr?[indexPath.item] ?? ""                let cell = reviewUiView
 //버튼저 레이어점 백그란운드
 
@@ -200,7 +200,7 @@ class MainViewController: UIViewController {
     
     extension MainViewController: UICollectionViewDelegateFlowLayout {
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            if collectionView == mainView.recommendcollectionView {
+            if collectionView == mainView.recommendCollectionView {
                 return CGSize(width: 76, height: 110)
             } else if collectionView == mainView.reviewCollectionView {
                 return CGSize(width: 353, height: 237)
@@ -209,7 +209,7 @@ class MainViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            if collectionView == mainView.recommendcollectionView {
+            if collectionView == mainView.recommendCollectionView {
                 return 20
             } else if collectionView == mainView.reviewCollectionView {
                 return 20
@@ -218,7 +218,7 @@ class MainViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            if collectionView == mainView.recommendcollectionView {
+            if collectionView == mainView.recommendCollectionView {
                 // 왼쪽 여백을 20으로 설정
                 return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
             } else if collectionView == mainView.reviewCollectionView {

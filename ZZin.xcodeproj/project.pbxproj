@@ -63,6 +63,7 @@
 		BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5502ADD33D800A9F4A0 /* FirebaseStorage */; };
 		BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
+		BD4E2DDC2AF2AF1800A93AB5 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4E2DDB2AF2AF1800A93AB5 /* CustomButton.swift */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
 		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
@@ -157,6 +158,7 @@
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		BD4E2DDB2AF2AF1800A93AB5 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				BDD983732AE0D28C008168D2 /* ModalViewController.swift */,
 				BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */,
 				BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */,
+				BD4E2DDB2AF2AF1800A93AB5 /* CustomButton.swift */,
 				BD69C6802AE611F80042F9AF /* Model */,
 				BD8D6AFE2ADEE7D700F2A8D6 /* CardViews */,
 				BD953A652AE1FC5800E07C36 /* Utility */,
@@ -782,6 +785,7 @@
 				BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */,
 				DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
+				BD4E2DDC2AF2AF1800A93AB5 /* CustomButton.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
