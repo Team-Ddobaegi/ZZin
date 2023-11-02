@@ -160,7 +160,7 @@ class FireStorageManager {
     }
     
     func bindViewOnStorageWithRid(rid: String, reviewImgView: UIImageView?, title: UILabel?, companion: UILabel?, condition: UILabel?, town: UILabel?) {
-        
+      
         // placeholderImage
         let placeholderImage = UIImage(named: "add_photo.png")
         

@@ -52,7 +52,7 @@ class MatchingLocationPickerVC: UIViewController {
     }
     
     deinit{
-        print("deinit SearchMapViewController")
+        print("deinit MatchingLocationPickerVC")
     }
     
     // MARK: - Settings
