@@ -176,7 +176,7 @@ class RecommendPlaceReviewThumbnail: UIView {
         $0.layer.cornerRadius = 15
         $0.layer.opacity = 0.4
         $0.clipsToBounds = true
-        $0.contentMode = .scaleToFill
+        $0.contentMode = .scaleAspectFill
     }
     
     var reviewTitleLabel: UILabel = {

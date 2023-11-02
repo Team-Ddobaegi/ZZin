@@ -12,6 +12,7 @@ import Then
 class CustomTextfieldView: UIView {
     
     enum ButtonType {
+        case noButton
         case cancelButton
         case hideButton
         case doubleCheckButton
@@ -83,6 +84,7 @@ class CustomTextfieldView: UIView {
         commonInit()
         
         switch button {
+        case .noButton: print("no button")
         case .cancelButton: addCancelButton()
         case .hideButton: addEyeButton()
         case .doubleCheckButton: addDoubleCheckButton()

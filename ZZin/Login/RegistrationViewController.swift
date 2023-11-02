@@ -71,16 +71,16 @@ class RegistrationViewController: UIViewController {
     
     private func setIdTextfieldView() {
         emailTextFieldView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(282)
             $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(282)
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
     
     private func setPwTextFieldView() {
         pwTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
+            $0.top.equalTo(emailTextFieldView.snp.bottom).offset(20)
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
@@ -298,10 +298,18 @@ extension RegistrationViewController {
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
-        case self.emailTextFieldView.textfield: emailTextFieldView.textfield.placeholder = "자주 쓰는 이메일이 있나요?"
-        case self.nicknameTextFieldView.textfield: nicknameTextFieldView.textfield.placeholder = "나만의 닉넴은?"
-        case self.numberTextFieldView.textfield: numberTextFieldView.textfield.placeholder = "여러분의 전화번호를 적어주세요"
-        case self.pwTextFieldView.textfield: pwTextFieldView.textfield.placeholder = "철통보안!"
+        case self.emailTextFieldView.textfield:
+            emailTextFieldView.animateLabel()
+            emailTextFieldView.textfield.placeholder = "자주 쓰는 이메일이 있나요?"
+        case self.nicknameTextFieldView.textfield:
+            nicknameTextFieldView.animateLabel()
+            nicknameTextFieldView.textfield.placeholder = "나만의 닉넴은?"
+        case self.numberTextFieldView.textfield:
+            numberTextFieldView.animateLabel()
+            numberTextFieldView.textfield.placeholder = "여러분의 전화번호를 적어주세요"
+        case self.pwTextFieldView.textfield:
+            pwTextFieldView.animateLabel()
+            pwTextFieldView.textfield.placeholder = "철통보안!"
         default: print("textfield를 찾지 못했습니다.")
         }
     }
