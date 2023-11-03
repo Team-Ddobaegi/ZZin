@@ -33,19 +33,31 @@ class MainViewController: UIViewController {
     }
     
     func fetchData() {
-            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
-                loadedRidAndPid = result
-                ridArr = loadedRidAndPid["ridArr"] ?? []
-                print("ridArr", ridArr)
-                mainView.tableView.reloadData()
+        FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
+            loadedRidAndPid = result
+            ridArr = loadedRidAndPid["ridArr"] ?? []
+            mainView.tableView.reloadData()
+        }
+    }
+    
+    func fetchPlaceData() {
+        FireStoreManager.shared.getPlaceData { data in
+            switch data {
+            case .success(let result):
+                self.placeData = result
+                
+            case .failure(let error):
+                print(error)
             }
         }
+    }
 }
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchData()
+        fetchPlaceData()
     }
     
     override func viewDidLoad() {
@@ -69,6 +81,10 @@ extension MainViewController: UITableViewDelegate {
         case 2: return 250
         default: return 200
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 28
     }
 }
 

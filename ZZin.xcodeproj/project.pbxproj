@@ -472,9 +472,9 @@
 		BDC112742AF52EC9000E4F9F /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
 				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
 				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
-				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";

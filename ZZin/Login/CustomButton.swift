@@ -11,8 +11,8 @@ class CustomButton: UIButton {
 
     init(title: String, img: String, width: Int? = nil, height: Int? = nil) {
         super.init(frame: .zero)
-        setTitle(title, for: .normal)
-        setImage(UIImage(named: img), for: .normal)
+        self.setTitle(title, for: .normal)
+        self.setImage(UIImage(named: img), for: .normal)
 
         self.backgroundColor = ColorGuide.subButton
         self.titleLabel?.font = FontGuide.size16Bold

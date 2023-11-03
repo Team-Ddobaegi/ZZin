@@ -31,7 +31,7 @@ class MainHeaderView: UITableViewHeaderFooterView {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-5)
         }
     }
     

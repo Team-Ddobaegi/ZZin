@@ -21,7 +21,7 @@ class ButtonTableViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [topRankButton, secondRankButton, thirdRankButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 19
+        stackView.spacing = 20
         return stackView
     }()
     
@@ -29,7 +29,7 @@ class ButtonTableViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [fourthRankButton, fifthRankButton, sixthRankButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 19
+        stackView.spacing = 20
         return stackView
     }()
     
