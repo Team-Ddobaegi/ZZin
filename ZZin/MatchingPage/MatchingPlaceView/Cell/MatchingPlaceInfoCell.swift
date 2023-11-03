@@ -9,6 +9,14 @@ import UIKit
 import SnapKit
 import Then
 
+protocol MatchingPlaceInfoCellDelegate: MatchingPlaceVC {
+    // 위임할 기능을 적는다.
+    func touchUpCallButton()
+    
+    func touchUpReviewButton()
+    
+    func touchUpLikeButton()
+}
 
 //MARK: - 매칭 업체 정보가 나오는 TableView Cell
 
@@ -27,35 +35,11 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }
     
     
-    //MARK: - Settings
-    
-    private func setView(){
-        configureUI()
-        setButtonAttribute()
-    }
-    
-    private func setButtonAttribute(){
-        // Button Size Resizing
-        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-
-        // Button Click Effect
-        placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
-        placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-        placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
-    }
-    
-    private func changeButtonColor(button: UIButton, label: UILabel, tintColor: UIColor) {
-        button.tintColor = tintColor
-        label.textColor = tintColor
-    }
-    
-    
     // MARK: - Properties
     
     static let identifier = "MatchingRestaurantInfoCell"
-    
+    weak var delegate: MatchingPlaceInfoCellDelegate?
+
     let view = UIView().then {
         $0.backgroundColor = .white
     }
@@ -85,12 +69,20 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.backgroundColor = .lightGray
     }
     
+    let headerDivider = UIView().then {
+        $0.backgroundColor = .lightGray
+    }
+  
+    let footerDivider = UIView().then {
+        $0.backgroundColor = .lightGray.withAlphaComponent(0.3)
+    }
+    
     let placeMapView = UIView().then {
         $0.backgroundColor = .lightGray
     }
     
     
-    let placeCallButton = UIButton().then {
+    var placeCallButton = UIButton().then {
         let iconImage = UIImage(systemName: "phone.fill")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
@@ -98,9 +90,10 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
+        $0.addTarget(self, action: #selector(didTappedButton), for: .touchUpInside)
     }
     
-    let placeCallLabel = UILabel().then {
+    var placeCallLabel = UILabel().then {
         $0.text = "전화하기"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -114,17 +107,18 @@ class MatchingPlaceInfoCell: UITableViewCell {
         return stackView
     }()
     
-    let placeReviewButton = UIButton().then {
+    var placeReviewButton = UIButton().then {
         let iconImage = UIImage(systemName: "square.and.pencil")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
         $0.contentVerticalAlignment = .center
+        $0.isHighlighted = false
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
     }
     
-    let placeReviewLabel = UILabel().then {
+    var placeReviewLabel = UILabel().then {
         $0.text = "리뷰쓰기"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -139,7 +133,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }()
     
     
-    let placeLikeButton = UIButton().then {
+    var placeLikeButton = UIButton().then {
         let iconImage = UIImage(systemName: "arrow.down.heart")
         $0.setImage(iconImage, for: .normal)
         $0.tintColor = .darkGray
@@ -150,7 +144,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         }
     }
     
-    let placeLikeLabel = UILabel().then {
+    var placeLikeLabel = UILabel().then {
         $0.text = "가볼게요"
         $0.textColor = .darkGray
         $0.textAlignment = .center
@@ -172,28 +166,33 @@ class MatchingPlaceInfoCell: UITableViewCell {
         
         return stackView
     }()
-    
-    
-    
-    //MARK: - Actions
-    
-    @objc func callButtonTapped(){
-        print("전화하기 버튼 클릭")
-        changeButtonColor(button: placeCallButton, label: placeCallLabel, tintColor: ColorGuide.main)
-    }
 
-    @objc func reviewButtonTapped() {
-        print("리뷰쓰기 버튼 클릭")
-        changeButtonColor(button: placeReviewButton, label: placeReviewLabel, tintColor: ColorGuide.main)
+    var colorChange: (() -> Void) = {}
+
+
+    
+    //MARK: - Settings
+    
+    private func setView(){
+        configureUI()
+        setButtonAttribute()
     }
     
-    @objc func likeButtonTapped() {
-        print("가볼래요 버튼 클릭")
-        changeButtonColor(button: placeLikeButton, label: placeLikeLabel, tintColor: ColorGuide.main)
+    private func setButtonAttribute(){
+        // Button Size Resizing
+        placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+
+    }
+    
+    @objc func didTappedButton(_ sender: UIButton){
+        colorChange()
     }
     
     
     //MARK: - ConfigureUI
+
     
     private func configureUI() {
         addSubViews()
@@ -202,6 +201,8 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     private func addSubViews() {
         contentView.addSubview(view)
+        contentView.addSubview(headerDivider)
+        contentView.addSubview(footerDivider)
         view.addSubview(placeTitleLabel)
         view.addSubview(placeTypeLabel)
         view.addSubview(placeAddresseLabel)
@@ -214,6 +215,16 @@ class MatchingPlaceInfoCell: UITableViewCell {
         // 업체 정보를 보여줄 뷰
         view.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        headerDivider.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(0.3)
+        }
+        
+        footerDivider.snp.makeConstraints {
+            $0.bottom.left.right.equalToSuperview()
+            $0.height.equalTo(5)
         }
         
         placeTitleLabel.snp.makeConstraints {

@@ -279,6 +279,9 @@ extension MatchingVC: LocationPickerViewDelegate {
         self.currentCity = selectedCity
         self.currentTown = selectedTown
         
+        print("~~피커뷰 선택값 전달받았읍니두~~","\(self.currentCity ?? "지역") \(self.currentTown ?? "미설정")")
+        
+      
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
     }
@@ -290,30 +293,32 @@ extension MatchingVC: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
         let keywordType = keywordType
         
-        switch keywordType {
-        case .companion:
-            if let updateKeyword = keyword.first {
-                matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
-                matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.companionKeyword = keyword
-            }
-            
-        case .condition:
-            if let updateKeyword = keyword.first {
-                matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
-                matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.conditionKeyword = keyword
-            }
-            
-        case .kindOfFood:
-            if let updateKeyword = keyword.first {
-                matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
-                matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.kindOfFoodKeyword = keyword
-            }
+            switch keywordType {
+            case .companion:
+                if let updateKeyword = keyword.first {
+                    matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.companionKeyword = keyword
+                }
+                
+            case .condition:
+                if let updateKeyword = keyword.first {
+                    matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.conditionKeyword = keyword
+                }
+                
+            case .kindOfFood:
+                if let updateKeyword = keyword.first {
+                    matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.kindOfFoodKeyword = keyword
+                }
+                
         }
-        
+
         fetchPlacesWithKeywords()
+
     }
 }
 
@@ -372,8 +377,10 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("매칭 업체 페이지로 이동합니다.")
+        
         if collectionView.cellForItem(at: indexPath) is MatchingResultCell {
+            print("매칭 업체 페이지로 이동합니다.")
+
             let matchingPlaceVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
             

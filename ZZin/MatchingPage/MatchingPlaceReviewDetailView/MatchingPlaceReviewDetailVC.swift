@@ -12,8 +12,9 @@ class MatchingPlaceReviewDetailVC: UIViewController {
     //MARK: - Properties
     
     private let matchingPlaceReviewDetailView = MatchingPlaceReviewDetailView()
-    var reviewID: [String?]?
+    var reviewID: String?
     lazy var updateText = "업데이트 확인용 텍스트라벨"
+    
     
     // MARK: - Life Cycle
     
@@ -111,7 +112,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             cell.selectionStyle = .none
             cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
             
-            FireStorageManager().bindViewOnStorageWithRid(rid: reviewID?[indexPath.row] ?? "", reviewImgView: cell.review.img, title: cell.review.reviewTitleLabel, companion: cell.review.withKeywordLabel, condition: cell.review.conditionKeywordLabel, town: cell.review.regionLabel)
+            FireStorageManager().bindViewOnStorageWithRid(rid: reviewID ?? "", reviewImgView: cell.review.img, title: cell.review.reviewTitleLabel, companion: cell.review.withKeywordLabel, condition: cell.review.conditionKeywordLabel, town: cell.review.regionLabel)
             
             
             return cell
@@ -121,7 +122,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewPhotoCell.identifier, for: indexPath) as! MatchingReviewPhotoCell
             cell.selectionStyle = .none
           
-            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { (result) in
+            FireStoreManager.shared.fetchDataWithRid(rid: reviewID ?? "") { (result) in
                 switch result {
                 case .success(let review):
                     let reviewImg = review.reviewImg
@@ -138,7 +139,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             // 매칭 리뷰 컨텐츠
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingReviewTextCell.identifier, for: indexPath) as! MatchingReviewTextCell
 
-            FireStoreManager.shared.fetchDataWithRid(rid: reviewID?[indexPath.row] ?? "") { [weak self] result in
+            FireStoreManager.shared.fetchDataWithRid(rid: reviewID ?? "") { [weak self] result in
                     switch result {
                     case .success(let review):
                         let content = review.content
