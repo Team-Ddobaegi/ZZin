@@ -55,6 +55,7 @@ class SearchMapViewController: UIViewController {
                 self.selectedTown = address.last
                 self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
                 print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
+                self.fetchPlacesWithKeywords()
             } else {
                 print("Address not found.")
             }
