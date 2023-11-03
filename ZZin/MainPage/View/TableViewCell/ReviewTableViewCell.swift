@@ -60,12 +60,11 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { fatalError() }
-        guard data == [] else { return cell }
-        
-        if let rid = data?[indexPath.item] {
-            cell.dataBinding(rid: rid)
+        if data != [] {
+            if let rid = data?[indexPath.item] {
+                cell.dataBinding(rid: rid)
+            }
         }
         return cell
-        
     }
 }

@@ -78,6 +78,7 @@
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
 		BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */; };
 		BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */; };
+		BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112772AF532C4000E4F9F /* MainHeaderView.swift */; };
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
 		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
@@ -175,6 +176,7 @@
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
 		BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
+		BDC112772AF532C4000E4F9F /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -467,6 +469,36 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		BDC112742AF52EC9000E4F9F /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
+				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
+				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		BDC112752AF53162000E4F9F /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */,
+				FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		BDC112762AF531D9000E4F9F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BDC112742AF52EC9000E4F9F /* TableViewCell */,
+				BDC112752AF53162000E4F9F /* CollectionViewCell */,
+				FF031D5F2ADBBA5900206056 /* MainView.swift */,
+				BDC112772AF532C4000E4F9F /* MainHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
@@ -552,12 +584,7 @@
 		FF031D5E2ADBBA1500206056 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
-				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
-				FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */,
-				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
-				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
-				FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */,
-				FF031D5F2ADBBA5900206056 /* MainView.swift */,
+				BDC112762AF531D9000E4F9F /* View */,
 				DF1599C22AD6C86D00AE129B /* MainViewController.swift */,
 				FF1D8E1D2AE14515002B685B /* SearchRegionPage */,
 			);
@@ -775,6 +802,7 @@
 				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* MatchingKeywordVC.swift in Sources */,
+				BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
 				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,

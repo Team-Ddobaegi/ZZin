@@ -33,7 +33,6 @@ class MainViewController: UIViewController {
     }
     
     func fetchData() {
-//        DispatchQueue.main.async { [self] in
             FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
                 loadedRidAndPid = result
                 ridArr = loadedRidAndPid["ridArr"] ?? []
@@ -41,7 +40,6 @@ class MainViewController: UIViewController {
                 mainView.tableView.reloadData()
             }
         }
-//    }
 }
 
 extension MainViewController {
@@ -61,10 +59,6 @@ extension MainViewController {
 extension MainViewController: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "커스텀 생성 필요"
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -98,5 +92,11 @@ extension MainViewController: UITableViewDataSource {
         default:
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let tableviewHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MainHeaderView.identifier) as? MainHeaderView
+        tableviewHeaderView?.configure(with: section)
+        return tableviewHeaderView
     }
 }
