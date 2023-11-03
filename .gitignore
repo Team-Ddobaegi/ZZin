@@ -97,3 +97,4 @@ iOSInjectionProject/
 # Secrets
 #
 KeyList.plist
+SecretKey.plist

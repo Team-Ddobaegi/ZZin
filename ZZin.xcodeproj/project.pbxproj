@@ -107,6 +107,8 @@
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */; };
 		DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */; };
+		DFEDDA442AF4E648003FA958 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFEDDA432AF4E648003FA958 /* SecretKey.plist */; };
+		DFEDDA462AF4E7C0003FA958 /* NaverAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */; };
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
 		FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */; };
@@ -207,6 +209,8 @@
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMarkerView.swift; sourceTree = "<group>"; };
 		DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowView.swift; sourceTree = "<group>"; };
+		DFEDDA432AF4E648003FA958 /* SecretKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
+		DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverAPIKey.swift; sourceTree = "<group>"; };
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
@@ -312,6 +316,7 @@
 				DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */,
 				DF1599B52AD6C6E300AE129B /* Assets.xcassets */,
 				DF1599B72AD6C6E300AE129B /* LaunchScreen.storyboard */,
+				DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
+				DFEDDA432AF4E648003FA958 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -685,6 +691,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEDDA442AF4E648003FA958 /* SecretKey.plist in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
@@ -813,6 +820,7 @@
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
 				C0A6344F2AEF7CFD00BF6B55 /* RewardCell.swift in Sources */,
+				DFEDDA462AF4E7C0003FA958 /* NaverAPIKey.swift in Sources */,
 				FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
