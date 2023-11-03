@@ -30,11 +30,6 @@ class SearchMapViewController: UIViewController {
         sendDataBackToMatchingViewController()
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @objc func gridButtonTapped() {
-        self.navigationController?.popViewController(animated: false)
-        self.navigationController?.pushViewController(MatchingVC(), animated: true)
-    }
 
     @objc func storeCardTapped() {
         print("storeCardView Tapped")
@@ -45,6 +40,8 @@ class SearchMapViewController: UIViewController {
     
     @objc func searchCurrentLocationButtonTapped() {
         print("searchCurrentLocationButton Tapped")
+        let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
+        print("#########\(cameraPosition)")
     }
     
     @objc func gpsButtonTapped() {
@@ -99,7 +96,6 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
-        searchMapUIView.matchingView.mapButton.addTarget(self, action: #selector(gridButtonTapped), for: .touchUpInside)
         searchMapUIView.matchingView.locationButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
@@ -131,8 +127,7 @@ class SearchMapViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
-        print("#########\(cameraPosition)")
+
         setCameraSetting()
     }
     
