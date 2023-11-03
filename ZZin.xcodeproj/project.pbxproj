@@ -128,6 +128,7 @@
 		FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D692ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift */; };
 		FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D6B2ADFA25000206056 /* ColorGuide.swift */; };
 		FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */; };
+		FFEE93752AF3A2FF00A58010 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -224,6 +225,7 @@
 		FF031D692ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF031D6B2ADFA25000206056 /* ColorGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGuide.swift; sourceTree = "<group>"; };
 		FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionViewController.swift; sourceTree = "<group>"; };
+		FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -494,6 +496,7 @@
 				7B4B6A232ADCD9290075BB34 /* MatchingPage */,
 				DF2A2CBB2ADE116B00BA5CE9 /* SearchMapPage */,
 				FBA7B0C02AE0C0B800F79031 /* Profile */,
+				FFEE93732AF3A2A400A58010 /* Setting */,
 				7B47A5522AE8B0C700A44C2C /* Source */,
 				7B47A5532AE8B1B800A44C2C /* Utility */,
 				DF1599BA2AD6C6E300AE129B /* Info.plist */,
@@ -567,6 +570,14 @@
 				FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */,
 			);
 			path = SearchRegionPage;
+			sourceTree = "<group>";
+		};
+		FFEE93732AF3A2A400A58010 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -813,6 +824,7 @@
 				BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */,
 				7B3313F02AF11FD900BC0F11 /* MatchingKeywordView.swift in Sources */,
 				BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */,
+				FFEE93752AF3A2FF00A58010 /* SettingViewController.swift in Sources */,
 				FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */,
 				FB3650502AE626B300EAEAB7 /* FireStoreManager.swift in Sources */,
 			);
