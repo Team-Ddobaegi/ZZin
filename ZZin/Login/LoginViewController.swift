@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
     private func setLoginBtn() {
         loginButton.snp.makeConstraints {
             $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
     }
