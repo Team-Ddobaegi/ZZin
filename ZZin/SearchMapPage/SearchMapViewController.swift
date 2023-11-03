@@ -120,6 +120,7 @@ class SearchMapViewController: UIViewController {
         setKeywordButtonTitle()
         setPickerView()
         updateLocationTitle()
+
         
         print("\(String(describing: self.selectedCity)),\(String(describing: self.selectedTown))---------------")
         
@@ -130,6 +131,9 @@ class SearchMapViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
+        print("#########\(cameraPosition)")
+        setCameraSetting()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,6 +177,12 @@ class SearchMapViewController: UIViewController {
         cameraUpdate.animation = animation
         cameraUpdate.animationDuration = 0.3
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
+    }
+    
+    func setCameraSetting() {
+        searchMapUIView.searchMapView.mapView.minZoomLevel = 5.0
+//        searchMapUIView.searchMapView.mapView.maxZoomLevel = 18.0
+        searchMapUIView.searchMapView.mapView.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
     
     // MARK: - setupUI
