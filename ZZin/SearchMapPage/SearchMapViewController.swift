@@ -372,7 +372,6 @@ extension SearchMapViewController: MatchingKeywordDelegate {
                 self.kindOfFoodKeyword = [updateKeyword as String?]
             }
         }
-        removeAllMarkers()
         fetchPlacesWithKeywords()
         updateResetButtonStatus()
     }
@@ -384,14 +383,15 @@ extension SearchMapViewController {
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
         let actualCity = city ?? self.selectedCity ?? nil
-        let actualTown = town ?? self.selectedTown ?? "전체"
-        print("@@@@@@@\(actualCity)\(actualTown)")
+        let actualTown = town ?? self.selectedTown
+        print("@@@@@@@##\(actualCity)\(actualTown)")
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
                 
                 self.filteredPlace = places
                 print(self.filteredPlace?.count)
+                self.removeAllMarkers()
                 self.addMarkersForAllPlaces()
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
@@ -414,6 +414,8 @@ extension SearchMapViewController: LocationPickerViewDelegate {
         self.selectedCity = selectedCity
         self.selectedTown = selectedTown
         
+        print("#######\(self.selectedCity)\(self.selectedTown)")
+
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
     }
