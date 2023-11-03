@@ -42,6 +42,23 @@ class SearchMapViewController: UIViewController {
         print("searchCurrentLocationButton Tapped")
         let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
         print("#########\(cameraPosition)")
+        let cameraTargetLocation = cameraPosition.target
+        LocationService.shared.getAddressFromLocation(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng) { (address, error) in
+            if let error = error {
+                print("Error getting address: \(error.localizedDescription)")
+                return
+            }
+            
+            if let address = address {
+                print("Current address: \(address)")
+                self.selectedCity = address.first
+                self.selectedTown = address.last
+                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+                print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
+            } else {
+                print("Address not found.")
+            }
+        }
     }
     
     @objc func gpsButtonTapped() {
