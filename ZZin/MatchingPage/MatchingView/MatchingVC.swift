@@ -86,7 +86,6 @@ class MatchingVC: UIViewController {
         resultCV.collectionView.dataSource = self
     }
     
-    
     func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = nil) {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
@@ -135,7 +134,6 @@ class MatchingVC: UIViewController {
         }
     }
   
-    
     
     // MARK: - Actions
     
