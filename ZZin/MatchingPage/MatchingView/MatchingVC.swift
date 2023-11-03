@@ -17,6 +17,7 @@ class MatchingVC: UIViewController {
     var companionKeyword : [String?]?
     var conditionKeyword : [String?]?
     var kindOfFoodKeyword : [String?]?
+    var updateKeywords: [String] = []
     var selectedCity : String?
     var selectedTown : String?
     var currentLocation: NMGLatLng?
@@ -96,8 +97,8 @@ class MatchingVC: UIViewController {
             switch result {
             case .success(let places):
                 self.place = places
-                print("~~피커뷰 선택값 전달받았읍니두~~","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")
-                print("~~플레이스 카운트~~", self.place?.count ?? "")
+                print("~~ \(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정") ")
+                print("~~", self.place?.count ?? "")
 
                 DispatchQueue.main.async {
                     self.resultCV.collectionView.reloadData()
@@ -347,8 +348,9 @@ extension MatchingVC: LocationPickerViewDelegate {
 
 extension MatchingVC: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+        print("~~ 키워드 전달받았음두 \(keyword)")
+
         let keywordType = keywordType
-        
             switch keywordType {
             case .companion:
                 if let updateKeyword = keyword.first {
@@ -370,9 +372,11 @@ extension MatchingVC: MatchingKeywordDelegate {
                     matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
                     self.kindOfFoodKeyword = keyword
                 }
+             
         }
         fetchPlacesWithKeywords()
     }
+    
 }
 
 
