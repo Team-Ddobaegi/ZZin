@@ -11,6 +11,7 @@ import SnapKit
 class MainView: UIView {
     
     let tableView = UITableView(frame: .zero, style: .plain).then {
+        $0.separatorStyle = .none
         $0.register(LocalTableViewCell.self, forCellReuseIdentifier: LocalTableViewCell.identifier)
         $0.register(ReviewTableViewCell.self, forCellReuseIdentifier: ReviewTableViewCell.identifier)
         $0.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identifier)
@@ -23,7 +24,7 @@ class MainView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("오류가 발생했습니다.")
     }
     
     func setTableView() {
@@ -34,7 +35,6 @@ class MainView: UIView {
     }
 }
 
-//
 //    private let logoPicture = UIImageView().then {
 //        $0.image = UIImage(named: "ZZin")
 //        $0.backgroundColor = ColorGuide.subButton
@@ -67,26 +67,6 @@ class MainView: UIView {
 //        $0.translatesAutoresizingMaskIntoConstraints = false
 //    }
 //
-//    private let horizontalFlow = UICollectionViewFlowLayout().then {
-//        $0.scrollDirection = .horizontal
-//    }
-//
-//    lazy var recommendCollectionView = UICollectionView(frame: .zero, collectionViewLayout: horizontalFlow).then {
-//        $0.backgroundColor = .white
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.showsVerticalScrollIndicator = false
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.register(MainPageRecommendCollectionViewCell.self, forCellWithReuseIdentifier: MainPageRecommendCollectionViewCell.identifier)
-//    }
-//
-//    lazy var reviewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: horizontalFlow).then {
-//        $0.backgroundColor = .white
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.showsVerticalScrollIndicator = false
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.register(MainPageReviewCollectionViewCell.self, forCellWithReuseIdentifier: MainPageReviewCollectionViewCell.identifier)
-//    }
-//
 //    private var reviewLabel = UILabel().then {
 //        let text = "로컬들의 실시간 맛집 찐 리뷰"
 //        let biggerFont = FontGuide.size24Bold
@@ -98,62 +78,3 @@ class MainView: UIView {
 //        $0.attributedText = attributedStr
 //        $0.translatesAutoresizingMaskIntoConstraints = false
 //    }
-//    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        configure()
-//        setupUI()
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//
-//    func configure() {
-//        backgroundColor = UIColor.white
-//        [logoPicture, recommendedLabel, recommendCollectionView, rankingLabel, rankButtonStackView, reviewLabel, reviewCollectionView].forEach { addSubview($0) }
-//    }
-//
-//    func setupUI() {
-//        logoPicture.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(-60)
-//            $0.leading.equalTo(15)
-//            $0.size.equalTo(CGSize(width: 100, height: 100))
-//        }
-//
-//        recommendedLabel.snp.makeConstraints {
-//            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(9)
-//            $0.leading.equalTo(20)
-//            $0.height.equalTo(30)
-//        }
-//
-//        recommendCollectionView.snp.makeConstraints {
-//            $0.top.equalTo(recommendedLabel.snp.bottom).offset(15)
-//            $0.trailing.leading.equalToSuperview()
-//            $0.height.equalTo(110)
-//        }
-//
-//        rankingLabel.snp.makeConstraints {
-//            $0.top.equalTo(recommendCollectionView.snp.bottom).offset(0)
-//            $0.leading.equalTo(20)
-//            $0.height.equalTo(40)
-//        }
-//
-//        rankButtonStackView.snp.makeConstraints {
-//            $0.top.equalTo(rankingLabel.snp.bottom).offset(10)
-//            $0.leading.equalToSuperview().offset(20)
-//        }
-//
-//        reviewLabel.snp.makeConstraints {
-//            $0.top.equalTo(rankButtonStackView.snp.bottom).offset(10)
-//            $0.leading.equalTo(20)
-//        }
-//
-//        reviewCollectionView.snp.makeConstraints {
-//            $0.top.equalTo(reviewLabel.snp.bottom).offset(20)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.height.equalTo(237)
-//            $0.bottom.equalToSuperview().offset(-20)
-//        }
-//    }
-//}

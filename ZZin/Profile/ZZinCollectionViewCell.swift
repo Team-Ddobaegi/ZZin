@@ -8,7 +8,6 @@
 import UIKit
 
 class ZZinCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ZZinCollectionViewCell"
     
     @IBOutlet var view: UIView!
 

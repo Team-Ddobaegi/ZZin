@@ -10,6 +10,9 @@ import UIKit
 class ReviewTableViewCell: UITableViewCell {
     static let identifier = "ReviewTableViewCell"
     
+    private let storageManager = FireStorageManager()
+    var data: [String]? = []
+    
     private lazy var reviewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -19,7 +22,6 @@ class ReviewTableViewCell: UITableViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: ReviewCollectionViewCell.identifier)
-        collectionView.backgroundColor = .blue
         return collectionView
     }()
     
@@ -44,6 +46,11 @@ class ReviewTableViewCell: UITableViewCell {
         reviewCollectionView.delegate = self
         reviewCollectionView.dataSource = self
     }
+    
+    func dataBinding(data: [String]?) {
+        self.data = data
+        print("데이터가 넘어 왔습니다. - \(data)")
+    }
 }
 
 extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -52,7 +59,13 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as! ReviewCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { fatalError() }
+        guard data == [] else { return cell }
+        
+        if let rid = data?[indexPath.item] {
+            cell.dataBinding(rid: rid)
+        }
         return cell
+        
     }
 }

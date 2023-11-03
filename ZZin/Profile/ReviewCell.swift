@@ -28,7 +28,5 @@ class ReviewCell: UICollectionViewCell {
         customView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        
     }
 }

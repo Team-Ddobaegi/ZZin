@@ -36,7 +36,6 @@ class ButtonTableViewCell: UITableViewCell {
     private lazy var rankButtonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [topRankStackView, follwupRankStackView])
         stackView.axis = .vertical
-//        stackView.alignment = .
         stackView.spacing = 10
         return stackView
     }()

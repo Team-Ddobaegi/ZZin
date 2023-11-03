@@ -29,8 +29,6 @@ class CustomButton: UIButton {
         self.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: defaultWidth, height: defaultHeight))
         }
-
-//        self.addTarget(self, action: #selector(), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {

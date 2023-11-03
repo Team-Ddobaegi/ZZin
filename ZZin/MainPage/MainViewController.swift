@@ -10,16 +10,16 @@ import UIKit
 class MainViewController: UIViewController {
     
     // MARK: - 전역 변수
-    
     let storageManager = FireStorageManager()
+    let reviewCell = ReviewTableViewCell()
     private let mainView = MainView()
-//    var reviewData: [Review] = []
-//    var placeData: [Place] = []
-//    var loadedRidAndPid: [String:[String]?] = [:]
-//    var pidArr: [String]? = []
-//    var ridArr: [String]? = []
-//    let uid = "bo_bo_@kakao.com"
-    
+    var loadedRidAndPid: [String:[String]?] = [:]
+    var placeData: [Place] = []
+    var pidArr: [String]? = []
+    var ridArr: [String]? = []
+    // current user로 변경될 수 있도록 로그인에서 수정
+    let uid = "bo_bo_@kakao.com"
+
     func setDelegate() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
@@ -31,9 +31,25 @@ class MainViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
+    func fetchData() {
+//        DispatchQueue.main.async { [self] in
+            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
+                loadedRidAndPid = result
+                ridArr = loadedRidAndPid["ridArr"] ?? []
+                print("ridArr", ridArr)
+                mainView.tableView.reloadData()
+            }
+        }
+//    }
 }
 
 extension MainViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegate()
@@ -56,7 +72,7 @@ extension MainViewController: UITableViewDelegate {
         switch indexPath.section {
         case 0: return 98
         case 1: return 245
-        case 2: return 237
+        case 2: return 250
         default: return 200
         }
     }
@@ -77,6 +93,7 @@ extension MainViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            cell.dataBinding(data: ridArr)
             return cell
         default:
             return UITableViewCell()
