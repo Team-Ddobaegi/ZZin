@@ -17,341 +17,382 @@ import Firebase
 
 var searchedInfo: Document?
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MatchingKeywordDelegate {
-    let matchingView = MatchingView()
-    let firestore = FireStoreManager.shared
+class PostViewController: UICollectionViewController, MatchingKeywordDelegate, UITextViewDelegate, SendText {
+
+    // MARK: - Properties
+    let instance = SelectKeywordCell()
+    var dataWillSet: [String: Any] = [:]
     
-    var firstKeywordText = "키워드"
-    var secondKeywordText = "키워드"
-    var menuKeywordText = "키워드"
+    let uid = "bo_bo_@kakao.com"
+    var imgData: [Data] = []
+    var imgArr: [UIImage] = []
+    
+    var firstKeywordText = "동반인"
+    var secondKeywordText = "특성"
+    var menuKeywordText = "식종"
     
     var firstButtonColor: UIColor = .lightGray
     var secondButtonColor: UIColor = .lightGray
     var menuButtonColor: UIColor = .lightGray
     
     
-    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
-        let keywordType = keywordType
-        
-        switch keywordType {
-        case .companion:
-            if let updateKeyword = keyword.first {
-                print(updateKeyword)
-                firstKeywordText = updateKeyword
-                dataWillSet.updateValue(firstKeywordText, forKey: "companion")
-                firstButtonColor = .darkGray
-                self.tableView.reloadData()
-            }
-            
-        case .condition:
-            if let updateKeyword = keyword.first {
-                print(updateKeyword)
-                secondKeywordText = updateKeyword
-                dataWillSet.updateValue(secondKeywordText, forKey: "condition")
-                secondButtonColor = .darkGray
-                self.tableView.reloadData()
-            }
-            
-        case .kindOfFood:
-            if let updateKeyword = keyword.first {
-                print(updateKeyword)
-                menuKeywordText = updateKeyword
-                dataWillSet.updateValue(menuKeywordText, forKey: "kindOfFood")
-                menuButtonColor = .darkGray
-                self.tableView.reloadData()
-            }
-        }
+    
+    // MARK: - Initializers
+    init() {
+        let layout = UICollectionViewFlowLayout()
+        super.init(collectionViewLayout: layout)
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 32, left: 16, bottom: 32, right: 16)
+        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 16
     }
     
-    var tableView = UITableView()
-    var imageWillAppear = UIImage(named: "add_photo")
-    var dataWillSet: [String: Any?] = [:]
-    
-    let placeNameTitle = UILabel().then {
-        $0.text = "업체명"
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .bold)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    var placeNameLabel = UILabel().then {
-        $0.text = "업체명을 먼저 검색해주세요"
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .light)
-    }
-    
-    let titleLabel = UILabel().then{
-        $0.text = "추천 글 제목"
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .bold)
-    }
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+            self.view.endEditing(true)
+      }
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        
-        addObserverForReload()
-        setNav()
-        setTableView()
+        print("viewdidload start")
+        setupUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+           NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationItem.searchController?.isActive = false
-        
-        tableView.reloadData()
-    }
-    func addObserverForReload() {
-        NotificationCenter.default.addObserver(
-                  self,
-                  selector: #selector(self.didDismissDetailNotification(_:)),
-                  name: NSNotification.Name("DismissThenViewWillAppear"),
-                  object: nil
-              )
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name:UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+        collectionView.reloadData()
     }
     
-    @objc func didDismissDetailNotification(_ notification: Notification) {
-          DispatchQueue.main.async {
-              self.tableView.reloadData()
-          }
-      }
-    func setNav() {
-        self.navigationItem.title = "찐 맛칩 추천하기"
-        self.navigationController?.navigationBar.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.tintColor = .label
-        
-        // navigationBar 아래의 그림자 지우기
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        // UISearchBar 설정
-        let searchController = UISearchController(searchResultsController: RegionSearchResultController())
-        
-        searchController.searchBar.placeholder = "등록할 상호명 검색"
-        searchController.obscuresBackgroundDuringPresentation = true
-        self.navigationItem.searchController?.navigationItem.titleView = searchController.searchBar
-        
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.searchResultsUpdater = searchController.searchResultsController as? RegionSearchResultController
-        self.navigationItem.searchController = searchController
+    @objc func keyboardDown() {
+        self.view.transform = .identity
     }
     
-    func setTableView() {
-        view.addSubview(self.tableView)
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
-        tableView.backgroundColor = .systemBackground
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
-        tableView.register(PostPlaceInfoCell.self, forCellReuseIdentifier: PostPlaceInfoCell.identifier)
-        tableView.register(ImgSelectionTableViewCell.self, forCellReuseIdentifier: ImgSelectionTableViewCell.identifier)
-        tableView.register(SelectKeywordsTableViewCell.self, forCellReuseIdentifier: SelectKeywordsTableViewCell.identifier)
-        tableView.register(PostPlaceContentCell.self, forCellReuseIdentifier: PostPlaceContentCell.identifier)
-        tableView.separatorStyle = .none
-        
-    }
     
-    func numberOfSections(in tableView: UITableView) -> Int {9}
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0: return 50
-        case 4: return 50
-        case 6: return 280
-        case 7: return 160
-        case 8: return 280
-        default: return 100
+    @objc func keyboardUp(notification:NSNotification) {
+        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+           let keyboardRectangle = keyboardFrame.cgRectValue
+       
+            UIView.animate(
+                withDuration: 0.3
+                , animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+                }
+            )
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {1}
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    // MARK: - UI Setup
+    private func setupUI() {
+        // Navigation Bar
+        navigationItem.title = "찐 맛집 추천"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
+        // delegate
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        // Collection View
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.collectionViewLayout = getLayout()
+        
+        // cell register
+        collectionView.register(textInputCell.self, forCellWithReuseIdentifier: textInputCell.identifier)
+        collectionView.register(ImgSelectionCell.self, forCellWithReuseIdentifier: ImgSelectionCell.identifier)
+        collectionView.register(SelectKeywordCell.self, forCellWithReuseIdentifier: SelectKeywordCell.identifier)
+        
+        // textView delegate
+//        textView.delegate = self
+    }
+    
+    @objc func didFindPlaceButtonTapped(_ sender: Any?) {
+        let nextVC = SearchControllerVC()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+}
+
+// MARK: - UICollectionView DataSource & Delegate
+extension PostViewController: UICollectionViewDelegateFlowLayout {
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int{3}
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section {
+        case 1: return imgData.count + 1
+        default: return 1
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = UITableViewCell()
-            let titleLabel = UILabel().then {
-                $0.text = "맛집 정보 입력"
-                $0.font = .systemFont(ofSize: 25, weight: .bold)
-            }
-            cell.contentView.addSubview(titleLabel)
-            titleLabel.snp.makeConstraints {
-                $0.left.equalToSuperview().inset(16)
-                $0.centerY.equalToSuperview()
-            }
-            cell.selectionStyle = .none
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: textInputCell.identifier, for: indexPath) as! textInputCell
+            cell.findPlaceButton.addTarget(self, action: #selector(didFindPlaceButtonTapped), for: .touchUpInside)
             
+            if searchedInfo != nil {
+                cell.placeNameField.textField.text = searchedInfo?.placeName
+                cell.placeAddressField.textField.text = searchedInfo?.roadAddressName
+                cell.placeTelNumField.textField.text = searchedInfo?.phone
+            }
             return cell
         case 1:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 1)) as! PostTableViewCell
-            if searchedInfo != nil {
-                cell.textField.text = searchedInfo?.placeName
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImgSelectionCell.identifier, for: indexPath) as! ImgSelectionCell
+            
+            cell.layer.cornerRadius = 15
+            
+            guard !imgData.isEmpty else {
+                cell.imageView.image = UIImage(named: "add_photo")
+                return cell
             }
-            cell.titleLabel.text = "가게 이름"
-            cell.textField.placeholder = "상호명을 검색해주세요."
-            let text = cell.textFieldDidEndEditing(cell.textField)
-            dataWillSet.updateValue(text, forKey: "placeName")
-            dataWillSet.updateValue(searchedInfo?.y, forKey: "lat") // 위도
-            dataWillSet.updateValue(searchedInfo?.x, forKey: "long") // 경도
-            cell.selectionStyle = .none
+            
+            switch indexPath.item {
+            case 0:
+                cell.imageView.image = UIImage(named: "add_photo")
+                cell.countLabel.text = String(imgArr.count) + " / 5"
+            default:
+                cell.imageView.image = imgArr[indexPath.item - 1]
+                cell.countLabel.isHidden =  true
+            }
+            
             return cell
         case 2:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 2)) as! PostTableViewCell
-            if searchedInfo != nil {
-                cell.textField.text = searchedInfo?.roadAddressName
-            }
-            cell.titleLabel.text = "가게 주소"
-            cell.textField.placeholder = "상호명을 검색해주세요."
-            let text = cell.textFieldDidEndEditing(cell.textField)
-            dataWillSet.updateValue(text, forKey: "address")
-            cell.selectionStyle = .none
-            return cell
-        case 3:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 3)) as! PostTableViewCell
-            
-            cell.titleLabel.text = "가게 연락처"
-            cell.textField.placeholder = "연락처 입력"
-            if searchedInfo != nil {
-                cell.textField.text = searchedInfo?.phone
-            }
-            let text = cell.textFieldDidEndEditing(cell.textField)
-            dataWillSet.updateValue(text, forKey: "placeTelNum")
-            cell.selectionStyle = .none
-            return cell
-        case 4:
-            let cell = UITableViewCell()
-            let titleLabel = UILabel().then {
-                $0.text = "리뷰 정보 입력"
-                $0.font = .systemFont(ofSize: 25, weight: .bold)
-            }
-            cell.contentView.addSubview(titleLabel)
-            titleLabel.snp.makeConstraints {
-                $0.left.equalToSuperview().inset(16)
-                $0.centerY.equalToSuperview()
-            }
-            cell.selectionStyle = .none
-            return cell
-        case 5:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: IndexPath(row: 0, section: 5)) as! PostTableViewCell
-            cell.textField.placeholder = "리뷰 글 제목 입력"
-            cell.titleLabel.text = "제목"
-            let text = cell.textFieldDidEndEditing(cell.textField)
-            dataWillSet.updateValue(text, forKey: "title")
-            cell.selectionStyle = .none
-            return cell
-        case 6:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: ImgSelectionTableViewCell.identifier, for: indexPath) as! ImgSelectionTableViewCell
-            cell.addImgButton.setImage(imageWillAppear, for: .normal)
-            cell.selectionStyle = .none
-            cell.buttonAction = { [self] in
-                didTappedAddImgButton()
-            }
-            return cell
-        case 7:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: SelectKeywordsTableViewCell.identifier, for: indexPath) as! SelectKeywordsTableViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectKeywordCell.identifier, for: indexPath) as! SelectKeywordCell
             cell.firstKeywordButton.setTitle(firstKeywordText, for: .normal)
             cell.firstKeywordButton.setTitleColor(firstButtonColor, for: .normal)
             cell.secondKeywordButton.setTitle(secondKeywordText, for: .normal)
             cell.secondKeywordButton.setTitleColor(secondButtonColor, for: .normal)
             cell.menuKeywordButton.setTitle(menuKeywordText, for: .normal)
             cell.menuKeywordButton.setTitleColor(menuButtonColor, for: .normal)
+//            cell.textView = self.textView
+//            cell.textView.backgroundColor = .quaternarySystemFill
             
             //버튼기능
-            cell.firstKeywordButton.addTarget(self, action: #selector(firstButtonTapped), for: .touchUpInside)
-            cell.secondKeywordButton.addTarget(self, action: #selector(secondButtonTapped), for: .touchUpInside)
-            cell.menuKeywordButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-            cell.selectionStyle = .none
-            return cell
-        case 8:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostPlaceContentCell.identifier, for: indexPath) as! PostPlaceContentCell
-            cell.submitButton.addTarget(self, action: #selector(didTappedSubmitButton), for: .touchUpInside)
-            cell.selectionStyle = .none
-            return cell
+            cell.submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+            cell.firstKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
+            cell.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
+            cell.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+            cell.textView.delegate = self
             
-        default: return UITableViewCell()
+            return cell
+        default:
+            return UICollectionViewCell()
         }
     }
-    @objc func didTappedAddImgButton() {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .images
-        
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        self.present(picker, animated: true, completion: nil)
+
+    @objc func submitButtonTapped() {
+        let content = instance.textViewText
+        dataWillSet.updateValue(content, forKey: "content")
+        print("제출 눌림")
+        print(dataWillSet)
     }
     
-    @objc func firstButtonTapped(_ sender: UIButton) {
+    func sendText(_ text: String) {
+        print("in send text")
+        print("text", text)
+        dataWillSet.updateValue(text, forKey: "content")
+    }
+    
+    // 첫 번째 키워드 버튼이 탭될 때
+    @objc func firstKeywordButtonTapped() {
         print("첫 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .companion
         keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 두 번째 키워드 버튼이 탭될 때
+    @objc func secondKeywordButtonTapped() {
+        print("두 번째 키워드 버튼이 탭됨")
         
-        present(keywordVC, animated: true)
+        let keywordVC = MatchingKeywordVC()
+        keywordVC.selectedMatchingKeywordType = .condition
+        keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
+        keywordVC.delegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    // 메뉴 키워드 버튼이 탭될 때
+    @objc func menuKeywordButtonTapped() {
+        print("메뉴 키워드 버튼이 탭됨")
+        
+        let keywordVC = MatchingKeywordVC()
+        keywordVC.selectedMatchingKeywordType = .kindOfFood
+        keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
+        keywordVC.delegate = self
+        navigationController?.present(keywordVC, animated: true)
+    }
+    
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+        let keywordType = keywordType
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectKeywordCell.identifier, for: IndexPath(item: 0, section: 2)) as! SelectKeywordCell
+        switch keywordType {
+        case .companion:
+            if let updateKeyword = keyword.first {
+                cell.firstKeywordButton.setTitle(updateKeyword, for: .normal)
+                cell.firstKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.firstKeywordText = updateKeyword
+                self.collectionView.reloadData()
+            }
+            
+        case .condition:
+            if let updateKeyword = keyword.first {
+                cell.secondKeywordButton.setTitle(updateKeyword, for: .normal)
+                cell.secondKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.secondKeywordText = updateKeyword
+                self.collectionView.reloadData()
+            }
+            
+        case .kindOfFood:
+            if let updateKeyword = keyword.first {
+                cell.menuKeywordButton.setTitle(updateKeyword, for: .normal)
+                cell.menuKeywordButton.setTitleColor(.darkGray, for: .normal)
+                self.menuKeywordText = updateKeyword
+                self.collectionView.reloadData()
+            }
         }
-        
-        @objc func secondButtonTapped(_ sender: UIButton) {
-            print("두 번째 키워드 버튼이 탭됨")
-            
-            let keywordVC = MatchingKeywordVC()
-            keywordVC.selectedMatchingKeywordType = .condition
-            keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
-            keywordVC.delegate = self
-            
-            present(keywordVC, animated: true)
+    }
+    
+    func getLayout() -> UICollectionViewCompositionalLayout {
+      UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
+        switch section {
+        case 1:
+            let spacing = CGFloat(16)
+          // Item
+          let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(126),
+            heightDimension: .absolute(110)
+          )
+          let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
+          
+          // Group
+          let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(126 * 2),
+            heightDimension: .absolute(110)
+          )
+          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+          
+          // Section
+          let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+          section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: 0)
+          return section
+        case 2:
+            let spacing = CGFloat(16)
+            let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
+          // Item
+          let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
+            heightDimension: .absolute(550)
+          )
+          let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+          
+          // Group
+          let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(550)
+          )
+          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+          
+          // Section
+          let section = NSCollectionLayoutSection(group: group)
+          section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+          return section
+        default:
+            let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
+          let itemInset: CGFloat = 16
+          
+          // Item
+          let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
+            heightDimension: .fractionalHeight(1)
+          )
+          let item = NSCollectionLayoutItem(layoutSize: itemSize)
+          item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+          
+          // Group
+          let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(500)
+          )
+          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+          
+          // Section
+          let section = NSCollectionLayoutSection(group: group)
+          section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+          return section
         }
-        
-        @objc func menuButtonTapped(_ sender: UIButton) {
-            print("메뉴 키워드 버튼이 탭됨")
-            
-            let keywordVC = MatchingKeywordVC()
-            keywordVC.selectedMatchingKeywordType = .kindOfFood
-            keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
-            keywordVC.delegate = self
-            
-           present(keywordVC, animated: true)
+      }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            switch indexPath.item {
+            case 0:
+                var configuration = PHPickerConfiguration()
+                configuration.selectionLimit = 5
+                configuration.filter = .images
+                
+                let picker = PHPickerViewController(configuration: configuration)
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+            default: return
+            }
         }
-        
+    }
 }
 
 extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        
-        guard let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
-        
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-            guard let self = self,
-                  let uiImage = image as? UIImage,
-                  let data = uiImage.jpegData(compressionQuality: 0.8) else { return }
-            
-            
-            DispatchQueue.main.sync {
-                print("count: \(self.dataWillSet.count)")
-                self.dataWillSet.updateValue(data, forKey: "imgData")
-                self.imageWillAppear = uiImage
-                print("count: \(self.dataWillSet.count)")
 
-                self.tableView.reloadData()
+        for (index, _) in results.enumerated() {
+           let itemProvider = results[index].itemProvider
+            guard itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+        
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                guard let self = self,
+                      let uiImage = image as? UIImage,
+                      let data = uiImage.jpegData(compressionQuality: 0.8) else { return }
+                
+                DispatchQueue.main.sync {
+                    self.imgData.append(data)
+                    self.imgArr.append(uiImage)
+                    self.collectionView.reloadData()
+                }
             }
         }
-    }
-    
-    @objc func didTappedSubmitButton(_ sender: UIButton) {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: PostPlaceContentCell.identifier) as! PostPlaceContentCell
-        
-        cell.textViewDidChange(cell.textView){ text in
-            let content = text
-            dataWillSet.updateValue(content, forKey: "content")
-        }
-        
-        print(String(describing: dataWillSet))
-        
-        
-        firestore.setData(uid: "bo_bo_@kakao.com", dataWillSet: dataWillSet)
-        dismiss(animated: true)
         
     }
 }
+
+extension PostViewController {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print(textView.text as Any)
+        dataWillSet.updateValue(textView.text as Any, forKey: "content")
+        print(dataWillSet["content"])
+    }
+}
+

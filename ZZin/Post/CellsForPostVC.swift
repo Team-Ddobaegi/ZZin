@@ -10,384 +10,333 @@ import SnapKit
 import Then
 import PhotosUI
 
+protocol SendText {
+    func sendText(_ text: String)
+}
 
-class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
+class textInputCell: UICollectionViewCell, UITextFieldDelegate {
     
-    static let identifier = "PostTableViewCell"
+    static let identifier = "textInputCell"
+    var buttonAction: (() -> Void) = {}
     
-    var titleLabel = UILabel().then{
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+    // heading 모음
+    let placeInfoHeading = SecondHeading().then{$0.label.text = "맛집 정보 입력"}
+    let reviewInfoHeading = SecondHeading().then{$0.label.text = "리뷰 정보 입력"}
+    
+    // label title 모음
+    let placeNameLabel = Title().then{$0.label.text = "가게 이름"}
+    let placeAddressLabel = Title().then{$0.label.text = "가게 주소"}
+    let placeTelLabel = Title().then{$0.label.text = "가게 연락처"}
+    let reviewTitleLabel = Title().then{$0.label.text = "제목"}
+    let reviewPhotoLabel = Title().then{$0.label.text = "후기 사진"}
+    let keywordLabel = Title().then{$0.label.text = "방문한 음식점은 어땠나요?"}
+    let reviewContentLabel = Title().then{$0.label.text = "방문 후기"}
+        
+    // textField 모음
+    let placeNameField = CustomTextField()
+    let placeAddressField = CustomTextField()
+    let placeTelNumField = CustomTextField()
+    let reviewTitleField = CustomTextField().then{
+        $0.textField.placeholder = "리뷰 제목을 입력해주세요."
+        $0.textField.isUserInteractionEnabled = true
+        $0.textField.clearButtonMode = .whileEditing
     }
     
-    var placeholderLabel = UILabel().then{
-        $0.textColor = .systemGroupedBackground
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
+    // 장소 검색 버튼
+    var findPlaceButton = UIButton().then{
+        $0.layer.cornerRadius = 15
+        $0.setTitleShadowColor(.systemGray, for: .selected)
+        $0.backgroundColor = ColorGuide.main
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle("  🔍 맛집 정보 확인  ", for: .normal)
     }
     
-    var textField = UITextField().then {
-        $0.borderStyle = .none  // 테두리 스타일
-        $0.layer.borderWidth = 0
-        $0.layer.cornerRadius = 12
-        $0.layer.backgroundColor = UIColor.quaternarySystemFill.cgColor
-        $0.autocorrectionType = .no // 자동 수정 활성화 여부
-        $0.spellCheckingType = .no  // 맞춤법 검사 활성화 여부
-        $0.autocapitalizationType = .none  // 자동 대문자 활성화 여부
-        $0.clearButtonMode = .always // 입력내용 한번에 지우는 x버튼(오른쪽)
-        $0.clearsOnBeginEditing = false
-        $0.addLeftPadding()
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setTextFields()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
-    func setTextFields() {
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
-            $0.top.left.equalToSuperview().inset(16)
-        }
-        
-        contentView.addSubview(textField)
-        textField.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.size.equalTo(CGSize(width: UIScreen.main.bounds.width - 32, height: 50))
-        }
-    }
-
     final func textFieldDidEndEditing(_ textField: UITextField) -> String {
         let text = textField.text ?? ""
         return text
     }
     
-    
-    
-}
-
-extension UITextField {
-    func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = ViewMode.always
-    }
-}
-
-
-class PostPlaceInfoCell: UITableViewCell {
-    
-    static let identifier = "PostPlaceInfoCell"
-    
-    var titleLabel = UILabel().then{
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .light)
-    }
-    
-    var infoLabel = UILabel().then{
-        $0.textColor = .systemGroupedBackground
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
-    }
-    
-    var underline = UIView().then {
-        $0.backgroundColor = .black
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
-    func setLayout() {
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().inset(16)
+    func setupUI() {
+        contentView.addSubview(placeInfoHeading)
+        placeInfoHeading.snp.makeConstraints{
+            $0.left.equalToSuperview()
+            $0.top.equalToSuperview().inset(16)
         }
         
-        contentView.addSubview(underline)
-        underline.snp.makeConstraints{
-            $0.left.equalTo(titleLabel.snp.right).offset(16)
-            $0.right.equalToSuperview().inset(16)
-            $0.centerY.equalTo(titleLabel.snp.bottom)
-            $0.height.equalTo(1)
+        contentView.addSubview(findPlaceButton)
+        findPlaceButton.snp.makeConstraints{
+            $0.centerY.equalTo(placeInfoHeading)
+            $0.left.equalTo(placeInfoHeading.snp.right).offset(16)
         }
         
-        contentView.addSubview(infoLabel)
-        infoLabel.snp.makeConstraints{
-            $0.centerX.equalTo(underline)
-            $0.bottom.equalTo(underline.snp.top).offset(-5)
+        contentView.addSubview(placeNameLabel)
+        placeNameLabel.snp.makeConstraints{
+            $0.top.equalTo(placeInfoHeading.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
         }
         
+        contentView.addSubview(placeNameField)
+        placeNameField.snp.makeConstraints{
+            $0.top.equalTo(placeNameLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview()
+        }
+
+        contentView.addSubview(placeAddressLabel)
+        placeAddressLabel.snp.makeConstraints{
+            $0.top.equalTo(placeNameField.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
+        }
         
+        contentView.addSubview(placeAddressField)
+        placeAddressField.snp.makeConstraints{
+            $0.top.equalTo(placeAddressLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(placeTelLabel)
+        placeTelLabel.snp.makeConstraints{
+            $0.top.equalTo(placeAddressField.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(placeTelNumField)
+        placeTelNumField.snp.makeConstraints{
+            $0.top.equalTo(placeTelLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(reviewInfoHeading)
+        reviewInfoHeading.snp.makeConstraints{
+            $0.top.equalTo(placeTelNumField.snp.bottom).offset(32)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(reviewTitleLabel)
+        reviewTitleLabel.snp.makeConstraints{
+            $0.top.equalTo(reviewInfoHeading.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(reviewTitleField)
+        reviewTitleField.snp.makeConstraints{
+            $0.top.equalTo(reviewTitleLabel.snp.bottom).offset(8)
+            $0.left.equalToSuperview()
+        }
+        
+        contentView.addSubview(reviewPhotoLabel)
+        reviewPhotoLabel.snp.makeConstraints{
+            $0.top.equalTo(reviewTitleField.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
+        }
     }
 }
 
-class ImgSelectionTableViewCell: UITableViewCell {
-    
-    
-    static let identifier = "ImgSelectionTableViewCell"
-    var buttonAction: (() -> Void) = {}
-    
-    var titleLabel = UILabel().then{
-        $0.textColor = .label
-        $0.text = "후기 사진"
-        $0.font = .systemFont(ofSize: 15, weight: .light)
-    }
-    
-    var addImgButton = UIButton().then{
-        $0.imageView?.contentMode = .scaleAspectFill
+class ImgSelectionCell: UICollectionViewCell {
+
+    static let identifier = "ImgSelectionCell"
+
+    var imageView = UIImageView().then{
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 10
-        $0.layer.backgroundColor = UIColor.systemGray6.cgColor
-        $0.addTarget(self, action: #selector(didTappedAddImgButton), for: .touchUpInside)
+        $0.layer.cornerRadius = 15
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setLayout()
+    var countLabel = UILabel().then{
+        $0.textColor = ColorGuide.main
+        $0.font = .systemFont(ofSize: 15, weight: .semibold)
+        $0.text = "0 / 5"
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .quaternarySystemFill
+        contentView.layer.cornerRadius = 15
+        
+        contentView.addSubview(imageView)
+        imageView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        
+        contentView.addSubview(countLabel)
+        countLabel.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(8)
+        }
+        
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    func setLayout() {
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
-            $0.top.left.equalToSuperview().inset(16)
-        }
-        contentView.addSubview(addImgButton)
-        addImgButton.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(240)
-        }
-    }
-    
-    @objc func didTappedAddImgButton(_ sender: UIButton){
-        buttonAction()
-    }
 }
 
-//class ImgSelectionCollectionViewCell: UICollectionViewCell {
-//
-//    static let identifier = "ImgSelectionCollectionViewCell"
-//
-//    var addImgButton = UIButton().then {
-//        $0.setImage(UIImage(named: "add_photo"), for: .normal)
-//        $0.layer.cornerRadius = 10
-//        $0.layer.backgroundColor = UIColor.systemGray6.cgColor
-//    }
-//
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        contentView.addSubview(addImgButton)
-//        addImgButton.snp.makeConstraints{
-//            $0.top.left.equalToSuperview()
-//            $0.size.equalToSuperview()
-//        }
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//
-//
-//}
-
-class SelectKeywordsTableViewCell: UITableViewCell {
-
+class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
     
-    let matchingView = MatchingView()
-
     static let identifier = "SelectKeywordsTableViewCell"
+    let matchingView = MatchingView()
+    var textViewText = ""
+    
+    var delegate: SendText?
     
     var firstKeywordButton = UIButton()
     var secondKeywordButton = UIButton()
     var menuKeywordButton = UIButton()
-    
-    let titleLabel = UILabel().then{
-        $0.textColor = .label
-        $0.text = "키워드 선정"
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+
+    let titleLabel = Title().then{$0.label.text = "키워드 선정"}
+    let contentLabel = Title().then{$0.label.text = "상세 후기"}
+    let placeHolderLabel = UILabel().then{
+        $0.text = "당신의 맛집에 대해서 설명해주세요."
+        $0.font = .systemFont(ofSize: 15, weight: .regular)
+        $0.textColor = .systemGray2
     }
-    
+
     let infoLabel = UILabel().then{
         $0.textColor = .label
         $0.text = "3가지를 가진 맛집"
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
     }
-    
+
     let searchNotiLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "각 항목을 탭하면 다른 키워드를 선택할 수 있어요!"
         $0.textColor = .systemGray
     }
-    
+
     let searchTipLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.text = "tip"
         $0.textColor = ColorGuide.main
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setButton()
-        setLayout()
+    // textView
+    var textView = UITextView().then {
+        $0.backgroundColor = .quaternarySystemFill
+        $0.layer.cornerRadius = 15
+        $0.textColor = .label
+        $0.font = .systemFont(ofSize: 15, weight: .regular)
     }
     
+    // 제출 button
+    var submitButton = UIButton().then {
+        $0.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        $0.setTitle("제출", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = ColorGuide.main
+        $0.layer.cornerRadius = 15
+        $0.isUserInteractionEnabled = true
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setKeywordButton()
+        setLayout()
+        textView.delegate = self
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
+
     func setLayout() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints{
-            $0.top.left.equalToSuperview().inset(16)
+            $0.top.left.equalToSuperview()
         }
-        
+
         contentView.addSubview(infoLabel)
         infoLabel.snp.makeConstraints{
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.centerX.equalToSuperview()
         }
-        
+
         contentView.addSubview(searchNotiLabel)
         searchNotiLabel.snp.makeConstraints{
             $0.top.equalTo(infoLabel.snp.bottom).offset(8)
             $0.centerX.equalToSuperview().offset(4)
         }
-        
+
         contentView.addSubview(searchTipLabel)
         searchTipLabel.snp.makeConstraints{
             $0.centerY.equalTo(searchNotiLabel)
             $0.right.equalTo(searchNotiLabel.snp.left).offset(-4)
         }
-        
+
         contentView.addSubview(firstKeywordButton)
         firstKeywordButton.snp.makeConstraints{
             $0.top.equalTo(searchNotiLabel.snp.bottom).offset(16)
             $0.left.equalToSuperview().inset(30)
         }
-        
+
         contentView.addSubview(secondKeywordButton)
         secondKeywordButton.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(firstKeywordButton)
         }
-        
+
         contentView.addSubview(menuKeywordButton)
         menuKeywordButton.snp.makeConstraints{
             $0.top.equalTo(searchNotiLabel.snp.bottom).offset(16)
             $0.right.equalToSuperview().inset(30)
         }
-    }
-    func setButton() {
-        firstKeywordButton = matchingView.companionKeywordButton
-        secondKeywordButton = matchingView.conditionKeywordButton
-        menuKeywordButton = matchingView.kindOfFoodKeywordButton
-    }
-
-    
-}
-
-
-class PostPlaceContentCell: UITableViewCell, UITextViewDelegate {
-    
-    static let identifier = "PostPlaceContentCell"
-    
-    var titleLabel = UILabel().then{
-        $0.textColor = .label
-        $0.text = "방문 후기"
-        $0.font = .systemFont(ofSize: 15, weight: .light)
-    }
-    
-    let textView = UITextView().then{
-        $0.textColor = .label
-        $0.font = .systemFont(ofSize: 15, weight: .regular)
-        $0.layer.borderWidth = 0
-        $0.layer.cornerRadius = 12
-        $0.layer.backgroundColor = UIColor.quaternarySystemFill.cgColor
-        $0.autocorrectionType = .no
-        $0.spellCheckingType = .no
-        $0.autocapitalizationType = .none
-        $0.textColor = .lightGray
-        $0.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
-    let submitButton = UIButton().then{
-        $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        $0.setTitle("완료", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = ColorGuide.main
-        $0.layer.cornerRadius = 12
-    }
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setLayout()
-        textView.delegate = self
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
-    func setLayout() {
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
-            $0.top.left.equalToSuperview().inset(16)
+        
+        contentView.addSubview(contentLabel)
+        contentLabel.snp.makeConstraints{
+            $0.top.equalTo(menuKeywordButton.snp.bottom).offset(16)
+            $0.left.equalToSuperview()
         }
         
         contentView.addSubview(textView)
         textView.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview().inset(16)
-            $0.height.equalTo(150)
+            $0.top.equalTo(contentLabel.snp.bottom).offset(16)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(200)
         }
         
         contentView.addSubview(submitButton)
         submitButton.snp.makeConstraints{
-            $0.left.right.bottom.equalToSuperview().inset(16)
-            $0.height.equalTo(60)
+            $0.top.equalTo(textView.snp.bottom).offset(16)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(70)
         }
         
-
+        contentView.addSubview(placeHolderLabel)
+        placeHolderLabel.snp.makeConstraints{
+            $0.top.left.equalTo(textView).offset(8)
+        }
     }
+    func setKeywordButton() {
+        firstKeywordButton = matchingView.companionKeywordButton
+        secondKeywordButton = matchingView.conditionKeywordButton
+        menuKeywordButton = matchingView.kindOfFoodKeywordButton
+    }
+}
 
-    func textViewDidChange(_ textView: UITextView, completion: (String) -> Void) {
-        let text = textView.text ?? ""
-        completion(text)
+extension SelectKeywordCell {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeHolderLabel.isHidden = true
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print(textView.text as Any)
+        textViewText = textView.text
+        print(textViewText)
+        delegate?.sendText(textViewText)
+    }
+
 }
+
