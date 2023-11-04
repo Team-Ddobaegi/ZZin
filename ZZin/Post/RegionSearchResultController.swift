@@ -11,6 +11,103 @@ import Foundation
 import Then
 import SnapKit
 
+class SearchControllerVC: UIViewController, UISearchControllerDelegate, UISearchBarDelegate {
+    
+    let wrapView = UIView()
+    
+    let imageView = UIImageView().then{
+        $0.image = UIImage(systemName: "magnifyingglass")
+        $0.tintColor = .systemGray4
+    }
+    
+    let label = UILabel().then{
+        $0.text = "검색창에 상호명을 검색해주세요."
+        $0.font = .systemFont(ofSize: 18, weight: .regular)
+        $0.textColor = .systemGray4
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        setupUI()
+        setNav()
+        addObserverForPop()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func addObserverForPop() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didDismissDetailNotification(_:)),
+            name: NSNotification.Name("DismissThenPopAgain"),
+            object: nil
+        )
+    }
+    
+    @objc func didDismissDetailNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
+    func setupUI() {
+        view.addSubview(wrapView)
+        wrapView.snp.makeConstraints{
+            $0.center.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 200, height: 220))
+        }
+        
+        wrapView.addSubview(imageView)
+        imageView.snp.makeConstraints{
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(200)
+        }
+        
+        wrapView.addSubview(label)
+        label.snp.makeConstraints{
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
+        }
+        
+    }
+    
+    func setNav() {
+        self.navigationController?.navigationBar.backgroundColor = .systemBackground
+        self.title = "맛집 정보 확인"
+        self.navigationController?.navigationBar.tintColor = .label
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        
+        //  navigationBar 아래의 그림자 지우기
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        // UISearchBar 설정
+        let searchController = UISearchController(searchResultsController: RegionSearchResultController())
+        searchController.hidesNavigationBarDuringPresentation = false
+//        searchController.showsSearchResultsController = true
+//        searchController.automaticallyShowsSearchResultsController = true
+        searchController.becomeFirstResponder()
+        searchController.searchBar.placeholder = "등록할 상호명 검색"
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.isActive = true
+        self.navigationItem.searchController?.navigationItem.titleView = searchController.searchBar
+        
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchResultsUpdater = searchController.searchResultsController as? RegionSearchResultController
+        self.navigationItem.searchController = searchController
+        self.navigationItem.searchController?.delegate = self
+        self.navigationItem.searchController?.searchBar.delegate = self
+       
+    }
+}
+
 class RegionSearchResultController: UITableViewController, UISearchResultsUpdating {
     var resultArray: [Document] = []
     var query: String = ""
@@ -24,6 +121,10 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.post(name: NSNotification.Name("DismissThenViewWillAppear"), object: nil, userInfo: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name("DismissThenPopAgain"), object: nil, userInfo: nil)
     }
     
     // MARK: - Table view data source
@@ -57,9 +158,10 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
         
         let selectedPlace: Document = resultArray[indexPath.row]
         searchedInfo = selectedPlace
-
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
+    
+    
     
     func updateSearchResults(for searchController: UISearchController) {
         query = searchController.searchBar.text ?? ""
