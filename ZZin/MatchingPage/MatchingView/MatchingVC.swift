@@ -7,73 +7,58 @@ import NMapsMap
 
 
 class MatchingVC: UIViewController {
+    
+    //MARK: - Properties
+    
+    let dataManager = FireStoreManager()
+    var place: [Place]?
+    var review: [Review]?
+    
+    var companionKeyword : [String?]?
+    var conditionKeyword : [String?]?
+    var kindOfFoodKeyword : [String?]?
+    var updateKeywords: [String] = []
+    
+    var selectedCity : String?
+    var selectedTown : String?
+    var currentLocation: NMGLatLng?
+    
+    private let matchingView = MatchingView()
+    private let keywordVC = MatchingKeywordVC()
+    private let locationPickerVC = MatchingLocationPickerVC()
+    private let resultCV = MatchingResultCollectionView()
+ 
+
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDataManager()
+        
         setView()
         configureUI()
         locationSetting()
         currentLocation = LocationService.shared.getCurrentLocation()
         getAddress()
+        fetchPlacesWithKeywords()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         setKeywordButtonTitle()
     }
     
     
+    
     // MARK: - Settings
-    func locationSetting() {
-        LocationService.shared.delegate = self
-    }
-    
-    func getAddress() {
-        self.currentLocation = LocationService.shared.getCurrentLocation()
-        LocationService.shared.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
-            if let error = error {
-                print("Error getting address: \(error.localizedDescription)")
-                return
-            }
-            
-            if let address = address {
-                print("Current address: \(address)")
-                
-                if let city = address.first, city.count >= 2 {
-                    self.locationPickerVC.selectedCity = String(city.prefix(2))
-                }
-                
-                self.locationPickerVC.selectedTown = address.last
-                
-                print("@@@@@@@\(self.locationPickerVC.selectedCity),\(self.locationPickerVC.selectedTown)")
-            } else {
-                print("Address not found.")
-            }
-        }
-    }
-    
-    func setDataManager(){
-        // 플레이스 데이터 불러오기
-        dataManager.getPlaceData { [weak self] result in
-            if let placeData = result {
-                self?.place = placeData
-                self?.resultCV.collectionView.reloadData()
-            }
-        }
-    }
-    
+   
     private func setView(){
         view.backgroundColor = .white
-        
         setMapView()
         setlocationView()
         setPickerView()
         setCollectionViewAttribute()
         setKeywordView()
-        configureUI()
     }
     
     private func setMapView(){
@@ -95,31 +80,27 @@ class MatchingVC: UIViewController {
         if #available(iOS 16.0, *) {
             sheet.detents = [.custom { $0.maximumDetentValue * 0.65 }]
         }
-
         sheet.largestUndimmedDetentIdentifier = .large
     }
 
-    
     private func setCollectionViewAttribute(){
         resultCV.collectionView.delegate = self
         resultCV.collectionView.dataSource = self
     }
     
-    
-    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = "전체") {
+    func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = nil) {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
-        let actualCity = city ?? self.currentCity ?? nil
-        let actualTown = town ?? self.currentTown ?? "전체"
-                
+        let actualCity = city ?? self.selectedCity ?? nil
+        let actualTown = town ?? self.selectedTown
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
                 self.place = places
-                
-                print("----------", self.place?.count ?? "")
-                
+                print("~~ \(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정") ")
+                print("~~", self.place?.count ?? "")
+
                 DispatchQueue.main.async {
                     self.resultCV.collectionView.reloadData()
                 }
@@ -129,29 +110,35 @@ class MatchingVC: UIViewController {
             }
         }
     }
+    
+    func locationSetting() {
+        LocationService.shared.delegate = self
+    }
+    
+    func getAddress() {
+        self.currentLocation = LocationService.shared.getCurrentLocation()
+        LocationService.shared.getAddressFromLocation(lat: self.currentLocation?.lat ?? 0, lng: self.currentLocation?.lng ?? 0) { (address, error) in
+            if let error = error {
+                print("Error getting address: \(error.localizedDescription)")
+                return
+            }
+            if let address = address {
+                print("Current address: \(address)")
+                
+                if let city = address.first, city.count >= 2 {
+                    self.locationPickerVC.selectedCity = String(city.prefix(2))
+                }
+                self.locationPickerVC.selectedTown = address.last
+                print("@@@@@@@ \(self.locationPickerVC.selectedCity),\(self.locationPickerVC.selectedTown)")
+            } else {
+                print("Address not found.")
+            }
+        }
+    }
   
-    //MARK: - Properties
     
-    // FirestoreManager
-    let dataManager = FireStoreManager()
-    var place: [Place?]?
-    var review: [Review]?
-    
-    var companionKeyword : [String?]?
-    var conditionKeyword : [String?]?
-    var kindOfFoodKeyword : [String?]?
-    var currentCity : String?
-    var currentTown : String?
-   
-    var currentLocation: NMGLatLng?
-    
-    private let matchingView = MatchingView()
-    private let locationPickerVC = MatchingLocationPickerVC()
-    private let resultCV = MatchingResultCollectionView()
-    private let keywordVC = MatchingKeywordVC()
-    
-        
     // MARK: - Actions
+    
     @objc private func mapButtonTapped() {
         print("지도 버튼 탭")
         let mapViewController = SearchMapViewController()
@@ -188,7 +175,7 @@ class MatchingVC: UIViewController {
         keywordVC.selectedMatchingKeywordType = .companion
         keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
-        
+
         present(keywordVC, animated: true)
     }
     
@@ -267,62 +254,10 @@ class MatchingVC: UIViewController {
     
 }
 
-//MARK: - Matching Keyword Delegate
 
-extension MatchingVC: LocationPickerViewDelegate {
-    func updateLocation(city: String?, town: String?) {
-        let selectedCity = city
-        let selectedTown = town
-        
-        // 피커뷰에서 선택된 지역으로 타이틀 업데이트
-        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
-        self.currentCity = selectedCity
-        self.currentTown = selectedTown
-        
-        print("~~피커뷰 선택값 전달받았읍니두~~","\(self.currentCity ?? "지역") \(self.currentTown ?? "미설정")")
-        
-      
-        // 선택 지역으로 컬렉션뷰 리로드
-        fetchPlacesWithKeywords()
-    }
-}
-
-//MARK: - Matching Keyword Delegate
-
-extension MatchingVC: MatchingKeywordDelegate {
-    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
-        let keywordType = keywordType
-        
-            switch keywordType {
-            case .companion:
-                if let updateKeyword = keyword.first {
-                    matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
-                    matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                    self.companionKeyword = keyword
-                }
-                
-            case .condition:
-                if let updateKeyword = keyword.first {
-                    matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
-                    matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                    self.conditionKeyword = keyword
-                }
-                
-            case .kindOfFood:
-                if let updateKeyword = keyword.first {
-                    matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
-                    matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
-                    self.kindOfFoodKeyword = keyword
-                }
-                
-        }
-
-        fetchPlacesWithKeywords()
-
-    }
-}
 
 //MARK: - CollectionView Delegate, DataSource, Layout
+
 
 extension MatchingVC: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
@@ -350,16 +285,16 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
         // 플레이스에 등록된 플레이스 네임을 컬렉션뷰 셀의 제목에 반환
         if let placeData = place {
-            let placeName = placeData[indexPath.item]?.placeName
+            let placeName = placeData[indexPath.item].placeName
             cell.recommendPlaceReview.titleLabel.text = placeName
           
-            let placeImg = place?[indexPath.item]?.placeImg[0]
+            let placeImg = place?[indexPath.item].placeImg[0]
             FireStorageManager().bindPlaceImgWithPath(path: placeImg, imageView: cell.recommendPlaceReview.img)
             
-            let placeTown = place?[indexPath.item]?.town
+            let placeTown = place?[indexPath.item].town
             cell.recommendPlaceReview.placeTownLabel.text = placeTown
             
-            let placeMenu = place?[indexPath.item]?.kindOfFood
+            let placeMenu = place?[indexPath.item].kindOfFood
             cell.recommendPlaceReview.placeMenuLabel.text = placeMenu
         }
         
@@ -384,11 +319,69 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let matchingPlaceVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
             
-            matchingPlaceVC.placeID = place?[indexPath.item]?.pid
-            matchingPlaceVC.reviewID = place?[indexPath.item]?.rid
+            matchingPlaceVC.placeID = place?[indexPath.item].pid
+            matchingPlaceVC.reviewID = place?[indexPath.item].rid
         }
     }
 }
+
+
+//MARK: - Matching Keyword Delegate
+
+extension MatchingVC: LocationPickerViewDelegate {
+    func updateLocation(city: String?, town: String?) {
+        let selectedCity = city
+        let selectedTown = town
+        
+        // 피커뷰에서 선택된 지역으로 타이틀 업데이트
+        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
+        self.selectedCity = selectedCity
+        self.selectedTown = selectedTown
+        
+        // 선택 지역으로 컬렉션뷰 리로드
+        fetchPlacesWithKeywords()
+    }
+}
+
+
+//MARK: - Matching Keyword Delegate
+
+
+extension MatchingVC: MatchingKeywordDelegate {
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+//        print("~~ 키워드 전달받았음두 \(keyword)")
+
+        let keywordType = keywordType
+            switch keywordType {
+            case .companion:
+                if let updateKeyword = keyword.last {
+                    matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.companionKeyword = keyword
+                    print("~~ 업데이트 키워드는 바로 \(self.companionKeyword?[0] ?? "")")
+
+                }
+                
+            case .condition:
+                if let updateKeyword = keyword.first {
+                    matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.conditionKeyword = keyword
+                }
+                
+            case .kindOfFood:
+                if let updateKeyword = keyword.first {
+                    matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
+                    matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
+                    self.kindOfFoodKeyword = keyword
+                }
+             
+        }
+        fetchPlacesWithKeywords()
+    }
+    
+}
+
 
 
 // MARK: - SearchMapVC Delegate
@@ -398,8 +391,8 @@ extension MatchingVC: SearchMapViewControllerDelegate {
         self.companionKeyword = companionKeyword
         self.conditionKeyword = conditionKeyword
         self.kindOfFoodKeyword = kindOfFoodKeyword
-        self.currentCity = selectedTown
-        self.currentTown = selectedTown
+        self.selectedCity = selectedCity
+        self.selectedTown = selectedTown
     }
 }
 

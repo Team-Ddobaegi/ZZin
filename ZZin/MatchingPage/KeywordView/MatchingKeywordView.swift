@@ -46,16 +46,17 @@ class MatchingKeywordView: UIView {
     
     var infoLabel = UILabel().then {
         $0.text = "보기를 선택해주세요."
-        $0.textColor = ColorGuide.cherryTomato
+        $0.textColor = ColorGuide.main
         $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
     
     let confirmButton = UIButton().then {
-        $0.isEnabled = false
+//        $0.isEnabled = false
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        $0.backgroundColor = .lightGray
+//        $0.backgroundColor = .lightGray
+        $0.backgroundColor = ColorGuide.main
         $0.layer.cornerRadius = 15
     }
     
