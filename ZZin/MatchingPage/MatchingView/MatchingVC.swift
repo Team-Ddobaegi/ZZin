@@ -18,6 +18,7 @@ class MatchingVC: UIViewController {
     var conditionKeyword : [String?]?
     var kindOfFoodKeyword : [String?]?
     var updateKeywords: [String] = []
+    
     var selectedCity : String?
     var selectedTown : String?
     var currentLocation: NMGLatLng?
@@ -174,7 +175,7 @@ class MatchingVC: UIViewController {
         keywordVC.selectedMatchingKeywordType = .companion
         keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
-        
+
         present(keywordVC, animated: true)
     }
     
@@ -348,15 +349,17 @@ extension MatchingVC: LocationPickerViewDelegate {
 
 extension MatchingVC: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
-        print("~~ 키워드 전달받았음두 \(keyword)")
+//        print("~~ 키워드 전달받았음두 \(keyword)")
 
         let keywordType = keywordType
             switch keywordType {
             case .companion:
-                if let updateKeyword = keyword.first {
+                if let updateKeyword = keyword.last {
                     matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                     matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                     self.companionKeyword = keyword
+                    print("~~ 업데이트 키워드는 바로 \(self.companionKeyword?[0] ?? "")")
+
                 }
                 
             case .condition:

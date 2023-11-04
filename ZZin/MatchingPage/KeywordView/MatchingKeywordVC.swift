@@ -23,7 +23,9 @@ class MatchingKeywordVC: UIViewController {
     weak var delegate: MatchingKeywordDelegate?
     var matchingKeywordView = MatchingKeywordView()
     
-    // 선택 키워드 타입 초기세팅
+    // 선택 키워드 타입
+    let keywordType: Keyword = Keyword()
+
     var selectedMatchingKeywordType: MatchingKeywordType = .companion
     
     // 각 키워드 타입에 맞춰 키워드 모델 호출
@@ -37,6 +39,7 @@ class MatchingKeywordVC: UIViewController {
     // 선택된 셀을 저장할 배열
     var selectedKeywords: [String] = []
 
+    var selectedIndexPath: [IndexPath] = []
     
     
     // MARK: - Life Cycles
@@ -48,6 +51,12 @@ class MatchingKeywordVC: UIViewController {
         setButtonAttribute()
         setCollectionViewAttribute()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        matchingKeywordView.collectionViewUI.reloadData()
+       
+    }
+    
     
     
     // MARK: - Settings
@@ -71,7 +80,6 @@ class MatchingKeywordVC: UIViewController {
         matchingKeywordView.collectionViewUI.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
     }
     
-
     func sendData(data: [String], type: MatchingKeywordType){
         let keyword = data
         let type = type
@@ -128,7 +136,12 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-     
+        
+        cell.layer.cornerRadius = 10
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        
+        
         switch selectedMatchingKeywordType {
         case .companion:
             cell.label.text = "\(companionKeywords[indexPath.item])"
@@ -143,55 +156,90 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
             cell.keywordType = .kindOfFood
         }
         
-        if let lastSelectedKeyword = selectedKeywords.last {
-                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
-                cell.setSelected(true, animated: false)
-                cell.label.layer.borderColor = ColorGuide.main.cgColor
-
+        for indexPath in selectedIndexPath {
+            // 배열에 저장된 IndexPath에 따른 작업 수행
+            if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+                // 선택된 셀에 대한 작업 수행
+                cell.layer.borderColor = ColorGuide.main.cgColor
                 matchingKeywordView.infoLabel.text = cell.label.text
                 matchingKeywordView.infoLabel.textColor = .darkGray
-            
-            print("~~ 마지막으로 선택된 키워드 맞나여? \(lastSelectedKeyword)")
-
-            } else {
-                cell.setSelected(false, animated: false)
-                cell.label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-                print("~~ 선택된 키워드가 없다!")
             }
-
+        }
+        
+        if !selectedIndexPath.isEmpty {
+            print("ㅇㅇ", selectedIndexPath)
+            guard indexPath == selectedIndexPath[0] else { return cell}
+           
+            cell.layer.borderColor = ColorGuide.main.cgColor
+            matchingKeywordView.infoLabel.text = cell.label.text
+            matchingKeywordView.infoLabel.textColor = .darkGray
+        }
+        
         return cell
     }
 }
 
 extension MatchingKeywordVC: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
-            
-            guard let selectedCell = cell.label.text else { return }
-            if cell.isSelected {
-                if let index = selectedKeywords.firstIndex(of: selectedCell) {
-                    selectedKeywords.remove(at: index)
-                    cell.setSelected(false, animated: true) // 셀의 선택 해제
-                    cell.label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-
-                    matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
-                    matchingKeywordView.infoLabel.textColor = ColorGuide.main
-                    print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택해제")
-
-                } else {
-                    selectedKeywords.append(selectedCell)
-                    cell.label.layer.borderColor = ColorGuide.main.cgColor
-
-                    matchingKeywordView.infoLabel.text = selectedCell
-                    matchingKeywordView.infoLabel.textColor = .darkGray
-                    print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택")
-                    
-                    let lastSelectedKeyword = selectedKeywords.last
-                    print("~!!~!~!~마지막으로 선택된 키워드는 \(lastSelectedKeyword ?? "")")
-
-                }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
+        selectedIndexPath.append(indexPath)
+        
+        if selectedIndexPath.count > 1 {
+            guard selectedIndexPath[0] != indexPath else { 
+                collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
+                matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+                matchingKeywordView.infoLabel.textColor = ColorGuide.main
+                selectedIndexPath = []
+                collectionView.reloadData()
+                return
             }
-//            cell.setView()
+            collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
+            selectedIndexPath.remove(at: 0)
+            print ("~~ 초기화 후 선택 키워드", selectedIndexPath)
         }
+        collectionView.reloadData()
+//        selectedKeywords.append(keywordType.companion[indexPath.item])
+        
+        switch selectedMatchingKeywordType {
+        case .companion:
+            return  selectedKeywords.append(keywordType.companion[indexPath.item])
+        case .condition:
+            return  selectedKeywords.append(keywordType.condition[indexPath.item])
+        case .kindOfFood:
+            return  selectedKeywords.append(keywordType.kindOfFood[indexPath.item])
+        }
+        
+        print ("~~ 키워드 추가입니두", selectedKeywords)
+
     }
 }
+
+
+//if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+//    
+//    guard let selectedCell = cell.label.text else { return }
+//    if cell.isSelected {
+//        if let index = selectedKeywords.firstIndex(of: selectedCell) {
+//            selectedKeywords.remove(at: index)
+//            cell.setSelected(false, animated: true) // 선택된 셀의 중복선택 해제
+//            cell.label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+//            matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+//            matchingKeywordView.infoLabel.textColor = ColorGuide.main
+//            print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택해제")
+//
+//        } else {
+//            selectedKeywords.append(selectedCell)
+//            
+//            cell.label.layer.borderColor = ColorGuide.main.cgColor
+//
+//            matchingKeywordView.infoLabel.text = selectedCell
+//            matchingKeywordView.infoLabel.textColor = .darkGray
+//            selectedIndexPath = indexPath
+//            
+//            print("~~ 제발", selectedIndexPath)
+//            print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택")
+//
+//        }
+//    }
+//}
