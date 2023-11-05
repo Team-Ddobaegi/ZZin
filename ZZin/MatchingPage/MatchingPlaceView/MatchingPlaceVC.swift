@@ -130,7 +130,7 @@ class MatchingPlaceVC: UIViewController {
         print("리뷰 작성 페이지로 이동합니다")
         
         let postVC = PostViewController()
-        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+//        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(postVC, animated: true)
     }
     

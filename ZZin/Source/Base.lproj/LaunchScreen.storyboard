@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="kuN-YS-wcp">
-                                <rect key="frame" x="71" y="234" width="251" height="254"/>
+                                <rect key="frame" x="71" y="273" width="251" height="254"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.8392156959" green="0.3803921938" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </imageView>
@@ -32,6 +32,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchScreen" width="1021" height="1019"/>
+        <image name="LaunchScreen" width="1024" height="1024"/>
     </resources>
 </document>
