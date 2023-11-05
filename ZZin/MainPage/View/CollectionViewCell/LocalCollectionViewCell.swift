@@ -6,66 +6,61 @@
 //
 
 import UIKit
+import SnapKit
 
-class MainPageRecommendCollectionViewCell: UICollectionViewCell {
+class LocalCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MainPageRecommendCollectionViewCell"
+    static let identifier = "LocalCollectionViewCell"
     private var isBookmarked = false
     
-    private let containerView = UIView().then {
-        $0.backgroundColor = .systemBackground
-    }
-    
-    let recommendPictureView = UIImageView().then {
-        $0.backgroundColor = ColorGuide.subButton
+    private var recommendPictureView = UIImageView().then {
+        let image = UIImage(systemName: "person")
+        $0.image = image
+        $0.backgroundColor = .gray
         $0.layer.cornerRadius = 38
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
         $0.isUserInteractionEnabled = true
         $0.snp.makeConstraints {
             $0.height.width.equalTo(76)
         }
     }
     
-    var recommendLabel = UILabel().then {
+    private var recommendLabel = UILabel().then {
         $0.text = "강남구"
         $0.font = FontGuide.size16
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 50, height: 20))
-        }
     }
     
     private lazy var recommendStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [recommendPictureView, recommendLabel])
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
-        setupUI()
+        configureSubview()
     }
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func configure() {
-        [containerView, recommendStackView].forEach { self.addSubview($0) }
-    }
 
-    func setupUI() {
-        containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+    private func configureSubview() {
+        contentView.addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 77, height: 98))
         }
+    }
+    
+    func setComponents(text: String, image: String) {
+        let imageData = UIImage(systemName: image)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        recommendPictureView.image = imageData
+        recommendLabel.text = text
     }
 }

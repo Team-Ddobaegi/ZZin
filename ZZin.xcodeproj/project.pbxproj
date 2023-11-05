@@ -36,6 +36,7 @@
 		BD03FD782AF32805009259DD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD03FD772AF32805009259DD /* CustomButton.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
+		BD177F512AF453B900DF2FE7 /* LocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */; };
 		BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3698632AED858800E4125A /* ErrorHandling.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
@@ -77,6 +78,10 @@
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
+		BDBA78A52AF789F800FA186C /* authManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBA78A42AF789F800FA186C /* authManager.swift */; };
+		BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */; };
+		BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */; };
+		BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112772AF532C4000E4F9F /* MainHeaderView.swift */; };
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
 		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
@@ -107,7 +112,6 @@
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */; };
 		DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */; };
-		DFEDDA442AF4E648003FA958 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFEDDA432AF4E648003FA958 /* SecretKey.plist */; };
 		DFEDDA462AF4E7C0003FA958 /* NaverAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */; };
 		DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */; };
 		DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFE276E2AE0A98F00F5970F /* LocationService.swift */; };
@@ -122,8 +126,8 @@
 		FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */; };
 		FF031D602ADBBA5900206056 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D5F2ADBBA5900206056 /* MainView.swift */; };
 		FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D612ADBBDC100206056 /* FontGuide.swift */; };
-		FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */; };
-		FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D692ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift */; };
+		FF031D682ADBEB1B00206056 /* LocalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */; };
+		FF031D6A2ADBEB5100206056 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */; };
 		FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D6B2ADFA25000206056 /* ColorGuide.swift */; };
 		FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */; };
 		FFEE93752AF3A2FF00A58010 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */; };
@@ -161,6 +165,7 @@
 		BD03FD772AF32805009259DD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
+		BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTableViewCell.swift; sourceTree = "<group>"; };
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
@@ -172,6 +177,10 @@
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
+		BDBA78A42AF789F800FA186C /* authManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authManager.swift; sourceTree = "<group>"; };
+		BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
+		BDC112772AF532C4000E4F9F /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -204,7 +213,6 @@
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMarkerView.swift; sourceTree = "<group>"; };
 		DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowView.swift; sourceTree = "<group>"; };
-		DFEDDA432AF4E648003FA958 /* SecretKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverAPIKey.swift; sourceTree = "<group>"; };
 		DFFE276C2ADFBA5200F5970F /* StoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCardView.swift; sourceTree = "<group>"; };
 		DFFE276E2AE0A98F00F5970F /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -217,8 +225,8 @@
 		FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageManager.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FF031D612ADBBDC100206056 /* FontGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontGuide.swift; sourceTree = "<group>"; };
-		FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageRecommendCollectionViewCell.swift; sourceTree = "<group>"; };
-		FF031D692ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCollectionViewCell.swift; sourceTree = "<group>"; };
+		FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF031D6B2ADFA25000206056 /* ColorGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGuide.swift; sourceTree = "<group>"; };
 		FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionViewController.swift; sourceTree = "<group>"; };
 		FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -314,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
+				BDBA78A42AF789F800FA186C /* authManager.swift */,
 				FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */,
 			);
 			path = Utility;
@@ -465,10 +474,39 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		BDC112742AF52EC9000E4F9F /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
+				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
+				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		BDC112752AF53162000E4F9F /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */,
+				FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		BDC112762AF531D9000E4F9F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BDC112742AF52EC9000E4F9F /* TableViewCell */,
+				BDC112752AF53162000E4F9F /* CollectionViewCell */,
+				FF031D5F2ADBBA5900206056 /* MainView.swift */,
+				BDC112772AF532C4000E4F9F /* MainHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
-				DFEDDA432AF4E648003FA958 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -549,9 +587,7 @@
 		FF031D5E2ADBBA1500206056 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
-				FF031D5F2ADBBA5900206056 /* MainView.swift */,
-				FF031D672ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift */,
-				FF031D692ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift */,
+				BDC112762AF531D9000E4F9F /* View */,
 				DF1599C22AD6C86D00AE129B /* MainViewController.swift */,
 				FF1D8E1D2AE14515002B685B /* SearchRegionPage */,
 			);
@@ -676,7 +712,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFEDDA442AF4E648003FA958 /* SecretKey.plist in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
 				FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */,
@@ -774,20 +809,24 @@
 				7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
+				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* MatchingKeywordVC.swift in Sources */,
+				BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
+				BD177F512AF453B900DF2FE7 /* LocalTableViewCell.swift in Sources */,
+				FF031D682ADBEB1B00206056 /* LocalCollectionViewCell.swift in Sources */,
 				C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */,
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
 				7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */,
-				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
+				FF031D682ADBEB1B00206056 /* LocalCollectionViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */,
 				7B47A54E2AE8A34600A44C2C /* MatchingLocationPickerView.swift in Sources */,
 				C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */,
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
-				FF031D6A2ADBEB5100206056 /* MainPageReviewCollectionViewCell.swift in Sources */,
+				FF031D6A2ADBEB5100206056 /* ReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */,
 				7B47A55C2AE9FEE200A44C2C /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
@@ -805,10 +844,12 @@
 				C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */,
 				7B47A55A2AE9FEB600A44C2C /* MatchingPlaceVC.swift in Sources */,
 				7BFC61C42AE1C90100F46544 /* MatchingPlaceReviewDetailVC.swift in Sources */,
+				BDBA78A52AF789F800FA186C /* authManager.swift in Sources */,
 				FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
 				DFFE276D2ADFBA5200F5970F /* StoreCardView.swift in Sources */,
+				BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */,
 				C0A634472AEF7C8100BF6B55 /* ProfileCell.swift in Sources */,

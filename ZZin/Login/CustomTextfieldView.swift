@@ -15,7 +15,7 @@ class CustomTextfieldView: UIView {
         case noButton
         case cancelButton
         case hideButton
-        case doubleCheckButton
+//        case crossButton
     }
     
     private var animatingLabel = UILabel().then {
@@ -45,6 +45,14 @@ class CustomTextfieldView: UIView {
         $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
+    private let checkButton = UIButton().then {
+        let image = UIImage(systemName: "checkmark")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.imageView?.tintColor = .systemGray
+        $0.isHidden = true
+        $0.setImage(image, for: .normal)
+    }
+
     private let secureButton = UIButton().then {
         let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
@@ -52,15 +60,6 @@ class CustomTextfieldView: UIView {
         $0.setImage(image, for: .selected)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
-    }
-    
-    private let doubleCheckButton = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setTitle("중복 체크", for: .normal)
-        $0.backgroundColor = .green
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.addTarget(self, action: #selector(doubleCheckButtonTapped), for: .touchUpInside)
     }
 
     init(placeholder: String, text: String) {
@@ -87,12 +86,18 @@ class CustomTextfieldView: UIView {
         case .noButton: print("no button")
         case .cancelButton: addCancelButton()
         case .hideButton: addEyeButton()
-        case .doubleCheckButton: addDoubleCheckButton()
+//        case .crossButton: addCheckButton()
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        addGestureRecognizer(tap)
+        self.isUserInteractionEnabled = true
     }
 
     override var intrinsicContentSize: CGSize {
@@ -143,21 +148,14 @@ extension CustomTextfieldView {
         }
     }
     
-    private func addDoubleCheckButton() {
-        addSubview(doubleCheckButton)
-        doubleCheckButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(5)
-            $0.height.width.equalTo(30)
-        }
-    }
-    
-    private func commonInit() {
-        backgroundColor = .gray
-        let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        addGestureRecognizer(tap)
-        self.isUserInteractionEnabled = true
-    }
+//    private func addCheckButton() {
+//        addSubview(checkButton)
+//        checkButton.snp.makeConstraints {
+//            $0.centerY.equalToSuperview()
+//            $0.trailing.equalToSuperview().inset(5)
+//            $0.height.width.equalTo(30)
+//        }
+//    }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
         textfield.delegate = delegate
@@ -220,6 +218,7 @@ extension CustomTextfieldView {
     }
     
     @objc func cancelTapped(_ sender: UIButton) {
+        self.textfield.text = ""
         textfield.resignFirstResponder()
         undoLabelAnimation()
     }
@@ -233,9 +232,5 @@ extension CustomTextfieldView {
             textfield.isSecureTextEntry = true
             print("비밀번호가 숨겨졌습니다.")
         }
-    }
-    
-    @objc func doubleCheckButtonTapped(_ sender: UIButton) {
-        print("중복 검사를 진행합니다.")
     }
 }

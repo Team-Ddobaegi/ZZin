@@ -42,7 +42,7 @@ enum ErrorHandling {
         case .noValue:
             return "어라..?"
         case .signInFailure:
-            return "🚨생성 실패🚨"
+            return "이메일로 계정이 이미 있어요!"
         case .loginFailure:
             return "로그인 실패"
         case .doubleCheck:
