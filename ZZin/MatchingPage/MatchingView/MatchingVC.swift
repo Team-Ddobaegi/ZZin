@@ -86,6 +86,7 @@ class MatchingVC: UIViewController {
     private func setCollectionViewAttribute(){
         resultCV.collectionView.delegate = self
         resultCV.collectionView.dataSource = self
+        resultCV.collectionView.showsVerticalScrollIndicator = false
     }
     
     func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = nil) {
@@ -295,10 +296,10 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.recommendPlaceReview.placeTownLabel.text = placeTown
             
             let placeMenu = place?[indexPath.item].kindOfFood
-            if var placeMenu = placeMenu {
-                placeMenu.removeFirst()
+//            if var placeMenu = placeMenu {
+//                placeMenu.removeFirst()
                 cell.recommendPlaceReview.placeMenuLabel.text = placeMenu
-            }
+//            }
         }
         
         return cell

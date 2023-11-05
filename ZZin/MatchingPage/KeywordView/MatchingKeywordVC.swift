@@ -77,6 +77,7 @@ class MatchingKeywordVC: UIViewController {
     func setCollectionViewAttribute(){
         matchingKeywordView.collectionViewUI.delegate = self
         matchingKeywordView.collectionViewUI.dataSource = self
+        matchingKeywordView.collectionViewUI.showsVerticalScrollIndicator = false
         matchingKeywordView.collectionViewUI.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
     }
     

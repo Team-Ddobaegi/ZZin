@@ -268,6 +268,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.matchingPlacePhotoView.collectionView.delegate = self
             cell.matchingPlacePhotoView.collectionView.dataSource = self
+            cell.matchingPlacePhotoView.collectionView.showsVerticalScrollIndicator = false
             
             return cell
             
