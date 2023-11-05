@@ -21,7 +21,6 @@ class LoginViewController: UIViewController {
     }
     
     private let userData = Auth.auth().currentUser?.uid
-    
     private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
     private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     
@@ -37,37 +36,15 @@ class LoginViewController: UIViewController {
     }
     
     private let memberButton = UIButton().then {
-        $0.setTitle("찐회원 되기 ㅣ", for: .normal)
+        $0.setTitle("찐회원 되기", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
     }
     
-    private let searchIdButton = UIButton().then {
-        $0.setTitle("아이디 찾기 ㅣ", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.addTarget(self, action: #selector(searchIdButtonTapped), for: .touchUpInside)
-    }
-    
-    private let searchPwButton = UIButton().then {
-        $0.setTitle("비밀번호 찾기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.addTarget(self, action: #selector(searchPwButtonTapped), for: .touchUpInside)
-    }
-    
-    private lazy var userButtonStack: UIStackView = {
-        let stack = UIStackView()
-        [memberButton, searchIdButton, searchPwButton].forEach{ stack.addArrangedSubview($0) }
-        [memberButton, searchIdButton, searchPwButton].forEach { $0.titleLabel?.font = UIFont.systemFont(ofSize: 15) }
-        stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
     //MARK: - 메서드 선언
     private func configure() {
         view.backgroundColor = .white
-        [idTextfieldView, pwTextfieldView, logoView, loginButton, userButtonStack].forEach{view.addSubview($0)}
+        [idTextfieldView, pwTextfieldView, logoView, loginButton, memberButton].forEach{view.addSubview($0)}
         pwTextfieldView.textfield.isSecureTextEntry = true
     }
     
@@ -75,7 +52,7 @@ class LoginViewController: UIViewController {
         setLogo()
         setCustomView()
         setLoginBtn()
-        setSearchBtn()
+        setMemberBtn()
     }
     
     private func setLogo() {
@@ -109,8 +86,8 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func setSearchBtn() {
-        userButtonStack.snp.makeConstraints{
+    private func setMemberBtn() {
+        memberButton.snp.makeConstraints{
             $0.top.equalTo(loginButton.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(19)
@@ -179,28 +156,37 @@ class LoginViewController: UIViewController {
     
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
-//
-//        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
-//            print("이메일 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
-//            print("비밀번호 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        FireStoreManager.shared.loginUser(with: email, password: pw) { success in
-//            if success {
-//                print("사용자가 로그인했습니다.")
+
+        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+            print("이메일 형식이 맞지 않습니다.")
+            return
+        }
+
+        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+            print("비밀번호 형식이 맞지 않습니다.")
+            return
+        }
+
+        FireStoreManager.shared.loginUser(with: email, password: pw) { success in
+            if success {
+                print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
-//            } else {
-//                print("사용자 로그인이 불가능합니다.")
-//                self.showAlert(type: .loginFailure)
-//            }
-//        }
+                
+//                print("로그인한 사용자는 ",loggedUser)
+//                print("로그인한 사용자 uid ",loggedUser?.uid)
+//                print("로그인한 사용자 providerID ",loggedUser?.providerID)
+//                print("로그인한 사용자 email ",loggedUser?.email)
+//                print("로그인한 사용자 name ",loggedUser?.displayName)
+//                print("로그인한 사용자 num ",loggedUser?.phoneNumber)
+//                print("로그인한 사용자 provider data ",loggedUser?.providerData)
+//                print("로그인한 사용자 tenantID ",loggedUser?.tenantID)
+            } else {
+                print("사용자 로그인이 불가능합니다.")
+                self.showAlert(type: .loginFailure)
+            }
+        }
     }
     
     @objc func memberButtonTapped() {

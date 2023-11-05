@@ -10,6 +10,7 @@ import SnapKit
 
 class MainView: UIView {
     
+    //MARK: - 로고 선정 이후 이미지 적용 필요🚨
     let tableView = UITableView(frame: .zero, style: .plain).then {
         $0.separatorStyle = .none
         $0.register(LocalTableViewCell.self, forCellReuseIdentifier: LocalTableViewCell.identifier)
@@ -35,12 +36,3 @@ class MainView: UIView {
         }
     }
 }
-
-//    private let logoPicture = UIImageView().then {
-//        $0.image = UIImage(named: "ZZin")
-//        $0.backgroundColor = ColorGuide.subButton
-//        $0.clipsToBounds = true
-//        $0.contentMode = .scaleAspectFill
-//        $0.isUserInteractionEnabled = true
-//    }
-//

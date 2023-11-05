@@ -454,8 +454,7 @@ class FireStoreManager {
                 completion(false)
                 return
             }
-            print("이메일이 올바릅니다. 로그인이 됐습니다. \(result?.description)")
-            print("유저는 \(result?.user) 입니다.")
+            print("로그인이 됐습니다. \(result?.description)")
             completion(true)
             return
         }        
@@ -467,6 +466,11 @@ class FireStoreManager {
             if let error = error {
                 print("여기가 문제인가요 유저를 생성하는데 에러가 발생했습니다. \(error.localizedDescription)")
                 completion(false)
+            }
+            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+            changeRequest?.photoURL = try! "gs://zzin-ios-application.appspot.com/profiles/default_profile.png".asURL()
+            changeRequest?.commitChanges { error in
+                print(error?.localizedDescription)
             }
             print("결과값은 아래와 같습니다 - \(result?.description)")
             completion(true)

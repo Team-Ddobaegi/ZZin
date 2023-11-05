@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     var placeData: [Place] = []
     var pidArr: [String]? = []
     var ridArr: [String]? = []
-    // current user로 변경될 수 있도록 로그인에서 수정
+    // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = "bo_bo_@kakao.com"
 
     func setDelegate() {
@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         fetchData()
         fetchPlaceData()
     }
