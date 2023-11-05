@@ -100,7 +100,6 @@
 		DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C02AD6C7A300AE129B /* TabBarController.swift */; };
 		DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C22AD6C86D00AE129B /* MainViewController.swift */; };
 		DF1599C52AD6C89300AE129B /* MatchingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C42AD6C89300AE129B /* MatchingVC.swift */; };
-		DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C62AD6C8D600AE129B /* StoryViewController.swift */; };
 		DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C82AD6C8E400AE129B /* InfoViewController.swift */; };
 		DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */; };
 		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
@@ -203,7 +202,6 @@
 		DF1599C02AD6C7A300AE129B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		DF1599C22AD6C86D00AE129B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF1599C42AD6C89300AE129B /* MatchingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingVC.swift; sourceTree = "<group>"; };
-		DF1599C62AD6C8D600AE129B /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		DF1599C82AD6C8E400AE129B /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 			isa = PBXGroup;
 			children = (
 				7B47A5542AE8B1EE00A44C2C /* Model */,
-				DF1599C62AD6C8D600AE129B /* StoryViewController.swift */,
 				DF1599B02AD6C6E200AE129B /* ViewController.swift */,
 				DF1599C02AD6C7A300AE129B /* TabBarController.swift */,
 				DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */,
@@ -792,7 +789,6 @@
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
 				7BFC61C22AE1C8BC00F46544 /* MatchingPlaceReviewDetailView.swift in Sources */,
 				DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */,
-				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
@@ -806,7 +802,6 @@
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
 				7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* MainPageRecommendCollectionViewCell.swift in Sources */,
-				DF1599C72AD6C8D600AE129B /* StoryViewController.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */,
 				7B47A54E2AE8A34600A44C2C /* MatchingLocationPickerView.swift in Sources */,
