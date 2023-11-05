@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
     private let logoView = UIImageView().then {
-        let image = UIImage(named: "AppIcon")
+        let image = UIImage(named: "AppIconㅓㅇ ")
         $0.image = image
         $0.contentMode = .scaleAspectFill
     }
