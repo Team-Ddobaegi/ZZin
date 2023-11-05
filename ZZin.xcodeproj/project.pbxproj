@@ -117,11 +117,6 @@
 		FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CustomView.swift */; };
 		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
-		FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */; };
-		FBA7B0C62AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */; };
-		FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */; };
-		FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */; };
-		FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */; };
 		FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */; };
 		FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FBB06AEF2AEBAA270091D65A /* SDWebImage */; };
 		FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */; };
@@ -218,11 +213,6 @@
 		FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultController.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
-		FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageCollectionView.xib; sourceTree = "<group>"; };
-		FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPageZZinCollectionCell.xib; sourceTree = "<group>"; };
-		FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
-		FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZinCollectionViewCell.swift; sourceTree = "<group>"; };
-		FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsForPostVC.swift; sourceTree = "<group>"; };
 		FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageManager.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -543,11 +533,6 @@
 			isa = PBXGroup;
 			children = (
 				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
-				FBA7B0C32AE0C1BF00F79031 /* InfoPageCollectionView.xib */,
-				FBA7B0C52AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib */,
-				FBA7B0C72AE0C1D400F79031 /* UserInfoTableViewCell.swift */,
-				FBA7B0C92AE0C1DC00F79031 /* ZZinCollectionViewCell.swift */,
-				FBA7B0CB2AE0C25100F79031 /* SegmentedControlView.swift */,
 				FBA7B0C12AE0C18E00F79031 /* profile.png */,
 				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
 				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
@@ -693,7 +678,6 @@
 			files = (
 				DFEDDA442AF4E648003FA958 /* SecretKey.plist in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
-				FBA7B0C42AE0C1BF00F79031 /* InfoPageCollectionView.xib in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
 				FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */,
 				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
@@ -703,7 +687,6 @@
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
-				FBA7B0C62AE0C1C800F79031 /* InfoPageZZinCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,7 +760,6 @@
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
 				DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */,
 				C0A6344B2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift in Sources */,
-				FBA7B0CC2AE0C25100F79031 /* SegmentedControlView.swift in Sources */,
 				BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */,
 				DC095D142AD942610082B633 /* Model.swift in Sources */,
 				BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */,
@@ -796,8 +778,6 @@
 				7BFC61BF2AE1987C00F46544 /* MatchingKeywordVC.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
 				BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */,
-				FBA7B0CA2AE0C1DC00F79031 /* ZZinCollectionViewCell.swift in Sources */,
-				FBA7B0C82AE0C1D400F79031 /* UserInfoTableViewCell.swift in Sources */,
 				C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */,
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
 				7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */,
