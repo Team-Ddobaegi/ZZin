@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class MainViewController: UIViewController {
     
@@ -18,7 +19,7 @@ class MainViewController: UIViewController {
     var pidArr: [String]? = []
     var ridArr: [String]? = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
-    let uid = "bo_bo_@kakao.com"
+    let uid = Auth.auth().currentUser?.uid
 
     func setDelegate() {
         mainView.tableView.delegate = self
@@ -26,6 +27,7 @@ class MainViewController: UIViewController {
     }
     
     func setUI() {
+        mainView.tableView.showsVerticalScrollIndicator = false
         view.addSubview(mainView)
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -33,10 +35,12 @@ class MainViewController: UIViewController {
     }
     
     func fetchData() {
-        FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
-            loadedRidAndPid = result
-            ridArr = loadedRidAndPid["ridArr"] ?? []
-            mainView.tableView.reloadData()
+        if let uid = uid {
+            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
+                loadedRidAndPid = result
+                ridArr = loadedRidAndPid["ridArr"] ?? []
+                mainView.tableView.reloadData()
+            }
         }
     }
     

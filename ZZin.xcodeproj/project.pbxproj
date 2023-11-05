@@ -78,6 +78,7 @@
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
+		BDBA78A52AF789F800FA186C /* authManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBA78A42AF789F800FA186C /* authManager.swift */; };
 		BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */; };
 		BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */; };
 		BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112772AF532C4000E4F9F /* MainHeaderView.swift */; };
@@ -181,6 +182,7 @@
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
+		BDBA78A42AF789F800FA186C /* authManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authManager.swift; sourceTree = "<group>"; };
 		BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112772AF532C4000E4F9F /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				FB36504F2AE626B300EAEAB7 /* FireStoreManager.swift */,
+				BDBA78A42AF789F800FA186C /* authManager.swift */,
 				FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */,
 			);
 			path = Utility;
@@ -861,6 +864,7 @@
 				C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */,
 				7B47A55A2AE9FEB600A44C2C /* MatchingPlaceVC.swift in Sources */,
 				7BFC61C42AE1C90100F46544 /* MatchingPlaceReviewDetailVC.swift in Sources */,
+				BDBA78A52AF789F800FA186C /* authManager.swift in Sources */,
 				FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */,
 				DF1599C32AD6C86D00AE129B /* MainViewController.swift in Sources */,
