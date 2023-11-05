@@ -86,6 +86,7 @@ class MatchingVC: UIViewController {
     private func setCollectionViewAttribute(){
         resultCV.collectionView.delegate = self
         resultCV.collectionView.dataSource = self
+        resultCV.collectionView.showsVerticalScrollIndicator = false
     }
     
     func fetchPlacesWithKeywords(companion: String? = nil, condition: String? = nil, kindOfFood: String? = nil, city: String? = nil, town: String? = nil) {
@@ -98,8 +99,8 @@ class MatchingVC: UIViewController {
             switch result {
             case .success(let places):
                 self.place = places
-                print("~~ \(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정") ")
-                print("~~", self.place?.count ?? "")
+                print("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정") ")
+                print(self.place?.count ?? "")
 
                 DispatchQueue.main.async {
                     self.resultCV.collectionView.reloadData()
@@ -262,7 +263,7 @@ class MatchingVC: UIViewController {
 extension MatchingVC: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2 - 28, height: collectionView.frame.width / 2 + 40)
+        return CGSize(width: collectionView.frame.width / 2 - 25, height: collectionView.frame.width / 2)
     }
 }
 
@@ -295,7 +296,10 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.recommendPlaceReview.placeTownLabel.text = placeTown
             
             let placeMenu = place?[indexPath.item].kindOfFood
-            cell.recommendPlaceReview.placeMenuLabel.text = placeMenu
+//            if var placeMenu = placeMenu {
+//                placeMenu.removeFirst()
+                cell.recommendPlaceReview.placeMenuLabel.text = placeMenu
+//            }
         }
         
         return cell

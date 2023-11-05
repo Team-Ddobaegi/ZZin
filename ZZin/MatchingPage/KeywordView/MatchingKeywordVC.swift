@@ -53,8 +53,8 @@ class MatchingKeywordVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+
         matchingKeywordView.collectionViewUI.reloadData()
-       
     }
     
     
@@ -77,6 +77,7 @@ class MatchingKeywordVC: UIViewController {
     func setCollectionViewAttribute(){
         matchingKeywordView.collectionViewUI.delegate = self
         matchingKeywordView.collectionViewUI.dataSource = self
+        matchingKeywordView.collectionViewUI.showsVerticalScrollIndicator = false
         matchingKeywordView.collectionViewUI.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
     }
     
@@ -101,7 +102,7 @@ class MatchingKeywordVC: UIViewController {
             sendData(data: selectedKeywords, type: .kindOfFood)
         }
         self.dismiss(animated: true)
-        print("~~ \(selectedKeywords) 보낸다 ~!!~!~!~ ")
+        print("~~ \(selectedKeywords.last ?? "") 보낸다 ~!!~!~!~ ")
     }
     
 }
@@ -121,13 +122,13 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
         // 각 키워드에 맞는 키워드 배열
         switch selectedMatchingKeywordType {
         case .companion:
-            return companionKeywords.count
+            return keywordType.companion.count
             
         case .condition:
-            return conditionKeywords.count
+            return keywordType.condition.count
             
         case .kindOfFood:
-            return kindOfFoodKeywords.count
+            return keywordType.kindOfFood.count
         }
     }
     
@@ -144,15 +145,15 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
         
         switch selectedMatchingKeywordType {
         case .companion:
-            cell.label.text = "\(companionKeywords[indexPath.item])"
+            cell.label.text = "\(keywordType.companion[indexPath.item])"
             cell.keywordType = .companion
             
         case .condition:
-            cell.label.text = "\(conditionKeywords[indexPath.item])"
+            cell.label.text = "\(keywordType.condition[indexPath.item])"
             cell.keywordType = .condition
             
         case .kindOfFood:
-            cell.label.text = "\(kindOfFoodKeywords[indexPath.item])"
+            cell.label.text = "\(keywordType.kindOfFood[indexPath.item])"
             cell.keywordType = .kindOfFood
         }
         
@@ -186,7 +187,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
         selectedIndexPath.append(indexPath)
         
         if selectedIndexPath.count > 1 {
-            guard selectedIndexPath[0] != indexPath else { 
+            guard selectedIndexPath[0] != indexPath else {
                 collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
                 matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
                 matchingKeywordView.infoLabel.textColor = ColorGuide.main
@@ -199,6 +200,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
             print ("~~ 초기화 후 선택 키워드", selectedIndexPath)
         }
         collectionView.reloadData()
+
 //        selectedKeywords.append(keywordType.companion[indexPath.item])
         
         switch selectedMatchingKeywordType {
@@ -210,8 +212,6 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
             return  selectedKeywords.append(keywordType.kindOfFood[indexPath.item])
         }
         
-        print ("~~ 키워드 추가입니두", selectedKeywords)
-
     }
 }
 
