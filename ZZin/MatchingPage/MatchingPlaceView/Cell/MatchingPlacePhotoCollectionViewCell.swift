@@ -35,6 +35,7 @@ class MatchingPlacePhotoCollectionViewCell: UICollectionViewCell {
         image.image = UIImage(named: "")
         image.backgroundColor = .systemGray6
         image.contentMode = .scaleAspectFill
+        image.layer.masksToBounds = true
         
         return image
     }()

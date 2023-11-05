@@ -41,8 +41,9 @@ class MatchingThumbnailCell: UITableViewCell {
     
     static let identifier = "MatchingThumbnailCell"
    
-    private let review = RecommendPlaceReviewThumbnail().then{
+    let review = RecommendPlaceReviewThumbnail().then{
         $0.wrap.layer.cornerRadius = 0
+        $0.img.image = UIImage(named: "")
     }
     
     lazy var xMarkButton = UIButton().then {

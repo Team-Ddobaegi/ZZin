@@ -15,7 +15,31 @@ protocol MatchingKeywordDelegate: AnyObject {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType)
 }
 
+
 class MatchingKeywordVC: UIViewController {
+    
+    // MARK: - Properties
+    
+    weak var delegate: MatchingKeywordDelegate?
+    var matchingKeywordView = MatchingKeywordView()
+    
+    // 선택 키워드 타입
+    let keywordType: Keyword = Keyword()
+
+    var selectedMatchingKeywordType: MatchingKeywordType = .companion
+    
+    // 각 키워드 타입에 맞춰 키워드 모델 호출
+    let companionKeywords = Keyword().companion
+    let conditionKeywords = Keyword().condition
+    let kindOfFoodKeywords = Keyword().kindOfFood
+    
+    // 선택된 셀의 개수를 추적하는 변수
+    var selectedKeywordsCount: Int = 0
+
+    // 선택된 셀을 저장할 배열
+    var selectedKeywords: [String] = []
+
+    var selectedIndexPath: [IndexPath] = []
     
     
     // MARK: - Life Cycles
@@ -27,15 +51,20 @@ class MatchingKeywordVC: UIViewController {
         setButtonAttribute()
         setCollectionViewAttribute()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        matchingKeywordView.collectionViewUI.reloadData()
+       
+    }
+    
+    
     
     // MARK: - Settings
-    
     
     func setView() {
         view.backgroundColor = .white
         view.addSubview(matchingKeywordView)
-       
+        
         matchingKeywordView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -49,30 +78,6 @@ class MatchingKeywordVC: UIViewController {
         matchingKeywordView.collectionViewUI.delegate = self
         matchingKeywordView.collectionViewUI.dataSource = self
         matchingKeywordView.collectionViewUI.register(MatchingKeywordCell.self, forCellWithReuseIdentifier: MatchingKeywordCell.reuseIdentifer)
-
-    }
-    
-    func updateInfoLabel(_ keywordType: MatchingKeywordType) {
-        let selectedKeywords: [String]
-        switch keywordType {
-        case .companion:
-            selectedKeywords = selectedCompanionMatchingKeywords
-        case .condition:
-            selectedKeywords = selectedConditionMatchingKeywords
-        case .kindOfFood:
-            selectedKeywords = selectedMenuMatchingKeywords
-        }
-        
-        if selectedKeywords.isEmpty {
-            matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
-            matchingKeywordView.infoLabel.textColor = ColorGuide.cherryTomato
-            
-        } else {
-            matchingKeywordView.infoLabel.text = selectedKeywords.joined(separator: ", ")
-            matchingKeywordView.infoLabel.textColor = .black
-            matchingKeywordView.confirmButton.isEnabled = true
-            matchingKeywordView.confirmButton.backgroundColor = ColorGuide.main
-        }
     }
     
     func sendData(data: [String], type: MatchingKeywordType){
@@ -81,7 +86,7 @@ class MatchingKeywordVC: UIViewController {
         
         delegate?.updateKeywords(keyword: keyword, keywordType: type)
     }
-    
+   
     
     // MARK: - Actions
     
@@ -89,45 +94,20 @@ class MatchingKeywordVC: UIViewController {
         // 선택된 키워드 타입을 식별하여 처리
         switch selectedMatchingKeywordType {
         case .companion:
-            sendData(data: selectedCompanionMatchingKeywords, type: .companion)
+            sendData(data: selectedKeywords, type: .companion)
         case .condition:
-            sendData(data: selectedConditionMatchingKeywords, type: .condition)
+            sendData(data: selectedKeywords, type: .condition)
         case .kindOfFood:
-            sendData(data: selectedMenuMatchingKeywords, type: .kindOfFood)
+            sendData(data: selectedKeywords, type: .kindOfFood)
         }
         self.dismiss(animated: true)
+        print("~~ \(selectedKeywords) 보낸다 ~!!~!~!~ ")
     }
     
-    
-    // MARK: - Properties
-    
-    weak var delegate: MatchingKeywordDelegate?
-    var matchingKeywordView = MatchingKeywordView()
-
-    // 선택된 키워드를 업데이트 시켜줄 배열
-    var updateKeywords: [String] = []
-    
-    var selectedMatchingKeywordCells: [MatchingKeywordCell] = []        // 선택된 키워드를 저장할 배열
-    
-    // 키워드타입 초기세팅
-    var selectedMatchingKeywordType: MatchingKeywordType = .companion
-    
-    // 각 키워드페이지에 맞춰 키워드 모델 호출
-    let firstMatchingKeywords = Keyword().with
-    let secondMatchingKeywords = Keyword().condition
-    let menuMatchingKeywords = Keyword().menu
-    
-    // 선택된 셀의 개수를 추적하는 변수
-    var selectedMatchingKeywordCellCount: Int = 0
-    
-    // 선택된 셀을 저장할 배열
-    var selectedCompanionMatchingKeywords: [String] = []
-    var selectedConditionMatchingKeywords: [String] = []
-    var selectedMenuMatchingKeywords: [String] = []
 }
-    
 
-    
+
+
 // MARK: - CollectionView
 
 extension MatchingKeywordVC: UICollectionViewDelegateFlowLayout {
@@ -138,15 +118,16 @@ extension MatchingKeywordVC: UICollectionViewDelegateFlowLayout {
 
 extension MatchingKeywordVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // 각 키워드에 맞는 키워드 배열
         switch selectedMatchingKeywordType {
         case .companion:
-            return firstMatchingKeywords.count
+            return companionKeywords.count
             
         case .condition:
-            return secondMatchingKeywords.count
+            return conditionKeywords.count
             
         case .kindOfFood:
-            return menuMatchingKeywords.count
+            return kindOfFoodKeywords.count
         }
     }
     
@@ -155,108 +136,110 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
+        
+        cell.layer.cornerRadius = 10
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        
+        
         switch selectedMatchingKeywordType {
         case .companion:
-            cell.label.text = "\(firstMatchingKeywords[indexPath.item])"
+            cell.label.text = "\(companionKeywords[indexPath.item])"
             cell.keywordType = .companion
             
         case .condition:
-            cell.label.text = "\(secondMatchingKeywords[indexPath.item])"
+            cell.label.text = "\(conditionKeywords[indexPath.item])"
             cell.keywordType = .condition
             
         case .kindOfFood:
-            cell.label.text = "\(menuMatchingKeywords[indexPath.item])"
+            cell.label.text = "\(kindOfFoodKeywords[indexPath.item])"
             cell.keywordType = .kindOfFood
         }
         
-        cell.keywordVC = self
+        for indexPath in selectedIndexPath {
+            // 배열에 저장된 IndexPath에 따른 작업 수행
+            if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+                // 선택된 셀에 대한 작업 수행
+                cell.layer.borderColor = ColorGuide.main.cgColor
+                matchingKeywordView.infoLabel.text = cell.label.text
+                matchingKeywordView.infoLabel.textColor = .darkGray
+            }
+        }
+        
+        if !selectedIndexPath.isEmpty {
+            print("ㅇㅇ", selectedIndexPath)
+            guard indexPath == selectedIndexPath[0] else { return cell}
+           
+            cell.layer.borderColor = ColorGuide.main.cgColor
+            matchingKeywordView.infoLabel.text = cell.label.text
+            matchingKeywordView.infoLabel.textColor = .darkGray
+        }
         
         return cell
     }
 }
 
 extension MatchingKeywordVC: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
-            print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
-            
-            switch selectedMatchingKeywordType {
-            case .companion, .condition, .kindOfFood:
-                handleSelectionKeyword(cell, collectionView: collectionView)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
+        selectedIndexPath.append(indexPath)
+        
+        if selectedIndexPath.count > 1 {
+            guard selectedIndexPath[0] != indexPath else { 
+                collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
+                matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+                matchingKeywordView.infoLabel.textColor = ColorGuide.main
+                selectedIndexPath = []
+                collectionView.reloadData()
+                return
             }
+            collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
+            selectedIndexPath.remove(at: 0)
+            print ("~~ 초기화 후 선택 키워드", selectedIndexPath)
         }
-    }
-    
-    // 셀을 선택하는 메서드
-    private func selectCell(_ cell: MatchingKeywordCell) {
-        cell.isSelectedCell = true
-        cell.setView()
-        selectedMatchingKeywordCellCount += 1
-    }
-    
-    // 셀을 선택 해제하는 메서드
-    private func deselectAllCells(in collectionView: UICollectionView) {
-        for visibleCell in collectionView.visibleCells {
-            if let visibleKeywordCell = visibleCell as? MatchingKeywordCell {
-                visibleKeywordCell.isSelectedCell = false
-                visibleKeywordCell.setView()
-            }
+        collectionView.reloadData()
+//        selectedKeywords.append(keywordType.companion[indexPath.item])
+        
+        switch selectedMatchingKeywordType {
+        case .companion:
+            return  selectedKeywords.append(keywordType.companion[indexPath.item])
+        case .condition:
+            return  selectedKeywords.append(keywordType.condition[indexPath.item])
+        case .kindOfFood:
+            return  selectedKeywords.append(keywordType.kindOfFood[indexPath.item])
         }
-        selectedMatchingKeywordCellCount = 0
+        
+        print ("~~ 키워드 추가입니두", selectedKeywords)
+
     }
-    
-    // 셀 한개 이상 선택시 :: 선택된 셀 선택해제 후 새로운 셀 선택
-    private func handleSelectionKeyword(_ cell: MatchingKeywordCell, collectionView: UICollectionView) {
-        if selectedMatchingKeywordCellCount >= 1 {
-            deselectAllCells(in: collectionView)
-        }
-        // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
-        selectCell(cell)
-      
-        // 선택된 셀의 값 저장
-        selectedMatchingKeywordCells.append(cell)
-    }
-    
-    
-    // MARK: - companion(1개)/condition(3개)/menu(3개) 키워드 개수 제한 메서드
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
-//            print("인덱스 \(indexPath.row), \(cell.label.text ?? "") 클릭")
-//
-//            switch selectedMatchingKeywordType {
-//            case .with, .condition, .menu:
-//                handleSelectionWithKeyword(cell, collectionView: collectionView)
-//
-//                // 키워드 분위기, 메뉴 개수 제한
-//            case .condition, .menu:
-//                handleSelectionConditionAndMenuKeyword(cell)
-//            }
-//        }
-//    }
-    
-//    private func handleSelectionWithKeyword(_ cell: MatchingKeywordCell, collectionView: UICollectionView) {
-//        // 이미 선택된 셀이 있을 때, 선택된 셀 해제
-//        if selectedMatchingKeywordCellCount >= 1 {
-//            deselectAllCells(in: collectionView)
-//        }
-//        // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
-//        selectCell(cell)
-//    }
-    
-//    // "condition" 및 "menu" 키워드 타입에 대한 선택 처리 메서드
-//        private func handleSelectionConditionAndMenuKeyword(_ cell: MatchingKeywordCell) {
-//            // 선택된 셀의 최대 개수 3개로 제한
-//            if selectedCellCount < 3 {
-//                    // 선택된 셀의 테두리 색 전환, 선택된 셀 개수 증가
-//                    selectCell(cell)
-//                } else {
-//                    // 이미 3개 선택된 경우, 경고 메시지 표시
-//                    deselectAllCells(in: userChoiceCollectionView)
-//                    infoLabel.text = "키워드는 세 개까지만 선택 가능합니다."
-//                    infoLabel.textColor = .red
-//                }
-//        }
-    
 }
 
+
+//if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+//    
+//    guard let selectedCell = cell.label.text else { return }
+//    if cell.isSelected {
+//        if let index = selectedKeywords.firstIndex(of: selectedCell) {
+//            selectedKeywords.remove(at: index)
+//            cell.setSelected(false, animated: true) // 선택된 셀의 중복선택 해제
+//            cell.label.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+//            matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+//            matchingKeywordView.infoLabel.textColor = ColorGuide.main
+//            print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택해제")
+//
+//        } else {
+//            selectedKeywords.append(selectedCell)
+//            
+//            cell.label.layer.borderColor = ColorGuide.main.cgColor
+//
+//            matchingKeywordView.infoLabel.text = selectedCell
+//            matchingKeywordView.infoLabel.textColor = .darkGray
+//            selectedIndexPath = indexPath
+//            
+//            print("~~ 제발", selectedIndexPath)
+//            print("~~ 인덱스 \(indexPath.item), \(selectedCell) 선택")
+//
+//        }
+//    }
+//}

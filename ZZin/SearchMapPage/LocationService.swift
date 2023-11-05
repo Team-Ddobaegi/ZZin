@@ -55,23 +55,31 @@ class LocationService: NSObject, NMFLocationManagerDelegate, CLLocationManagerDe
             if let placemark = placemarks?.first, let addressDictionary = placemark.addressDictionary as? [String: Any] {
                 print(addressDictionary)
                 
-                let city = placemark.locality ?? ""
-                var town = ""
-                
-                // FormattedAddressLines에서 '구' 정보 추출
-                if let addressLines = addressDictionary["FormattedAddressLines"] as? [String], addressLines.count > 1 {
-                    let components = addressLines[1].split(separator: ",")
-                    if components.count > 0 {
-                        town = components[0].trimmingCharacters(in: .whitespaces)
+                if let addressLines = addressDictionary["FormattedAddressLines"] as? [String], let fullAddress = addressLines.first {
+                    let components = fullAddress.split(separator: " ")
+                    
+                    var city = ""
+                    var district = ""
+                    
+                    if components.count > 1 {
+                        city = String(components[1]).replacingOccurrences(of: "특별시", with: "")
+                        city = city.replacingOccurrences(of: "광역시", with: "")
                     }
+                    
+                    if components.count > 2 {
+                        district = String(components[2])
+                    }
+                    
+                    completion([city, district], nil)
+                } else {
+                    completion(nil, nil)
                 }
-                
-                completion([city, town], nil)
-            } else {
-                completion(nil, nil)
             }
         }
     }
+
+
+
 
 
 }
