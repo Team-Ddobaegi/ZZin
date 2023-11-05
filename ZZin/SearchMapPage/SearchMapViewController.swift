@@ -30,11 +30,6 @@ class SearchMapViewController: UIViewController {
         sendDataBackToMatchingViewController()
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @objc func gridButtonTapped() {
-        self.navigationController?.popViewController(animated: false)
-        self.navigationController?.pushViewController(MatchingVC(), animated: true)
-    }
 
     @objc func storeCardTapped() {
         print("storeCardView Tapped")
@@ -45,6 +40,26 @@ class SearchMapViewController: UIViewController {
     
     @objc func searchCurrentLocationButtonTapped() {
         print("searchCurrentLocationButton Tapped")
+        let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
+        print("#########\(cameraPosition)")
+        let cameraTargetLocation = cameraPosition.target
+        LocationService.shared.getAddressFromLocation(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng) { (address, error) in
+            if let error = error {
+                print("Error getting address: \(error.localizedDescription)")
+                return
+            }
+            
+            if let address = address {
+                print("Current address: \(address)")
+                self.selectedCity = address.first
+                self.selectedTown = address.last
+                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+                print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
+                self.fetchPlacesWithKeywords()
+            } else {
+                print("Address not found.")
+            }
+        }
     }
     
     @objc func gpsButtonTapped() {
@@ -99,7 +114,6 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
-        searchMapUIView.matchingView.mapButton.addTarget(self, action: #selector(gridButtonTapped), for: .touchUpInside)
         searchMapUIView.matchingView.locationButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
@@ -120,6 +134,7 @@ class SearchMapViewController: UIViewController {
         setKeywordButtonTitle()
         setPickerView()
         updateLocationTitle()
+
         
         print("\(String(describing: self.selectedCity)),\(String(describing: self.selectedTown))---------------")
         
@@ -130,6 +145,8 @@ class SearchMapViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        setCameraSetting()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,6 +190,12 @@ class SearchMapViewController: UIViewController {
         cameraUpdate.animation = animation
         cameraUpdate.animationDuration = 0.3
         searchMapUIView.searchMapView.mapView.moveCamera(cameraUpdate)
+    }
+    
+    func setCameraSetting() {
+        searchMapUIView.searchMapView.mapView.minZoomLevel = 5.0
+//        searchMapUIView.searchMapView.mapView.maxZoomLevel = 18.0
+        searchMapUIView.searchMapView.mapView.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)
     }
     
     // MARK: - setupUI

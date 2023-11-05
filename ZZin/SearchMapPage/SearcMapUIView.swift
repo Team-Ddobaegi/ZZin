@@ -40,14 +40,14 @@ class SearchMapUIView: UIView {
         $0.setTitle("이 지역에서 재검색", for: .normal)
     }
     
-    func changeSearchView() {
-        matchingView.mapButton.setImage(UIImage(systemName: "square.grid.2x2.fill"), for: .normal)
+    func hiddenMapButton() {
+        matchingView.mapButton.isHidden = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        changeSearchView()
+        hiddenMapButton()
     }
     
     required init?(coder: NSCoder) {
