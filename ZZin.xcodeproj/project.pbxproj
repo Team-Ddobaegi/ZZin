@@ -89,9 +89,11 @@
 		C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */; };
 		C0A6344B2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */; };
 		C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */; };
-		C0A6344F2AEF7CFD00BF6B55 /* RewardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */; };
 		C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */; };
 		C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */; };
+		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
+		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
+		C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */; };
 		C3D217E12AF31F7100C7EBA3 /* KeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3D217E02AF31F7100C7EBA3 /* KeyList.plist */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
@@ -188,9 +190,11 @@
 		C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedPlaceCell.swift; sourceTree = "<group>"; };
 		C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
-		C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCell.swift; sourceTree = "<group>"; };
 		C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeader.swift; sourceTree = "<group>"; };
 		C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewForPostPage.swift; sourceTree = "<group>"; };
+		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
+		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
+		C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		C3D217E02AF31F7100C7EBA3 /* KeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = KeyList.plist; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
@@ -578,8 +582,10 @@
 				C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */,
 				C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */,
 				C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */,
-				C0A6344E2AEF7CFD00BF6B55 /* RewardCell.swift */,
 				C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */,
+				C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */,
+				C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */,
+				C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -790,6 +796,7 @@
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
+				C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */,
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
@@ -802,6 +809,7 @@
 				C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */,
 				DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */,
 				7B47A5582AE935CA00A44C2C /* CustomCellView.swift in Sources */,
+				C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */,
 				BD03FD782AF32805009259DD /* CustomButton.swift in Sources */,
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
 				7BFC61C22AE1C8BC00F46544 /* MatchingPlaceReviewDetailView.swift in Sources */,
@@ -834,9 +842,9 @@
 				DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
+				C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
-				C0A6344F2AEF7CFD00BF6B55 /* RewardCell.swift in Sources */,
 				DFEDDA462AF4E7C0003FA958 /* NaverAPIKey.swift in Sources */,
 				FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
