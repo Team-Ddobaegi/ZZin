@@ -180,7 +180,23 @@ class RegistrationViewController: UIViewController {
 //            $0.size.equalTo(CGSize(width: 50, height: 50))
 //        }
 //    }
-
+    
+    // 나타날 때와 사라질 때 각가 필요한 2개의 메서드
+    private func setNotificationCenter() {
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeNotificationCenter() {
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.removeObserver(self)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     private func setDelegate() {
         emailTextFieldView.setTextFieldDelegate(delegate: self)
         pwTextFieldView.setTextFieldDelegate(delegate: self)
@@ -193,21 +209,31 @@ class RegistrationViewController: UIViewController {
         doublecheckEmailFieldView.isHidden = true
     }
     
-//    @objc func checkButtonTapped() {
-//        print("중복 확인 버튼이 눌렸습니다.")
-//        
-//        doublecheckEmailFieldView.isHidden = false
-//        setPwTextView()
-//        
-//        let email = emailTextFieldView.textfield.text!
-//        Auth.auth().fetchSignInMethods(forEmail: email) { providers, error in
-//            if let error = error {
-//                print("에러가 발생했습니다.")
-//            } else if let providers = providers {
-//                print("사용자 이메일인가? ",providers)
-//            }
-//        } 
-//    }
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            self.view.frame.origin.y -= keyboardHeight
+//        }
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            print(view.frame.origin.y)
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= (keyboardSize.height/2.5)
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            self.view.frame.origin.y += keyboardHeight
+//        }
+        print(view.frame.origin.y)
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
     
     // MARK: - Auth 관련 함수
     private func checkIdPattern(_ email: String) -> Bool {
@@ -262,8 +288,19 @@ class RegistrationViewController: UIViewController {
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
         
-        guard let id = emailTextFieldView.textfield.text, !id.isEmpty,
-              let pw = pwTextFieldView.textfield.text, !pw.isEmpty else {
+        guard let nickname = nicknameTextFieldView.textfield.text, !nickname.isEmpty else {
+            nicknameTextFieldView.showInvalidMessage()
+            showAlert(type: .doubleCheck)
+            return
+        }
+        
+        guard let id = emailTextFieldView.textfield.text, !id.isEmpty else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .doubleCheck)
+            return
+        }
+        
+        guard let pw = pwTextFieldView.textfield.text, !pw.isEmpty else {
             showAlert(type: .doubleCheck)
             return
         }
@@ -280,25 +317,36 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        AuthManager.shared.signInUser(with: id, password: pw) { success in
+        let credentials = AuthCredentials(email: id, password: pw, userName: nickname)
+        AuthManager.shared.registerNewUser(with: credentials) { success, error in
             if success {
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                let nickName = self.nicknameTextFieldView.textfield.text
-                changeRequest?.displayName = nickName
-                
-                changeRequest?.commitChanges { error in
-                print(error)
-                }
-                
                 print("유저가 생성되었습니다.")
-                let vc = CardController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
-            } else {
-                print("계정이 이미 존재합니다.")
-                self.showAlert(type: .signInFailure)
+                let mainVC = TabBarViewController()
+                let testVC = CardController()
+                testVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(mainVC, animated: true)
+                self.present(testVC, animated: true)
             }
         }
+//        AuthManager.shared.signInUser(with: id, password: pw) { success in
+//            if success {
+//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//                let nickName = self.nicknameTextFieldView.textfield.text
+//                changeRequest?.displayName = nickName
+//                
+//                changeRequest?.commitChanges { error in
+//                print(error)
+//                }
+//                
+//                print("유저가 생성되었습니다.")
+//                let vc = CardController()
+//                vc.modalPresentationStyle = .fullScreen
+//                self.present(vc, animated: true)
+//            } else {
+//                print("계정이 이미 존재합니다.")
+//                self.showAlert(type: .signInFailure)
+//            }
+//        }
     }
     
     @objc func backbuttonTapped() {
@@ -348,14 +396,20 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
-        displayView()
+        self.setDelegate()
+        self.displayView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configure()
-        setUI()
+        self.setNotificationCenter()
+        self.configure()
+        self.setUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeNotificationCenter()
     }
 }
 
