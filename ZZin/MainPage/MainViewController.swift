@@ -68,6 +68,8 @@ extension MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let currentUser = Auth.auth().currentUser
+        print("현재 유저입니다. -",currentUser)
         setDelegate()
         setUI()
         mainView.delegate = self
@@ -129,7 +131,11 @@ extension MainViewController: MainViewDelegate {
         print("로그아웃 버튼이 눌렸습니다.")
         let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .actionSheet)
         let ok = UIAlertAction(title: "네", style: .default) { _ in
+            let currentUser = Auth.auth().currentUser
+            print("유저 - ",currentUser)
+            
             try? Auth.auth().signOut()
+            self.dismiss(animated: true)
         }
         
         let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)

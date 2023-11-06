@@ -27,7 +27,7 @@ class MainView: UIView {
     private let logOutButton = UIButton().then {
         $0.setTitle("로그아웃하기", for: .normal)
         $0.setTitleColor(.blue, for: .normal)
-        $0.addTarget(MainView.self, action: #selector(logOutTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
     }
     
     override init(frame: CGRect) {

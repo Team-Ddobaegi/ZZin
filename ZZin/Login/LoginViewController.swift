@@ -165,18 +165,18 @@ class LoginViewController: UIViewController {
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
 
-//        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
-//            print("이메일 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
-//            print("비밀번호 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        AuthManager.shared.loginUser(with: email, password: pw) { success in
-//            if success {
+        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+            print("이메일 형식이 맞지 않습니다.")
+            return
+        }
+
+        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+            print("비밀번호 형식이 맞지 않습니다.")
+            return
+        }
+
+        AuthManager.shared.loginUser(with: email, password: pw) { success in
+            if success {
                 print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
@@ -190,11 +190,11 @@ class LoginViewController: UIViewController {
 //                print("로그인한 사용자 num ",loggedUser?.phoneNumber)
 //                print("로그인한 사용자 provider data ",loggedUser?.providerData)
 //                print("로그인한 사용자 tenantID ",loggedUser?.tenantID)
-//            } else {
-//                print("사용자 로그인이 불가능합니다.")
-//                self.showAlert(type: .loginFailure)
-//            }
-//        }
+            } else {
+                print("사용자 로그인이 불가능합니다.")
+                self.showAlert(type: .loginFailure)
+            }
+        }
     }
     
     @objc func memberButtonTapped() {
@@ -242,6 +242,8 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        let currentUser = Auth.auth().currentUser
+        print("현재 유저입니다. -",currentUser)
         setDelegate()
         configureTextField()
     }
