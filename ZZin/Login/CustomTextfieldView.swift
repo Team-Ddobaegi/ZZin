@@ -27,6 +27,8 @@ class CustomTextfieldView: UIView {
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.keyboardType = .default
+//        $0.backgroundColor = .white
+        $0.textColor = .black
     }
     
     private let validationLabel = UILabel().then {
@@ -107,7 +109,7 @@ class CustomTextfieldView: UIView {
 
 extension CustomTextfieldView {
     private func configure() {
-        self.backgroundColor = .systemGray5
+        self.backgroundColor = .lightGray
         self.layer.cornerRadius = 12
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
     }
@@ -187,7 +189,7 @@ extension CustomTextfieldView {
     // Label Animation을 되돌리는 함수
     func undoLabelAnimation() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
-            self.backgroundColor = .systemGray5
+            self.backgroundColor = .lightGray
             self.animatingLabel.textColor = .systemGray
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clear.cgColor
