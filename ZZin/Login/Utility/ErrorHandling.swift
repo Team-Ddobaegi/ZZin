@@ -22,6 +22,7 @@ enum ErrorHandling {
     case doubleCheck
     case firstTimePass
     case firstTimeID
+    case tooShort
     case error
     
     var title: String {
@@ -54,6 +55,8 @@ enum ErrorHandling {
             return "아이디 오류"
         case .error:
             return "오류"
+        case .tooShort:
+            return "너무 길어요"
         }
     }
     
@@ -87,6 +90,8 @@ enum ErrorHandling {
             return "이메일 주소를 적어주세요"
         case .error:
             return "오류가 발생했습니다"
+        case .tooShort:
+            return "길이가 너무 긺"
         }
     }
 }

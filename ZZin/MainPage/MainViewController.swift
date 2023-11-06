@@ -70,6 +70,8 @@ extension MainViewController {
         super.viewDidLoad()
         let currentUser = Auth.auth().currentUser
         print("현재 유저입니다. -",currentUser)
+        print("id도 있나요?", currentUser?.uid)
+        print("id도 있나요?", currentUser?.email)
         setDelegate()
         setUI()
         mainView.delegate = self
@@ -129,12 +131,15 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: MainViewDelegate {
     func didTapLogout() {
         print("로그아웃 버튼이 눌렸습니다.")
+        let currentUser = Auth.auth().currentUser
         let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .actionSheet)
         let ok = UIAlertAction(title: "네", style: .default) { _ in
-            let currentUser = Auth.auth().currentUser
-            print("유저 - ",currentUser)
+            print("현재 유저입니다. -",currentUser)
+            print("id도 있나요?", currentUser?.uid)
+            print("id도 있나요?", currentUser?.email)
             
-            try? Auth.auth().signOut()
+            try! Auth.auth().signOut()
+            print("유저 - ",currentUser)
             self.dismiss(animated: true)
         }
         
