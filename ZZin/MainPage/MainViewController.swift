@@ -132,15 +132,16 @@ extension MainViewController: MainViewDelegate {
     func didTapLogout() {
         print("로그아웃 버튼이 눌렸습니다.")
         let currentUser = Auth.auth().currentUser
-        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) { _ in
-            print("현재 유저입니다. -",currentUser)
-            print("id도 있나요?", currentUser?.uid)
-            print("id도 있나요?", currentUser?.email)
-            
-            try! Auth.auth().signOut()
-            print("유저 - ",currentUser)
-            self.dismiss(animated: true)
+            DispatchQueue.main.async {
+                print("현재 유저입니다. -",currentUser)
+                print("id도 있나요?", currentUser?.uid)
+                print("id도 있나요?", currentUser?.email)
+                
+                try! Auth.auth().signOut()
+                self.dismiss(animated: true)
+            }
         }
         
         let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)

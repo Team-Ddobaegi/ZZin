@@ -180,7 +180,7 @@ class LoginViewController: UIViewController {
                 print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
+                self.present(vc, animated: false)
                 
 //                print("로그인한 사용자는 ",loggedUser)
 //                print("로그인한 사용자 uid ",loggedUser?.uid)
@@ -201,8 +201,7 @@ class LoginViewController: UIViewController {
         print("찐회원 버튼이 눌렸습니다.")
         
         let vc = RegistrationViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func searchIdButtonTapped() {

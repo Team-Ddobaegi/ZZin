@@ -24,6 +24,7 @@ enum ErrorHandling {
     case firstTimeID
     case tooShort
     case error
+    case alreadyExists
     
     var title: String {
         switch self {
@@ -57,6 +58,8 @@ enum ErrorHandling {
             return "오류"
         case .tooShort:
             return "너무 길어요"
+        case .alreadyExists:
+            return "해당 이메일이 존재해요"
         }
     }
     
@@ -92,6 +95,8 @@ enum ErrorHandling {
             return "오류가 발생했습니다"
         case .tooShort:
             return "길이가 너무 긺"
+        case .alreadyExists:
+            return "다른 이메일을 사용해주세요"
         }
     }
 }

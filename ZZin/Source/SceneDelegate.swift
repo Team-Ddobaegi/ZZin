@@ -20,10 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("user 데이터 -", currentUser)
         
         if Auth.auth().currentUser != nil {
-            self.window?.rootViewController = TabBarViewController()
+            let tabBarVC = TabBarViewController()
+            let navigationController = UINavigationController(rootViewController: tabBarVC)
+            self.window?.rootViewController = navigationController
             print("user 데이터 -", currentUser)
         } else {
-            self.window?.rootViewController = LoginViewController()
+            let loginVC = LoginViewController()
+            let navigationController = UINavigationController(rootViewController: loginVC)
+            self.window?.rootViewController = navigationController
             print("user 데이터 -", currentUser)
         }
         self.window?.makeKeyAndVisible()

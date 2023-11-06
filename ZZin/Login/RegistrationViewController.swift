@@ -74,18 +74,20 @@ class RegistrationViewController: UIViewController {
         return stack
     }()
     
-//    private let checkButton = UIButton().then {
-//        $0.setTitle("중복", for: .normal)
-//        $0.setTitleColor(.red, for: .normal)
-//        $0.layer.cornerRadius = 12
-//        $0.clipsToBounds = true
-//        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
-//    }
+    //    private let checkButton = UIButton().then {
+    //        $0.setTitle("중복", for: .normal)
+    //        $0.setTitleColor(.red, for: .normal)
+    //        $0.layer.cornerRadius = 12
+    //        $0.clipsToBounds = true
+    //        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+    //    }
     
     //MARK: - 메서드 생성
     func configure() {
         view.backgroundColor = .white
         [backbutton, topStackView, doublecheckEmailFieldView, pwTextFieldView, infoLabel, stackView, confirmButton].forEach { view.addSubview($0) }
+        pwTextFieldView.textfield.isSecureTextEntry = true
+        doublecheckPwFieldView.textfield.isSecureTextEntry = true
     }
     
     private func setUI() {
@@ -166,13 +168,13 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-//    private func setCheckButton() {
-//        checkButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().inset(20)
-//            $0.centerY.equalTo(emailTextFieldView.snp.centerY)
-//            $0.size.equalTo(CGSize(width: 50, height: 50))
-//        }
-//    }
+    //    private func setCheckButton() {
+    //        checkButton.snp.makeConstraints {
+    //            $0.trailing.equalToSuperview().inset(20)
+    //            $0.centerY.equalTo(emailTextFieldView.snp.centerY)
+    //            $0.size.equalTo(CGSize(width: 50, height: 50))
+    //        }
+    //    }
     
     // 나타날 때와 사라질 때 각가 필요한 2개의 메서드
     private func setNotificationCenter() {
@@ -299,7 +301,7 @@ class RegistrationViewController: UIViewController {
             showAlert(type: .doubleCheck)
             return
         }
-
+        
         guard validPasswordPattern(pw) else {
             pwTextFieldView.showInvalidMessage()
             showAlert(type: .passwordBlank)
@@ -317,13 +319,15 @@ class RegistrationViewController: UIViewController {
                 self.present(testVC, animated: true)
             } else {
                 print("어떤 오류인가요??",error.localizedDescription)
+                self.emailTextFieldView.showInvalidMessage()
+                self.showAlert(type: .alreadyExists)
             }
         }
     }
     
     @objc func backbuttonTapped() {
         print("되돌아가기 버튼이 눌렸습니다.")
-        self.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func locationButtonTapped() {
@@ -374,6 +378,7 @@ extension RegistrationViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
         self.setNotificationCenter()
         self.configure()
         self.setUI()
