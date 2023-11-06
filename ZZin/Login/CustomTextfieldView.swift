@@ -23,7 +23,6 @@ class CustomTextfieldView: UIView {
     }
 
     lazy var textfield = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.keyboardType = .default
@@ -32,7 +31,6 @@ class CustomTextfieldView: UIView {
     }
     
     private let validationLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.isHidden = true
         $0.textColor = UIColor.init(hexCode: "F55951")
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -40,7 +38,6 @@ class CustomTextfieldView: UIView {
 
     private let cancelButton = UIButton().then {
         let image = UIImage(systemName: "x.circle")
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.imageView?.tintColor = .systemGray
         $0.isHidden = true
         $0.setImage(image, for: .normal)
@@ -49,7 +46,6 @@ class CustomTextfieldView: UIView {
     
     private let checkButton = UIButton().then {
         let image = UIImage(systemName: "checkmark")
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.imageView?.tintColor = .systemGray
         $0.isHidden = true
         $0.setImage(image, for: .normal)
@@ -60,8 +56,6 @@ class CustomTextfieldView: UIView {
         let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(selectedImage, for: .normal)
         $0.setImage(image, for: .selected)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
     }
 
     init(placeholder: String, text: String) {
@@ -97,6 +91,7 @@ class CustomTextfieldView: UIView {
     }
     
     private func commonInit() {
+        secureButton.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         addGestureRecognizer(tap)
         self.isUserInteractionEnabled = true
@@ -230,10 +225,10 @@ extension CustomTextfieldView {
     @objc func secureButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         if sender.isSelected {
-            textfield.isSecureTextEntry = false
+            self.textfield.isSecureTextEntry = false
             print("숨겨진 비밀번호가 해제됐습니다.")
         } else {
-            textfield.isSecureTextEntry = true
+            self.textfield.isSecureTextEntry = true
             print("비밀번호가 숨겨졌습니다.")
         }
     }
