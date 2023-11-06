@@ -15,3 +15,9 @@ struct LoginModel {
         return email?.isEmpty == false && password?.isEmpty == false
     }
 }
+
+struct AuthCredentials {
+    let email: String
+    let password: String
+    let userName: String
+}

@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     let storageManager = FireStorageManager()
     let reviewCell = ReviewTableViewCell()
     private let mainView = MainView()
+    
     var loadedRidAndPid: [String:[String]?] = [:]
     var placeData: [Place] = []
     var pidArr: [String]? = []
@@ -69,6 +70,7 @@ extension MainViewController {
         super.viewDidLoad()
         setDelegate()
         setUI()
+        mainView.delegate = self
     }
 }
 
@@ -119,5 +121,22 @@ extension MainViewController: UITableViewDataSource {
         let tableviewHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MainHeaderView.identifier) as? MainHeaderView
         tableviewHeaderView?.configure(with: section)
         return tableviewHeaderView
+    }
+}
+
+extension MainViewController: MainViewDelegate {
+    func didTapLogout() {
+        print("로그아웃 버튼이 눌렸습니다.")
+        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .actionSheet)
+        let ok = UIAlertAction(title: "네", style: .default) { _ in
+            try? Auth.auth().signOut()
+        }
+        
+        let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
