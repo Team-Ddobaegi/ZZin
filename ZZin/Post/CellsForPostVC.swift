@@ -58,9 +58,12 @@ class textInputCell: UICollectionViewCell, UITextFieldDelegate {
     }
     
     final func textFieldDidEndEditing(_ textField: UITextField) -> String {
-        let text = textField.text ?? ""
-        return text
+        titleText = textField.text ?? ""
+        print("titleText :", titleText)
+        
+        return titleText ?? ""
     }
+
     
     func setupUI() {
         contentView.addSubview(placeInfoHeading)

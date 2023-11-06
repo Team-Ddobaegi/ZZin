@@ -28,7 +28,7 @@ struct Review : Codable {
     var rid: String
     var uid: String
     var pid: String // UUID.uuidString
-    var reviewImg: String?
+    var reviewImg: [String]?
     var title: String
     var like: Int
     var dislike: Int
@@ -203,17 +203,17 @@ class FireStoreManager {
         let rid = UUID().uuidString
         
         // 2. rid를 이용해서 firebase Storage에 업로드
-        let imgData = dataWillSet["imgData"] as! Data // nil 처리를 어떻게 해야할지 모르겠음
-        uploadImgToFirebase(imgData: imgData, rid: rid) // 업로드 method
+        let imgData = dataWillSet["imgData"] as! [Data] // nil 처리를 어떻게 해야할지 모르겠음
+        uploadImagesToFirebase(imagesData: imgData, rid: rid) // 업로드 method
         
         // 3. pid 생성
         let pid = UUID().uuidString
         
         // 4. reviewData 생성
-        let reviewDictionary: [String: Any] = ["rid": rid,
+        var reviewDictionary: [String: Any] = ["rid": rid,
                                                "uid": uid,
                                                "pid": pid,
-                                               "reviewImg": "reviews/\(rid).jpeg",
+                                               "reviewImg": [],
                                                "title": dataWillSet["title"] as? String ?? "나의 리뷰",
                                                "like": 0,
                                                "dislike": 0,
@@ -224,6 +224,13 @@ class FireStoreManager {
                                                "condition": dataWillSet["condition"] as? String ?? "nil",
                                                "kindOfFood": dataWillSet["kindOfFood"] as? String ?? "nil"]
         
+        var reviewImg: [String] = []
+        for (index, _) in imgData.enumerated() {
+            reviewImg.append("reviews/\(rid)-\(index + 1).jpeg")
+        }
+        
+        reviewDictionary.updateValue(reviewImg, forKey: "reviewImg")
+        
         // 5. reviewData 저장
         setReviewData(reviewDictionary: reviewDictionary)
         
@@ -231,36 +238,35 @@ class FireStoreManager {
         updateUserRidAndPid(pid: pid, rid: rid, uid: uid)
         
         // 7. place데이터 저장
-        let path = "reviews/\(rid).jpeg"
+        let path = reviewImg ?? []
         setPlaceData(dataWillSet: dataWillSet, pid: pid, uid: uid, rid: rid, path: path)
     }
-    
-    func uploadImgToFirebase(imgData: Data, rid: String) {
-        print("uploadImgToFirebase")
+
+    func uploadImagesToFirebase(imagesData: [Data?], rid: String) {
+        print("uploadImagesToFirebase")
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        var imagesRef = storageRef.child("images")
-        let imageName = rid // reviewID와 같아야 함
-        let storagePath = "gs://zzin-ios-application.appspot.com//reviews/\(imageName).jpeg"
-        imagesRef = storage.reference(forURL: storagePath)
-        
-        
-        let uploadTask = imagesRef.putData(imgData, metadata: nil) { (metadata, error) in
-            guard let metadata = metadata else {
-                print("Uh-oh, an error occurred!")
-                return
-            }
-            // Metadata contains file metadata such as size, content-type.
-            let size = metadata.size
-            // You can also access to download URL after upload.
-            imagesRef.downloadURL { (url, error) in
-                guard let downloadURL = url else {
-                    print("Uh-oh, an error occurred! in down")
-                    return
+        let group = DispatchGroup()
+
+        for (index, imgData) in imagesData.enumerated() {
+            if let data = imgData {
+                group.enter()
+                let imageName = "\(rid)-\(index + 1)" // 이미지 이름에 순서대로 -1, -2 붙임
+                let storagePath = "reviews/\(imageName).jpeg"
+                let imagesRef = storageRef.child(storagePath)
+                
+                imagesRef.putData(data, metadata: nil) { (metadata, error) in
+                    guard let _ = metadata else {
+                        print("Uh-oh, an error occurred for image \(imageName)!")
+                        group.leave()
+                        return
+                    }
+
                 }
             }
         }
     }
+
     
     func setReviewData(reviewDictionary: [String: Any]){
         // FireStoreManager 안으로 옮기고 난 후에 수정
@@ -289,19 +295,19 @@ class FireStoreManager {
         }
     }
     
-    func setPlaceData(dataWillSet: [String: Any?], pid: String, uid: String, rid: String, path: String) {
+    func setPlaceData(dataWillSet: [String: Any?], pid: String, uid: String, rid: String, path: [String]) {
         let placeRef = db.collection("places").document(pid)
         placeRef.setData(["pid": pid,
                           "uid": uid,
                           "rid": FieldValue.arrayUnion([rid]),
-                          "placeImg": FieldValue.arrayUnion([path]),
+                          "placeImg": FieldValue.arrayUnion(path),
                           "city": "인천광역시",
                           "town": "부평구",
                           "address": dataWillSet["address"] as! String,
                           "placeName": dataWillSet["placeName"] as! String,
                           "placeTelNum": dataWillSet["placeTelNum"] as! String,
-                          "lat": dataWillSet["mapx"] as! Double,
-                          "long": dataWillSet["mapy"] as! Double,
+                          "lat": dataWillSet["lat"] as! Double,
+                          "long": dataWillSet["long"] as! Double,
                           "companion": dataWillSet["companion"] as! String,
                           "condition": dataWillSet["condition"] as! String,
                           "kindOfFood": dataWillSet["kindOfFood"] as! String]){ err in
@@ -425,6 +431,51 @@ class FireStoreManager {
                 }
                 completion(uids)
             }
+        }
+    }
+    
+    //MARK: - 유효성 검사 관련
+    // 중복 UID 확인
+//    func crossCheckDB(_ id: String, completion: @escaping (Bool) -> Void) {
+//        fetchUserUID { uids in
+//            print("전체 데이터는 아래와 같습니다 === \(uids)")
+//            if uids.contains(id) {
+//                print("아이디가 데이터베이스에 이미 있습니다.")
+//                print(id)
+//                completion(true)
+//            } else {
+//                print("아이디가 데이터베이스에 없습니다.")
+//                print(id)
+//                completion(false)
+//            }
+//        }
+//    }
+    
+    //MARK: - Auth 관련
+    // 로그인
+    func loginUser(with email: String, password: String, completion: @escaping ((Bool) -> Void)) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("이메일이 틀렸습니다. \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            print("이메일이 올바릅니다. 로그인이 됐습니다. \(result?.description)")
+            print("유저는 \(result?.user) 입니다.")
+            completion(true)
+            return
+        }
+    }
+    
+    // 회원가입
+    func signInUser(with email: String, password: String, completion: @escaping ((Bool) -> Void)) {
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("여기가 문제인가요 유저를 생성하는데 에러가 발생했습니다. \(error.localizedDescription)")
+                completion(false)
+            }
+            print("결과값은 아래와 같습니다 - \(result?.description)")
+            completion(true)
         }
     }
 }

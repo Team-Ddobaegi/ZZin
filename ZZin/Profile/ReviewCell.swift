@@ -12,7 +12,7 @@ import SnapKit
 class ReviewCell: UICollectionViewCell {
     static let identifier = "ReviewCell"
 
-    var customView = ViewForReview()
+    var customView = RecommendPlaceReviewThumbnail()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,9 +24,13 @@ class ReviewCell: UICollectionViewCell {
     }
 
     private func setupUI() {
+        customView.layer.cornerRadius = 15
+        customView.regionLabel.isHidden = true
         addSubview(customView)
         customView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        
     }
 }
