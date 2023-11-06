@@ -110,7 +110,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             // 매칭 리뷰 썸네일
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingThumbnailCell.identifier) as! MatchingThumbnailCell
             cell.selectionStyle = .none
-            cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
+//            cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
             
             FireStorageManager().bindViewOnStorageWithRid(rid: reviewID ?? "", reviewImgView: cell.review.img, title: cell.review.reviewTitleLabel, companion: cell.review.withKeywordLabel, condition: cell.review.conditionKeywordLabel, town: cell.review.regionLabel)
             
@@ -126,7 +126,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
                 switch result {
                 case .success(let review):
                     let reviewImg = review.reviewImg
-                    FireStorageManager().bindPlaceImgWithPath(path: reviewImg, imageView: cell.photoImageView)
+                    FireStorageManager().bindPlaceImgWithPath(path: reviewImg?[0], imageView: cell.photoImageView)
                     
                 case .failure(let error):
                     print("Error fetching review: \(error.localizedDescription)")

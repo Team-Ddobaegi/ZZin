@@ -12,7 +12,7 @@ import Then
 class RecommendedPlaceCell: UICollectionViewCell {
     static let identifier = "RecommendedPlaceCell"
 
-    var customView = ZZinView()
+    var customView = RecommendPlaceThumbnail()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +24,7 @@ class RecommendedPlaceCell: UICollectionViewCell {
     }
 
     func setupUI() {
+        customView.layer.cornerRadius = 15
         contentView.addSubview(customView)
         customView.snp.makeConstraints {
             $0.edges.equalToSuperview()
