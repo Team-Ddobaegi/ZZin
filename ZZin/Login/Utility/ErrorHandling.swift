@@ -22,6 +22,9 @@ enum ErrorHandling {
     case doubleCheck
     case firstTimePass
     case firstTimeID
+    case tooShort
+    case error
+    case alreadyExists
     
     var title: String {
         switch self {
@@ -51,6 +54,12 @@ enum ErrorHandling {
             return "비밀번호 오류"
         case .firstTimeID:
             return "아이디 오류"
+        case .error:
+            return "오류"
+        case .tooShort:
+            return "너무 길어요"
+        case .alreadyExists:
+            return "해당 이메일이 존재해요"
         }
     }
     
@@ -82,6 +91,12 @@ enum ErrorHandling {
             return "대문자로 시작, 숫자로 끝내주세요"
         case .firstTimeID:
             return "이메일 주소를 적어주세요"
+        case .error:
+            return "오류가 발생했습니다"
+        case .tooShort:
+            return "길이가 너무 긺"
+        case .alreadyExists:
+            return "다른 이메일을 사용해주세요"
         }
     }
 }

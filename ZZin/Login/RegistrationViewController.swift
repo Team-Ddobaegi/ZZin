@@ -13,12 +13,11 @@ import FirebaseAuth
 class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 생성
-    
     private let nicknameTextFieldView = CustomTextfieldView(placeholder: "", text: "닉네임", button: .cancelButton)
-    private let emailTextFieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .noButton)
+    private let emailTextFieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
     private let doublecheckEmailFieldView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .noButton)
     private let pwTextFieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
-    private let doublecheckPwFieldView = CustomTextfieldView(placeholder: "", text: "재확인", button: .hideButton)
+    private let doublecheckPwFieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     private var locationPickerView: UIPickerView!
     private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
     private let screenWidth = UIScreen.main.bounds.width - 10
@@ -28,38 +27,34 @@ class RegistrationViewController: UIViewController {
     private var confirmButton = UIButton().then {
         $0.setTitle("가입하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.init(hexCode: "F55951")
+        $0.backgroundColor = ColorGuide.main
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
     private let backbutton = UIButton().then {
         let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     }
     
     private let locationButton = UIButton().then {
         let image = UIImage(systemName: "chevron.down")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setTitle("지역 설정하기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.white, for: .normal)
         $0.setImage(image, for: .normal)
-        $0.layer.borderWidth = 0.5
-        $0.layer.borderColor = UIColor.black.cgColor
+        $0.backgroundColor = ColorGuide.main
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.snp.makeConstraints {$0.height.equalTo(52)}
         $0.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
     private let infoLabel = UILabel().then {
-        $0.text = "대문자로 시작되는 비밀번호를 작성해주세요"
+        $0.text = "대문자로 시작하고 숫자로 마무리 지어주세요!"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .thin)
     }
     
@@ -68,7 +63,6 @@ class RegistrationViewController: UIViewController {
         [nicknameTextFieldView, emailTextFieldView].forEach { stack.addArrangedSubview($0) }
         stack.axis = .vertical
         stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
@@ -77,22 +71,23 @@ class RegistrationViewController: UIViewController {
         [doublecheckPwFieldView, locationButton].forEach { stack.addArrangedSubview($0) }
         stack.axis = .vertical
         stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
-//    private let checkButton = UIButton().then {
-//        $0.setTitle("중복", for: .normal)
-//        $0.setTitleColor(.red, for: .normal)
-//        $0.layer.cornerRadius = 12
-//        $0.clipsToBounds = true
-//        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
-//    }
+    //    private let checkButton = UIButton().then {
+    //        $0.setTitle("중복", for: .normal)
+    //        $0.setTitleColor(.red, for: .normal)
+    //        $0.layer.cornerRadius = 12
+    //        $0.clipsToBounds = true
+    //        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+    //    }
     
     //MARK: - 메서드 생성
     func configure() {
         view.backgroundColor = .white
         [backbutton, topStackView, doublecheckEmailFieldView, pwTextFieldView, infoLabel, stackView, confirmButton].forEach { view.addSubview($0) }
+        pwTextFieldView.textfield.isSecureTextEntry = true
+        doublecheckPwFieldView.textfield.isSecureTextEntry = true
     }
     
     private func setUI() {
@@ -104,7 +99,6 @@ class RegistrationViewController: UIViewController {
         setInfoLabel()
         setStackView()
         setConfirmButton()
-//        setCheckButton()
     }
     
     private func setBackButton() {
@@ -146,6 +140,7 @@ class RegistrationViewController: UIViewController {
                 $0.width.equalTo(353)
             }
         }
+        // 상황에 따라 다시 layout 잡는
         self.view.layoutIfNeeded()
     }
     
@@ -173,14 +168,28 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-//    private func setCheckButton() {
-//        checkButton.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().inset(20)
-//            $0.centerY.equalTo(emailTextFieldView.snp.centerY)
-//            $0.size.equalTo(CGSize(width: 50, height: 50))
-//        }
-//    }
-
+    //    private func setCheckButton() {
+    //        checkButton.snp.makeConstraints {
+    //            $0.trailing.equalToSuperview().inset(20)
+    //            $0.centerY.equalTo(emailTextFieldView.snp.centerY)
+    //            $0.size.equalTo(CGSize(width: 50, height: 50))
+    //        }
+    //    }
+    
+    // 나타날 때와 사라질 때 각가 필요한 2개의 메서드
+    private func setNotificationCenter() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeNotificationCenter() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     private func setDelegate() {
         emailTextFieldView.setTextFieldDelegate(delegate: self)
         pwTextFieldView.setTextFieldDelegate(delegate: self)
@@ -193,21 +202,21 @@ class RegistrationViewController: UIViewController {
         doublecheckEmailFieldView.isHidden = true
     }
     
-//    @objc func checkButtonTapped() {
-//        print("중복 확인 버튼이 눌렸습니다.")
-//        
-//        doublecheckEmailFieldView.isHidden = false
-//        setPwTextView()
-//        
-//        let email = emailTextFieldView.textfield.text!
-//        Auth.auth().fetchSignInMethods(forEmail: email) { providers, error in
-//            if let error = error {
-//                print("에러가 발생했습니다.")
-//            } else if let providers = providers {
-//                print("사용자 이메일인가? ",providers)
-//            }
-//        } 
-//    }
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            print(view.frame.origin.y)
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= (keyboardSize.height/2.5)
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        print(view.frame.origin.y)
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
     
     // MARK: - Auth 관련 함수
     private func checkIdPattern(_ email: String) -> Bool {
@@ -250,6 +259,13 @@ class RegistrationViewController: UIViewController {
             showAlert(type: .firstTimeID)
             return false
         }
+        
+        guard password.count >= 8 else {
+            print("8자리 이상 작성해주세요")
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .tooShort)
+            return false
+        }
         return true
     }
     
@@ -262,15 +278,27 @@ class RegistrationViewController: UIViewController {
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
         
-        guard let id = emailTextFieldView.textfield.text, !id.isEmpty,
-              let pw = pwTextFieldView.textfield.text, !pw.isEmpty else {
+        guard let nickname = nicknameTextFieldView.textfield.text, !nickname.isEmpty else {
+            nicknameTextFieldView.showInvalidMessage()
             showAlert(type: .doubleCheck)
             return
         }
-
+        
+        guard let id = emailTextFieldView.textfield.text, !id.isEmpty else {
+            emailTextFieldView.showInvalidMessage()
+            showAlert(type: .doubleCheck)
+            return
+        }
+        
         guard checkIdPattern(id) else {
             emailTextFieldView.showInvalidMessage()
             showAlert(type: .idError)
+            return
+        }
+        
+        guard let pw = pwTextFieldView.textfield.text, !pw.isEmpty else {
+            pwTextFieldView.showInvalidMessage()
+            showAlert(type: .doubleCheck)
             return
         }
         
@@ -280,30 +308,26 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        AuthManager.shared.signInUser(with: id, password: pw) { success in
+        let credentials = AuthCredentials(email: id, password: pw, userName: nickname)
+        AuthManager.shared.registerNewUser(with: credentials) { success, error in
             if success {
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                let nickName = self.nicknameTextFieldView.textfield.text
-                changeRequest?.displayName = nickName
-                
-                changeRequest?.commitChanges { error in
-                print(error)
-                }
-                
                 print("유저가 생성되었습니다.")
-                let vc = CardController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
+                let mainVC = TabBarViewController()
+                let testVC = CardController()
+                testVC.modalPresentationStyle = .fullScreen
+                self.navigationController?.pushViewController(mainVC, animated: true)
+                self.present(testVC, animated: true)
             } else {
-                print("계정이 이미 존재합니다.")
-                self.showAlert(type: .signInFailure)
+                print("어떤 오류인가요??",error.localizedDescription)
+                self.emailTextFieldView.showInvalidMessage()
+                self.showAlert(type: .alreadyExists)
             }
         }
     }
     
     @objc func backbuttonTapped() {
         print("되돌아가기 버튼이 눌렸습니다.")
-        self.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func locationButtonTapped() {
@@ -333,7 +357,7 @@ class RegistrationViewController: UIViewController {
             self.selectedRow = locationPickerView.selectedRow(inComponent: 0)
             let selected = Array(self.locationList)[self.selectedRow]
             self.locationButton.setTitle(selected, for: .normal)
-            self.locationButton.backgroundColor = .orange
+            self.locationButton.backgroundColor = ColorGuide.main
         }))
         
         self.present(alert, animated: true)
@@ -348,14 +372,21 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
-        displayView()
+        self.setDelegate()
+        self.displayView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configure()
-        setUI()
+        self.navigationItem.hidesBackButton = true
+        self.setNotificationCenter()
+        self.configure()
+        self.setUI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeNotificationCenter()
     }
 }
 
@@ -374,7 +405,7 @@ extension RegistrationViewController: UITextFieldDelegate {
             pwTextFieldView.textfield.placeholder = "철통보안!"
         case self.doublecheckPwFieldView.textfield:
             doublecheckPwFieldView.animateLabel()
-            doublecheckPwFieldView.textfield.placeholder = "다시 한번 입력해주세요"
+            doublecheckPwFieldView.textfield.placeholder = "비밀번호를 다시 한번 입력해주세요"
         default: print("textfield를 찾지 못했습니다.")
         }
     }
@@ -397,13 +428,16 @@ extension RegistrationViewController: UITextFieldDelegate {
     }
     
     private func switchToTextfield(_ textField: UITextField) {
+        let email = emailTextFieldView.textfield.text!
+        let password = pwTextFieldView.textfield.text!
+        
         switch textField {
         case self.nicknameTextFieldView.textfield:
-            self.pwTextFieldView.textfield.becomeFirstResponder()
+            self.emailTextFieldView.textfield.becomeFirstResponder()
         case self.emailTextFieldView.textfield:
-            self.nicknameTextFieldView.textfield.becomeFirstResponder()
+            checkIdPattern(email) ? self.pwTextFieldView.textfield.becomeFirstResponder() : self.emailTextFieldView.textfield.becomeFirstResponder()
         case self.pwTextFieldView.textfield:
-            self.pwTextFieldView.textfield.resignFirstResponder()
+            validPasswordPattern(password) ? self.doublecheckPwFieldView.textfield.becomeFirstResponder() : self.pwTextFieldView.textfield.becomeFirstResponder()
         case self.doublecheckPwFieldView.textfield:
             self.doublecheckPwFieldView.textfield.resignFirstResponder()
         default:

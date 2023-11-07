@@ -14,8 +14,10 @@ import SwiftUI
 class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
+    var loginModel = LoginModel()
+    
     private let logoView = UIImageView().then {
-        let image = UIImage(named: "AppIconㅓㅇ ")
+        let image = UIImage(named: "AppIcon")
         $0.image = image
         $0.contentMode = .scaleAspectFill
     }
@@ -27,10 +29,11 @@ class LoginViewController: UIViewController {
     private var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = ColorGuide.main
+        $0.backgroundColor = ColorGuide.main.withAlphaComponent(0.5)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
+        $0.isEnabled = false
         $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -40,7 +43,7 @@ class LoginViewController: UIViewController {
         $0.setTitleColor(.black, for: .normal)
         $0.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
     }
-    
+  
     //MARK: - 메서드 선언
     private func configure() {
         view.backgroundColor = .white
@@ -148,6 +151,11 @@ class LoginViewController: UIViewController {
         return true
     }
     
+    private func configureTextField() {
+        idTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        pwTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+    
     private func showAlert(type: ErrorHandling) {
         let alertController = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "확인", style: .default))
@@ -157,22 +165,22 @@ class LoginViewController: UIViewController {
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
 
-//        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
-//            print("이메일 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
-//            print("비밀번호 형식이 맞지 않습니다.")
-//            return
-//        }
-//
-//        AuthManager.shared.loginUser(with: email, password: pw) { success in
-//            if success {
+        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+            print("이메일 형식이 맞지 않습니다.")
+            return
+        }
+
+        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+            print("비밀번호 형식이 맞지 않습니다.")
+            return
+        }
+
+        AuthManager.shared.loginUser(with: email, password: pw) { success in
+            if success {
                 print("사용자가 로그인했습니다.")
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
+                self.present(vc, animated: false)
                 
 //                print("로그인한 사용자는 ",loggedUser)
 //                print("로그인한 사용자 uid ",loggedUser?.uid)
@@ -182,19 +190,18 @@ class LoginViewController: UIViewController {
 //                print("로그인한 사용자 num ",loggedUser?.phoneNumber)
 //                print("로그인한 사용자 provider data ",loggedUser?.providerData)
 //                print("로그인한 사용자 tenantID ",loggedUser?.tenantID)
-//            } else {
-//                print("사용자 로그인이 불가능합니다.")
-//                self.showAlert(type: .loginFailure)
-//            }
-//        }
+            } else {
+                print("사용자 로그인이 불가능합니다.")
+                self.showAlert(type: .loginFailure)
+            }
+        }
     }
     
     @objc func memberButtonTapped() {
         print("찐회원 버튼이 눌렸습니다.")
         
         let vc = RegistrationViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func searchIdButtonTapped() {
@@ -213,6 +220,18 @@ class LoginViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
+    @objc func textDidChange(sender: UITextField) {
+        if sender == idTextfieldView.textfield {
+            loginModel.email = sender.text
+        } else {
+            loginModel.password = sender.text
+        }
+        if loginModel.isValid {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = ColorGuide.main
+        }
+    }
+    
     deinit {
         print("로그인 페이지가 화면에서 내려갔습니다")
     }
@@ -222,7 +241,10 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        let currentUser = Auth.auth().currentUser
+        print("현재 유저입니다. -",currentUser)
         setDelegate()
+        configureTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {

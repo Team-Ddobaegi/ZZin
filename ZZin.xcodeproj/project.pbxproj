@@ -67,6 +67,7 @@
 		BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5502ADD33D800A9F4A0 /* FirebaseStorage */; };
 		BD3CB5532ADD33D800A9F4A0 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5522ADD33D800A9F4A0 /* FirebaseStorageCombine-Community */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
+		BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */; };
 		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
@@ -169,6 +170,7 @@
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
 		BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTableViewCell.swift; sourceTree = "<group>"; };
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				BD69C6812AE612170042F9AF /* FoodCardModel.swift */,
+				BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -819,6 +822,7 @@
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
 				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
+				BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */,
 				7BFC61BF2AE1987C00F46544 /* MatchingKeywordVC.swift in Sources */,
 				BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */,
 				DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */,
@@ -1011,7 +1015,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
@@ -1045,7 +1049,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
