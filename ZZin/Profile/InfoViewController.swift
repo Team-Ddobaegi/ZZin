@@ -40,6 +40,7 @@ class InfoViewController: UICollectionViewController {
            super.viewDidLoad()
            print("viewdidload start")
            setupUI()
+           setupNavBar()
            
            DispatchQueue.main.async {[self] in
                storageManager.getPidAndRidWithUid(uid: uid){ [self] result in
@@ -53,12 +54,12 @@ class InfoViewController: UICollectionViewController {
                }
            }
        }
+    
 
        // MARK: - UI Setup
        private func setupUI() {
            // Navigation Bar
            navigationItem.title = "마이페이지"
-           navigationController?.navigationBar.prefersLargeTitles = true
            
            // delegate
            collectionView.delegate = self
@@ -71,11 +72,40 @@ class InfoViewController: UICollectionViewController {
            collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
            collectionView.register(RecommendedPlaceCell.self, forCellWithReuseIdentifier: RecommendedPlaceCell.identifier)
            collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.identifier)
-           collectionView.register(RewardCell.self, forCellWithReuseIdentifier: RewardCell.identifier)
            collectionView.register(SegmentHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SegmentHeader.identifier)
            collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyHeaderView")
            collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DefaultSupplementaryView")
        }
+    
+    
+    func setupNavBar() {
+        var rightButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(rightButtonTapped))
+        rightButton.tintColor = .label
+        self.navigationItem.rightBarButtonItems = [rightButton]
+        
+        var leftButton = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .plain, target: self, action: #selector(leftButtonTapped))
+        leftButton.tintColor = .label
+        self.navigationItem.leftBarButtonItems = [leftButton]
+
+        
+    }
+    @objc func rightButtonTapped() {
+        let settingVC = SettingViewController()
+        self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    @objc func leftButtonTapped() {
+        let zzimVC = ZzimTableViewController()
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        view.window!.layer.add(transition, forKey: kCATransition)
+        modalPresentationStyle = .overFullScreen
+        self.navigationController?.pushViewController(zzimVC, animated: false)
+
+//        self.navigationController?.pushViewController(zzimVC, animated: true)
+    }
+    
 }
 
 // MARK: - UICollectionView DataSource & Delegate
@@ -88,7 +118,6 @@ extension InfoViewController {
         switch currentSegmentIndex {
         case 0: return pidArr?.count ?? 1
         case 1: return ridArr?.count ?? 1
-        case 2: return 8
         default: return 1
         }
     }
@@ -122,33 +151,29 @@ extension InfoViewController {
         guard indexPath.section == 1 else {
             // 유저 프로필 정보 cell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
-            
+            cell.editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
             // TODO: cell에 필요한 데이터 전달 및 설정
             storageManager.bindProfileImgOnStorage(uid: uid, profileImgView: cell.profileImageView)
-            
+        
             return cell
         }
         switch currentSegmentIndex {
         case 0:
             // "맛집 추천"에 대한 셀 로드
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedPlaceCell.identifier, for: indexPath) as! RecommendedPlaceCell
-            
+            let view = cell.customView
             let pid = pidArr?[indexPath.item] ?? ""
-            storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: cell.customView.img, title: cell.customView.titleLabel, description: cell.customView.descriptionLabel)
+//            storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: cell.customView.img, title: cell.customView.titleLabel, description: cell.customView.descriptionLabel)
+            storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: view.img, title: view.titleLabel, dotLabel: view.dotLabel, placeTownLabel: view.placeTownLabel, placeMenuLabel: view.placeMenuLabel)
             return cell
         case 1:
             // "리뷰"에 대한 셀 로드
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCell.identifier, for: indexPath) as! ReviewCell
             
             let rid = ridArr?[indexPath.item] ?? ""
-            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img, title: cell.customView.titleLabel, companion: cell.customView.companyLabel, condition: cell.customView.conditionLabel, town: cell.customView.regionLabel)
+            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img
+                                                    , title: cell.customView.reviewTitleLabel, companion: cell.customView.withKeywordLabel, condition: cell.customView.conditionKeywordLabel, town: cell.customView.regionLabel)
             
-            return cell
-        case 2:
-            // "리워드"에 대한 셀 로드
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RewardCell.identifier, for: indexPath) as! RewardCell
-            cell.imageView.image = UIImage(named: "medal_sample")
-            cell.titleLabel.text = "💛우리동네 찐친"
             return cell
         default:
             return UICollectionViewCell()
@@ -159,6 +184,13 @@ extension InfoViewController {
         if section == 1 {return CGSize(width: collectionView.bounds.width, height: 50)}
         else {return CGSize(width: collectionView.bounds.width, height: 0)}
         
+    }
+    
+    @objc func editProfileButtonTapped() {
+        print("탭미탭미")
+        let editVC = EditProfileViewController()
+        self.navigationController?.navigationBar.tintColor = .label
+        self.navigationController?.pushViewController(editVC, animated: true)
     }
     
 }
@@ -174,9 +206,6 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: (width - 16) / 2, height: (width - 16) / 2 * 228 / 170)
         case 1: // "리뷰"에 대한 셀 사이즈
             return CGSize(width: width, height: 230)
-        case 2: // "리워드"에 대한 셀 사이즈
-            let cellWidth = (width - 16) / 2
-            return CGSize(width: cellWidth, height: cellWidth)
         default: return .zero
         }
     }

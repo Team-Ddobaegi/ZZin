@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
     let storageManager = FireStorageManager()
     let reviewCell = ReviewTableViewCell()
     private let mainView = MainView()
+    
     var loadedRidAndPid: [String:[String]?] = [:]
     var placeData: [Place] = []
     var pidArr: [String]? = []
@@ -67,8 +68,13 @@ extension MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let currentUser = Auth.auth().currentUser
+        print("현재 유저입니다. -",currentUser)
+        print("id도 있나요?", currentUser?.uid)
+        print("id도 있나요?", currentUser?.email)
         setDelegate()
         setUI()
+        mainView.delegate = self
     }
 }
 
@@ -119,5 +125,30 @@ extension MainViewController: UITableViewDataSource {
         let tableviewHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MainHeaderView.identifier) as? MainHeaderView
         tableviewHeaderView?.configure(with: section)
         return tableviewHeaderView
+    }
+}
+
+extension MainViewController: MainViewDelegate {
+    func didTapLogout() {
+        print("로그아웃 버튼이 눌렸습니다.")
+        let currentUser = Auth.auth().currentUser
+        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .default) { _ in
+            DispatchQueue.main.async {
+                print("현재 유저입니다. -",currentUser)
+                print("id도 있나요?", currentUser?.uid)
+                print("id도 있나요?", currentUser?.email)
+                
+                try! Auth.auth().signOut()
+                self.dismiss(animated: true)
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
     }
 }

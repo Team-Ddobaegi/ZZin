@@ -138,7 +138,7 @@ class FireStorageManager {
         }
     }
     
-    func bindViewOnStorageWithPid(pid: String, placeImgView: UIImageView?, title: UILabel?, description: UILabel?) {
+    func bindViewOnStorageWithPid(pid: String, placeImgView: UIImageView?, title: UILabel?, dotLabel: UILabel?, placeTownLabel: UILabel?, placeMenuLabel: UILabel?) {
         
         // placeholderImage
         let placeholderImage = UIImage(named: "add_photo.png")
@@ -151,7 +151,10 @@ class FireStorageManager {
                 let ref = self.storageRef.child(path)
                 placeImgView?.sd_setImage(with: ref, placeholderImage: placeholderImage)
                 title?.text = place.placeName
-                description?.text = place.kindOfFood
+                placeTownLabel?.text = place.town
+                var kindOfFood = place.kindOfFood
+                kindOfFood.remove(at: kindOfFood.startIndex)
+                placeMenuLabel?.text = kindOfFood
             case .failure(let error):
                 print("Error fetching place: \(error.localizedDescription)")
                 return
@@ -162,14 +165,15 @@ class FireStorageManager {
     func bindViewOnStorageWithRid(rid: String, reviewImgView: UIImageView?, title: UILabel?, companion: UILabel?, condition: UILabel?, town: UILabel?) {
       
         // placeholderImage
-        let placeholderImage = UIImage(named: "add_photo.png")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         
         dataManager.fetchDataWithRid(rid: rid) { result in
             switch result {
             case .success(let review):
 //                print("review : ", review)
-                let path = review.reviewImg ?? "" // nil일 때 표시할 이미지 경로 추가
-                let ref = self.storageRef.child(path)
+                let path = review.reviewImg // nil일 때 표시할 이미지 경로 추가
+                print(path)
+                let ref = self.storageRef.child(path?[0] as? String ?? "images/review_placeholder.gif")
                 reviewImgView?.sd_setImage(with: ref, placeholderImage: placeholderImage)
                 title?.text = review.title
                 companion?.text = review.companion

@@ -23,13 +23,14 @@ class SegmentHeader: UICollectionReusableView {
     }
     
     private func setupSegmentedControl() {
-        let segmentedControlTitles = ["맛집 추천", "리뷰", "리워드"]
-        customSegmentedControl = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 50), buttonTitles: segmentedControlTitles)
+        let segmentedControlTitles = ["맛집 추천", "리뷰"]
+        customSegmentedControl = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.bounds.width - 32, height: 50), buttonTitles: segmentedControlTitles)
         
         addSubview(customSegmentedControl)
         
         customSegmentedControl.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.left.right.equalToSuperview().inset(16)
         }
     }
 }

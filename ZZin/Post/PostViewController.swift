@@ -15,12 +15,14 @@ import FirebaseStorage
 import Firebase
 
 
-var searchedInfo: Document?
-var textViewText: String?
+var searchedInfo: Document? = nil
+var textViewText: String? = ""
+var titleText: String? = ""
 
 class PostViewController: UICollectionViewController, MatchingKeywordDelegate, UITextViewDelegate {
-
+    
     // MARK: - Properties
+    let storeManager = FireStoreManager.shared
     var dataWillSet: [String: Any] = [:]
     
     let uid = "bo_bo_@kakao.com"
@@ -34,8 +36,6 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     var firstButtonColor: UIColor = .lightGray
     var secondButtonColor: UIColor = .lightGray
     var menuButtonColor: UIColor = .lightGray
-    
-    
     
     // MARK: - Initializers
     init() {
@@ -53,11 +53,22 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
             self.view.endEditing(true)
       }
+    
+    
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewdidload start")
         setupUI()
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.systemBackground
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,13 +91,15 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     @objc func keyboardUp(notification:NSNotification) {
         if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
            let keyboardRectangle = keyboardFrame.cgRectValue
-       
+            
+           
             UIView.animate(
                 withDuration: 0.3
                 , animations: {
                     self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
                 }
             )
+            
         }
     }
     
@@ -94,7 +107,11 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     private func setupUI() {
         // Navigation Bar
         navigationItem.title = "찐 맛집 추천"
-        navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationController?.navigationBar.backgroundColor = .red
+////        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .red
+//        UINavigationBar.appearance().isTranslucent = false
+//        UINavigationBar.appearance().barTintColor = .red
+//
         
         // delegate
         collectionView.delegate = self
@@ -190,13 +207,51 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
 
     @objc func submitButtonTapped() {
         // 저장해야하는 데이터
-        // 1. 가게 이름, 2. 가게 주소, 3. 가게 도시명, 4. 가게 town명, 5. 가게 전화번호, 6. 가게 키워드, 7. 가게 좌표, 8. 리뷰 제목, 9. 리뷰 콘텐츠
-        let content = textViewText
-        dataWillSet.updateValue(content ?? "", forKey: "content")
-        print("제출 눌림")
-        print(dataWillSet)
-    }
 
+        print("제출 눌림")
+
+        dataWillSet.updateValue(imgData, forKey: "imgData")
+        dataWillSet.updateValue(searchedInfo?.placeName, forKey: "placeName")
+        dataWillSet.updateValue(searchedInfo?.placeName, forKey: "placeName")
+        dataWillSet.updateValue(searchedInfo?.roadAddressName, forKey: "address")
+        dataWillSet.updateValue(searchedInfo?.phone, forKey: "placeTelNum")
+        dataWillSet.updateValue(Double(searchedInfo?.y ?? "0")!, forKey: "lat")
+        dataWillSet.updateValue(Double(searchedInfo?.x ?? "0")!, forKey: "long")
+        dataWillSet.updateValue(firstKeywordText, forKey: "companion")
+        dataWillSet.updateValue(secondKeywordText, forKey: "condition")
+        dataWillSet.updateValue(menuKeywordText, forKey: "kindOfFood")
+        dataWillSet.updateValue(titleText, forKey: "title")
+        dataWillSet.updateValue(textViewText, forKey: "content")
+
+
+        print("dataWillSet :", dataWillSet)
+
+        storeManager.setData(uid: uid, dataWillSet: dataWillSet)
+        self.tabBarController?.selectedIndex = 0
+        
+    }
+    
+    func flushEverything() {
+        let firstCell = collectionView.dequeueReusableCell(withReuseIdentifier: textInputCell.identifier, for: IndexPath(item: 0, section: 0)) as! textInputCell
+        let secondCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImgSelectionCell.identifier, for: IndexPath(item: 0, section: 1)) as! ImgSelectionCell
+        let thirdCell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectKeywordCell.identifier, for: IndexPath(item: 0, section: 2)) as! SelectKeywordCell
+        
+        firstCell.placeNameField.textField.text = ""
+        firstCell.placeAddressField.textField.text = ""
+        firstCell.placeTelNumField.textField.text = ""
+        firstCell.reviewTitleField.textField.text = ""
+        imgArr = []
+        imgData = []
+        dataWillSet = [:]
+        
+        firstKeywordText = ""
+        secondKeywordText = ""
+        menuKeywordText = ""
+        
+        textViewText = ""
+        searchedInfo = nil
+        titleText = ""
+    }
     
     // 첫 번째 키워드 버튼이 탭될 때
     @objc func firstKeywordButtonTapped() {
@@ -334,6 +389,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         }
       }
     }
+
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
