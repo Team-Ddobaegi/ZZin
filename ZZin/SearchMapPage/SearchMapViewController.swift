@@ -23,6 +23,7 @@ class SearchMapViewController: UIViewController {
 //    private let opacityView = OpacityView()
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
     let infoMarkerView = InfoMarkerView()
+    let geocodingService = Geocoding.shared
 
     // MARK: - Touch Action
     @objc func backButtonTapped() {
@@ -134,13 +135,20 @@ class SearchMapViewController: UIViewController {
         setKeywordButtonTitle()
         setPickerView()
         updateLocationTitle()
-
-        
-        print("\(String(describing: self.selectedCity)),\(String(describing: self.selectedTown))---------------")
-        
         currentUserLocation = LocationService.shared.getCurrentLocation()
         moveCamera(location: currentUserLocation, animation: .none)
         fetchPlacesWithKeywords()
+        
+        let clientId = Bundle.main.NaverAPIID
+        let clientSecret = Bundle.main.NaverAPISecret
+        
+        geocodingService.geocodeAddress(address: "서울특별시 강남구 테헤란로", clientId: clientId, clientSecret: clientSecret) { (coordinate, error) in
+            if let error = error {
+                print("Geocoding error: \(error.localizedDescription)")
+            } else if let coordinate = coordinate {
+                print("Geocoded coordinates: \(coordinate)")
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
