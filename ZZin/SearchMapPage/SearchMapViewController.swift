@@ -142,6 +142,8 @@ class SearchMapViewController: UIViewController {
         let clientId = Bundle.main.NaverAPIID
         let clientSecret = Bundle.main.NaverAPISecret
         
+        print("#########\(clientId)\(clientSecret)")
+        
         geocodingService.geocodeAddress(address: "서울특별시 강남구 테헤란로", clientId: clientId, clientSecret: clientSecret) { (coordinate, error) in
             if let error = error {
                 print("Geocoding error: \(error.localizedDescription)")

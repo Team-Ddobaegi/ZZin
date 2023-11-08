@@ -20,6 +20,7 @@ class Geocoding {
         ]
         
         AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseDecodable(of: GeocodeResponse.self) { response in
+            print("%%%%%%%\(response)")
             switch response.result {
             case .success(let geocodeResponse):
                 guard let firstAddress = geocodeResponse.addresses.first,
