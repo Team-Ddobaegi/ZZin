@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("user 데이터 -", currentUser)
         
         if Auth.auth().currentUser != nil {
-            let tabBarVC = TabBarViewController()
+            let tabBarVC = SearchMapViewController()
             let navigationController = UINavigationController(rootViewController: tabBarVC)
             self.window?.rootViewController = navigationController
             print("user 데이터 -", currentUser)
