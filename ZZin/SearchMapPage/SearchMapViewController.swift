@@ -139,16 +139,41 @@ class SearchMapViewController: UIViewController {
         moveCamera(location: currentUserLocation, animation: .none)
         fetchPlacesWithKeywords()
         
-        let clientId = Bundle.main.NaverAPIID
-        let clientSecret = Bundle.main.NaverAPISecret
+
         
-        print("#########\(clientId)\(clientSecret)")
         
-        geocodingService.geocodeAddress(address: "서울특별시 강남구 테헤란로", clientId: clientId, clientSecret: clientSecret) { (coordinate, error) in
+//        geocodingService.geocodeAddress(query: "인천 연수구 송도교육로 20", clientId: clientId, clientSecret: clientSecret) { (coordinate, error) in
+//            if let error = error {
+//                print("Geocoding error: \(error.localizedDescription)")
+//            } else if let coordinate = coordinate {
+//                print("Geocoded coordinates: \(coordinate)")
+//            }
+//        }
+        // 위도와 경도를 가진 좌표
+        let coordinate = (lat: 37.559183571926766, lng: 126.97767544047555)
+        let addressQuery = "서울특별시 강남구 테헤란로"
+        let searchCoordinate = "127.12345,37.56789"
+
+        geocodingService.geocodeAddress(query: addressQuery, coordinate: searchCoordinate) { (coordinate, error) in
             if let error = error {
-                print("Geocoding error: \(error.localizedDescription)")
+                // 에러 처리
+                print("Geocoding 에러: \(error.localizedDescription)")
             } else if let coordinate = coordinate {
-                print("Geocoded coordinates: \(coordinate)")
+                // 검색된 좌표 정보를 사용하여 작업을 수행합니다.
+                let latitude = coordinate.lat
+                let longitude = coordinate.lng
+                print("검색된 좌표: Latitude \(latitude), Longitude \(longitude)")
+            } else {
+                // 검색 결과가 없는 경우
+                print("검색 결과 없음")
+            }
+        }
+        
+        geocodingService.reverseGeocodeCoordinate(coordinate: coordinate) { (address, error) in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+            } else if let address = address {
+                print("Reverse Geocoded address: \(address)")
             }
         }
     }
