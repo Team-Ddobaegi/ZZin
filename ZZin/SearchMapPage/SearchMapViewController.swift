@@ -154,18 +154,21 @@ class SearchMapViewController: UIViewController {
         let addressQuery = "서울특별시 강남구 테헤란로"
         let searchCoordinate = "127.12345,37.56789"
 
-        geocodingService.geocodeAddress(query: addressQuery, coordinate: searchCoordinate) { (coordinate, error) in
-            if let error = error {
-                // 에러 처리
-                print("Geocoding 에러: \(error.localizedDescription)")
-            } else if let coordinate = coordinate {
-                // 검색된 좌표 정보를 사용하여 작업을 수행합니다.
-                let latitude = coordinate.lat
-                let longitude = coordinate.lng
-                print("검색된 좌표: Latitude \(latitude), Longitude \(longitude)")
+        Geocoding.shared.geocodeAddress(query: "분당구 불정로 6", coordinate: "127.1054328,37.3595963") { (response, error) in
+            if let response = response {
+                // 성공적으로 주소를 좌표로 변환한 경우
+                print("Status: \(response.status)")
+                print("Road Address: \(response.addresses.first?.roadAddress ?? "")")
+                print("Jibun Address: \(response.addresses.first?.jibunAddress ?? "")")
+                print("English Address: \(response.addresses.first?.englishAddress ?? "")")
+                print("X Coordinate: \(response.addresses.first?.x ?? "")")
+                print("Y Coordinate: \(response.addresses.first?.y ?? "")")
+            } else if let error = error {
+                // 오류 발생한 경우
+                print("Geocoding Error: \(error.localizedDescription)")
             } else {
-                // 검색 결과가 없는 경우
-                print("검색 결과 없음")
+                // 주소를 찾을 수 없는 경우
+                print("주소를 찾을 수 없음")
             }
         }
         
@@ -176,6 +179,7 @@ class SearchMapViewController: UIViewController {
                 print("Reverse Geocoded address: \(address)")
             }
         }
+
     }
 
     override func viewDidAppear(_ animated: Bool) {

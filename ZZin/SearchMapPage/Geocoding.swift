@@ -6,48 +6,40 @@ class Geocoding {
     
     private init() {}
     
-    func geocodeAddress(query: String, coordinate: String, completion: @escaping (_ coordinate: (lat: Double, lng: Double)?, _ error: Error?) -> ()) {
-            let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
-            
-            // 클라이언트 ID와 시크릿 키 가져오기
-            let clientId = Bundle.main.NaverAPIID
-            let clientSecret = Bundle.main.NaverAPISecret
-            
-            let parameters: Parameters = [
-                "query": encodedQuery,
-                "coordinate": coordinate // 검색 중심 좌표 추가
-            ]
-            
-            let headers: HTTPHeaders = [
-                "X-NCP-APIGW-API-KEY-ID": clientId,
-                "X-NCP-APIGW-API-KEY": clientSecret
-            ]
-            
-            AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseDecodable(of: GeocodeResponse.self) { response in
-                switch response.result {
-                case .success(let geocodeResponse):
-                    if let firstAddress = geocodeResponse.addresses.first {
-                        let lat = firstAddress.y
-                        let lng = firstAddress.x
-                        completion((lat: lat, lng: lng) as! (lat: Double, lng: Double), nil)
-                        
-                        // API 응답 출력
-                        print("JSON Response: \(geocodeResponse)")
-                    } else {
-                        completion(nil, nil)
-                    }
-                case .failure(let error):
-                    completion(nil, error)
-                    
-                    // 에러 출력
-                    print("Geocoding error: \(error.localizedDescription)")
-                }
+    func geocodeAddress(query: String, coordinate: String, completion: @escaping (_ response: GeocodeResponse?, _ error: Error?) -> ()) {
+        let url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
+        
+        // 클라이언트 ID와 시크릿 키 가져오기
+        let clientId = Bundle.main.NaverAPIID
+        let clientSecret = Bundle.main.NaverAPISecret
+        
+        let parameters: [String: Any] = [
+            "query": query,
+            "coordinate": coordinate
+        ]
+        
+        let headers: HTTPHeaders = [
+            "X-NCP-APIGW-API-KEY-ID": clientId,
+            "X-NCP-APIGW-API-KEY": clientSecret
+        ]
+        
+        AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseDecodable(of: GeocodeResponse.self) { response in
+            switch response.result {
+            case .success(let geocodeResponse):
+                completion(geocodeResponse, nil)
+                
+                // API 응답 출력
+                print("JSON Response: \(geocodeResponse)")
+            case .failure(let error):
+                completion(nil, error)
+                
+                // 에러 출력
+                print("Geocoding error: \(error.localizedDescription)")
             }
         }
-        
+    }
     
-    func reverseGeocodeCoordinate(coordinate: (lat: Double, lng: Double), completion: @escaping (_ address: String?, _ error: Error?) -> ()) {
+    func reverseGeocodeCoordinate(coordinate: (lat: Double, lng: Double), completion: @escaping (_ response: ReverseGeocodeResponse?, _ error: Error?) -> ()) {
         let url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
         
         // 클라이언트 ID와 시크릿 키 가져오기
@@ -67,15 +59,10 @@ class Geocoding {
         AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseDecodable(of: ReverseGeocodeResponse.self) { response in
             switch response.result {
             case .success(let reverseGeocodeResponse):
-                if let address = reverseGeocodeResponse.results.first {
-                    let fullAddress = "\(address.region.area1.name) \(address.region.area2.name) \(address.region.area3.name)"
-                    completion(fullAddress, nil)
-                    
-                    // API 응답 출력
-                    print("JSON Response: \(reverseGeocodeResponse)")
-                } else {
-                    completion(nil, nil)
-                }
+                completion(reverseGeocodeResponse, nil)
+                
+                // API 응답 출력
+                print("JSON Response: \(reverseGeocodeResponse)")
             case .failure(let error):
                 completion(nil, error)
                 
@@ -84,13 +71,14 @@ class Geocoding {
             }
         }
     }
+
 }
 
 struct GeocodeResponse: Codable {
     let status: String
     let meta: GeocodeMeta
     let addresses: [Address]
-    let errorMessage: String
+    let errorMessage: String?
 }
 
 struct GeocodeMeta: Codable {
