@@ -45,7 +45,7 @@ class RegistrationViewController: UIViewController {
         $0.setTitle("지역 설정하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.setImage(image, for: .normal)
-        $0.backgroundColor = ColorGuide.main
+        $0.backgroundColor = .black
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
@@ -87,7 +87,9 @@ class RegistrationViewController: UIViewController {
         view.backgroundColor = .white
         [backbutton, topStackView, doublecheckEmailFieldView, pwTextFieldView, infoLabel, stackView, confirmButton].forEach { view.addSubview($0) }
         pwTextFieldView.textfield.isSecureTextEntry = true
+        pwTextFieldView.textfield.textContentType = .oneTimeCode
         doublecheckPwFieldView.textfield.isSecureTextEntry = true
+        doublecheckPwFieldView.textfield.textContentType = .oneTimeCode
     }
     
     private func setUI() {
@@ -310,15 +312,18 @@ class RegistrationViewController: UIViewController {
         
         let credentials = AuthCredentials(email: id, password: pw, userName: nickname)
         AuthManager.shared.registerNewUser(with: credentials) { success, error in
+
             if success {
                 print("유저가 생성되었습니다.")
-                let mainVC = TabBarViewController()
-                let testVC = CardController()
-                testVC.modalPresentationStyle = .fullScreen
-                self.navigationController?.pushViewController(mainVC, animated: true)
-                self.present(testVC, animated: true)
+                DispatchQueue.main.async {
+                    let mainVC = TabBarViewController()
+                    let testVC = CardController()
+                    testVC.modalPresentationStyle = .fullScreen
+                    self.navigationController?.pushViewController(mainVC, animated: true)
+                    self.present(testVC, animated: true)
+                }
             } else {
-                print("어떤 오류인가요??",error.localizedDescription)
+                print("========== 어떤 오류인가요??",error.localizedDescription)
                 self.emailTextFieldView.showInvalidMessage()
                 self.showAlert(type: .alreadyExists)
             }
