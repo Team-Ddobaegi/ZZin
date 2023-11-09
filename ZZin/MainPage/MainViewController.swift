@@ -35,39 +35,41 @@ class MainViewController: UIViewController {
         }
     }
     
-    func fetchData() {
-        if let uid = uid {
-            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
-                loadedRidAndPid = result
-                ridArr = loadedRidAndPid["ridArr"] ?? []
-                mainView.tableView.reloadData()
-            }
-        }
-    }
-    
-    func fetchPlaceData() {
-        FireStoreManager.shared.getPlaceData { data in
-            switch data {
-            case .success(let result):
-                self.placeData = result
-                
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
+//    func fetchData() {
+//        if let uid = uid {
+//            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
+//                loadedRidAndPid = result
+//                ridArr = loadedRidAndPid["ridArr"] ?? []
+//                mainView.tableView.reloadData()
+//            }
+//        }
+//    }
+//    
+//    func fetchPlaceData() {
+//        FireStoreManager.shared.getPlaceData { data in
+//            switch data {
+//            case .success(let result):
+//                self.placeData = result
+//                
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
 }
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        fetchData()
-        fetchPlaceData()
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
+        view.backgroundColor = .white
+//        fetchData()
+//        fetchPlaceData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         let currentUser = Auth.auth().currentUser
         print("현재 유저입니다. -",currentUser)
         print("id도 있나요?", currentUser?.uid)

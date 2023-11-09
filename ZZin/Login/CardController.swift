@@ -13,6 +13,7 @@ class CardController: UIViewController {
     //MARK: - 변수 선언
     private let cardStack = SwipeCardStack()
     private var initialCardModels: [FoodCardModel] = []
+    private let foodCardCases: [FoodCardData] = [.coldNoodle, .curry, .hamburger, .tteokboki]
     
     //MARK: - Layout Cards
     private func layoutCardStockView() {
@@ -35,6 +36,23 @@ class CardController: UIViewController {
         return true
     }
     
+    private func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("이미지를 호출하는데 오류가 있었습니다.")
+                completion(nil)
+                return
+            }
+            if let image = UIImage(data: data) {
+                completion(image)
+            } else {
+                print("UIImage로 url을 가져올 수 없었습니다.")
+                completion(nil)
+            }
+        }.resume()
+    }
+    
+    
     deinit {
         print("카드 화면이 내려갔습니다")
     }
@@ -46,10 +64,13 @@ extension CardController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        let image = UIImage(named: "ogudangdang")
-        if let image = image {
-            let cardModel = FoodCardModel(id: 1, name: FoodCardData.hamburger.title, image: image)
-            initialCardModels.append(cardModel)
+        if let hamburgerURL = URL(string: "https://images.unsplash.com/photo-1585238341267-1cfec2046a55?auto=format&fit=crop&q=80&w=2948&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") {
+            downloadImage(from: hamburgerURL) { image in
+                if let downloadedImage = image {
+                    let cardModel = FoodCardModel(id: 1, name: FoodCardData.hamburger.title, image: downloadedImage)
+                    self.initialCardModels.append(cardModel)
+                }
+            }
         }
         
         let image2 = UIImage(named: "ogudangdang")
