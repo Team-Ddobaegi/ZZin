@@ -38,7 +38,6 @@ class LocalCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -54,7 +53,8 @@ class LocalCollectionViewCell: UICollectionViewCell {
     private func configureSubview() {
         contentView.addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-            $0.size.equalTo(CGSize(width: 77, height: 98))
+            $0.edges.equalToSuperview()
+//            $0.size.equalTo(CGSize(width: 77, height: 98))
         }
     }
     

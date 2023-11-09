@@ -29,11 +29,19 @@ class MainView: UIView {
         $0.setTitleColor(.blue, for: .normal)
         $0.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
     }
+   
+    private let logoView = UIImageView().then {
+        let image = UIImage(named: "AppIcon")
+        $0.image = image
+        $0.contentMode = .scaleAspectFill
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         tableView.backgroundColor = .white
+        self.backgroundColor = .white
         setTableView()
+        setLogo()
         setLogOut()
     }
     
@@ -48,6 +56,14 @@ class MainView: UIView {
         }
     }
     
+    func setLogo() {
+        addSubview(logoView)
+        logoView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalToSuperview().offset(44)
+            $0.size.equalTo(CGSize(width: 50, height: 50))
+        }
+    }
     func setLogOut() {
         addSubview(logOutButton)
         logOutButton.snp.makeConstraints {
