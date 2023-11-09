@@ -93,6 +93,7 @@ class FireStoreManager {
     let db = Firestore.firestore()
     static let shared = FireStoreManager()
     
+    lazy var storage = FireStorageManager()
     func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
         let docRef = db.collection(collection).document(documentId)
         docRef.getDocument { (document, error) in
@@ -241,13 +242,13 @@ class FireStoreManager {
         let path = reviewImg ?? []
         setPlaceData(dataWillSet: dataWillSet, pid: pid, uid: uid, rid: rid, path: path)
     }
-
+    
     func uploadImagesToFirebase(imagesData: [Data?], rid: String) {
         print("uploadImagesToFirebase")
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let group = DispatchGroup()
-
+        
         for (index, imgData) in imagesData.enumerated() {
             if let data = imgData {
                 group.enter()
@@ -261,12 +262,12 @@ class FireStoreManager {
                         group.leave()
                         return
                     }
-
+                    
                 }
             }
         }
     }
-
+    
     
     func setReviewData(reviewDictionary: [String: Any]){
         // FireStoreManager 안으로 옮기고 난 후에 수정
@@ -281,7 +282,7 @@ class FireStoreManager {
             }
         }
     }
-
+    
     func updateUserRidAndPid(pid: String?, rid: String, uid: String){
         let userRef = db.collection("users").document(uid)
         
@@ -362,7 +363,6 @@ class FireStoreManager {
         if let townValue = town, townValue != "전체" {
             query = query.whereField("town", isEqualTo: townValue)
         }
-
         return query
     }
 
@@ -396,7 +396,6 @@ class FireStoreManager {
         let query = createQuery(companion: companion, condition: condition, kindOfFood: kindOfFood, city: city, town: town)
         fetchPlacesWithQuery(query: query, completion: completion)
     }
-          
     //MARK: - 로그인/회원가입 Page
     func testFetchId(completion: @escaping ([String: Any]) -> Void) {
         var uids: [String: Any] = [:]
@@ -413,7 +412,6 @@ class FireStoreManager {
             }
         }
     }
-
     
     func fetchUserUID(completion: @escaping ([String]) -> Void) {
         var uids: [String] = []
@@ -433,23 +431,6 @@ class FireStoreManager {
             }
         }
     }
-    
-    //MARK: - 유효성 검사 관련
-    // 중복 UID 확인
-//    func crossCheckDB(_ id: String, completion: @escaping (Bool) -> Void) {
-//        fetchUserUID { uids in
-//            print("전체 데이터는 아래와 같습니다 === \(uids)")
-//            if uids.contains(id) {
-//                print("아이디가 데이터베이스에 이미 있습니다.")
-//                print(id)
-//                completion(true)
-//            } else {
-//                print("아이디가 데이터베이스에 없습니다.")
-//                print(id)
-//                completion(false)
-//            }
-//        }
-//    }
     
     //MARK: - Auth 관련
     // 로그인
@@ -510,5 +491,49 @@ extension FireStoreManager {
         
     }
     
-    
+    func deleteReview(rid: String) {
+        fetchDataWithRid(rid: rid){ (result) in
+            switch result {
+            case .success(let review):
+                let pid = review.pid
+                let reviewImgArr = review.reviewImg
+                self.deleteDocOfReview(rid: rid, pid: pid, reviewImg: reviewImgArr)
+            case .failure(let error):
+                print("Error fetching review: \(error.localizedDescription)")
+            }
+        }
+    }
+        
+        
+    func deleteDocOfReview(rid: String, pid: String, reviewImg: [String]?){
+        db.collection("reviews").document(rid).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            }
+            else {
+                print("Document successfully removed!")
+                self.updateArrayWithPlacesCollections(pid: pid, reviewImg: reviewImg)
+            }
+            
+        }
+    }
+            
+    func updateArrayWithPlacesCollections(pid: String, reviewImg: [String]?){
+        let placeRef = db.collection("places").document(pid)
+                
+        placeRef.updateData([
+            "rid": FieldValue.arrayRemove(reviewImg ?? []),
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            }
+            // 배열 업데이트 성공
+            else {
+                print("Document successfully updated")
+                self.storage.deleteFileWithPathArr(pathArr: reviewImg)
+            }
+                    
+        }
+    }
+            
 }
