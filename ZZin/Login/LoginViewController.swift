@@ -15,88 +15,18 @@ class LoginViewController: UIViewController {
     
     //MARK: - UIComponent 선언
     var loginModel = LoginModel()
-    
-    private let logoView = UIImageView().then {
-        let image = UIImage(named: "AppIcon")
-        $0.image = image
-        $0.contentMode = .scaleAspectFill
-    }
-    
+    let loginView = LoginView()
     private let userData = Auth.auth().currentUser?.uid
-    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
-    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
-    
-    private var loginButton = UIButton().then {
-        $0.setTitle("로그인", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = ColorGuide.main.withAlphaComponent(0.5)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.isEnabled = false
-        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private let memberButton = UIButton().then {
-        $0.setTitle("찐회원 되기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-    }
   
     //MARK: - 메서드 선언
+    
     private func configure() {
         view.backgroundColor = .white
         [idTextfieldView, pwTextfieldView, logoView, loginButton, memberButton].forEach{view.addSubview($0)}
         pwTextfieldView.textfield.isSecureTextEntry = true
     }
-    
-    private func setUI() {
-        setLogo()
-        setCustomView()
-        setLoginBtn()
-        setMemberBtn()
-    }
-    
-    private func setLogo() {
-        logoView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(124)
-            $0.width.equalTo(186)
-            $0.height.equalTo(90)
-        }
-    }
-    
-    private func setCustomView() {
-        idTextfieldView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(logoView.snp.bottom).offset(84)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
-        }
-        
-        pwTextfieldView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
-        }
-    }
-    
-    private func setLoginBtn() {
-        loginButton.snp.makeConstraints {
-            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
-            $0.centerX.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 353, height: 52))
-        }
-    }
-    
-    private func setMemberBtn() {
-        memberButton.snp.makeConstraints{
-            $0.top.equalTo(loginButton.snp.bottom).offset(15)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(19)
-        }
-    }
-    
+
+   
     private func setDelegate() {
         idTextfieldView.setTextFieldDelegate(delegate: self)
         pwTextfieldView.setTextFieldDelegate(delegate: self)
@@ -119,7 +49,7 @@ class LoginViewController: UIViewController {
         let emailpred = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         
         guard emailpred.evaluate(with: email) else {
-            idTextfieldView.showInvalidMessage()
+            loginView.idTextfieldView.showInvalidMessage()
             showAlert(type: .idWrongFormat)
             return false
         }

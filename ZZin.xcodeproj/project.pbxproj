@@ -83,6 +83,7 @@
 		BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */; };
 		BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */; };
 		BDC112782AF532C4000E4F9F /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112772AF532C4000E4F9F /* MainHeaderView.swift */; };
+		BDD353432AFE756400D2E0F6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD353422AFE756400D2E0F6 /* LoginView.swift */; };
 		BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983712AE0C24B008168D2 /* UserSearchController.swift */; };
 		BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD983732AE0D28C008168D2 /* ModalViewController.swift */; };
 		BDE037C32ADC2B47003374A8 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */; };
@@ -186,6 +187,7 @@
 		BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112772AF532C4000E4F9F /* MainHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
+		BDD353422AFE756400D2E0F6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BDD983712AE0C24B008168D2 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		BDD983732AE0D28C008168D2 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 		BD1018822ADD589D003FAA97 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				BDD353422AFE756400D2E0F6 /* LoginView.swift */,
 				BD62B0A82ADC1EB40096BD3F /* LoginViewController.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationViewController.swift */,
 				BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */,
@@ -834,6 +837,7 @@
 				FF031D682ADBEB1B00206056 /* LocalCollectionViewCell.swift in Sources */,
 				C0A634492AEF7CAB00BF6B55 /* CustomSegmentedControl.swift in Sources */,
 				7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */,
+				BDD353432AFE756400D2E0F6 /* LoginView.swift in Sources */,
 				7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */,
 				FF031D682ADBEB1B00206056 /* LocalCollectionViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
