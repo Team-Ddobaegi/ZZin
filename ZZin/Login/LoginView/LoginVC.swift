@@ -21,8 +21,6 @@ class LoginViewController: UIViewController {
     //MARK: - LifeCycle 선언
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let currentUser = Auth.auth().currentUser
-//        print("현재 유저입니다. -",currentUser)
         setDelegate()
         addButtonActions()
         configureTextField()
