@@ -8,8 +8,8 @@
 import UIKit
 
 class LoginView: UIView {
-    private let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
-    private let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
+    let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
+    let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     
     private let logoView = UIImageView().then {
         let image = UIImage(named: "AppIcon")
@@ -17,7 +17,7 @@ class LoginView: UIView {
         $0.contentMode = .scaleAspectFill
     }
     
-    private var loginButton = UIButton().then {
+    let loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = ColorGuide.main.withAlphaComponent(0.5)
@@ -25,16 +25,28 @@ class LoginView: UIView {
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.isEnabled = false
-        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private let memberButton = UIButton().then {
+    let memberButton = UIButton().then {
         $0.setTitle("찐회원 되기", for: .normal)
         $0.setTitleColor(.black, for: .normal)
-        $0.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
     }
-        
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configure()
+        setUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func configure() {
+        [idTextfieldView, pwTextfieldView, logoView, loginButton, memberButton].forEach{ addSubview($0) }
+        pwTextfieldView.textfield.isSecureTextEntry = true
+    }
+    
     private func setUI() {
         setLogo()
         setCustomView()

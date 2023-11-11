@@ -17,30 +17,45 @@ class LoginViewController: UIViewController {
     var loginModel = LoginModel()
     let loginView = LoginView()
     private let userData = Auth.auth().currentUser?.uid
+    
+    //MARK: - LifeCycle 선언
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        let currentUser = Auth.auth().currentUser
+//        print("현재 유저입니다. -",currentUser)
+        setDelegate()
+        addButtonActions()
+        configureTextField()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setView()
+    }
   
     //MARK: - 메서드 선언
-    
-    private func configure() {
+    private func setView() {
         view.backgroundColor = .white
-        [idTextfieldView, pwTextfieldView, logoView, loginButton, memberButton].forEach{view.addSubview($0)}
-        pwTextfieldView.textfield.isSecureTextEntry = true
+        view.addSubview(loginView)
+        
+        loginView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
-
+    
+    private func addButtonActions() {
+        loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
+    }
    
     private func setDelegate() {
-        idTextfieldView.setTextFieldDelegate(delegate: self)
-        pwTextfieldView.setTextFieldDelegate(delegate: self)
+        loginView.idTextfieldView.setTextFieldDelegate(delegate: self)
+        loginView.pwTextfieldView.setTextFieldDelegate(delegate: self)
     }
-    
-//    private func validateID(with email: String, completion: @escaping (Bool) -> Void) {
-//        FireStoreManager.shared.crossCheckDB(email) { exists in
-//            completion(exists)
-//        }
-//    }
     
     private func checkIdPattern(_ email: String) -> Bool {
         guard !email.isEmpty else {
-            idTextfieldView.showInvalidMessage()
+            loginView.idTextfieldView.showInvalidMessage()
             showAlert(type: .idBlank)
             return false
         }
@@ -58,7 +73,7 @@ class LoginViewController: UIViewController {
     
     private func validPasswordPattern(_ password: String) -> Bool {
         guard !password.isEmpty else {
-            pwTextfieldView.showInvalidMessage()
+            loginView.pwTextfieldView.showInvalidMessage()
             showAlert(type: .passwordBlank)
             return false
         }
@@ -66,7 +81,7 @@ class LoginViewController: UIViewController {
         let firstLetter = password.prefix(1)
         guard firstLetter == firstLetter.uppercased() else {
             print("첫 단어는 대문자가 필요합니다.")
-            pwTextfieldView.showInvalidMessage()
+            loginView.pwTextfieldView.showInvalidMessage()
             showAlert(type: .firstPasswordCap)
             return false
         }
@@ -74,7 +89,7 @@ class LoginViewController: UIViewController {
         let numbers = password.suffix(1)
         guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
             print("마지막은 숫자를 써주세요")
-            pwTextfieldView.showInvalidMessage()
+            loginView.pwTextfieldView.showInvalidMessage()
             showAlert(type: .lastPasswordNum)
             return false
         }
@@ -82,8 +97,8 @@ class LoginViewController: UIViewController {
     }
     
     private func configureTextField() {
-        idTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        pwTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        loginView.idTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        loginView.pwTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func showAlert(type: ErrorHandling) {
@@ -95,12 +110,12 @@ class LoginViewController: UIViewController {
     @objc func loginButtonTapped() {
         print("로그인 버튼이 눌렸습니다.")
 
-        guard let email = idTextfieldView.textfield.text, checkIdPattern(email) else {
+        guard let email = loginView.idTextfieldView.textfield.text, checkIdPattern(email) else {
             print("이메일 형식이 맞지 않습니다.")
             return
         }
 
-        guard let pw = pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
+        guard let pw = loginView.pwTextfieldView.textfield.text, validPasswordPattern(pw) else {
             print("비밀번호 형식이 맞지 않습니다.")
             return
         }
@@ -111,15 +126,6 @@ class LoginViewController: UIViewController {
                 let vc = TabBarViewController()
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: false)
-                
-//                print("로그인한 사용자는 ",loggedUser)
-//                print("로그인한 사용자 uid ",loggedUser?.uid)
-//                print("로그인한 사용자 providerID ",loggedUser?.providerID)
-//                print("로그인한 사용자 email ",loggedUser?.email)
-//                print("로그인한 사용자 name ",loggedUser?.displayName)
-//                print("로그인한 사용자 num ",loggedUser?.phoneNumber)
-//                print("로그인한 사용자 provider data ",loggedUser?.providerData)
-//                print("로그인한 사용자 tenantID ",loggedUser?.tenantID)
             } else {
                 print("사용자 로그인이 불가능합니다.")
                 self.showAlert(type: .loginFailure)
@@ -134,53 +140,20 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func searchIdButtonTapped() {
-        print("아이디 찾기 버튼이 눌렸습니다.")
-        
-        let vc = UserSearchController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
-    
-    @objc func searchPwButtonTapped() {
-        print("비밀번호 찾기 버튼이 눌렸습니다.")
-        
-        let vc = PasswordSearchController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
-    
     @objc func textDidChange(sender: UITextField) {
-        if sender == idTextfieldView.textfield {
+        if sender == loginView.idTextfieldView.textfield {
             loginModel.email = sender.text
         } else {
             loginModel.password = sender.text
         }
         if loginModel.isValid {
-            loginButton.isEnabled = true
-            loginButton.backgroundColor = ColorGuide.main
+            loginView.loginButton.isEnabled = true
+            loginView.loginButton.backgroundColor = ColorGuide.main
         }
     }
     
     deinit {
         print("로그인 페이지가 화면에서 내려갔습니다")
-    }
-}
-
-//MARK: - LifeCycle 선언
-extension LoginViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let currentUser = Auth.auth().currentUser
-        print("현재 유저입니다. -",currentUser)
-        setDelegate()
-        configureTextField()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configure()
-        setUI()
     }
 }
 
@@ -190,21 +163,21 @@ extension LoginViewController: UITextFieldDelegate {
     // 텍스트필드 수정 중 animatingLabel 숨기기
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
-        case self.idTextfieldView.textfield:
-            idTextfieldView.animateLabel()
-            idTextfieldView.textfield.placeholder = "honggildong@gmail.com"
-        case self.pwTextfieldView.textfield:
-            pwTextfieldView.animateLabel()
-            pwTextfieldView.textfield.placeholder = "대문자 + 숫자 또는 특수문자 조합"
+        case self.loginView.idTextfieldView.textfield:
+            loginView.idTextfieldView.animateLabel()
+            loginView.idTextfieldView.textfield.placeholder = "honggildong@gmail.com"
+        case self.loginView.pwTextfieldView.textfield:
+            loginView.pwTextfieldView.animateLabel()
+            loginView.pwTextfieldView.textfield.placeholder = "대문자 + 숫자 또는 특수문자 조합"
         default: print("textfield를 찾지 못했습니다.")
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == idTextfieldView.textfield, let text = textField.text, text.isEmpty {
-            idTextfieldView.undoLabelAnimation()
-        } else if textField == pwTextfieldView.textfield, let text = textField.text, text.isEmpty {
-            pwTextfieldView.undoLabelAnimation()
+        if textField == loginView.idTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            loginView.idTextfieldView.undoLabelAnimation()
+        } else if textField == loginView.pwTextfieldView.textfield, let text = textField.text, text.isEmpty {
+            loginView.pwTextfieldView.undoLabelAnimation()
         }
     }
     
@@ -217,12 +190,12 @@ extension LoginViewController: UITextFieldDelegate {
         print("다 써써용~")
         
         switch textField {
-        case self.idTextfieldView.textfield:
-            self.pwTextfieldView.textfield.becomeFirstResponder()
-        case self.pwTextfieldView.textfield:
-            self.pwTextfieldView.textfield.resignFirstResponder()
+        case self.loginView.idTextfieldView.textfield:
+            self.loginView.pwTextfieldView.textfield.becomeFirstResponder()
+        case self.loginView.pwTextfieldView.textfield:
+            self.loginView.pwTextfieldView.textfield.resignFirstResponder()
         default:
-            self.pwTextfieldView.textfield.resignFirstResponder()
+            self.loginView.pwTextfieldView.textfield.resignFirstResponder()
         }
     }
 }
