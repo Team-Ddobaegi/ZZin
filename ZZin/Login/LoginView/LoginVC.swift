@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
         setDelegate()
         addButtonActions()
         configureTextField()
+        dismissKeyboard()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,14 +42,19 @@ class LoginViewController: UIViewController {
         }
     }
     
+    private func setDelegate() {
+        loginView.idTextfieldView.setTextFieldDelegate(delegate: self)
+        loginView.pwTextfieldView.setTextFieldDelegate(delegate: self)
+    }
+    
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
     }
-   
-    private func setDelegate() {
-        loginView.idTextfieldView.setTextFieldDelegate(delegate: self)
-        loginView.pwTextfieldView.setTextFieldDelegate(delegate: self)
+    
+    private func configureTextField() {
+        loginView.idTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        loginView.pwTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func checkIdPattern(_ email: String) -> Bool {
@@ -92,11 +98,6 @@ class LoginViewController: UIViewController {
             return false
         }
         return true
-    }
-    
-    private func configureTextField() {
-        loginView.idTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        loginView.pwTextfieldView.textfield.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     private func showAlert(type: ErrorHandling) {
@@ -150,8 +151,20 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @objc func dismissKeyboardOut() {
+        view.endEditing(true)
+    }
+    
     deinit {
         print("로그인 페이지가 화면에서 내려갔습니다")
+    }
+}
+
+extension LoginViewController {
+    func dismissKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboardOut))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 }
 
