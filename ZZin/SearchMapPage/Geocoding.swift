@@ -29,7 +29,7 @@ class Geocoding {
                 completion(geocodeResponse, nil)
                 
                 // API 응답 출력
-                print("JSON Response: \(geocodeResponse)")
+//                print("#####JSON Response: \(geocodeResponse)")
             case .failure(let error):
                 completion(nil, error)
                 
@@ -39,7 +39,7 @@ class Geocoding {
         }
     }
     
-    func reverseGeocodeCoordinate(coordinate: (lat: Double, lng: Double), completion: @escaping (_ response: ReverseGeocodeResponse?, _ error: Error?) -> ()) {
+    func reverseGeocodeCoordinate(coordinate: (lat: Double, lng: Double), completion: @escaping (_ detailedAddress: String?, _ error: Error?) -> ()) {
         let url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
         
         // 클라이언트 ID와 시크릿 키 가져오기
@@ -48,7 +48,8 @@ class Geocoding {
         
         let parameters: Parameters = [
             "coords": "\(coordinate.lng),\(coordinate.lat)",
-            "output": "json"
+            "output": "json",
+            "orders": "roadaddr"
         ]
         
         let headers: HTTPHeaders = [
@@ -56,21 +57,39 @@ class Geocoding {
             "X-NCP-APIGW-API-KEY": clientSecret
         ]
         
-        AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseDecodable(of: ReverseGeocodeResponse.self) { response in
+        AF.request(url, method: .get, parameters: parameters, headers: headers).validate().responseJSON { response in
             switch response.result {
-            case .success(let reverseGeocodeResponse):
-                completion(reverseGeocodeResponse, nil)
+            case .success(let value):
+                if let jsonResponse = value as? [String: Any],
+                   let results = jsonResponse["results"] as? [[String: Any]],
+                   let roadAddressResult = results.first(where: { $0["name"] as? String == "roadaddr" }),
+                   let region = roadAddressResult["region"] as? [String: Any],
+                   let area1 = region["area1"] as? [String: Any],
+                   let area2 = region["area2"] as? [String: Any],
+//                   let area3 = region["area3"] as? [String: Any],
+                   let land = roadAddressResult["land"] as? [String: Any],
+                   let addition0 = land["addition0"] as? [String: Any] {
+                    
+                    let detailedAddress = [
+                        area1["name"] as? String,
+                        area2["name"] as? String,
+//                        area3["name"] as? String,
+                        land["name"] as? String,
+                        land["number1"] as? String,
+                        addition0["value"] as? String
+                    ].compactMap { $0 }.joined(separator: " ")
+                    
+                    completion(detailedAddress, nil)
+                } else {
+                    completion(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No road address found"]))
+                }
                 
-                // API 응답 출력
-                print("JSON Response: \(reverseGeocodeResponse)")
             case .failure(let error):
                 completion(nil, error)
-                
-                // 에러 출력
-                print("Reverse geocoding error: \(error.localizedDescription)")
             }
         }
     }
+
 
 }
 
@@ -156,11 +175,24 @@ struct ReverseGeocodeStatus: Codable {
     let message: String
 }
 
+struct Land: Codable {
+    let name: String?
+    let number1: String?
+}
+
+struct Addition0: Codable {
+    let type: String?
+    let value: String?
+}
+
 struct ReverseGeocodeResult: Codable {
     let name: String
     let code: ReverseGeocodeCode
     let region: ReverseGeocodeRegion
+    let land: Land?           // 추가된 부분
+    let addition0: Addition0? // 추가된 부분
 }
+
 
 struct ReverseGeocodeCode: Codable {
     let id: String

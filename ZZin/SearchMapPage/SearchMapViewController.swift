@@ -154,13 +154,11 @@ class SearchMapViewController: UIViewController {
         let addressQuery = "서울특별시 강남구 테헤란로"
         let searchCoordinate = "127.12345,37.56789"
 
-        Geocoding.shared.geocodeAddress(query: "분당구 불정로 6", coordinate: "127.1054328,37.3595963") { (response, error) in
+        Geocoding.shared.geocodeAddress(query: "경기 성남시 분당구 정자일로 95", coordinate: "127.1054328,37.3595963") { (response, error) in
             if let response = response {
                 // 성공적으로 주소를 좌표로 변환한 경우
                 print("Status: \(response.status)")
                 print("Road Address: \(response.addresses.first?.roadAddress ?? "")")
-                print("Jibun Address: \(response.addresses.first?.jibunAddress ?? "")")
-                print("English Address: \(response.addresses.first?.englishAddress ?? "")")
                 print("X Coordinate: \(response.addresses.first?.x ?? "")")
                 print("Y Coordinate: \(response.addresses.first?.y ?? "")")
             } else if let error = error {
@@ -172,13 +170,19 @@ class SearchMapViewController: UIViewController {
             }
         }
         
-        geocodingService.reverseGeocodeCoordinate(coordinate: coordinate) { (address, error) in
-            if let error = error {
-                print("Reverse geocoding error: \(error.localizedDescription)")
-            } else if let address = address {
-                print("Reverse Geocoded address: \(address)")
+        // 위도와 경도를 매개변수로 전달하여 호출합니다.
+        Geocoding.shared.reverseGeocodeCoordinate(coordinate: (lat: 37.359191080978995, lng: 127.10482131820069)) { detailedAddress, error in
+            if let detailedAddress = detailedAddress {
+                // 변환된 주소 정보를 사용하는 코드
+                print("Reverse Geocoded Address: \(detailedAddress)")
+            } else if let error = error {
+                // 오류 처리 코드
+                print("Error: \(error.localizedDescription)")
             }
         }
+
+
+
 
     }
 
