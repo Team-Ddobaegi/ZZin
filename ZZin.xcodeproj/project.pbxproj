@@ -80,6 +80,7 @@
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
 		BDAADE362AFF5DDE00847F37 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */; };
+		BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE372AFFBCA800847F37 /* LocationView.swift */; };
 		BDBA78A52AF789F800FA186C /* authManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBA78A42AF789F800FA186C /* authManager.swift */; };
 		BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */; };
 		BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */; };
@@ -185,6 +186,7 @@
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
 		BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		BDAADE372AFFBCA800847F37 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		BDBA78A42AF789F800FA186C /* authManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authManager.swift; sourceTree = "<group>"; };
 		BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 			children = (
 				BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationVC.swift */,
+				BDAADE372AFFBCA800847F37 /* LocationView.swift */,
 			);
 			path = RegistrationView;
 			sourceTree = "<group>";
@@ -845,6 +848,7 @@
 				DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */,
 				7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
+				BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */,
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
 				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,

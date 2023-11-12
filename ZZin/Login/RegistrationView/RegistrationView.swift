@@ -74,6 +74,7 @@ class RegistrationView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        displayView()
         configure()
         setUI()
     }
@@ -167,6 +168,10 @@ class RegistrationView: UIView {
             $0.centerX.equalToSuperview()
             $0.size.equalTo(CGSize(width: 353, height: 52))
         }
+    }
+    
+    private func displayView() {
+        doublecheckEmailView.isHidden = true
     }
     
     //    private func setCheckButton() {

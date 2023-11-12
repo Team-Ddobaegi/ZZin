@@ -13,30 +13,29 @@ import FirebaseAuth
 class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 선언
-    private var locationPickerView: UIPickerView!
-    private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
     private let screenWidth = UIScreen.main.bounds.width - 10
-    private let screenHeight = UIScreen.main.bounds.height / 2
     private var selectedRow = 0
     private let registrationView = RegistrationView()
+    private let locationView = LocationView()
     
     // MARK: - LifeCycle 정리
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setDelegate()
-        self.displayView()
+        setDelegate()
+        dismissKeyboard()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.addRegistrationSubview()
-        self.navigationItem.hidesBackButton = true
-        self.setNotificationCenter()
+        navigationItem.hidesBackButton = true
+        addRegistrationSubview()
+        addButtonTargets()
+        setNotificationCenter()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.removeNotificationCenter()
+        removeNotificationCenter()
     }
     
     //MARK: - 메서드 생성    
@@ -69,15 +68,12 @@ class RegistrationViewController: UIViewController {
     
     // 의문점 있음 -> better using protocol?
     private func setDelegate() {
+        locationView.delegate = self
         registrationView.emailTfView.setTextFieldDelegate(delegate: self)
         registrationView.pwTfView.setTextFieldDelegate(delegate: self)
         registrationView.nicknameTfView.setTextFieldDelegate(delegate: self)
         registrationView.doublecheckEmailView.setTextFieldDelegate(delegate: self)
         registrationView.doublecheckPwView.setTextFieldDelegate(delegate: self)
-    }
-    
-    private func displayView() {
-        registrationView.doublecheckEmailView.isHidden = true
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -94,6 +90,10 @@ class RegistrationViewController: UIViewController {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
+    }
+    
+    @objc func dismissKeyboardOut() {
+        view.endEditing(true)
     }
     
     // MARK: - Auth 관련 함수
@@ -215,37 +215,24 @@ class RegistrationViewController: UIViewController {
         print("지역 확인 버튼이 눌렸습니다.")
         
         // alertController로 지역 리스트 팝업
-        let vc = ViewController()
-        vc.preferredContentSize = CGSize(width: screenWidth, height: screenHeight)
-        vc.view.backgroundColor = .white
-        let locationPickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-        locationPickerView.dataSource = self
-        locationPickerView.delegate = self
-        
-        locationPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
-        vc.view.addSubview(locationPickerView)
-        locationPickerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor).isActive = true
-        locationPickerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor).isActive = true
-        
-        let alert = UIAlertController(title: "지역을 선택하세요", message: "", preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = registrationView.locationButton
-        alert.popoverPresentationController?.sourceRect = registrationView.locationButton.bounds
-        
-        alert.setValue(vc, forKey: "contentViewController")
-        alert.addAction(UIAlertAction(title: "되돌아가기", style: .cancel, handler: { (UIAlertAction) in
-        }))
-        alert.addAction(UIAlertAction(title: "선택하기", style: .default, handler: { (UIAlertAction) in
-            self.selectedRow = locationPickerView.selectedRow(inComponent: 0)
-            let selected = Array(self.locationList)[self.selectedRow]
-            self.registrationView.locationButton.setTitle(selected, for: .normal)
-            self.registrationView.locationButton.backgroundColor = ColorGuide.main
-        }))
-        
-        self.present(alert, animated: true)
+        let vc = LocationView()
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        self.present(vc, animated: true)
+        view.backgroundColor = .black.withAlphaComponent(0.7)
     }
     
     deinit {
         print("Registration 화면이 내려갔습니다. \(#function)")
+    }
+}
+
+extension RegistrationViewController {
+    func dismissKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardOut))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 }
 
@@ -305,26 +292,13 @@ extension RegistrationViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - UIPickerViewDelegate & UIPickerViewDataSource 선언
-extension RegistrationViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
-        label.text = Array(locationList)[row]
-        label.sizeToFit()
-        return label
-    }
-}
-
-extension RegistrationViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return locationList.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 60
+extension RegistrationViewController: LocationViewDelegate {
+    func didSelectValue(_ value: String) {
+        print(value)
+        
+        DispatchQueue.main.async {
+            self.registrationView.locationButton.setTitle(value, for: .normal)
+            self.registrationView.locationButton.layoutIfNeeded()
+        }
     }
 }
