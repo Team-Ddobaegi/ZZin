@@ -186,4 +186,20 @@ class FireStorageManager {
         }
     }
     
+    func deleteFileWithPathArr(pathArr: [String]?) {
+        if pathArr != nil {
+            for path in pathArr! { // Delete the file
+                let ref = storageRef.child(path)
+
+                ref.delete { error in
+                    if let error = error {
+                        print("Uh-oh, an error occurred!")
+                    } else {
+                        print("File deleted successfully")
+                    }
+                }
+            }
+        }
+    }
+    
 }
