@@ -44,23 +44,25 @@ class SearchMapViewController: UIViewController {
         let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
         print("#########\(cameraPosition)")
         let cameraTargetLocation = cameraPosition.target
-        LocationService.shared.getAddressFromLocation(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng) { (address, error) in
-            if let error = error {
-                print("Error getting address: \(error.localizedDescription)")
-                return
-            }
-            
-            if let address = address {
-                print("Current address: \(address)")
-                self.selectedCity = address.first
-                self.selectedTown = address.last
-                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
-                print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
-                self.fetchPlacesWithKeywords()
-            } else {
-                print("Address not found.")
-            }
-        }
+//        LocationService.shared.getAddressFromLocation(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng) { (address, error) in
+//            if let error = error {
+//                print("Error getting address: \(error.localizedDescription)")
+//                return
+//            }
+//            
+//            if let address = address {
+//                print("Current address: \(address)")
+//                self.selectedCity = address.first
+//                self.selectedTown = address.last
+//                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+//                print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
+//                self.fetchPlacesWithKeywords()
+//            } else {
+//                print("Address not found.")
+//            }
+//        }
+        
+        reverseGeocodeCoordinate(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng)
     }
     
     @objc func gpsButtonTapped() {
@@ -154,28 +156,36 @@ class SearchMapViewController: UIViewController {
         let addressQuery = "서울특별시 강남구 테헤란로"
         let searchCoordinate = "127.12345,37.56789"
 
-        geocodingService.geocodeAddress(query: addressQuery, coordinate: searchCoordinate) { (coordinate, error) in
-            if let error = error {
-                // 에러 처리
-                print("Geocoding 에러: \(error.localizedDescription)")
-            } else if let coordinate = coordinate {
-                // 검색된 좌표 정보를 사용하여 작업을 수행합니다.
-                let latitude = coordinate.lat
-                let longitude = coordinate.lng
-                print("검색된 좌표: Latitude \(latitude), Longitude \(longitude)")
+        Geocoding.shared.geocodeAddress(query: "경기 성남시 분당구 정자일로 95", coordinate: "127.1054328,37.3595963") { (response, error) in
+            if let response = response {
+                // 성공적으로 주소를 좌표로 변환한 경우
+                print("Status: \(response.status)")
+                print("Road Address: \(response.addresses.first?.roadAddress ?? "")")
+                print("X Coordinate: \(response.addresses.first?.x ?? "")")
+                print("Y Coordinate: \(response.addresses.first?.y ?? "")")
+            } else if let error = error {
+                // 오류 발생한 경우
+                print("Geocoding Error: \(error.localizedDescription)")
             } else {
-                // 검색 결과가 없는 경우
-                print("검색 결과 없음")
+                // 주소를 찾을 수 없는 경우
+                print("주소를 찾을 수 없음")
             }
         }
         
-        geocodingService.reverseGeocodeCoordinate(coordinate: coordinate) { (address, error) in
-            if let error = error {
-                print("Reverse geocoding error: \(error.localizedDescription)")
-            } else if let address = address {
-                print("Reverse Geocoded address: \(address)")
+        // 위도와 경도를 매개변수로 전달하여 호출합니다.
+        Geocoding.shared.reverseGeocodeCoordinate(coordinate: (lat: 37.359191080978995, lng: 127.10482131820069)) { detailedAddress, error in
+            if let detailedAddress = detailedAddress {
+                // 변환된 주소 정보를 사용하는 코드
+                print("Reverse Geocoded Address: \(detailedAddress)")
+            } else if let error = error {
+                // 오류 처리 코드
+                print("Error: \(error.localizedDescription)")
             }
         }
+
+
+
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -456,6 +466,43 @@ extension SearchMapViewController {
             }
         }
     }
+    
+    func geocodeAddress(query: String, lat: Double, lng: Double) {
+        Geocoding.shared.geocodeAddress(query: query, coordinate: "\(lat),\(lng)") { (response, error) in
+            if let response = response {
+                // 성공적으로 주소를 좌표로 변환한 경우
+                print("Status: \(response.status)")
+                print("Road Address: \(response.addresses.first?.roadAddress ?? "")")
+                print("X Coordinate: \(response.addresses.first?.x ?? "")")
+                print("Y Coordinate: \(response.addresses.first?.y ?? "")")
+            } else if let error = error {
+                // 오류 발생한 경우
+                print("Geocoding Error: \(error.localizedDescription)")
+            } else {
+                // 주소를 찾을 수 없는 경우
+                print("주소를 찾을 수 없음")
+            }
+        }
+    }
+    
+    func reverseGeocodeCoordinate(lat: Double, lng: Double) {
+        Geocoding.shared.reverseGeocodeCoordinate(coordinate: (lat: lat, lng: lng)) { detailedAddress, error in
+            if let detailedAddress = detailedAddress {
+                // 변환된 주소 정보를 사용하는 코드
+                print("Reverse Geocoded Address: \(detailedAddress)")
+                let components = detailedAddress.components(separatedBy: " ")
+                if components.count >= 2 {
+                    let city = components[0]
+                    self.selectedCity = String(city.prefix(2))
+                    self.selectedTown = components[1]
+                }
+                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+            } else if let error = error {
+                // 오류 처리 코드
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 protocol SearchMapViewControllerDelegate: AnyObject {
@@ -468,9 +515,10 @@ extension SearchMapViewController: LocationPickerViewDelegate {
         let selectedTown = town
         
         // 피커뷰에서 선택된 지역으로 타이틀 업데이트
-        searchMapUIView.matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
         self.selectedCity = selectedCity
         self.selectedTown = selectedTown
+        searchMapUIView.matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
+
         
         print("#######\(self.selectedCity)\(self.selectedTown)")
 
