@@ -8,74 +8,73 @@
 import UIKit
 import SnapKit
 import Then
+import FirebaseFirestore
 
 class InfoViewController: UICollectionViewController {
     
-       // MARK: - Properties
+    // MARK: - Properties
     let storageManager = FireStorageManager()
-       private var profileView: UIView!
-       private var customSegmentedControl: CustomSegmentedControl!
-       // 현재 선택된 세그먼트 인덱스를 추적하는 변수를 추가합니다.
-        var currentSegmentIndex: Int = 0
+    let storeManager = FireStoreManager.shared
+    private var profileView: UIView!
+    private var customSegmentedControl: CustomSegmentedControl!
+    // 현재 선택된 세그먼트 인덱스를 추적하는 변수를 추가합니다.
+    var currentSegmentIndex: Int = 0
     let uid = "bo_bo_@kakao.com"
     var loadedRidAndPid: [String:[String]?] = [:]
     var pidArr: [String]? = []
     var ridArr: [String]? = []
-
-       // MARK: - Initializers
-       init() {
-           let layout = UICollectionViewFlowLayout()
-           super.init(collectionViewLayout: layout)
-           layout.sectionInset = UIEdgeInsets(top: 32, left: 16, bottom: 32, right: 16)
-           layout.minimumInteritemSpacing = 16
-           layout.minimumLineSpacing = 20
-       }
-
-       required init?(coder: NSCoder) {
-           fatalError("init(coder:) has not been implemented")
-       }
-
-       // MARK: - Lifecycle
-       override func viewDidLoad() {
-           super.viewDidLoad()
-           print("viewdidload start")
-           setupUI()
-           setupNavBar()
-           
-           DispatchQueue.main.async {[self] in
-               storageManager.getPidAndRidWithUid(uid: uid){ [self] result in
-                   loadedRidAndPid = result
-                   print("loadedRidAndPid", loadedRidAndPid)
-                   pidArr = loadedRidAndPid["pidArr"] ?? []
-                   ridArr = loadedRidAndPid["ridArr"] ?? []
-                   print("pidArr", pidArr)
-                   print("ridArr", ridArr)
-                   collectionView.reloadData()
-               }
-           }
-       }
     
-
-       // MARK: - UI Setup
-       private func setupUI() {
-           // Navigation Bar
-           navigationItem.title = "마이페이지"
-           
-           // delegate
-           collectionView.delegate = self
-           collectionView.dataSource = self
-
-           // Collection View
-           collectionView.backgroundColor = .systemBackground
-           
-           // cell register
-           collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
-           collectionView.register(RecommendedPlaceCell.self, forCellWithReuseIdentifier: RecommendedPlaceCell.identifier)
-           collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.identifier)
-           collectionView.register(SegmentHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SegmentHeader.identifier)
-           collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyHeaderView")
-           collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DefaultSupplementaryView")
-       }
+    // MARK: - Initializers
+    init() {
+        let layout = UICollectionViewFlowLayout()
+        super.init(collectionViewLayout: layout)
+        layout.sectionInset = UIEdgeInsets(top: 32, left: 16, bottom: 32, right: 16)
+        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 20
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("viewdidload start")
+        setupUI()
+        setupNavBar()
+        
+        DispatchQueue.main.async {[self] in
+            storageManager.getPidAndRidWithUid(uid: uid){ [self] result in
+                loadedRidAndPid = result
+                pidArr = loadedRidAndPid["pidArr"] ?? []
+                ridArr = loadedRidAndPid["ridArr"] ?? []
+                collectionView.reloadData()
+            }
+        }
+    }
+    
+    
+    // MARK: - UI Setup
+    private func setupUI() {
+        // Navigation Bar
+        navigationItem.title = "마이페이지"
+        
+        // delegate
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        // Collection View
+        collectionView.backgroundColor = .systemBackground
+        
+        // cell register
+        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+        collectionView.register(RecommendedPlaceCell.self, forCellWithReuseIdentifier: RecommendedPlaceCell.identifier)
+        collectionView.register(ReviewCell.self, forCellWithReuseIdentifier: ReviewCell.identifier)
+        collectionView.register(SegmentHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SegmentHeader.identifier)
+        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyHeaderView")
+        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DefaultSupplementaryView")
+    }
     
     
     func setupNavBar() {
@@ -86,7 +85,7 @@ class InfoViewController: UICollectionViewController {
         var leftButton = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .plain, target: self, action: #selector(leftButtonTapped))
         leftButton.tintColor = .label
         self.navigationItem.leftBarButtonItems = [leftButton]
-
+        
         
     }
     @objc func rightButtonTapped() {
@@ -102,8 +101,8 @@ class InfoViewController: UICollectionViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
         modalPresentationStyle = .overFullScreen
         self.navigationController?.pushViewController(zzimVC, animated: false)
-
-//        self.navigationController?.pushViewController(zzimVC, animated: true)
+        
+        //        self.navigationController?.pushViewController(zzimVC, animated: true)
     }
     
 }
@@ -112,7 +111,7 @@ class InfoViewController: UICollectionViewController {
 extension InfoViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int{2}
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard section == 1 else {return 1}
         switch currentSegmentIndex {
@@ -143,8 +142,8 @@ extension InfoViewController {
             return defaultView
         }
     }
-
-
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -154,7 +153,7 @@ extension InfoViewController {
             cell.editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
             // TODO: cell에 필요한 데이터 전달 및 설정
             storageManager.bindProfileImgOnStorage(uid: uid, profileImgView: cell.profileImageView)
-        
+            
             return cell
         }
         switch currentSegmentIndex {
@@ -163,7 +162,7 @@ extension InfoViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedPlaceCell.identifier, for: indexPath) as! RecommendedPlaceCell
             let view = cell.customView
             let pid = pidArr?[indexPath.item] ?? ""
-//            storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: cell.customView.img, title: cell.customView.titleLabel, description: cell.customView.descriptionLabel)
+            
             storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: view.img, title: view.titleLabel, dotLabel: view.dotLabel, placeTownLabel: view.placeTownLabel, placeMenuLabel: view.placeMenuLabel)
             return cell
         case 1:
@@ -171,9 +170,12 @@ extension InfoViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCell.identifier, for: indexPath) as! ReviewCell
             
             let rid = ridArr?[indexPath.item] ?? ""
-            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img
-                                                    , title: cell.customView.reviewTitleLabel, companion: cell.customView.withKeywordLabel, condition: cell.customView.conditionKeywordLabel, town: cell.customView.regionLabel)
+            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img, title: cell.customView.reviewTitleLabel, companion: cell.customView.withKeywordLabel, condition: cell.customView.conditionKeywordLabel, town: cell.customView.regionLabel)
             
+            cell.trashButton.tag = indexPath.item
+            cell.editButton.tag = indexPath.item
+            
+            cell.trashButton.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
             return cell
         default:
             return UICollectionViewCell()
@@ -184,6 +186,29 @@ extension InfoViewController {
         if section == 1 {return CGSize(width: collectionView.bounds.width, height: 50)}
         else {return CGSize(width: collectionView.bounds.width, height: 0)}
         
+    }
+    
+    
+    @objc func editButtonTapped(index: Int) {
+        print("탭탭 수정수정", index)
+    }
+    @objc func trashButtonTapped(_ sender: UIButton) {
+        let index = sender.tag
+        let popup = UIAlertController(title: "리뷰 삭제", message: "정말로 리뷰를 삭제하시겠습니까?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let confirmDelete = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
+            // 클릭 시 처리할 내용 (boardInfo 삭제)
+            guard let rid = ridArr?[index] as? String else {return}
+            
+            DispatchQueue.main.async{ [self] in
+                storeManager.deleteReview(rid: rid, uid: uid)
+                self.ridArr?.remove(at: index)
+                self.collectionView.reloadData()
+            }
+        }
+        popup.addAction(cancel)
+        popup.addAction(confirmDelete)
+        self.present(popup, animated: true)
     }
     
     @objc func editProfileButtonTapped() {
