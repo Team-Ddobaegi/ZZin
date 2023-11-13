@@ -79,6 +79,7 @@
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
+		BDA4314D2B01B3EF00817477 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDA4314C2B01B3EF00817477 /* SecretKey.plist */; };
 		BDAADE362AFF5DDE00847F37 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */; };
 		BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE372AFFBCA800847F37 /* LocationView.swift */; };
 		BDBA78A52AF789F800FA186C /* authManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBA78A42AF789F800FA186C /* authManager.swift */; };
@@ -185,6 +186,7 @@
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
+		BDA4314C2B01B3EF00817477 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		BDAADE372AFFBCA800847F37 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		BDBA78A42AF789F800FA186C /* authManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authManager.swift; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
+				BDA4314C2B01B3EF00817477 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -756,6 +759,7 @@
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				C3D217E12AF31F7100C7EBA3 /* KeyList.plist in Resources */,
+				BDA4314D2B01B3EF00817477 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
