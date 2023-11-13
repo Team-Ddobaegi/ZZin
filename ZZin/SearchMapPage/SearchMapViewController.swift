@@ -415,7 +415,7 @@ extension SearchMapViewController {
 }
 
 extension SearchMapViewController: MatchingKeywordDelegate {
-    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType, indexPath: [IndexPath]) {
         let keywordType = keywordType
         
         switch keywordType {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D331FF6A61C1D5A3679A247 /* Pods_ZZin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */; };
+		7B0515A92B01B43800CC4564 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B0515A82B01B43800CC4564 /* SecretKey.plist */; };
 		7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */; };
 		7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */; };
 		7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */; };
@@ -142,6 +143,7 @@
 
 /* Begin PBXFileReference section */
 		7AAC40E023A86C944BAF3917 /* Pods-ZZin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.release.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.release.xcconfig"; sourceTree = "<group>"; };
+		7B0515A82B01B43800CC4564 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceView.swift; sourceTree = "<group>"; };
 		7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoCell.swift; sourceTree = "<group>"; };
 		7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingLocationPickerVC.swift; sourceTree = "<group>"; };
@@ -559,6 +561,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
+				7B0515A82B01B43800CC4564 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -756,6 +759,7 @@
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				C3D217E12AF31F7100C7EBA3 /* KeyList.plist in Resources */,
+				7B0515A92B01B43800CC4564 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
