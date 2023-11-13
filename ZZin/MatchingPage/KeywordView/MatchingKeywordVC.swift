@@ -96,22 +96,30 @@ class MatchingKeywordVC: UIViewController {
         // 선택된 키워드 타입을 식별하여 처리
         switch selectedMatchingKeywordType {
         case .companion:
+           
             sendData(data: selectedCompanionKeyword, type: .companion, indexPath: selectedCompanionIndexPath)
             print("~~ \(selectedCompanionIndexPath) 보낸다 ~!!~!~!~ ")
 
         case .condition:
-            sendData(data: selectedConditionKeyword, type: .condition, indexPath: selectedConditionIndexPath)
-            print("~~ \(selectedConditionIndexPath) 보낸다 ~!!~!~!~ ")
+            guard let lastIndexPath = selectedConditionIndexPath.last else {
+                self.selectedConditionIndexPath = []
+                return
+            }
+            sendData(data: selectedConditionKeyword, type: .condition, indexPath: [lastIndexPath])
+            print("~~ \(lastIndexPath) 보낸다 ~!!~!~!~ ")
 
         case .kindOfFood:
-            sendData(data: selectedKindOfFoodKeyword, type: .kindOfFood, indexPath: selectedKindOfFoodIndexPath)
-            print("~~ \(selectedKindOfFoodIndexPath) 보낸다 ~!!~!~!~ ")
+            guard let lastIndexPath = selectedKindOfFoodIndexPath.last else {
+                self.selectedKindOfFoodIndexPath = []
+                return
+            }
+            sendData(data: selectedKindOfFoodKeyword, type: .kindOfFood, indexPath: [lastIndexPath])
+            print("~~ \(lastIndexPath) 보낸다 ~!!~!~!~ ")
         }
         
         self.dismiss(animated: true)
 
     }
-    
 }
 
 
@@ -188,6 +196,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
+        
         selectedIndexPath.append(indexPath)
         print ("~~ 인덱스 선택합니두", selectedIndexPath)
 
@@ -207,7 +216,6 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
         
         collectionView.reloadData()
 
-        
         switch selectedMatchingKeywordType {
         case .companion:
             selectedCompanionKeyword.append(companionKeywords[indexPath.item])

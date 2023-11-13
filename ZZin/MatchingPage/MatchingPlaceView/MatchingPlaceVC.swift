@@ -25,6 +25,7 @@ class MatchingPlaceVC: UIViewController {
     var isReviewButtonSelected = false
     var isLikeButtonSelected = false
     
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -32,8 +33,6 @@ class MatchingPlaceVC: UIViewController {
         
         setView()
     }
-    
-    
     
     
     // MARK: - Settings
@@ -130,7 +129,7 @@ class MatchingPlaceVC: UIViewController {
         print("리뷰 작성 페이지로 이동합니다")
         
         let postVC = PostViewController()
-//        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(postVC, animated: true)
     }
     
@@ -280,11 +279,12 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
             cell.placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+//            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
-            cell.colorChange  = { [self] in
-                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
-            }
+//            cell.colorChange  = { [self] in
+//                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
+//            }
+            
             
             FireStoreManager.shared.fetchDataWithPid(pid: placeID ?? "") { (result) in
                 switch result {
