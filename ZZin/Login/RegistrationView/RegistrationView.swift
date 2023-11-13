@@ -72,6 +72,23 @@ class RegistrationView: UIView {
     //        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
     //    }
     
+    let noticeButton = UIButton().then {
+        let image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
+        $0.setImage(image, for: .normal)
+    }
+    
+    let noticeLabel = UILabel().then {
+        $0.text = "회원가입 및 이용약관에 동의하겠습니다."
+    }
+    
+    private lazy var noticeStackView: UIStackView = {
+        let stack = UIStackView()
+        [noticeButton, noticeLabel].forEach { stack.addArrangedSubview($0) }
+        stack.axis = .horizontal
+        stack.spacing = 10
+        return stack
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         displayView()
@@ -85,7 +102,7 @@ class RegistrationView: UIView {
     
     func configure() {
         backgroundColor = .white
-        [backbutton, topStackView, doublecheckEmailView, pwTfView, infoLabel, stackView, confirmButton].forEach { addSubview($0) }
+        [backbutton, topStackView, doublecheckEmailView, pwTfView, infoLabel, stackView, confirmButton, noticeStackView].forEach { addSubview($0) }
         pwTfView.textfield.isSecureTextEntry = true
         pwTfView.textfield.textContentType = .oneTimeCode
         doublecheckPwView.textfield.isSecureTextEntry = true
@@ -101,6 +118,7 @@ class RegistrationView: UIView {
         setInfoLabel()
         setStackView()
         setConfirmButton()
+        setNoticeStackView()
     }
     
     private func setBackButton() {
@@ -159,6 +177,14 @@ class RegistrationView: UIView {
             $0.top.equalTo(infoLabel.snp.bottom).offset(10)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(353)
+        }
+    }
+    
+    private func setNoticeStackView() {
+        noticeStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(stackView.snp.bottom).offset(30)
+            $0.height.equalTo(30)
         }
     }
     

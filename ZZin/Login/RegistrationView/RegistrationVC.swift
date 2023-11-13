@@ -14,9 +14,10 @@ class RegistrationViewController: UIViewController {
     
     //MARK: - UIComponent 선언
     private let screenWidth = UIScreen.main.bounds.width - 10
-    private var selectedRow = 0
     private let registrationView = RegistrationView()
     private let locationView = LocationView()
+    private var selectedRow = 0
+    private var noticeButtonToggle = true
     
     // MARK: - LifeCycle 정리
     override func viewDidLoad() {
@@ -50,6 +51,7 @@ class RegistrationViewController: UIViewController {
         registrationView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         registrationView.backbutton.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         registrationView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+        registrationView.noticeButton.addTarget(self, action: #selector(noticeButtonTapped), for: .touchUpInside)
     }
     
     // 나타날 때와 사라질 때 각가 필요한 2개의 메서드
@@ -199,7 +201,7 @@ class RegistrationViewController: UIViewController {
                     self.present(testVC, animated: true)
                 }
             } else {
-                print("========== 어떤 오류인가요??",error.localizedDescription)
+                print("========== 어떤 오류인가요??",error?.localizedDescription)
                 self.registrationView.emailTfView.showInvalidMessage()
                 self.showAlert(type: .alreadyExists)
             }
@@ -221,6 +223,20 @@ class RegistrationViewController: UIViewController {
         }
         self.present(vc, animated: true)
         view.backgroundColor = .black.withAlphaComponent(0.7)
+    }
+    
+    @objc func noticeButtonTapped() {
+        print("이용약관 버튼이 눌렸습니다.")
+        
+        if noticeButtonToggle {
+            noticeButtonToggle = false
+            let selectedImage = UIImage(systemName: "square.fill")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
+            registrationView.noticeButton.setImage(selectedImage, for: .normal)
+        } else {
+            noticeButtonToggle = true
+            let Image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
+            registrationView.noticeButton.setImage(Image, for: .normal)
+        }
     }
     
     deinit {
