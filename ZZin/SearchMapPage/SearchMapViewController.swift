@@ -7,6 +7,9 @@ import FirebaseStorage
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
+    var companionIndexPath: [IndexPath?]?
+    var conditionIndexPath: [IndexPath?]?
+    var kindOfFoodIndexPath: [IndexPath?]?
     weak var mapViewDelegate: SearchMapViewControllerDelegate?
     var searchMapUIView = SearchMapUIView()
     private var currentUserLocation: NMGLatLng?
@@ -312,74 +315,127 @@ extension SearchMapViewController: NMFMapViewTouchDelegate {
 
 extension SearchMapViewController {
     private func setKeywordView(){
-        searchMapUIView.matchingView.companionKeywordButton.addTarget(self, action: #selector(firstKeywordButtonTapped), for: .touchUpInside)
-        searchMapUIView.matchingView.conditionKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
-        searchMapUIView.matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
     }
     
-    // 첫 번째 키워드 버튼이 탭될 때
-    @objc func firstKeywordButtonTapped() {
+    @objc func companionKeywordButtonTapped() {
         print("첫 번째 키워드 버튼이 탭됨")
-        
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .companion
         keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
-        navigationController?.present(keywordVC, animated: true)
+        
+        let indexPath = self.companionIndexPath
+        if let indexPath = indexPath?.compactMap({ $0 }) {
+            keywordVC.selectedCompanionIndexPath = indexPath.isEmpty ? [] : indexPath
+            print("~~ companion 선택된 인덱스 있음두 ~~", indexPath)
+        } else {
+            // indexPath가 nil이거나 배열에 값이 없는 경우
+            keywordVC.selectedCompanionIndexPath = []
+            print("~~ companion 선택된 인덱스 없어유 ~~", indexPath)
+        }
+        present(keywordVC, animated: true)
     }
     
-    // 두 번째 키워드 버튼이 탭될 때
-    @objc func secondKeywordButtonTapped() {
+    @objc func conditionKeywordButtonTapped() {
         print("두 번째 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
         keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.delegate = self
+        
+        let indexPath = self.conditionIndexPath
+        if let indexPath = indexPath?.compactMap({ $0 }) {
+            keywordVC.selectedConditionIndexPath = indexPath.isEmpty ? [] : indexPath
+            print("~~ condition 선택된 인덱스 있음두 ~~", indexPath)
+        } else {
+            // indexPath가 nil이거나 배열에 값이 없는 경우
+            keywordVC.selectedConditionIndexPath = []
+            print("~~ condition 선택된 인덱스 없어유 ~~", indexPath)
+        }
+        
         navigationController?.present(keywordVC, animated: true)
     }
     
-    // 메뉴 키워드 버튼이 탭될 때
-    @objc func menuKeywordButtonTapped() {
+    @objc func kindOfFoodKeywordButtonTapped() {
         print("메뉴 키워드 버튼이 탭됨")
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .kindOfFood
         keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.delegate = self
+        
+        let indexPath = self.kindOfFoodIndexPath
+        if let indexPath = indexPath?.compactMap({ $0 }) {
+            keywordVC.selectedKindOfFoodIndexPath = indexPath.isEmpty ? [] : indexPath
+            print("~~ kindOfFood 선택된 인덱스 있음두 ~~", indexPath)
+        } else {
+            // indexPath가 nil이거나 배열에 값이 없는 경우
+            keywordVC.selectedKindOfFoodIndexPath = []
+            print("~~ kindOfFood 선택된 인덱스 없어유 ~~", indexPath)
+        }
+        
         navigationController?.present(keywordVC, animated: true)
     }
 }
 
 extension SearchMapViewController: MatchingKeywordDelegate {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType, indexPath: [IndexPath]) {
-        let keywordType = keywordType
-        
+
         switch keywordType {
         case .companion:
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.companionKeyword = [updateKeyword as String?]
+                self.companionIndexPath = indexPath
+//                print("~~ companion 인덱스 전달 받았음두", indexPath)
+
+            } else if indexPath.isEmpty {
+                self.companionIndexPath = []
+                print("~~ companion 인덱스는 없어!", self.companionIndexPath as Any)
+
+                searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
             }
             
         case .condition:
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.conditionKeyword = [updateKeyword as String?]
+                self.conditionKeyword = keyword
+                self.conditionIndexPath = indexPath
+//                print("~~ condition 인덱스 전달 받았음두", indexPath)
+                
+            } else if indexPath.isEmpty {
+                self.conditionKeyword = [nil]
+                searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
+                print("~~ condition 인덱스는 없어!", self.conditionIndexPath as Any)
+
             }
             
         case .kindOfFood:
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.kindOfFoodKeyword = [updateKeyword as String?]
+                self.kindOfFoodKeyword = keyword
+                self.kindOfFoodIndexPath = indexPath
+//                print("~~ kindOfFood 인덱스 전달 받았음두", indexPath)
+                
+            } else if indexPath.isEmpty {
+                self.kindOfFoodIndexPath = [nil]
+                searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
+                print("~~ kindOfFood 인덱스는 없어!", self.kindOfFoodIndexPath as Any)
             }
         }
+      
         fetchPlacesWithKeywords()
         updateResetButtonStatus()
     }
+    
+    
 }
 
 extension SearchMapViewController {
