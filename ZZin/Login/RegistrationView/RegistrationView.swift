@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class RegistrationView: UIView {
     
@@ -119,6 +120,7 @@ class RegistrationView: UIView {
         setStackView()
         setConfirmButton()
         setNoticeStackView()
+        setAnimation()
     }
     
     private func setBackButton() {
@@ -207,4 +209,21 @@ class RegistrationView: UIView {
     //            $0.size.equalTo(CGSize(width: 50, height: 50))
     //        }
     //    }
+    
+    private func setAnimation() {
+        let animationView = LottieAnimationView(name: "lottieTest")
+//        animationView.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        animationView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        animationView.contentMode = .scaleAspectFit
+        addSubview(animationView)
+        
+        animationView.play()
+        animationView.loopMode = .loop
+        
+        animationView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(-100)
+//            $0.bottom.equalTo(nicknameTfView.snp.top)
+        }
+    }
 }
