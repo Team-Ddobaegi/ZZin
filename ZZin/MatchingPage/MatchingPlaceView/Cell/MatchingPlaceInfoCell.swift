@@ -133,35 +133,36 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }()
     
     
-    var placeLikeButton = UIButton().then {
-        let iconImage = UIImage(systemName: "arrow.down.heart")
-        $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .darkGray
-        $0.contentVerticalAlignment = .center
-        
-        $0.snp.makeConstraints{
-            $0.width.height.equalTo(50)
-        }
-    }
-    
-    var placeLikeLabel = UILabel().then {
-        $0.text = "가볼게요"
-        $0.textColor = .darkGray
-        $0.textAlignment = .center
-        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-    }
-    
-    lazy var likeButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [placeLikeButton, placeLikeLabel])
-        stackView.axis = .vertical
-        
-        return stackView
-    }()
+//    var placeLikeButton = UIButton().then {
+//        let iconImage = UIImage(systemName: "arrow.down.heart")
+//        $0.setImage(iconImage, for: .normal)
+//        $0.tintColor = .darkGray
+//        $0.contentVerticalAlignment = .center
+//        
+//        $0.snp.makeConstraints{
+//            $0.width.height.equalTo(50)
+//        }
+//    }
+//    
+//    var placeLikeLabel = UILabel().then {
+//        $0.text = "가볼게요"
+//        $0.textColor = .darkGray
+//        $0.textAlignment = .center
+//        $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+//    }
+//    
+//    lazy var likeButtonStackView: UIStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [placeLikeButton, placeLikeLabel])
+//        stackView.axis = .vertical
+//        
+//        return stackView
+//    }()
     
     lazy var placeButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [callButtonStackView, reviewButtonStackView,likeButtonStackView])
+        let stackView = UIStackView(arrangedSubviews: [callButtonStackView, reviewButtonStackView])
         stackView.axis = .horizontal
-        stackView.spacing = 85
+        stackView.spacing = 110
+//        stackView.spacing = 85 // 가볼래요 포함 스페이싱
         
         
         return stackView
@@ -182,7 +183,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         // Button Size Resizing
         placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
         placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+//        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
 
     }
     

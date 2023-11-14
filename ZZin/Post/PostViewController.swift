@@ -286,7 +286,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.present(keywordVC, animated: true)
     }
     
-    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType) {
+    func updateKeywords(keyword: [String], keywordType: MatchingKeywordType, indexPath: [IndexPath]) {
         let keywordType = keywordType
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectKeywordCell.identifier, for: IndexPath(item: 0, section: 2)) as! SelectKeywordCell
         switch keywordType {
