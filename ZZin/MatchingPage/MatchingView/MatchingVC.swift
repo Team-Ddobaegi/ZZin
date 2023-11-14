@@ -26,7 +26,6 @@ class MatchingVC: UIViewController {
     
     private let matchingView = MatchingView()
     private let keywordVC = MatchingKeywordVC()
-    private let locationPickerVC = MatchingLocationPickerVC()
     private let resultCV = MatchingResultCollectionView()
  
 
@@ -94,13 +93,13 @@ class MatchingVC: UIViewController {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
-        let actualCity = city ?? self.locationPickerVC.selectedCity ?? nil
-        let actualTown = town ?? self.locationPickerVC.selectedTown
+        let actualCity = city ?? MatchingLocationPickerVC.shared.selectedCity ?? nil
+        let actualTown = town ?? MatchingLocationPickerVC.shared.selectedTown
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
                 self.place = places
-                print("\(self.locationPickerVC.selectedCity ?? "지역") \(self.locationPickerVC.selectedTown ?? "미설정") ")
+                print("\(MatchingLocationPickerVC.shared.selectedCity ?? "지역") \(MatchingLocationPickerVC.shared.selectedTown ?? "미설정") ")
                 print(self.place?.count ?? "")
 
                 DispatchQueue.main.async {
@@ -128,11 +127,11 @@ class MatchingVC: UIViewController {
                 print("Current address: \(address)")
                 
                 if let city = address.first, city.count >= 2 {
-                    self.locationPickerVC.selectedCity = String(city.prefix(2))
+                    MatchingLocationPickerVC.shared.selectedCity = String(city.prefix(2))
                 }
-                self.locationPickerVC.selectedTown = address.last
-                self.matchingView.setLocationButton.setTitle("\(self.locationPickerVC.selectedCity ?? "") \(self.locationPickerVC.selectedTown ?? "")", for: .normal)
-                print("@@@@@@@ \(self.locationPickerVC.selectedCity),\(self.locationPickerVC.selectedTown)")
+                MatchingLocationPickerVC.shared.selectedTown = address.last
+                self.matchingView.setLocationButton.setTitle("\(MatchingLocationPickerVC.shared.selectedCity ?? "") \(MatchingLocationPickerVC.shared.selectedTown ?? "")", for: .normal)
+                print("@@@@@@@ \(MatchingLocationPickerVC.shared.selectedCity),\(MatchingLocationPickerVC.shared.selectedTown)")
                 
             } else {
                 print("Address not found.")
@@ -161,7 +160,7 @@ class MatchingVC: UIViewController {
     @objc private func setPickerViewTapped() {
         print("위치 설정 피커뷰 탭")
         
-        let pickerViewVC = MatchingLocationPickerVC()
+        let pickerViewVC = MatchingLocationPickerVC.shared
         pickerViewVC.pickerViewDelegate = self
         
         if let sheet = pickerViewVC.sheetPresentationController {
@@ -364,8 +363,8 @@ extension MatchingVC: LocationPickerViewDelegate {
         
         // 피커뷰에서 선택된 지역으로 타이틀 업데이트
         matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
-        self.locationPickerVC.selectedCity = selectedCity
-        self.locationPickerVC.selectedTown = selectedTown
+        MatchingLocationPickerVC.shared.selectedCity = selectedCity
+        MatchingLocationPickerVC.shared.selectedTown = selectedTown
         
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
@@ -439,8 +438,8 @@ extension MatchingVC: SearchMapViewControllerDelegate {
         self.companionKeyword = companionKeyword
         self.conditionKeyword = conditionKeyword
         self.kindOfFoodKeyword = kindOfFoodKeyword
-        self.locationPickerVC.selectedCity = selectedCity
-        self.locationPickerVC.selectedTown = selectedTown
+        MatchingLocationPickerVC.shared.selectedCity = selectedCity
+        MatchingLocationPickerVC.shared.selectedTown = selectedTown
     }
 }
 
