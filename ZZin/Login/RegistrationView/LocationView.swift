@@ -7,16 +7,12 @@
 
 import UIKit
 
-protocol LocationViewDelegate: AnyObject {
-    func didSelectValue(_ value: String)
-}
-
 class LocationView: UIViewController {
     //MARK: - 변수 && UIComponent 선언
     private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
     private let locationPickerView = UIPickerView()
     private let registrationView = RegistrationView()
-    weak var delegate: LocationViewDelegate?
+    private var selectedLocation: String?
     
     private let infoLabel = UILabel().then {
         $0.text = """
@@ -96,7 +92,9 @@ class LocationView: UIViewController {
         locationPickerView.subviews[1].addSubview(bottomLine)
     }
     
-    @objc func confirmButtonTapped() {
+    @objc func confirmButtonTapped(_ value: String) {
+//        let notificationName = Notification.Name("passData")
+//        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["data": selectedLocation])
         dismiss(animated: true)
     }
     
@@ -125,7 +123,7 @@ extension LocationView: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedLocation = locationList[row]
-        delegate?.didSelectValue(selectedLocation)
+        self.selectedLocation = locationList[row]
+        //notificationCenter로 데이터 전달 도전!
     }
 }
