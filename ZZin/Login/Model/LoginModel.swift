@@ -20,4 +20,5 @@ struct AuthCredentials {
     let email: String
     let password: String
     let userName: String
+    let description: String
 }

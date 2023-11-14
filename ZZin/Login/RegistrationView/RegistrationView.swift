@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class RegistrationView: UIView {
     
@@ -44,7 +45,7 @@ class RegistrationView: UIView {
     }
     
     private let infoLabel = UILabel().then {
-        $0.text = "대문자로 시작하고 숫자로 마무리 지어주세요!"
+        $0.text = "대/소문자와 숫자를 활용해주세요!"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .thin)
     }
     
@@ -63,15 +64,7 @@ class RegistrationView: UIView {
         stack.spacing = 20
         return stack
     }()
-    
-    //    private let checkButton = UIButton().then {
-    //        $0.setTitle("중복", for: .normal)
-    //        $0.setTitleColor(.red, for: .normal)
-    //        $0.layer.cornerRadius = 12
-    //        $0.clipsToBounds = true
-    //        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
-    //    }
-    
+
     let noticeButton = UIButton().then {
         let image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
@@ -119,6 +112,7 @@ class RegistrationView: UIView {
         setStackView()
         setConfirmButton()
         setNoticeStackView()
+        setAnimation()
     }
     
     private func setBackButton() {
@@ -207,4 +201,21 @@ class RegistrationView: UIView {
     //            $0.size.equalTo(CGSize(width: 50, height: 50))
     //        }
     //    }
+    
+    private func setAnimation() {
+        let animationView = LottieAnimationView(name: "lottieTest")
+//        animationView.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        animationView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        animationView.contentMode = .scaleAspectFit
+        addSubview(animationView)
+        
+        animationView.play()
+        animationView.loopMode = .loop
+        
+        animationView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(-100)
+//            $0.bottom.equalTo(nicknameTfView.snp.top)
+        }
+    }
 }

@@ -11,7 +11,7 @@ class ReviewTableViewCell: UITableViewCell {
     static let identifier = "ReviewTableViewCell"
     
     private let storageManager = FireStorageManager()
-    var data: [String]? = []
+    private var reviewData: [Review] = []
     
     private lazy var reviewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -47,9 +47,10 @@ class ReviewTableViewCell: UITableViewCell {
         reviewCollectionView.dataSource = self
     }
     
-    func dataBinding(data: [String]?) {
-        self.data = data
-        print("데이터가 넘어 왔습니다. - \(data)")
+    func recieveData(data: [Review]) {
+        self.reviewData = data
+        print(reviewData.count)
+        print(reviewData[0].title)
     }
 }
 
@@ -59,12 +60,19 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { fatalError() }
-        if data != [] {
-            if let rid = data?[indexPath.item] {
-                cell.dataBinding(rid: rid)
-            }
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
+//        guard let data = reviewData[indexPath.row] else { return cell }
+//        storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
+
+        //        if !reviewData.isEmpty {
+//            print(reviewData[indexPath.item])
+//        }
+        
+//        if data != [] {
+//            if let rid = data?[indexPath.item] {
+//                cell.dataBinding(rid: rid)
+//            }
+//        }
         return cell
     }
 }
