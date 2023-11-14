@@ -26,7 +26,8 @@ class MainView: UIView {
     
     private let logOutButton = UIButton().then {
         $0.setTitle("로그아웃하기", for: .normal)
-        $0.setTitleColor(.blue, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.setTitleColor(.systemRed, for: .normal)
         $0.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
     }
    
@@ -52,16 +53,18 @@ class MainView: UIView {
     func setTableView() {
         addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().offset(100)
+            $0.left.right.bottom.equalToSuperview()
+//            $0.edges.equalToSuperview()
         }
     }
     
     func setLogo() {
         addSubview(logoView)
         logoView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.top.equalToSuperview().offset(44)
-            $0.size.equalTo(CGSize(width: 50, height: 50))
+            $0.leading.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(50)
+            $0.size.equalTo(CGSize(width: 48, height: 48))
         }
     }
     func setLogOut() {

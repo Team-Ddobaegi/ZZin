@@ -16,7 +16,7 @@ class ReviewTableViewCell: UITableViewCell {
     private lazy var reviewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 237)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 230)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false

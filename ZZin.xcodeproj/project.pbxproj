@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D331FF6A61C1D5A3679A247 /* Pods_ZZin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */; };
-		7B0515A92B01B43800CC4564 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B0515A82B01B43800CC4564 /* SecretKey.plist */; };
 		7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */; };
 		7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */; };
 		7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */; };
@@ -80,7 +79,6 @@
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
-		BDA4314D2B01B3EF00817477 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDA4314C2B01B3EF00817477 /* SecretKey.plist */; };
 		BDAADE362AFF5DDE00847F37 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */; };
 		BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE372AFFBCA800847F37 /* LocationView.swift */; };
 		BDBA78A52AF789F800FA186C /* authManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBA78A42AF789F800FA186C /* authManager.swift */; };
@@ -118,7 +116,6 @@
 		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
-		DFA79EF32B02677C000398E7 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFA79EF22B02677C000398E7 /* SecretKey.plist */; };
 		DFCA68F22AF8E8E100DDB225 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA68F12AF8E8E100DDB225 /* Geocoding.swift */; };
 		DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */; };
 		DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */; };
@@ -189,7 +186,6 @@
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
-		BDA4314C2B01B3EF00817477 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		BDAADE372AFFBCA800847F37 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		BDBA78A42AF789F800FA186C /* authManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authManager.swift; sourceTree = "<group>"; };
@@ -229,7 +225,6 @@
 		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
-		DFA79EF22B02677C000398E7 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../Desktop/SecretKey.plist; sourceTree = "<group>"; };
 		DFCA68F12AF8E8E100DDB225 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMarkerView.swift; sourceTree = "<group>"; };
 		DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowView.swift; sourceTree = "<group>"; };
@@ -536,10 +531,11 @@
 		BDC112762AF531D9000E4F9F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BDC112742AF52EC9000E4F9F /* TableViewCell */,
-				BDC112752AF53162000E4F9F /* CollectionViewCell */,
 				FF031D5F2ADBBA5900206056 /* MainView.swift */,
 				BDC112772AF532C4000E4F9F /* MainHeaderView.swift */,
+				DF1599C22AD6C86D00AE129B /* MainViewController.swift */,
+				BDC112742AF52EC9000E4F9F /* TableViewCell */,
+				BDC112752AF53162000E4F9F /* CollectionViewCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -547,7 +543,6 @@
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
-				BDA4314C2B01B3EF00817477 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -633,7 +628,6 @@
 			isa = PBXGroup;
 			children = (
 				BDC112762AF531D9000E4F9F /* View */,
-				DF1599C22AD6C86D00AE129B /* MainViewController.swift */,
 				FF1D8E1D2AE14515002B685B /* SearchRegionPage */,
 			);
 			path = MainPage;
@@ -764,7 +758,6 @@
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				C3D217E12AF31F7100C7EBA3 /* KeyList.plist in Resources */,
-				BDA4314D2B01B3EF00817477 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,

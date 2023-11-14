@@ -15,7 +15,6 @@ class TabBarViewController: UITabBarController {
         let infoVC = InfoViewController()
         
         //각 tab bar의 viewcontroller 타이틀 설정
-        
         mainVC.title = "홈"
         searchVC.title = "매칭"
 //        storyVC.title = "소식"
@@ -50,7 +49,9 @@ class TabBarViewController: UITabBarController {
         let navigationInfo = UINavigationController(rootViewController: infoVC)
         
         // 검색탭 네비게이션 바 수정
+        navigationHome.navigationBar.isHidden = true
         navigationSearch.navigationBar.isHidden = true
+        
         //        navigationHome.navigationBar.prefersLargeTitles = true
         //        navigationSearch.navigationBar.prefersLargeTitles = true
         //        navigationPost.navigationBar.prefersLargeTitles = true
@@ -66,7 +67,9 @@ class TabBarViewController: UITabBarController {
         UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
 
         // 탭 바의 배경색을 설정합니다.
-        UITabBar.appearance().barTintColor = .systemGray5
+//        UITabBar.appearance().barTintColor = .systemGray5
+        UITabBar.appearance().barTintColor = .white
+
 
 //        // 선택사항: 탭 바의 투명도 설정
 //        UITabBar.appearance().isTranslucent = false
