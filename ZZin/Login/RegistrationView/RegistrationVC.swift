@@ -18,12 +18,14 @@ class RegistrationViewController: UIViewController {
     private let locationView = LocationView()
     private var selectedRow = 0
     private var noticeButtonToggle = true
+//    let notificationName = Notification.Name("passData")
     
     // MARK: - LifeCycle 정리
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegate()
         dismissKeyboard()
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationSelected), name: notificationName, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +73,6 @@ class RegistrationViewController: UIViewController {
     
     // 의문점 있음 -> better using protocol?
     private func setDelegate() {
-        locationView.delegate = self
         registrationView.emailTfView.setTextFieldDelegate(delegate: self)
         registrationView.pwTfView.setTextFieldDelegate(delegate: self)
         registrationView.nicknameTfView.setTextFieldDelegate(delegate: self)
@@ -195,7 +196,7 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        let credentials = AuthCredentials(email: id, password: pw, userName: nickname)
+        let credentials = AuthCredentials(email: id, password: pw, userName: nickname, description: "")
         AuthManager.shared.registerNewUser(with: credentials) { success, error in
 
             if success {
@@ -252,8 +253,15 @@ class RegistrationViewController: UIViewController {
         UIApplication.shared.open(url)
     }
     
+//    @objc func handleLocationSelected(_ notification: Notification) {
+//        if let selectedLocation = notification.userInfo?["data"] as? String {
+//            self.registrationView.locationButton.setTitle(selectedLocation, for: .normal)
+//        }
+//    }
+    
     deinit {
         print("Registration 화면이 내려갔습니다. \(#function)")
+//        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -317,17 +325,6 @@ extension RegistrationViewController: UITextFieldDelegate {
             self.registrationView.doublecheckPwView.textfield.resignFirstResponder()
         default:
             self.registrationView.doublecheckPwView.textfield.resignFirstResponder()
-        }
-    }
-}
-
-extension RegistrationViewController: LocationViewDelegate {
-    func didSelectValue(_ value: String) {
-        print(value)
-        
-        DispatchQueue.main.async {
-            self.registrationView.locationButton.setTitle(value, for: .normal)
-            self.registrationView.locationButton.layoutIfNeeded()
         }
     }
 }
