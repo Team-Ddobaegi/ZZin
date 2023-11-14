@@ -17,14 +17,14 @@ class CustomButton: UIButton {
         self.backgroundColor = ColorGuide.subButton
         self.titleLabel?.font = FontGuide.size16Bold
         self.imageView?.contentMode = .scaleAspectFill
-        self.layer.cornerRadius = 25
+        self.layer.cornerRadius = 15
         self.clipsToBounds = true
         self.contentVerticalAlignment = .top
         self.contentHorizontalAlignment = .leading
         self.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 5, right: 5)
 
         let defaultWidth = width ?? 105
-        let defaultHeight = height ?? 120
+        let defaultHeight = height ?? 130
 
         self.snp.makeConstraints {
             $0.size.equalTo(CGSize(width: defaultWidth, height: defaultHeight))

@@ -28,9 +28,9 @@ class ReviewCollectionViewCell: UICollectionViewCell {
     func configureSubview(){
         addSubview(reviewUiView)
         reviewUiView.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().inset(10)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(20)
+            $0.left.right.equalToSuperview().inset(15)
         }
     }
     

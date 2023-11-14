@@ -105,7 +105,7 @@ class MatchingView: UIView {
         setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
-        backgroundColor = .systemGray5
+//        backgroundColor = .systemGray5
     }
     
     private func addSubViews() {
@@ -159,14 +159,14 @@ class MatchingView: UIView {
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(30)
             $0.top.equalToSuperview().offset(60)
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(15)
         }
         
         // 주변 맛집 버튼
         mapButton.snp.makeConstraints {
             $0.width.height.equalTo(30)
             $0.top.equalToSuperview().offset(60)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.trailing.equalToSuperview().inset(15)
         }
        
         // 키워드 버튼 스택뷰
@@ -189,7 +189,8 @@ extension UIButton {
         button.titleLabel?.minimumScaleFactor = 0.1
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         button.setTitleColor(.systemGray, for: .normal)
-        button.backgroundColor = .systemGray5
+//        button.backgroundColor = .systemGray5
+        button.backgroundColor = .white
         button.layer.cornerRadius = 40 / 2
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.systemGray.cgColor

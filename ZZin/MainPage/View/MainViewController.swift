@@ -93,15 +93,15 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 영역별 높이 다르게 설정
         switch indexPath.section {
-        case 0: return 98
-        case 1: return 245
-        case 2: return 250
+        case 0: return 100
+        case 1: return 280
+        case 2: return 240
         default: return 200
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 28
+        return 30
     }
 }
 
@@ -114,12 +114,15 @@ extension MainViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
+            cell.selectionStyle = .none
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier, for: indexPath) as! ButtonTableViewCell
+            cell.selectionStyle = .none
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            cell.selectionStyle = .none
             cell.dataBinding(data: ridArr)
             return cell
         default:

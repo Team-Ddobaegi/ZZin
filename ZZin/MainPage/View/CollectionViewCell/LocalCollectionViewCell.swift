@@ -16,13 +16,15 @@ class LocalCollectionViewCell: UICollectionViewCell {
     private var recommendPictureView = UIImageView().then {
         let image = UIImage(systemName: "person")
         $0.image = image
-        $0.backgroundColor = .gray
-        $0.layer.cornerRadius = 38
+        $0.backgroundColor = .lightGray
+        $0.layer.cornerRadius = 70 / 2
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
         $0.isUserInteractionEnabled = true
         $0.snp.makeConstraints {
-            $0.height.width.equalTo(76)
+            $0.width.equalTo(70)
+            $0.height.equalTo(72)
+
         }
     }
     
@@ -53,13 +55,13 @@ class LocalCollectionViewCell: UICollectionViewCell {
     private func configureSubview() {
         contentView.addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-//            $0.size.equalTo(CGSize(width: 77, height: 98))
+//            $0.edges.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 70, height: 100))
         }
     }
     
     func setComponents(text: String, image: String) {
-        let imageData = UIImage(systemName: image)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let imageData = UIImage(systemName: image)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         recommendPictureView.image = imageData
         recommendLabel.text = text
     }
