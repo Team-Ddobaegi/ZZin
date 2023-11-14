@@ -32,6 +32,7 @@ class RegistrationViewController: UIViewController {
         addRegistrationSubview()
         addButtonTargets()
         setNotificationCenter()
+        addLabelTap()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,6 +156,12 @@ class RegistrationViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    private func addLabelTap() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(noticeLabelTapped))
+        registrationView.noticeLabel.isUserInteractionEnabled = true
+        registrationView.noticeLabel.addGestureRecognizer(labelTap)
+    }
+    
     @objc func confirmButtonTapped() {
         print("회원가입 버튼이 눌렸습니다.")
         
@@ -237,6 +244,12 @@ class RegistrationViewController: UIViewController {
             let Image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
             registrationView.noticeButton.setImage(Image, for: .normal)
         }
+    }
+    
+    @objc func noticeLabelTapped() {
+        print("라벨이 눌렸습니다.")
+        guard let url = URL(string: "https://petalite-lan-d7b.notion.site/eabe5abe95304621b336440c79159696?pvs=4") else { return }
+        UIApplication.shared.open(url)
     }
     
     deinit {
