@@ -26,11 +26,14 @@ class SearchMapUIView: UIView {
     
     let resetFilterButton: UIButton = {
         let button = UIButton(type: .system)
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
         let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.lightGray.cgColor
         button.setImage(symbolImage, for: .normal)
         button.backgroundColor = .clear
-        button.tintColor = ColorGuide.cherryTomato
+        button.tintColor = ColorGuide.main
         return button
     }()
 
@@ -91,8 +94,7 @@ class SearchMapUIView: UIView {
         resetFilterButton.snp.makeConstraints {
             $0.leading.equalTo(matchingView.matchingNotiLabel.snp.trailing).offset(10)
             $0.top.equalTo(matchingView.matchingNotiLabel.snp.top).offset(-10)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
+            $0.width.height.equalTo(20)
         }
     }
 }

@@ -88,6 +88,20 @@ class MatchingView: UIView {
         $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
     }
     
+    let resetFilterButton: UIButton = {
+        let button = UIButton(type: .system)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
+        let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.setImage(symbolImage, for: .normal)
+        button.backgroundColor = .clear
+        button.tintColor = ColorGuide.main
+        return button
+    }()
+    
+    
     private let divider1 = UIView().then {
         $0.backgroundColor = .lightGray
     }
@@ -109,7 +123,7 @@ class MatchingView: UIView {
     }
     
     private func addSubViews() {
-        [matchingResultLabel, mapButton, locationButton, setLocationButton, matchingTipLabel, matchingNotiLabel, keywordButtonStackView, divider1, divider2 ].forEach { addSubview($0) }
+        [matchingResultLabel, mapButton, locationButton, setLocationButton, matchingTipLabel, matchingNotiLabel, keywordButtonStackView, resetFilterButton, divider1, divider2 ].forEach { addSubview($0) }
     }
     
     private func setDividerConstraints() {
@@ -175,6 +189,12 @@ class MatchingView: UIView {
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(40)
             $0.bottom.equalTo(matchingNotiLabel).offset(50)
+        }
+        
+        resetFilterButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(115)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.width.height.equalTo(22)
         }
     }
 }
