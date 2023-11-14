@@ -8,6 +8,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "맛집 이름"
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.textColor = .label
         return label
     }()
     
@@ -15,6 +16,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "맛집 카테고리"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .label
         return label
     }()
     
@@ -22,6 +24,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "가게 동행자"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .label
         return label
     }()
     
@@ -29,6 +32,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "가게 특성"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .label
         return label
     }()
     
@@ -37,6 +41,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "가게 평점"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .label
         return label
     }()
     
@@ -44,6 +49,7 @@ class StoreCardView: UIView {
         let label = UILabel()
         label.text = "리뷰수"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = .label
         return label
     }()
     
@@ -75,7 +81,7 @@ class StoreCardView: UIView {
     }
     
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = .systemGroupedBackground
         layer.cornerRadius = 10
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.1
