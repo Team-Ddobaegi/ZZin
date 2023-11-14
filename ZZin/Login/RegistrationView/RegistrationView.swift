@@ -45,7 +45,7 @@ class RegistrationView: UIView {
     }
     
     private let infoLabel = UILabel().then {
-        $0.text = "대문자로 시작하고 숫자로 마무리 지어주세요!"
+        $0.text = "대/소문자와 숫자를 활용해주세요!"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .thin)
     }
     
@@ -64,15 +64,7 @@ class RegistrationView: UIView {
         stack.spacing = 20
         return stack
     }()
-    
-    //    private let checkButton = UIButton().then {
-    //        $0.setTitle("중복", for: .normal)
-    //        $0.setTitleColor(.red, for: .normal)
-    //        $0.layer.cornerRadius = 12
-    //        $0.clipsToBounds = true
-    //        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
-    //    }
-    
+
     let noticeButton = UIButton().then {
         let image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
