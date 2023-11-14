@@ -1,9 +1,3 @@
-//
-//  ButtonTableViewCell.swift
-//  ZZin
-//
-//  Created by Jack Lee on 2023/11/03.
-//
 
 import UIKit
 
@@ -21,7 +15,7 @@ class ButtonTableViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [topRankButton, secondRankButton, thirdRankButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -29,7 +23,7 @@ class ButtonTableViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [fourthRankButton, fifthRankButton, sixthRankButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 20
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -52,9 +46,8 @@ class ButtonTableViewCell: UITableViewCell {
     func setUI() {
         contentView.addSubview(rankButtonStackView)
         rankButtonStackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(5)
+            $0.left.right.equalToSuperview().inset(15)
         }
     }
 }

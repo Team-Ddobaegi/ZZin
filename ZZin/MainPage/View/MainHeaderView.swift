@@ -1,9 +1,3 @@
-//
-//  MainHeaderView.swift
-//  ZZin
-//
-//  Created by Jack Lee on 2023/11/03.
-//
 
 import UIKit
 import SnapKit
@@ -26,12 +20,11 @@ class MainHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // 해당 라벨 값을 바꿔 줘야 한다. -> 다른 함수
     private func setLabel() {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
-            $0.centerY.equalToSuperview().offset(-5)
         }
     }
     
@@ -39,22 +32,22 @@ class MainHeaderView: UITableViewHeaderFooterView {
     func configure(with section: Int) {
         switch section {
         case 0:
-            let text = "로컬들이 추천해 주는 내 주변 찐 맛집!"
-            let biggerFont = FontGuide.size24Bold
+            let text = "로컬들이 추천해 주는 내 주변 찐 맛집"
+            let biggerFont = FontGuide.size19Bold
             let attributedStr = NSMutableAttributedString(string: text)
             attributedStr.addAttribute(.font, value: biggerFont, range: (text as NSString).range(of: "찐"))
             attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "찐"))
             titleLabel.attributedText = attributedStr
         case 1:
-            let text = "이번주 성동구 찐 맛집 랭킹!"
-            let biggerFont = FontGuide.size24Bold
+            let text = "이번주 성동구 찐 맛집 랭킹"
+            let biggerFont = FontGuide.size19Bold
             let attributedStr = NSMutableAttributedString(string: text)
             attributedStr.addAttribute(.font, value: biggerFont, range: (text as NSString).range(of: "찐"))
             attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "찐"))
             titleLabel.attributedText = attributedStr
         case 2:
             let text = "로컬들의 실시간 맛집 찐 리뷰"
-            let biggerFont = FontGuide.size24Bold
+            let biggerFont = FontGuide.size19Bold
             let attributedStr = NSMutableAttributedString(string: text)
             attributedStr.addAttribute(.font, value: biggerFont, range: (text as NSString).range(of: "찐"))
             attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "찐"))

@@ -33,7 +33,7 @@ class MatchingKeywordVC: UIViewController {
     
     // 각 키워드 타입에 맞춰 키워드 모델 호출
     let companionKeywords = Keyword().companion
-    let conditionKeywords = Keyword().condition
+    var conditionKeywords = Keyword().condition
     let kindOfFoodKeywords = Keyword().kindOfFood
 
     // 선택된 셀을 저장할 배열

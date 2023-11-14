@@ -159,14 +159,14 @@ class MatchingView: UIView {
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(30)
             $0.top.equalToSuperview().offset(60)
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(15)
         }
         
         // 주변 맛집 버튼
         mapButton.snp.makeConstraints {
             $0.width.height.equalTo(30)
             $0.top.equalToSuperview().offset(60)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.trailing.equalToSuperview().inset(15)
         }
        
         // 키워드 버튼 스택뷰

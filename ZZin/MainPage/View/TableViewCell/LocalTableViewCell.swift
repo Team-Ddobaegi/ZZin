@@ -35,7 +35,8 @@ class LocalTableViewCell: UITableViewCell {
     func setUI() {
         contentView.addSubview(localCollectionView)
         localCollectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.right.equalToSuperview()
+            $0.left.equalToSuperview().inset(15)
         }
     }
     
