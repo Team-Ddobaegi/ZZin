@@ -49,8 +49,7 @@ class ReviewTableViewCell: UITableViewCell {
     
     func recieveData(data: [Review]) {
         self.reviewData = data
-        print(reviewData.count)
-        print(reviewData[0].title)
+        print("데이터를 받았습니다.", reviewData)
     }
 }
 
@@ -61,8 +60,13 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
+        if !reviewData.isEmpty {
+            let data = reviewData[indexPath.row]
+            storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
+            }
+        
 //        guard let data = reviewData[indexPath.row] else { return cell }
-//        storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
+        
 
         //        if !reviewData.isEmpty {
 //            print(reviewData[indexPath.item])
