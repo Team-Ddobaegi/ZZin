@@ -92,9 +92,9 @@ class MatchingView: UIView {
         let button = UIButton(type: .system)
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
         let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 11
         button.layer.borderWidth = 0.5
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = ColorGuide.main.cgColor
         button.setImage(symbolImage, for: .normal)
         button.backgroundColor = .clear
         button.tintColor = ColorGuide.main
@@ -192,7 +192,7 @@ class MatchingView: UIView {
         }
         
         resetFilterButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(115)
+            $0.top.equalToSuperview().offset(116)
             $0.trailing.equalToSuperview().inset(20)
             $0.width.height.equalTo(22)
         }

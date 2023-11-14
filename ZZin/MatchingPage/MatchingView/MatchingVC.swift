@@ -40,6 +40,7 @@ class MatchingVC: UIViewController {
         setView()
         configureUI()
         locationSetting()
+        updateResetButtonStatus()
         currentLocation = LocationService.shared.getCurrentLocation()
         getAddress()
         fetchPlacesWithKeywords()
@@ -235,6 +236,19 @@ class MatchingVC: UIViewController {
         navigationController?.present(keywordVC, animated: true)
     }
     
+    @objc func resetFilterButtonTapped() {
+        companionKeyword = [nil]
+        conditionKeyword = [nil]
+        kindOfFoodKeyword = [nil]
+        
+        matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
+        matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
+        matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
+        
+        fetchPlacesWithKeywords()
+        updateResetButtonStatus()
+    }
+    
     
     
     //MARK: - Configure UI
@@ -270,6 +284,7 @@ class MatchingVC: UIViewController {
         matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
         matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
         matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
+        matchingView.resetFilterButton.addTarget(self, action: #selector(resetFilterButtonTapped), for: .touchUpInside)
     }
     
     func setKeywordButtonTitle() {
@@ -284,6 +299,17 @@ class MatchingVC: UIViewController {
         let firstKindOfFoodKeyword = kindOfFoodKeyword?.first ?? nil ?? nil
         matchingView.kindOfFoodKeywordButton.setTitle(firstKindOfFoodKeyword ?? "키워드", for: .normal)
         matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
+    }
+    
+    func updateResetButtonStatus() {
+        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+            matchingView.resetFilterButton.isEnabled = false
+            matchingView.resetFilterButton.layer.borderColor = UIColor.systemGray.cgColor
+        } else {
+            matchingView.resetFilterButton.isEnabled = true
+            matchingView.resetFilterButton.layer.borderColor = ColorGuide.main.cgColor
+
+        }
     }
     
 }
@@ -430,7 +456,7 @@ extension MatchingVC: MatchingKeywordDelegate {
         }
       
         fetchPlacesWithKeywords()
-        
+        updateResetButtonStatus()
     }
 }
 

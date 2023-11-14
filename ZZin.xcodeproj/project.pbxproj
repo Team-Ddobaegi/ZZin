@@ -23,6 +23,7 @@
 		7B5A24AF2AE7B5C800CD9227 /* MatchingKeywordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5A24AE2AE7B5C800CD9227 /* MatchingKeywordCell.swift */; };
 		7B61D3902ADF733000A226EB /* MatchingResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D38F2ADF733000A226EB /* MatchingResultCell.swift */; };
 		7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B61D39A2ADFCD8000A226EB /* MatchingResultCollectionView.swift */; };
+		7B8C811C2B0419E4006136D8 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B8C811B2B0419E4006136D8 /* SecretKey.plist */; };
 		7B9498B42AF28C5500261858 /* textMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B9498B22AF28C5500261858 /* textMessage.png */; };
 		7B9498B52AF28C5500261858 /* photoMessage.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B9498B32AF28C5500261858 /* photoMessage.png */; };
 		7BFC61B92AE160A500F46544 /* MatchingPlaceInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */; };
@@ -79,7 +80,6 @@
 		C0A6344B2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */; };
 		C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */; };
 		C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */; };
-		C0E198B02B04074C00289391 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0E198AF2B04074C00289391 /* SecretKey.plist */; };
 		C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B12B04151600289391 /* SettingViewControllerCell.swift */; };
 		C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */; };
 		C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B52B04156C00289391 /* AccountSettingViewController.swift */; };
@@ -147,6 +147,7 @@
 		7B5A24AE2AE7B5C800CD9227 /* MatchingKeywordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingKeywordCell.swift; sourceTree = "<group>"; };
 		7B61D38F2ADF733000A226EB /* MatchingResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchingResultCell.swift; sourceTree = "<group>"; };
 		7B61D39A2ADFCD8000A226EB /* MatchingResultCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingResultCollectionView.swift; sourceTree = "<group>"; };
+		7B8C811B2B0419E4006136D8 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../SecretKey.plist; sourceTree = "<group>"; };
 		7B9498B22AF28C5500261858 /* textMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textMessage.png; sourceTree = "<group>"; };
 		7B9498B32AF28C5500261858 /* photoMessage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photoMessage.png; sourceTree = "<group>"; };
 		7BFC61B82AE160A500F46544 /* MatchingPlaceInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceInfoCell.swift; sourceTree = "<group>"; };
@@ -191,7 +192,6 @@
 		C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedPlaceCell.swift; sourceTree = "<group>"; };
 		C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeader.swift; sourceTree = "<group>"; };
-		C0E198AF2B04074C00289391 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = "../../ZZin-1114/ZZin/SecretKey.plist"; sourceTree = "<group>"; };
 		C0E198B12B04151600289391 /* SettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B52B04156C00289391 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
@@ -541,7 +541,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				C0E198AF2B04074C00289391 /* SecretKey.plist */,
+				7B8C811B2B0419E4006136D8 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -727,7 +727,7 @@
 				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
-				C0E198B02B04074C00289391 /* SecretKey.plist in Resources */,
+				7B8C811C2B0419E4006136D8 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,

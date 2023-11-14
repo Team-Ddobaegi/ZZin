@@ -24,20 +24,6 @@ class SearchMapUIView: UIView {
         return button
     }()
     
-    let resetFilterButton: UIButton = {
-        let button = UIButton(type: .system)
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium)
-        let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 0.5
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.setImage(symbolImage, for: .normal)
-        button.backgroundColor = .clear
-        button.tintColor = ColorGuide.main
-        return button
-    }()
-
-    
     lazy var currentLocationButton = UIButton().then {
         let button = UIButton()
         $0.setTitle("이 지역에서 재검색", for: .normal)
@@ -61,7 +47,6 @@ class SearchMapUIView: UIView {
         addSubview(matchingView)
         addSubview(searchMapView)
         addSubview(storeCardView)
-        matchingView.addSubview(resetFilterButton)
         searchMapView.addSubview(gpsButton)
         
         let iconImage = UIImage(systemName: "arrowshape.backward.fill")
@@ -89,12 +74,6 @@ class SearchMapUIView: UIView {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(120)
-        }
-        
-        resetFilterButton.snp.makeConstraints {
-            $0.leading.equalTo(matchingView.matchingNotiLabel.snp.trailing).offset(10)
-            $0.top.equalTo(matchingView.matchingNotiLabel.snp.top).offset(-10)
-            $0.width.height.equalTo(20)
         }
     }
 }
