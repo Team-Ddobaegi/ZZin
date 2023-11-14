@@ -140,7 +140,8 @@ class AuthManager {
 
                     let data: [String: Any] = ["email": credentials.email,
                                                "uid": uid,
-                                               "userName": credentials.userName]
+                                               "userName": credentials.userName,
+                                               "description": credentials.description]
                     FireStoreManager.shared.db.collection("users").document(uid).setData(data) { firestoreError in
                         if let firestoreError = firestoreError {
                             print("데이터 저장 에러가 발생했습니다.", firestoreError.localizedDescription)
