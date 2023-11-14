@@ -45,7 +45,7 @@ class RegistrationView: UIView {
     }
     
     private let infoLabel = UILabel().then {
-        $0.text = "대/소문자와 숫자를 활용해주세요!"
+        $0.text = "대/소문자와 숫자로 8자리가 되도록 작성해주세요!"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .thin)
     }
     
