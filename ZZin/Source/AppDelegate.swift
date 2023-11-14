@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 import Firebase
 import FirebaseAuth
 import FirebaseCore
@@ -17,14 +16,7 @@ import FirebaseStorage
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-            // [START default_firestore]
             FirebaseApp.configure()
-
-//            let db = Firestore.firestore()
-            // [END default_firestore]
-        
-            let storage = Storage.storage()
 
             return true
     }
