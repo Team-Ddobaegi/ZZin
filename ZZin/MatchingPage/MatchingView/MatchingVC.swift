@@ -180,7 +180,7 @@ class MatchingVC: UIViewController {
         
         let indexPath = self.companionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
-            keywordVC.selectedIndexPath = indexPath.isEmpty ? [] : indexPath
+            keywordVC.selectedCompanionIndexPath = indexPath.isEmpty ? [] : indexPath
             print("~~ companion 선택된 인덱스 있음두 ~~", indexPath)
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
@@ -200,11 +200,11 @@ class MatchingVC: UIViewController {
         
         let indexPath = self.conditionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
-            keywordVC.selectedIndexPath = indexPath.isEmpty ? [] : indexPath
+            keywordVC.selectedConditionIndexPath = indexPath.isEmpty ? [] : indexPath
             print("~~ condition 선택된 인덱스 있음두 ~~", indexPath)
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
-            keywordVC.selectedCompanionIndexPath = []
+            keywordVC.selectedConditionIndexPath = []
             print("~~ condition 선택된 인덱스 없어유 ~~", indexPath)
         }
         
@@ -221,11 +221,11 @@ class MatchingVC: UIViewController {
         
         let indexPath = self.kindOfFoodIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
-            keywordVC.selectedIndexPath = indexPath.isEmpty ? [] : indexPath
+            keywordVC.selectedKindOfFoodIndexPath = indexPath.isEmpty ? [] : indexPath
             print("~~ kindOfFood 선택된 인덱스 있음두 ~~", indexPath)
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
-            keywordVC.selectedCompanionIndexPath = []
+            keywordVC.selectedKindOfFoodIndexPath = []
             print("~~ kindOfFood 선택된 인덱스 없어유 ~~", indexPath)
         }
         
@@ -383,15 +383,17 @@ extension MatchingVC: MatchingKeywordDelegate {
 
         switch keywordType {
         case .companion:
-            if let updateKeyword = keyword.last {
+            if let updateKeyword = keyword.first {
                 matchingView.companionKeywordButton.setTitle(updateKeyword, for: .normal)
                 matchingView.companionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.companionKeyword = [updateKeyword as String?]
                 self.companionIndexPath = indexPath
-                print("~~ companion 인덱스 전달 받았음두", indexPath)
-                
-            } else if keyword.isEmpty {
-                self.companionKeyword = [nil]
+//                print("~~ companion 인덱스 전달 받았음두", indexPath)
+
+            } else if indexPath.isEmpty {
+                self.companionIndexPath = []
+                print("~~ companion 인덱스는 없어!", self.companionIndexPath as Any)
+
                 matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
             }
             
@@ -401,10 +403,13 @@ extension MatchingVC: MatchingKeywordDelegate {
                 matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.conditionKeyword = keyword
                 self.conditionIndexPath = indexPath
-                print("~~ condition 인덱스 전달 받았음두", indexPath)
-            } else if keyword.isEmpty {
+//                print("~~ condition 인덱스 전달 받았음두", indexPath)
+                
+            } else if indexPath.isEmpty {
                 self.conditionKeyword = [nil]
                 matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
+                print("~~ condition 인덱스는 없어!", self.conditionIndexPath as Any)
+
             }
             
         case .kindOfFood:
@@ -413,16 +418,18 @@ extension MatchingVC: MatchingKeywordDelegate {
                 matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.kindOfFoodKeyword = keyword
                 self.kindOfFoodIndexPath = indexPath
-                print("~~ kindOfFood 인덱스 전달 받았음두", indexPath)
-            } else if keyword.isEmpty {
-                self.kindOfFoodKeyword = [nil]
+//                print("~~ kindOfFood 인덱스 전달 받았음두", indexPath)
+                
+            } else if indexPath.isEmpty {
+                self.kindOfFoodIndexPath = [nil]
                 matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
+                print("~~ kindOfFood 인덱스는 없어!", self.kindOfFoodIndexPath as Any)
             }
-            
         }
+      
         fetchPlacesWithKeywords()
+        
     }
-    
 }
 
 

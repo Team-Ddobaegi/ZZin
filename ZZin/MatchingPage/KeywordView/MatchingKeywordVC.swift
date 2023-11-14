@@ -10,6 +10,11 @@ enum MatchingKeywordType {
     case kindOfFood       // 메뉴는 무엇인가요?
 }
 
+struct KeywordInfo {
+    var keywords: [String]
+    var selectedIndexPath: [IndexPath]
+}
+
 // MatchingVC로 데이터 전달
 protocol MatchingKeywordDelegate: AnyObject {
     func updateKeywords(keyword: [String], keywordType: MatchingKeywordType, indexPath: [IndexPath])
@@ -96,25 +101,16 @@ class MatchingKeywordVC: UIViewController {
         // 선택된 키워드 타입을 식별하여 처리
         switch selectedMatchingKeywordType {
         case .companion:
-           
             sendData(data: selectedCompanionKeyword, type: .companion, indexPath: selectedCompanionIndexPath)
             print("~~ \(selectedCompanionIndexPath) 보낸다 ~!!~!~!~ ")
 
         case .condition:
-            guard let lastIndexPath = selectedConditionIndexPath.last else {
-                self.selectedConditionIndexPath = []
-                return
-            }
-            sendData(data: selectedConditionKeyword, type: .condition, indexPath: [lastIndexPath])
-            print("~~ \(lastIndexPath) 보낸다 ~!!~!~!~ ")
+            sendData(data: selectedConditionKeyword, type: .condition, indexPath: selectedConditionIndexPath)
+            print("~~ \(selectedConditionIndexPath) 보낸다 ~!!~!~!~ ")
 
         case .kindOfFood:
-            guard let lastIndexPath = selectedKindOfFoodIndexPath.last else {
-                self.selectedKindOfFoodIndexPath = []
-                return
-            }
-            sendData(data: selectedKindOfFoodKeyword, type: .kindOfFood, indexPath: [lastIndexPath])
-            print("~~ \(lastIndexPath) 보낸다 ~!!~!~!~ ")
+            sendData(data: selectedKindOfFoodKeyword, type: .kindOfFood, indexPath: selectedKindOfFoodIndexPath)
+            print("~~ \(selectedKindOfFoodIndexPath) 보낸다 ~!!~!~!~ ")
         }
         
         self.dismiss(animated: true)
@@ -161,33 +157,68 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
         switch selectedMatchingKeywordType {
         case .companion:
             cell.label.text = "\(companionKeywords[indexPath.item])"
+           
+            for indexPath in selectedCompanionIndexPath {
+                // 배열에 저장된 IndexPath에 따른 작업 수행
+                if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+                    // 선택된 셀에 대한 작업 수행
+                    cell.layer.borderColor = ColorGuide.main.cgColor
+                    matchingKeywordView.infoLabel.text = cell.label.text
+                    matchingKeywordView.infoLabel.textColor = .darkGray
+                }
+            }
+            
+            if !selectedCompanionIndexPath.isEmpty {
+                guard indexPath == selectedCompanionIndexPath[0] else { return cell}
+               
+                cell.layer.borderColor = ColorGuide.main.cgColor
+                matchingKeywordView.infoLabel.text = cell.label.text
+                matchingKeywordView.infoLabel.textColor = .darkGray
+            }
             
         case .condition:
             cell.label.text = "\(conditionKeywords[indexPath.item])"
             
+            for indexPath in selectedConditionIndexPath {
+                // 배열에 저장된 IndexPath에 따른 작업 수행
+                if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+                    // 선택된 셀에 대한 작업 수행
+                    cell.layer.borderColor = ColorGuide.main.cgColor
+                    matchingKeywordView.infoLabel.text = cell.label.text
+                    matchingKeywordView.infoLabel.textColor = .darkGray
+                }
+            }
+            
+            if !selectedConditionIndexPath.isEmpty {
+                guard indexPath == selectedConditionIndexPath[0] else { return cell}
+               
+                cell.layer.borderColor = ColorGuide.main.cgColor
+                matchingKeywordView.infoLabel.text = cell.label.text
+                matchingKeywordView.infoLabel.textColor = .darkGray
+            }
+            
         case .kindOfFood:
             cell.label.text = "\(kindOfFoodKeywords[indexPath.item])"
-        }
-        
-        for indexPath in selectedIndexPath {
-            // 배열에 저장된 IndexPath에 따른 작업 수행
-            if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
-                // 선택된 셀에 대한 작업 수행
+            
+            for indexPath in selectedKindOfFoodIndexPath {
+                // 배열에 저장된 IndexPath에 따른 작업 수행
+                if let cell = collectionView.cellForItem(at: indexPath) as? MatchingKeywordCell {
+                    // 선택된 셀에 대한 작업 수행
+                    cell.layer.borderColor = ColorGuide.main.cgColor
+                    matchingKeywordView.infoLabel.text = cell.label.text
+                    matchingKeywordView.infoLabel.textColor = .darkGray
+                }
+            }
+            
+            if !selectedKindOfFoodIndexPath.isEmpty {
+                guard indexPath == selectedKindOfFoodIndexPath[0] else { return cell}
+               
                 cell.layer.borderColor = ColorGuide.main.cgColor
                 matchingKeywordView.infoLabel.text = cell.label.text
                 matchingKeywordView.infoLabel.textColor = .darkGray
             }
         }
-        
-        if !selectedIndexPath.isEmpty {
-            print("ㅇㅇ", selectedIndexPath)
-            guard indexPath == selectedIndexPath[0] else { return cell}
-           
-            cell.layer.borderColor = ColorGuide.main.cgColor
-            matchingKeywordView.infoLabel.text = cell.label.text
-            matchingKeywordView.infoLabel.textColor = .darkGray
-        }
-        
+     
         return cell
     }
 }
@@ -196,41 +227,66 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
-        
-        selectedIndexPath.append(indexPath)
-        print ("~~ 인덱스 선택합니두", selectedIndexPath)
-
-        if selectedIndexPath.count > 1 {
-            guard selectedIndexPath[0] != indexPath else {
-                collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
-                matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
-                matchingKeywordView.infoLabel.textColor = ColorGuide.main
-                selectedIndexPath = []
-                collectionView.reloadData()
-                return
-            }
-            collectionView.deselectItem(at: selectedIndexPath[0], animated: true)
-            selectedIndexPath.remove(at: 0)
-            print ("~~ 초기화 후 선택 키워드", selectedIndexPath)
-        }
-        
+   
         collectionView.reloadData()
 
         switch selectedMatchingKeywordType {
         case .companion:
             selectedCompanionKeyword.append(companionKeywords[indexPath.item])
             selectedCompanionIndexPath.append(indexPath)
+            
+            if selectedCompanionIndexPath.count > 1 {
+                guard selectedCompanionIndexPath[0] != indexPath else {
+                    collectionView.deselectItem(at: selectedCompanionIndexPath[0], animated: true)
+                    matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+                    matchingKeywordView.infoLabel.textColor = ColorGuide.main
+                    selectedCompanionIndexPath = []
+                    collectionView.reloadData()
+                    return
+                }
+                collectionView.deselectItem(at: selectedCompanionIndexPath[0], animated: true)
+                selectedCompanionIndexPath.removeAll()
+            }
+            
             print("~~ companion 인덱스패스 전달합니두", selectedCompanionIndexPath.last!)
             
         case .condition:
             selectedConditionKeyword.append(conditionKeywords[indexPath.item])
             selectedConditionIndexPath.append(indexPath)
+            
+            if selectedConditionIndexPath.count > 1 {
+                guard selectedConditionIndexPath[0] != indexPath else {
+                    collectionView.deselectItem(at: selectedConditionIndexPath[0], animated: true)
+                    matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+                    matchingKeywordView.infoLabel.textColor = ColorGuide.main
+                    selectedConditionIndexPath = []
+                    collectionView.reloadData()
+                    return
+                }
+                collectionView.deselectItem(at: selectedConditionIndexPath[0], animated: true)
+                selectedConditionIndexPath.remove(at: 0)
+            }
+            
             print("~~ condition 인덱스패스 전달합니두", selectedConditionIndexPath.last!)
 
 
         case .kindOfFood:
             selectedKindOfFoodKeyword.append(kindOfFoodKeywords[indexPath.item])
             selectedKindOfFoodIndexPath.append(indexPath)
+            
+            if selectedKindOfFoodIndexPath.count > 1 {
+                guard selectedKindOfFoodIndexPath[0] != indexPath else {
+                    collectionView.deselectItem(at: selectedKindOfFoodIndexPath[0], animated: true)
+                    matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
+                    matchingKeywordView.infoLabel.textColor = ColorGuide.main
+                    selectedKindOfFoodIndexPath = []
+                    collectionView.reloadData()
+                    return
+                }
+                collectionView.deselectItem(at: selectedKindOfFoodIndexPath[0], animated: true)
+                selectedKindOfFoodIndexPath.remove(at: 0)
+            }
+            
             print("~~ kindOfFood 인덱스패스 전달합니두", selectedKindOfFoodIndexPath.last!)
         }
         
