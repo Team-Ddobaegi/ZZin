@@ -41,7 +41,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     weak var delegate: MatchingPlaceInfoCellDelegate?
 
     let view = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
     }
     
     let placeTitleLabel = UILabel().then {

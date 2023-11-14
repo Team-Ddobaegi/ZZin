@@ -35,7 +35,7 @@ class MatchingPlacePhotoView: UIView {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(MatchingPlacePhotoCollectionViewCell.self, forCellWithReuseIdentifier: MatchingPlacePhotoCollectionViewCell.identifier)
-        
+        cv.backgroundColor = .customBackground
         return cv
     }()
     

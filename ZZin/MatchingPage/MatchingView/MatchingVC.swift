@@ -47,6 +47,7 @@ class MatchingVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.tabBarController?.tabBar.barTintColor = .customBackground
         setKeywordButtonTitle()
     }
     
@@ -132,7 +133,9 @@ class MatchingVC: UIViewController {
                     self.locationPickerVC.selectedCity = String(city.prefix(2))
                 }
                 self.locationPickerVC.selectedTown = address.last
+                self.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
                 print("@@@@@@@ \(self.locationPickerVC.selectedCity),\(self.locationPickerVC.selectedTown)")
+                
             } else {
                 print("Address not found.")
             }
@@ -349,7 +352,6 @@ extension MatchingVC: UICollectionViewDelegate, UICollectionViewDataSource {
 
             let matchingPlaceVC = MatchingPlaceVC()
             self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
-            
             matchingPlaceVC.placeID = place?[indexPath.item].pid
             matchingPlaceVC.reviewID = place?[indexPath.item].rid
         }

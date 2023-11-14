@@ -10,7 +10,7 @@ class SearchMapUIView: UIView {
     
     lazy var gpsButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .white
+        button.backgroundColor = .customBackground
         button.layer.cornerRadius = 20
         let gpsIcon = UIImage(systemName: "location.fill")
         button.setImage(gpsIcon, for: .normal)
@@ -85,7 +85,7 @@ class SearchMapUIView: UIView {
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(100)
+            $0.height.equalTo(120)
         }
         
         resetFilterButton.snp.makeConstraints {

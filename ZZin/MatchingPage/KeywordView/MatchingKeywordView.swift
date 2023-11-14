@@ -22,7 +22,7 @@ class MatchingKeywordView: UIView {
     // MARK: - Settings
     
     func setView() {
-    backgroundColor = .white
+    backgroundColor = .customBackground
     }
     
     // MARK: - Properties
@@ -41,7 +41,7 @@ class MatchingKeywordView: UIView {
     
     lazy var collectionViewUI = UICollectionView(frame: .zero, collectionViewLayout: layout).then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
     }
     
     var infoLabel = UILabel().then {

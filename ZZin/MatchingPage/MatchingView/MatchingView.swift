@@ -105,7 +105,7 @@ class MatchingView: UIView {
         setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
-        backgroundColor = .systemGray6
+        backgroundColor = .customBackground
     }
     
     private func addSubViews() {
@@ -189,7 +189,7 @@ extension UIButton {
         button.titleLabel?.minimumScaleFactor = 0.1
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         button.setTitleColor(.systemGray, for: .normal)
-        button.backgroundColor = .systemGray6
+        button.backgroundColor = .customBackground
         button.layer.cornerRadius = 40 / 2
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.systemGray.cgColor

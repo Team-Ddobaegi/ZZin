@@ -29,7 +29,7 @@ class MatchingPlaceReviewCell: UITableViewCell {
     // MARK: - Settings
     
     private func setView(){
-        backgroundColor = .white
+        backgroundColor = .customBackground
         configureUI()
     }
     

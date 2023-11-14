@@ -21,6 +21,7 @@ class SearchMapViewController: UIViewController {
     var kindOfFoodKeyword : [String?]?
     var selectedCity : String?
     var selectedTown : String?
+    var address : String?
     private var activeMarkers: [NMFMarker] = []
     private let pickerView = MatchingLocationPickerView()
 //    private let opacityView = OpacityView()
@@ -268,7 +269,8 @@ class SearchMapViewController: UIViewController {
            let placeID = placeData["Place"]?.pid,
            let placeLat = placeData["Place"]?.lat,
            let placeLong = placeData["Place"]?.long,
-           let placeImgPath = placeData["Place"]?.placeImg
+           let placeImgPath = placeData["Place"]?.placeImg,
+           let placeAddress = placeData["Place"]?.address
         {
             self.searchMapUIView.storeCardView.isHidden = false
             self.selectedPlaceID = placeID
@@ -277,6 +279,8 @@ class SearchMapViewController: UIViewController {
                 case .success(let review):
                     self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
                     self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
+                    self.searchMapUIView.storeCardView.placeAddressLabel.text = placeAddress
+                    print("$$$$$$\(placeAddress)")
                     FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
                     let location = NMGLatLng(lat: placeLat, lng: placeLong)
                     self.moveCamera(location: location, animation: .linear)

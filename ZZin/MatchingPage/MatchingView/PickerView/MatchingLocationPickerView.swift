@@ -24,11 +24,11 @@ class MatchingLocationPickerView: UIView {
     // MARK: - Properties
     
     let backgroundView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
     }
     
     let pickerView = UIPickerView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
         $0.tintColor = ColorGuide.main
     }
     
@@ -37,6 +37,7 @@ class MatchingLocationPickerView: UIView {
         $0.font = UIFont.systemFont(ofSize: 26, weight: .bold)
         $0.numberOfLines = 0
         $0.textAlignment = .left
+        $0.textColor = .label
     }
     
     public let confirmButton = UIButton().then {

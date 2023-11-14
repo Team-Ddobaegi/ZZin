@@ -16,7 +16,7 @@ class MatchingKeywordCell: UICollectionViewCell {
     var keywordType: MatchingKeywordType = .companion
     
     var label = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 14)
     }

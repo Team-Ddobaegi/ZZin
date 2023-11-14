@@ -67,7 +67,7 @@ class MatchingKeywordVC: UIViewController {
     // MARK: - Settings
     
     func setView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .customBackground
         view.addSubview(matchingKeywordView)
         
         matchingKeywordView.snp.makeConstraints {
