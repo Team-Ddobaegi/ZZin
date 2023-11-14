@@ -35,24 +35,7 @@ class CardController: UIViewController {
         }
         return true
     }
-    
-    private func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("이미지를 호출하는데 오류가 있었습니다.")
-                completion(nil)
-                return
-            }
-            if let image = UIImage(data: data) {
-                completion(image)
-            } else {
-                print("UIImage로 url을 가져올 수 없었습니다.")
-                completion(nil)
-            }
-        }.resume()
-    }
-    
-    
+
     deinit {
         print("카드 화면이 내려갔습니다")
     }
@@ -64,32 +47,57 @@ extension CardController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        if let hamburgerURL = URL(string: "https://images.unsplash.com/photo-1585238341267-1cfec2046a55?auto=format&fit=crop&q=80&w=2948&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") {
-            downloadImage(from: hamburgerURL) { image in
-                if let downloadedImage = image {
-                    let cardModel = FoodCardModel(id: 1, name: FoodCardData.hamburger.title, image: downloadedImage)
-                    self.initialCardModels.append(cardModel)
-                }
-            }
+        let image = UIImage(named: "katsu")
+        if let image = image {
+            let cardModel = FoodCardModel(id: 0, name: FoodCardData.katsu.title, image: image)
+            initialCardModels.append(cardModel)
         }
-        
-        let image2 = UIImage(named: "ogudangdang")
+
+        let image2 = UIImage(named: "cold noodle")
         if let image = image2 {
-            let cardModel = FoodCardModel(id: 2, name: FoodCardData.coldNoodle.title, image: image)
+            let cardModel = FoodCardModel(id: 1, name: FoodCardData.coldNoodle.title, image: image)
             initialCardModels.append(cardModel)
         }
         
-        let image3 = UIImage(named: "ogudangdang")
+        let image3 = UIImage(named: "curry")
         if let image = image3 {
-            let cardModel = FoodCardModel(id: 3, name: FoodCardData.curry.title, image: image)
+            let cardModel = FoodCardModel(id: 2, name: FoodCardData.curry.title, image: image)
             initialCardModels.append(cardModel)
         }
         
-        let image4 = UIImage(named: "ogudangdang")
+        // 안나옴
+        let image4 = UIImage(named: "fried chicken")
         if let image = image4 {
-            let cardModel = FoodCardModel(id: 4, name: FoodCardData.tteokboki.title, image: image)
+            let cardModel = FoodCardModel(id: 3, name: FoodCardData.friedChicken.title, image: image)
             initialCardModels.append(cardModel)
         }
+        
+        let image5 = UIImage(named: "hamburger")
+        if let image = image5 {
+            let cardModel = FoodCardModel(id: 4, name: FoodCardData.hamburger.title, image: image)
+            initialCardModels.append(cardModel)
+        }
+        
+        // 안나옴
+        let image6 = UIImage(named: "pasta")
+        if let image = image6 {
+            let cardModel = FoodCardModel(id: 5, name: FoodCardData.pasta.title, image: image)
+            initialCardModels.append(cardModel)
+        }
+        
+        let image7 = UIImage(named: "sushi")
+        if let image = image7 {
+            let cardModel = FoodCardModel(id: 6, name: FoodCardData.sushi.title, image: image)
+            initialCardModels.append(cardModel)
+        }
+        
+        // 안나옴
+        let image8 = UIImage(named: "ttoekboki")
+        if let image = image8 {
+            let cardModel = FoodCardModel(id: 7, name: FoodCardData.tteokboki.title, image: image)
+            initialCardModels.append(cardModel)
+        }
+        
         layoutCardStockView()
         print(initialCardModels.count)
     }
@@ -115,7 +123,7 @@ extension CardController: SwipeCardStackDataSource {
             // 인덱스 범위를 벗어나는 카드를 선언할 경우 index out of range 발생
             card.configure(withModel: initialCardModels[index])
         } else {
-            card.configure(withModel: FoodCardModel(id: -1, name: "음식 사진", image: UIImage(named: "ogudangdang") ?? UIImage()))
+            print("============ 범위를 벗어나는 이미지입니다.============ ")
         }
         return card
     }
