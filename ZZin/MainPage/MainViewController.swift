@@ -80,6 +80,7 @@ extension MainViewController {
         setDelegate()
         setUI()
         mainView.delegate = self
+        LocationService.shared.startUpdatingLocation()
     }
 }
 

@@ -31,7 +31,7 @@ class MatchingView: UIView {
     private let matchingResultLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.text = "3가지를 가진 맛집"
-        $0.textColor = .black
+        $0.textColor = .label
     }
     
     private let matchingTipLabel = UILabel().then {
@@ -76,7 +76,7 @@ class MatchingView: UIView {
     
     public let setLocationButton = UIButton().then {
         $0.setTitle("지역 미설정", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitleColor(.label, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         
         let iconImage = UIImage(systemName: "chevron.down")
@@ -105,6 +105,7 @@ class MatchingView: UIView {
         setDividerConstraints()
         setLableConstraints()
         setButtonConstraints()
+        backgroundColor = .systemGray5
     }
     
     private func addSubViews() {
@@ -187,11 +188,11 @@ extension UIButton {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.1
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-        button.setTitleColor(.systemGray2, for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(.systemGray, for: .normal)
+        button.backgroundColor = .systemGray5
         button.layer.cornerRadius = 40 / 2
         button.layer.borderWidth = 0.5
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = UIColor.systemGray.cgColor
         
         button.snp.makeConstraints {
             $0.width.equalTo(105)

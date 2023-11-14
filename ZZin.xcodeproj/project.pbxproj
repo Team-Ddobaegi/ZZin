@@ -118,6 +118,7 @@
 		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
+		DFA79EF32B02677C000398E7 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFA79EF22B02677C000398E7 /* SecretKey.plist */; };
 		DFCA68F22AF8E8E100DDB225 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA68F12AF8E8E100DDB225 /* Geocoding.swift */; };
 		DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */; };
 		DFE81E172AE789DA00626E3B /* CustomInfoWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */; };
@@ -228,6 +229,7 @@
 		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
+		DFA79EF22B02677C000398E7 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../Desktop/SecretKey.plist; sourceTree = "<group>"; };
 		DFCA68F12AF8E8E100DDB225 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		DFCD0A8C2AEA588F0089FD49 /* InfoMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMarkerView.swift; sourceTree = "<group>"; };
 		DFE81E162AE789DA00626E3B /* CustomInfoWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInfoWindowView.swift; sourceTree = "<group>"; };

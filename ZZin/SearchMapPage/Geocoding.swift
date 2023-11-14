@@ -49,7 +49,7 @@ class Geocoding {
         let parameters: Parameters = [
             "coords": "\(coordinate.lng),\(coordinate.lat)",
             "output": "json",
-            "orders": "roadaddr"
+            "orders": "roadaddr,addr" // 도로명 주소와 지번 주소 모두 요청
         ]
         
         let headers: HTTPHeaders = [
@@ -61,27 +61,44 @@ class Geocoding {
             switch response.result {
             case .success(let value):
                 if let jsonResponse = value as? [String: Any],
-                   let results = jsonResponse["results"] as? [[String: Any]],
-                   let roadAddressResult = results.first(where: { $0["name"] as? String == "roadaddr" }),
-                   let region = roadAddressResult["region"] as? [String: Any],
-                   let area1 = region["area1"] as? [String: Any],
-                   let area2 = region["area2"] as? [String: Any],
-//                   let area3 = region["area3"] as? [String: Any],
-                   let land = roadAddressResult["land"] as? [String: Any],
-                   let addition0 = land["addition0"] as? [String: Any] {
+                   let results = jsonResponse["results"] as? [[String: Any]] {
                     
-                    let detailedAddress = [
-                        area1["name"] as? String,
-                        area2["name"] as? String,
-//                        area3["name"] as? String,
-                        land["name"] as? String,
-                        land["number1"] as? String,
-                        addition0["value"] as? String
-                    ].compactMap { $0 }.joined(separator: " ")
-                    
-                    completion(detailedAddress, nil)
-                } else {
-                    completion(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No road address found"]))
+                    // 도로명 주소 결과를 우선 시도
+                    if let roadAddressResult = results.first(where: { $0["name"] as? String == "roadaddr" }),
+                       let region = roadAddressResult["region"] as? [String: Any],
+                       let area1 = region["area1"] as? [String: Any],
+                       let area2 = region["area2"] as? [String: Any],
+                       let land = roadAddressResult["land"] as? [String: Any],
+                       let addition0 = land["addition0"] as? [String: Any] {
+                        
+                        let detailedAddress = [
+                            area1["name"] as? String,
+                            area2["name"] as? String,
+                            land["name"] as? String,
+                            land["number1"] as? String,
+                            addition0["value"] as? String
+                        ].compactMap { $0 }.joined(separator: " ")
+                        
+                        completion(detailedAddress, nil)
+                    // 도로명 주소 결과가 없을 경우 지번 주소로 대체
+                    } else if let addrResult = results.first(where: { $0["name"] as? String == "addr" }),
+                              let region = addrResult["region"] as? [String: Any],
+                              let area1 = region["area1"] as? [String: Any],
+                              let area2 = region["area2"] as? [String: Any],
+                              let area3 = region["area3"] as? [String: Any],
+                              let land = addrResult["land"] as? [String: Any] {
+                        
+                        let detailedAddress = [
+                            area1["name"] as? String,
+                            area2["name"] as? String,
+                            area3["name"] as? String,
+                            land["number1"] as? String
+                        ].compactMap { $0 }.joined(separator: " ")
+                        
+                        completion(detailedAddress, nil)
+                    } else {
+                        completion(nil, NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No address found"]))
+                    }
                 }
                 
             case .failure(let error):
@@ -89,6 +106,7 @@ class Geocoding {
             }
         }
     }
+
 
 
 }

@@ -44,23 +44,6 @@ class SearchMapViewController: UIViewController {
         let cameraPosition = searchMapUIView.searchMapView.mapView.cameraPosition
         print("#########\(cameraPosition)")
         let cameraTargetLocation = cameraPosition.target
-//        LocationService.shared.getAddressFromLocation(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng) { (address, error) in
-//            if let error = error {
-//                print("Error getting address: \(error.localizedDescription)")
-//                return
-//            }
-//            
-//            if let address = address {
-//                print("Current address: \(address)")
-//                self.selectedCity = address.first
-//                self.selectedTown = address.last
-//                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
-//                print("^^^^^^^^\(self.selectedCity)\(self.selectedTown)")
-//                self.fetchPlacesWithKeywords()
-//            } else {
-//                print("Address not found.")
-//            }
-//        }
         
         reverseGeocodeCoordinate(lat: cameraTargetLocation.lat, lng: cameraTargetLocation.lng)
     }
@@ -140,52 +123,6 @@ class SearchMapViewController: UIViewController {
         currentUserLocation = LocationService.shared.getCurrentLocation()
         moveCamera(location: currentUserLocation, animation: .none)
         fetchPlacesWithKeywords()
-        
-
-        
-        
-//        geocodingService.geocodeAddress(query: "인천 연수구 송도교육로 20", clientId: clientId, clientSecret: clientSecret) { (coordinate, error) in
-//            if let error = error {
-//                print("Geocoding error: \(error.localizedDescription)")
-//            } else if let coordinate = coordinate {
-//                print("Geocoded coordinates: \(coordinate)")
-//            }
-//        }
-        // 위도와 경도를 가진 좌표
-        let coordinate = (lat: 37.559183571926766, lng: 126.97767544047555)
-        let addressQuery = "서울특별시 강남구 테헤란로"
-        let searchCoordinate = "127.12345,37.56789"
-
-        Geocoding.shared.geocodeAddress(query: "경기 성남시 분당구 정자일로 95", coordinate: "127.1054328,37.3595963") { (response, error) in
-            if let response = response {
-                // 성공적으로 주소를 좌표로 변환한 경우
-                print("Status: \(response.status)")
-                print("Road Address: \(response.addresses.first?.roadAddress ?? "")")
-                print("X Coordinate: \(response.addresses.first?.x ?? "")")
-                print("Y Coordinate: \(response.addresses.first?.y ?? "")")
-            } else if let error = error {
-                // 오류 발생한 경우
-                print("Geocoding Error: \(error.localizedDescription)")
-            } else {
-                // 주소를 찾을 수 없는 경우
-                print("주소를 찾을 수 없음")
-            }
-        }
-        
-        // 위도와 경도를 매개변수로 전달하여 호출합니다.
-        Geocoding.shared.reverseGeocodeCoordinate(coordinate: (lat: 37.359191080978995, lng: 127.10482131820069)) { detailedAddress, error in
-            if let detailedAddress = detailedAddress {
-                // 변환된 주소 정보를 사용하는 코드
-                print("Reverse Geocoded Address: \(detailedAddress)")
-            } else if let error = error {
-                // 오류 처리 코드
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-
-
-
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -497,6 +434,7 @@ extension SearchMapViewController {
                     self.selectedTown = components[1]
                 }
                 self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+                self.fetchPlacesWithKeywords()
             } else if let error = error {
                 // 오류 처리 코드
                 print("Error: \(error.localizedDescription)")
