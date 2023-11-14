@@ -103,6 +103,7 @@ extension MainViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            cell.selectionStyle = .none
 //            guard let rid = reviewData[indexPath.row]?.rid else { return cell }
 //            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
 //            cell.recieveData(data: reviewData)

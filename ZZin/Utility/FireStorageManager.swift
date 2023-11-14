@@ -84,24 +84,47 @@ class FireStorageManager {
         }
     }
     
-    func bindProfileImgOnStorage(uid: String, profileImgView: UIImageView) {
+    func bindProfileImgOnStorage(uid: String, profileImgView: UIImageView, userNameLabel: UILabel?, descriptionLabel: UILabel?, userNameTextField: UITextField?, descriptionTextField: UITextField?) {
         
         print("============================== bindProfileImgOnStorage start")
         // Placeholder image
         let placeholderImage = UIImage(named: "profile")
         
         var path: String?
+        var userName: String?
+        var description: String?
         
         DispatchQueue.main.async { [self] in
             dataManager.fetchDataWithUid(uid: uid) { result in
                 switch result {
                 case .success(let user):
                     path = user.profileImg
+                    userName = user.userName
+                    description = user.description
+                    
                     print("THIS IS PROFILE IMAGE PATH", path)
                     let profileRef = storageRef.child(path ?? "")
                     print("============================== bindProfileImgOnStorage start binding")
                     profileImgView.sd_setImage(with: profileRef, placeholderImage: placeholderImage)
                     print("============================== bindProfileImgOnStorage end")
+                    
+                    print("userName :", userName)
+                    print("description :", description)
+                    
+                    // UILabel이 있을 경우 binding
+                    if userNameLabel != nil {
+                        userNameLabel?.text = userName
+                    } else {
+                        userNameTextField?.text = userName
+                    }
+                    
+                    guard description != nil else { return }
+                    
+                    if descriptionLabel != nil {
+                        descriptionLabel?.text = description
+                    } else {
+                        descriptionTextField?.text = description
+                    }
                 case .failure(let error):
                     print("Error fetching place: \(error.localizedDescription)")
                     return
@@ -123,6 +146,8 @@ class FireStorageManager {
         var pidArr: [String]?
         var ridArr: [String]?
         var dict: [String:[String]?] = [:]
+        
+        print(uid)
         dataManager.fetchDataWithUid(uid: uid) { result in
             switch result {
             case .success(let user):
@@ -138,12 +163,12 @@ class FireStorageManager {
         }
     }
     
-    func bindViewOnStorageWithPid(pid: String, placeImgView: UIImageView?, title: UILabel?, dotLabel: UILabel?, placeTownLabel: UILabel?, placeMenuLabel: UILabel?) {
+    func bindViewOnStorageWithPid(pid: String?, placeImgView: UIImageView?, title: UILabel?, dotLabel: UILabel?, placeTownLabel: UILabel?, placeMenuLabel: UILabel?) {
         
         // placeholderImage
         let placeholderImage = UIImage(named: "add_photo.png")
-        
-        dataManager.fetchDataWithPid(pid: pid) { result in
+        guard pid != nil || pid != "" else {return}
+        dataManager.fetchDataWithPid(pid: pid!) { result in
             switch result {
             case .success(let place):
 //                print("place : ", place)
@@ -162,12 +187,13 @@ class FireStorageManager {
         }
     }
     
-    func bindViewOnStorageWithRid(rid: String, reviewImgView: UIImageView?, title: UILabel?, companion: UILabel?, condition: UILabel?, town: UILabel?) {
+    func bindViewOnStorageWithRid(rid: String?, reviewImgView: UIImageView?, title: UILabel?, companion: UILabel?, condition: UILabel?, town: UILabel?) {
       
         // placeholderImage
         let placeholderImage = UIImage(named: "review_placeholder.png")
         
-        dataManager.fetchDataWithRid(rid: rid) { result in
+        guard rid != nil || rid != "" else {return}
+        dataManager.fetchDataWithRid(rid: rid!) { result in
             switch result {
             case .success(let review):
 //                print("review : ", review)
@@ -202,4 +228,20 @@ class FireStorageManager {
         }
     }
     
+    func uploadProfileImg(profileImg: Data?, uid: String) {
+
+        let storagePath = "profiles/\(uid).jpeg"
+        let imagesRef = storageRef.child(storagePath)
+        
+        guard profileImg != nil else {return}
+        imagesRef.putData(profileImg!, metadata: nil) { (metadata, error) in
+        guard let _ = metadata else {
+            print("Uh-oh, an error occurred for image \(storagePath)!")
+                return
+            }
+                    
+        }
+    }
 }
+
+    
