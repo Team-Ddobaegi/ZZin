@@ -88,7 +88,7 @@ class SearchMapViewController: UIViewController {
     // MARK: - addTarget
     
     func sendDataBackToMatchingViewController() {
-        mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, selectedCity: MatchingLocationPickerVC.shared.selectedCity, selectedTown: MatchingLocationPickerVC.shared.selectedTown)
+        mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, companionIndexPath: companionIndexPath, conditionIndexPath: conditionIndexPath, kindOfFoodIndexPath: kindOfFoodIndexPath, selectedCity: MatchingLocationPickerVC.shared.selectedCity, selectedTown: MatchingLocationPickerVC.shared.selectedTown)
     }
     
     func setTouchableCardView() {
@@ -399,6 +399,7 @@ extension SearchMapViewController: MatchingKeywordDelegate {
 
             } else if indexPath.isEmpty {
                 self.companionIndexPath = []
+                self.conditionKeyword = []
                 print("~~ companion 인덱스는 없어!", self.companionIndexPath as Any)
 
                 searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
@@ -408,12 +409,13 @@ extension SearchMapViewController: MatchingKeywordDelegate {
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.conditionKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.conditionKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.conditionKeyword = keyword
+                self.conditionKeyword = [updateKeyword as String?]
                 self.conditionIndexPath = indexPath
 //                print("~~ condition 인덱스 전달 받았음두", indexPath)
                 
             } else if indexPath.isEmpty {
-                self.conditionKeyword = [nil]
+                self.conditionIndexPath = []
+                self.conditionKeyword = []
                 searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
                 print("~~ condition 인덱스는 없어!", self.conditionIndexPath as Any)
 
@@ -423,12 +425,13 @@ extension SearchMapViewController: MatchingKeywordDelegate {
             if let updateKeyword = keyword.first {
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle(updateKeyword, for: .normal)
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
-                self.kindOfFoodKeyword = keyword
+                self.kindOfFoodKeyword = [updateKeyword as String?]
                 self.kindOfFoodIndexPath = indexPath
 //                print("~~ kindOfFood 인덱스 전달 받았음두", indexPath)
                 
             } else if indexPath.isEmpty {
-                self.kindOfFoodIndexPath = [nil]
+                self.kindOfFoodIndexPath = []
+                self.kindOfFoodKeyword = []
                 searchMapUIView.matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
                 print("~~ kindOfFood 인덱스는 없어!", self.kindOfFoodIndexPath as Any)
             }
@@ -503,7 +506,7 @@ extension SearchMapViewController {
 }
 
 protocol SearchMapViewControllerDelegate: AnyObject {
-    func didUpdateSearchData(companionKeyword : [String?]?, conditionKeyword : [String?]?, kindOfFoodKeyword : [String?]?, selectedCity : String?, selectedTown : String?)
+    func didUpdateSearchData(companionKeyword : [String?]?, conditionKeyword : [String?]?, kindOfFoodKeyword : [String?]?, companionIndexPath : [IndexPath?]?, conditionIndexPath: [IndexPath?]?, kindOfFoodIndexPath: [IndexPath?]?, selectedCity : String?, selectedTown : String?)
 }
 
 extension SearchMapViewController: LocationPickerViewDelegate {
