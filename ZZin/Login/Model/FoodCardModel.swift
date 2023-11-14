@@ -15,33 +15,22 @@ struct FoodCardModel {
 }
 
 enum FoodCardData {
-    case coldNoodle
-    case curry
-    case friedChicken
-    case hamburger
-    case katsu
-    case pasta
-    case sushi
-    case tteokboki
+    case japanese
+    case korean
+    case chinese
+    case western
+    
     
     var title: String {
         switch self {
-        case .coldNoodle:
-            return "냉면"
-        case .curry:
-            return "카레"
-        case .friedChicken:
-            return "치킨"
-        case .hamburger:
-            return "햄버거"
-        case .katsu:
-            return "돈가스"
-        case .pasta:
-            return "파스타"
-        case .sushi:
-            return "스시"
-        case .tteokboki:
-            return "떡볶이"
+        case .japanese:
+            return "일식"
+        case .korean:
+            return "한식"
+        case .chinese:
+            return "중식"
+        case .western:
+            return "양식"
         }
     }
     

@@ -13,7 +13,6 @@ class CardController: UIViewController {
     //MARK: - 변수 선언
     private let cardStack = SwipeCardStack()
     private var initialCardModels: [FoodCardModel] = []
-    private let foodCardCases: [FoodCardData] = [.coldNoodle, .curry, .hamburger, .tteokboki]
     
     //MARK: - Layout Cards
     private func layoutCardStockView() {
@@ -47,54 +46,27 @@ extension CardController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        let image = UIImage(named: "katsu")
+        let image = UIImage(named: "chinese")
         if let image = image {
-            let cardModel = FoodCardModel(id: 0, name: FoodCardData.katsu.title, image: image)
+            let cardModel = FoodCardModel(id: 0, name: FoodCardData.chinese.title, image: image)
             initialCardModels.append(cardModel)
         }
 
-        let image2 = UIImage(named: "cold noodle")
+        let image2 = UIImage(named: "korean")
         if let image = image2 {
-            let cardModel = FoodCardModel(id: 1, name: FoodCardData.coldNoodle.title, image: image)
+            let cardModel = FoodCardModel(id: 1, name: FoodCardData.korean.title, image: image)
             initialCardModels.append(cardModel)
         }
         
-        let image3 = UIImage(named: "curry")
+        let image3 = UIImage(named: "japanese")
         if let image = image3 {
-            let cardModel = FoodCardModel(id: 2, name: FoodCardData.curry.title, image: image)
+            let cardModel = FoodCardModel(id: 2, name: FoodCardData.japanese.title, image: image)
             initialCardModels.append(cardModel)
         }
         
-        // 안나옴
-        let image4 = UIImage(named: "fried chicken")
+        let image4 = UIImage(named: "western")
         if let image = image4 {
-            let cardModel = FoodCardModel(id: 3, name: FoodCardData.friedChicken.title, image: image)
-            initialCardModels.append(cardModel)
-        }
-        
-        let image5 = UIImage(named: "hamburger")
-        if let image = image5 {
-            let cardModel = FoodCardModel(id: 4, name: FoodCardData.hamburger.title, image: image)
-            initialCardModels.append(cardModel)
-        }
-        
-        // 안나옴
-        let image6 = UIImage(named: "pasta")
-        if let image = image6 {
-            let cardModel = FoodCardModel(id: 5, name: FoodCardData.pasta.title, image: image)
-            initialCardModels.append(cardModel)
-        }
-        
-        let image7 = UIImage(named: "sushi")
-        if let image = image7 {
-            let cardModel = FoodCardModel(id: 6, name: FoodCardData.sushi.title, image: image)
-            initialCardModels.append(cardModel)
-        }
-        
-        // 안나옴
-        let image8 = UIImage(named: "ttoekboki")
-        if let image = image8 {
-            let cardModel = FoodCardModel(id: 7, name: FoodCardData.tteokboki.title, image: image)
+            let cardModel = FoodCardModel(id: 3, name: FoodCardData.western.title, image: image)
             initialCardModels.append(cardModel)
         }
         
@@ -124,6 +96,7 @@ extension CardController: SwipeCardStackDataSource {
             card.configure(withModel: initialCardModels[index])
         } else {
             print("============ 범위를 벗어나는 이미지입니다.============ ")
+            card.configure(withModel: FoodCardModel(id: -1, name: "양식", image: UIImage(named: "western") ?? UIImage()))
         }
         return card
     }

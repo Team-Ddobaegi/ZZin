@@ -16,20 +16,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
         
-        let currentUser = Auth.auth().currentUser
-        print("user 데이터 -", currentUser)
+//        let currentUser = Auth.auth().currentUser
+//        print("user 데이터 -", currentUser)
         
-        if Auth.auth().currentUser != nil {
+//        if Auth.auth().currentUser != nil {
             let tabBarVC = TabBarViewController()
-//            let navigationController = UINavigationController(rootViewController: tabBarVC)
-            self.window?.rootViewController = tabBarVC
-            print("user 데이터 -", currentUser)
-        } else {
-            let loginVC = LoginViewController()
-            let navigationController = UINavigationController(rootViewController: loginVC)
-            self.window?.rootViewController = navigationController
-            print("user 데이터 -", currentUser)
-        }
+        let cardController = CardController()
+            self.window?.rootViewController = cardController
+//            print("user 데이터 -", currentUser)
+//        } else {
+//            let loginVC = LoginViewController()
+//            let navigationController = UINavigationController(rootViewController: loginVC)
+//            self.window?.rootViewController = navigationController
+//            print("user 데이터 -", currentUser)
+//        }
         self.window?.makeKeyAndVisible()
     }
 //        Auth.auth().addStateDidChangeListener({ auth, user in
