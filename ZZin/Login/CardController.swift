@@ -124,6 +124,7 @@ extension CardController: SwipeCardStackDataSource {
             card.configure(withModel: initialCardModels[index])
         } else {
             print("============ 범위를 벗어나는 이미지입니다.============ ")
+            card.configure(withModel: FoodCardModel(id: -1, name: "음식 사진", image: UIImage(named: "ogudangdang") ?? UIImage()))
         }
         return card
     }
