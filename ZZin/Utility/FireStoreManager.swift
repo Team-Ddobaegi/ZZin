@@ -6,21 +6,21 @@ import FirebaseStorage
 
 struct User : Codable {
     var profileImg: String?
+    var description: String?
+    var email: String
     var uid: String
-    var nickname: String
-    var phoneNum: String
+    var userName: String
     var rid: [String]? // [UUID.uuidString]
     var pid: [String]? // [UUID.uuidString]
-    var password: String?
     
     enum CodingKeys: String, CodingKey {
         case profileImg
+        case description
+        case email
         case uid
-        case nickname
-        case phoneNum
+        case userName
         case rid
         case pid
-        case password
     }
 }
 
@@ -95,6 +95,7 @@ class FireStoreManager {
     
     lazy var storage = FireStorageManager()
     func fetchDocument<T: Decodable>(from collection: String, documentId: String, completion: @escaping (Result<T, Error>) -> Void) {
+        
         let docRef = db.collection(collection).document(documentId)
         docRef.getDocument { (document, error) in
             if let error = error {
@@ -296,6 +297,8 @@ class FireStoreManager {
         }
     }
     
+    
+    
     func setPlaceData(dataWillSet: [String: Any?], pid: String, uid: String, rid: String, path: [String]) {
         let placeRef = db.collection("places").document(pid)
         placeRef.setData(["pid": pid,
@@ -318,7 +321,6 @@ class FireStoreManager {
                 print("setPlaceData: Document successfully written!")
             }
         }
-        
     }
     
     /**
