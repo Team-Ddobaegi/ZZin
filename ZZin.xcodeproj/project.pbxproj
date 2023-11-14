@@ -80,6 +80,11 @@
 		C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */; };
 		C0A634512AEF7D1700BF6B55 /* SegmentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */; };
 		C0E198B02B04074C00289391 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0E198AF2B04074C00289391 /* SecretKey.plist */; };
+		C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B12B04151600289391 /* SettingViewControllerCell.swift */; };
+		C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */; };
+		C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B52B04156C00289391 /* AccountSettingViewController.swift */; };
+		C0E198B82B04159B00289391 /* OkVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B72B04159B00289391 /* OkVC.swift */; };
+		C0E198BA2B0415CD00289391 /* CancelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B92B0415CD00289391 /* CancelVC.swift */; };
 		C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */; };
 		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
 		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
@@ -187,6 +192,11 @@
 		C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeader.swift; sourceTree = "<group>"; };
 		C0E198AF2B04074C00289391 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = "../../ZZin-1114/ZZin/SecretKey.plist"; sourceTree = "<group>"; };
+		C0E198B12B04151600289391 /* SettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewControllerCell.swift; sourceTree = "<group>"; };
+		C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewControllerCell.swift; sourceTree = "<group>"; };
+		C0E198B52B04156C00289391 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
+		C0E198B72B04159B00289391 /* OkVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkVC.swift; sourceTree = "<group>"; };
+		C0E198B92B0415CD00289391 /* CancelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelVC.swift; sourceTree = "<group>"; };
 		C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewForPostPage.swift; sourceTree = "<group>"; };
 		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
 		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
@@ -614,6 +624,11 @@
 			isa = PBXGroup;
 			children = (
 				FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */,
+				C0E198B12B04151600289391 /* SettingViewControllerCell.swift */,
+				C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */,
+				C0E198B52B04156C00289391 /* AccountSettingViewController.swift */,
+				C0E198B72B04159B00289391 /* OkVC.swift */,
+				C0E198B92B0415CD00289391 /* CancelVC.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -780,6 +795,7 @@
 				7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */,
 				BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */,
 				BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */,
+				C0E198BA2B0415CD00289391 /* CancelVC.swift in Sources */,
 				7B61D3902ADF733000A226EB /* MatchingResultCell.swift in Sources */,
 				7B47A55E2AE9FF0F00A44C2C /* MatchingThumbnailCell.swift in Sources */,
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
@@ -837,6 +853,7 @@
 				C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
+				C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */,
 				DFCA68F22AF8E8E100DDB225 /* Geocoding.swift in Sources */,
 				DFEDDA462AF4E7C0003FA958 /* NaverAPIKey.swift in Sources */,
 				FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */,
@@ -844,7 +861,9 @@
 				DFFE276F2AE0A98F00F5970F /* LocationService.swift in Sources */,
 				C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */,
 				7B47A55A2AE9FEB600A44C2C /* MatchingPlaceVC.swift in Sources */,
+				C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */,
 				7BFC61C42AE1C90100F46544 /* MatchingPlaceReviewDetailVC.swift in Sources */,
+				C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */,
 				BDBA78A52AF789F800FA186C /* authManager.swift in Sources */,
 				FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */,
 				FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */,
@@ -853,6 +872,7 @@
 				BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */,
+				C0E198B82B04159B00289391 /* OkVC.swift in Sources */,
 				C0A634472AEF7C8100BF6B55 /* ProfileCell.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginVC.swift in Sources */,
 				7B3313F02AF11FD900BC0F11 /* MatchingKeywordView.swift in Sources */,
