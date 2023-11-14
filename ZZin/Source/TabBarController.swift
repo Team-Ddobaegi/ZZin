@@ -67,11 +67,9 @@ class TabBarViewController: UITabBarController {
         UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
 
         // 탭 바의 배경색을 설정합니다.
-//        UITabBar.appearance().barTintColor = .systemGray5
-        UITabBar.appearance().barTintColor = .white
+        UITabBar.appearance().barTintColor = .customBackground
 
-
-//        // 선택사항: 탭 바의 투명도 설정
+        // 선택사항: 탭 바의 투명도 설정
 //        UITabBar.appearance().isTranslucent = false
     }
     

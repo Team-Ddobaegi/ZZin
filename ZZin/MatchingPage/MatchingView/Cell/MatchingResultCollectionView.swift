@@ -20,7 +20,7 @@ class MatchingResultCollectionView: UIView {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(MatchingResultCell.self, forCellWithReuseIdentifier: MatchingResultCell.identifier)
-        
+        cv.backgroundColor = .customBackground
         return cv
     }()
     

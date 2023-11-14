@@ -67,7 +67,7 @@ class MatchingKeywordVC: UIViewController {
     // MARK: - Settings
     
     func setView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .customBackground
         view.addSubview(matchingKeywordView)
         
         matchingKeywordView.snp.makeConstraints {
@@ -241,6 +241,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
                     matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
                     matchingKeywordView.infoLabel.textColor = ColorGuide.main
                     selectedCompanionIndexPath = []
+                    selectedCompanionKeyword = []
                     collectionView.reloadData()
                     return
                 }
@@ -260,6 +261,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
                     matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
                     matchingKeywordView.infoLabel.textColor = ColorGuide.main
                     selectedConditionIndexPath = []
+                    selectedConditionKeyword = []
                     collectionView.reloadData()
                     return
                 }
@@ -280,6 +282,7 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
                     matchingKeywordView.infoLabel.text = "보기를 선택해주세요."
                     matchingKeywordView.infoLabel.textColor = ColorGuide.main
                     selectedKindOfFoodIndexPath = []
+                    selectedKindOfFoodKeyword = []
                     collectionView.reloadData()
                     return
                 }

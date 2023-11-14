@@ -142,7 +142,6 @@
 
 /* Begin PBXFileReference section */
 		7AAC40E023A86C944BAF3917 /* Pods-ZZin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.release.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.release.xcconfig"; sourceTree = "<group>"; };
-		7B0515A82B01B43800CC4564 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		7B1103D52AE0E868001BBEB2 /* MatchingPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlaceView.swift; sourceTree = "<group>"; };
 		7B1103E42AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingPlacePhotoCell.swift; sourceTree = "<group>"; };
 		7B3313EB2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingLocationPickerVC.swift; sourceTree = "<group>"; };
@@ -561,7 +560,6 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				7B0515A82B01B43800CC4564 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -1049,7 +1047,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q7MUQ2984B;
+				DEVELOPMENT_TEAM = NNZY5VCJT4;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
@@ -1067,7 +1065,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1083,7 +1081,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q7MUQ2984B;
+				DEVELOPMENT_TEAM = NNZY5VCJT4;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
@@ -1101,7 +1099,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
