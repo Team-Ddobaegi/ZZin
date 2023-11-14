@@ -22,8 +22,6 @@ class MatchingVC: UIViewController {
     var conditionIndexPath: [IndexPath?]?
     var kindOfFoodIndexPath: [IndexPath?]?
    
-    var selectedCity : String?
-    var selectedTown : String?
     var currentLocation: NMGLatLng?
     
     private let matchingView = MatchingView()
@@ -96,13 +94,13 @@ class MatchingVC: UIViewController {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
-        let actualCity = city ?? self.selectedCity ?? nil
-        let actualTown = town ?? self.selectedTown
+        let actualCity = city ?? self.locationPickerVC.selectedCity ?? nil
+        let actualTown = town ?? self.locationPickerVC.selectedTown
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
             case .success(let places):
                 self.place = places
-                print("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정") ")
+                print("\(self.locationPickerVC.selectedCity ?? "지역") \(self.locationPickerVC.selectedTown ?? "미설정") ")
                 print(self.place?.count ?? "")
 
                 DispatchQueue.main.async {
@@ -133,7 +131,7 @@ class MatchingVC: UIViewController {
                     self.locationPickerVC.selectedCity = String(city.prefix(2))
                 }
                 self.locationPickerVC.selectedTown = address.last
-                self.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+                self.matchingView.setLocationButton.setTitle("\(self.locationPickerVC.selectedCity ?? "") \(self.locationPickerVC.selectedTown ?? "")", for: .normal)
                 print("@@@@@@@ \(self.locationPickerVC.selectedCity),\(self.locationPickerVC.selectedTown)")
                 
             } else {
@@ -151,8 +149,6 @@ class MatchingVC: UIViewController {
         mapViewController.companionKeyword = companionKeyword
         mapViewController.conditionKeyword = conditionKeyword
         mapViewController.kindOfFoodKeyword = kindOfFoodKeyword
-        mapViewController.selectedCity = locationPickerVC.selectedCity
-        mapViewController.selectedTown = locationPickerVC.selectedTown
         mapViewController.mapViewDelegate = self
         self.navigationController?.pushViewController(mapViewController, animated: true)
     }
@@ -368,8 +364,8 @@ extension MatchingVC: LocationPickerViewDelegate {
         
         // 피커뷰에서 선택된 지역으로 타이틀 업데이트
         matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
-        self.selectedCity = selectedCity
-        self.selectedTown = selectedTown
+        self.locationPickerVC.selectedCity = selectedCity
+        self.locationPickerVC.selectedTown = selectedTown
         
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
@@ -443,8 +439,8 @@ extension MatchingVC: SearchMapViewControllerDelegate {
         self.companionKeyword = companionKeyword
         self.conditionKeyword = conditionKeyword
         self.kindOfFoodKeyword = kindOfFoodKeyword
-        self.selectedCity = selectedCity
-        self.selectedTown = selectedTown
+        self.locationPickerVC.selectedCity = selectedCity
+        self.locationPickerVC.selectedTown = selectedTown
     }
 }
 

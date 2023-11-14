@@ -1,10 +1,3 @@
-//
-//  MatchingLocationPickerVC.swift
-//  ZZin
-//
-//  Created by t2023-m0045 on 10/30/23.
-//
-
 import UIKit
 
 protocol LocationPickerViewDelegate: AnyObject {
@@ -15,6 +8,8 @@ class MatchingLocationPickerVC: UIViewController {
     
     // MARK: - Properties
     
+    static let shared = MatchingLocationPickerVC() // 싱글톤 인스턴스
+
     weak var pickerViewDelegate: LocationPickerViewDelegate?
     let pickerViewUI = MatchingLocationPickerView()
     var selectedCity: String? = "지역"

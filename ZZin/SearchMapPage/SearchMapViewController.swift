@@ -19,19 +19,18 @@ class SearchMapViewController: UIViewController {
     var companionKeyword : [String?]?
     var conditionKeyword : [String?]?
     var kindOfFoodKeyword : [String?]?
-    var selectedCity : String?
-    var selectedTown : String?
     var address : String?
     private var activeMarkers: [NMFMarker] = []
     private let pickerView = MatchingLocationPickerView()
-//    private let opacityView = OpacityView()
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
     let infoMarkerView = InfoMarkerView()
     let geocodingService = Geocoding.shared
+    let locationPickerVC = MatchingLocationPickerVC()
+
 
     // MARK: - Touch Action
     @objc func backButtonTapped() {
-        print("백 버튼 탭탭\(self.selectedCity)\(self.selectedTown)")
+        print("백 버튼 탭탭\(self.locationPickerVC.selectedCity)\(self.locationPickerVC.selectedTown)")
         sendDataBackToMatchingViewController()
         self.navigationController?.popViewController(animated: true)
     }
@@ -72,25 +71,22 @@ class SearchMapViewController: UIViewController {
         removeAllMarkers()
         fetchPlacesWithKeywords()
         updateResetButtonStatus()
-        print("확인 버튼 탭탭\(self.selectedCity)\(self.selectedTown)")
+        print("확인 버튼 탭탭\(self.locationPickerVC.selectedCity)\(self.locationPickerVC.selectedTown)")
         sendDataBackToMatchingViewController()
     }
     
     @objc private func setPickerViewTapped() {
         print("위치 설정 피커뷰 탭")
-        
-        let pickerViewVC = MatchingLocationPickerVC()
-        pickerViewVC.pickerViewDelegate = self
-        
-        if let sheet = pickerViewVC.sheetPresentationController {
+                
+        if let sheet = locationPickerVC.sheetPresentationController {
             configureSheetPresentation(sheet)
         }
-        present(pickerViewVC, animated: true)
+        present(locationPickerVC, animated: true)
     }
     // MARK: - addTarget
     
     func sendDataBackToMatchingViewController() {
-        mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, selectedCity: self.selectedCity, selectedTown: self.selectedTown)
+        mapViewDelegate?.didUpdateSearchData(companionKeyword: companionKeyword, conditionKeyword: conditionKeyword, kindOfFoodKeyword: kindOfFoodKeyword, selectedCity: self.locationPickerVC.selectedCity, selectedTown: self.locationPickerVC.selectedTown)
     }
     
     func setTouchableCardView() {
@@ -116,6 +112,7 @@ class SearchMapViewController: UIViewController {
         super.viewDidLoad()
         LocationService.shared.delegate = self
         searchMapUIView.searchMapView.mapView.touchDelegate = self
+        locationPickerVC.pickerViewDelegate = self
         setupUI()
         updateResetButtonStatus()
         setKeywordView()
@@ -167,7 +164,7 @@ class SearchMapViewController: UIViewController {
     }
     
     private func updateLocationTitle() {
-        searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")", for: .normal)
+        searchMapUIView.matchingView.setLocationButton.setTitle("\(self.locationPickerVC.selectedCity ?? "지역") \(self.locationPickerVC.selectedTown ?? "미설정")", for: .normal)
     }
     
     
@@ -447,8 +444,8 @@ extension SearchMapViewController {
         let actualCompanion = companion ?? self.companionKeyword?.first ?? nil
         let actualCondition = condition ?? self.conditionKeyword?.first ?? nil
         let actualKindOfFood = kindOfFood ?? self.kindOfFoodKeyword?.first ?? nil
-        let actualCity = city ?? self.selectedCity ?? nil
-        let actualTown = town ?? self.selectedTown
+        let actualCity = city ?? self.locationPickerVC.selectedCity ?? nil
+        let actualTown = town ?? self.locationPickerVC.selectedTown
         print("@@@@@@@##\(actualCity)\(actualTown)")
         FireStoreManager().fetchPlacesWithKeywords(companion: actualCompanion, condition: actualCondition, kindOfFood: actualKindOfFood, city: actualCity, town: actualTown) { result in
             switch result {
@@ -490,10 +487,10 @@ extension SearchMapViewController {
                 let components = detailedAddress.components(separatedBy: " ")
                 if components.count >= 2 {
                     let city = components[0]
-                    self.selectedCity = String(city.prefix(2))
-                    self.selectedTown = components[1]
+                    self.locationPickerVC.selectedCity = String(city.prefix(2))
+                    self.locationPickerVC.selectedTown = components[1]
                 }
-                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
+                self.searchMapUIView.matchingView.setLocationButton.setTitle("\(self.locationPickerVC.selectedCity ?? "") \(self.locationPickerVC.selectedTown ?? "")", for: .normal)
                 self.fetchPlacesWithKeywords()
             } else if let error = error {
                 // 오류 처리 코드
@@ -513,12 +510,12 @@ extension SearchMapViewController: LocationPickerViewDelegate {
         let selectedTown = town
         
         // 피커뷰에서 선택된 지역으로 타이틀 업데이트
-        self.selectedCity = selectedCity
-        self.selectedTown = selectedTown
+        self.locationPickerVC.selectedCity = selectedCity
+        self.locationPickerVC.selectedTown = selectedTown
         searchMapUIView.matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
 
         
-        print("#######\(self.selectedCity)\(self.selectedTown)")
+        print("#######\(self.locationPickerVC.selectedCity)\(self.locationPickerVC.selectedTown)")
 
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
