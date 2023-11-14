@@ -12,13 +12,13 @@ class MainViewController: UIViewController {
     
     // MARK: - 전역 변수
     let storageManager = FireStorageManager()
+    let dataManager = FireStoreManager()
     let reviewCell = ReviewTableViewCell()
     private let mainView = MainView()
     
     var loadedRidAndPid: [String:[String]?] = [:]
     var placeData: [Place] = []
-    var pidArr: [String]? = []
-    var ridArr: [String]? = []
+    var reviewData: [Review] = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
 
@@ -35,27 +35,17 @@ class MainViewController: UIViewController {
         }
     }
     
-//    func fetchData() {
-//        if let uid = uid {
-//            FireStorageManager().getPidAndRidWithUid(uid: uid) { [self] result in
-//                loadedRidAndPid = result
-//                ridArr = loadedRidAndPid["ridArr"] ?? []
-//                mainView.tableView.reloadData()
-//            }
-//        }
-//    }
-//    
-//    func fetchPlaceData() {
-//        FireStoreManager.shared.getPlaceData { data in
-//            switch data {
-//            case .success(let result):
-//                self.placeData = result
-//                
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
+    func fetchReviewData() {
+        dataManager.getReviewData { result in
+            switch result {
+            case .success(let review):
+                print("======= 이게 데이터다 ========",review)
+                self.reviewData = review
+            case .failure(let error):
+                print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
+            }
+        }
+    }
 }
 
 extension MainViewController {
@@ -63,20 +53,11 @@ extension MainViewController {
         super.viewWillAppear(animated)
 //        navigationController?.setNavigationBarHidden(true, animated: animated)
         view.backgroundColor = .white
-//        fetchData()
-//        fetchPlaceData()
+        fetchReviewData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        let currentUser = Auth.auth().currentUser
-        print("현재 유저입니다. -",currentUser)
-        print("id도 있나요?", currentUser?.uid)
-        print("id도 있나요?", currentUser?.email)
-        print("photo는요?", currentUser?.photoURL)
-        print("닉네임은요?", currentUser?.displayName)
-        
         setDelegate()
         setUI()
         mainView.delegate = self
@@ -119,7 +100,9 @@ extension MainViewController: UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
-            cell.dataBinding(data: ridArr)
+//            guard let rid = reviewData[indexPath.row]?.rid else { return cell }
+//            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
+//            cell.recieveData(data: reviewData)
             return cell
         default:
             return UITableViewCell()
