@@ -29,12 +29,6 @@ class MatchingPlaceReviewDetailView: UIView {
     
     //MARK: - Properties
     
-    lazy var xMarkButton = UIButton().then {
-        let iconImage = UIImage(systemName: "xmark")
-        $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .white
-    }
-    
     // 매칭 업체 리뷰가 보여지는 테이블뷰입니두
     lazy var setMatchingPlaceReviewTableView = UITableView().then {
         $0.backgroundColor = .white

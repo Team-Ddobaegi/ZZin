@@ -1,9 +1,3 @@
-//
-//  MatchingReviewDetailVC.swift
-//  ZZin
-//
-//  Created by t2023-m0045 on 10/20/23.
-//
 
 import UIKit
 
@@ -34,6 +28,7 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         setTableViewAttribute()
         configureUI()
     }
+
     
     private func setCostumCell() {
         // 커스텀 셀 선언
@@ -50,12 +45,14 @@ class MatchingPlaceReviewDetailVC: UIViewController {
         matchingPlaceReviewDetailView.setMatchingPlaceReviewTableView.estimatedRowHeight = UITableView.automaticDimension
     }
     
+    
     // MARK: - Actions
     
     @objc private func xMarkButtonTapped(){
         print("매칭 업체 페이지로 돌아갑니다.")
         self.navigationController?.popViewController(animated: true)
     }
+    
     
     // MARK: - configureUI
     
@@ -110,7 +107,7 @@ extension MatchingPlaceReviewDetailVC: UITableViewDelegate, UITableViewDataSourc
             // 매칭 리뷰 썸네일
             let cell = tableView.dequeueReusableCell(withIdentifier: MatchingThumbnailCell.identifier) as! MatchingThumbnailCell
             cell.selectionStyle = .none
-//            cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
+            cell.xMarkButton.addTarget(self, action: #selector(xMarkButtonTapped), for: .touchUpInside)
             
             FireStorageManager().bindViewOnStorageWithRid(rid: reviewID ?? "", reviewImgView: cell.review.img, title: cell.review.reviewTitleLabel, companion: cell.review.withKeywordLabel, condition: cell.review.conditionKeywordLabel, town: cell.review.regionLabel)
             
