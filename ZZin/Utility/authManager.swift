@@ -67,35 +67,96 @@ class AuthManager {
 //        }
 //    }
     
-    func registerNewUser(with credentials: AuthCredentials, completion: @escaping (Bool, Error) -> Void) {
+//    func registerNewUser(with credentials: AuthCredentials, completion: @escaping (Bool, Error?) -> Void) {
+//        Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { (result, error) in
+//            if let error = error {
+//                print("에러가 발생했습니다. \(error.localizedDescription)")
+//                completion(false, error)
+//                return
+//            }
+//            
+//            guard let uid = result?.user.uid else {
+//                completion(false, nil)
+//                return
+//            }
+//            
+//            do {
+//                let photoURL = URL(string: "gs://zzin-ios-application.appspot.com/profiles/default_profile.png")
+//                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+//                changeRequest?.photoURL = photoURL
+//                changeRequest?.displayName = credentials.userName
+//                
+//                changeRequest?.commitChanges { commitError in
+//                    if let commitError = commitError {
+//                        print("프로필 변경 에러가 발생했습니다.", commitError.localizedDescription)
+//                        completion(false, commitError)
+//                        return
+//                    }
+//                    
+//                    let data: [String: Any] = ["email": credentials.email,
+//                                               "uid": uid,
+//                                               "userName": credentials.userName]
+//                    FireStoreManager.shared.db.collection("users").document(uid).setData(data) { error in
+//                        if let error = error {
+//                            print("데이터 저장 에러가 발생했습니다.", error.localizedDescription)
+//                            completion(false, error)
+//                            return
+//                        }
+//                        completion(true, error ?? "")
+//                    }
+//                }
+//            } catch {
+//                print("이미지를 저장하는데 에러가 발생했습니다.", error.localizedDescription)
+//                completion(false, error)
+//            }
+//            
+//        }
+//    }
+    func registerNewUser(with credentials: AuthCredentials, completion: @escaping (Bool, Error?) -> Void) {
         Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { result, error in
             if let error = error {
                 print("에러가 발생했습니다. \(error.localizedDescription)")
                 completion(false, error)
+                return
             }
             
-            guard let uid = result?.user.uid else { return }
-            
+            guard let uid = result?.user.uid else {
+                completion(false, nil)
+                return
+            }
+
             do {
-                let photoURL = try URL(string: "gs://zzin-ios-application.appspot.com/profiles/default_profile.png")
+                let photoURL = URL(string: "gs://zzin-ios-application.appspot.com/profiles/default_profile.png") // 초
                 let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
                 changeRequest?.photoURL = photoURL
+                changeRequest?.displayName = credentials.userName
+
+                changeRequest?.commitChanges { commitError in
+                    if let commitError = commitError {
+                        print("프로필 변경 에러가 발생했습니다.", commitError.localizedDescription)
+                        completion(false, commitError)
+                        return
+                    }
+
+                    let data: [String: Any] = ["email": credentials.email,
+                                               "uid": uid,
+                                               "userName": credentials.userName]
+                    FireStoreManager.shared.db.collection("users").document(uid).setData(data) { firestoreError in
+                        if let firestoreError = firestoreError {
+                            print("데이터 저장 에러가 발생했습니다.", firestoreError.localizedDescription)
+                            completion(false, firestoreError)
+                            return
+                        }
+
+                        completion(true, nil)
+                    }
+                }
             } catch {
                 print("이미지를 저장하는데 에러가 발생했습니다.", error.localizedDescription)
-            }
-            
-            let data: [String: Any] = ["email": credentials.email,
-                                       "uid": uid,
-                                       "userName": credentials.userName]
-            FireStoreManager.shared.db.collection("users").document(uid).setData(data) { error in
-                if let error = error {
-                    print("데이터 저장 에러가 발생했습니다.", error.localizedDescription)
-                    completion(false, error)
-                    return
-                }
+                completion(false, error)
             }
         }
     }
-    
+
     
 }
