@@ -22,15 +22,40 @@ class LoginView: UIView {
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = ColorGuide.main.withAlphaComponent(0.5)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.isEnabled = false
     }
     
     let memberButton = UIButton().then {
-        $0.setTitle("찐회원 되기", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        $0.setTitle("회원가입", for: .normal)
+        $0.setTitleColor(.darkGray, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
+    
+    let skipButton = UIButton().then {
+        $0.setTitle("로그인 건너뛰기", for: .normal)
+        $0.setTitleColor(.darkGray, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+    }
+    
+    private let divider = UIView().then {
+        $0.backgroundColor = .gray
+        
+        $0.snp.makeConstraints {
+            $0.width.equalTo(1)
+            $0.height.equalTo(10)
+        }
+    }
+    
+    lazy var memberStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [memberButton,divider,skipButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.distribution = .fill
+        
+        return stackView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,7 +68,7 @@ class LoginView: UIView {
     }
     
     private func configure() {
-        [idTextfieldView, pwTextfieldView, logoView, loginButton, memberButton].forEach{ addSubview($0) }
+        [idTextfieldView, pwTextfieldView, logoView, loginButton, memberStackView].forEach{ addSubview($0) }
         pwTextfieldView.textfield.isSecureTextEntry = true
     }
     
@@ -57,39 +82,41 @@ class LoginView: UIView {
     private func setLogo() {
         logoView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(124)
-            $0.width.equalTo(186)
-            $0.height.equalTo(90)
+            $0.top.equalToSuperview().offset(130)
+            $0.width.height.equalTo(170)
         }
     }
     
     private func setCustomView() {
         idTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(logoView.snp.bottom).offset(84)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
+            $0.top.equalTo(logoView.snp.bottom).offset(70)
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
         }
         
         pwTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
         }
     }
     
     private func setLoginBtn() {
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(140)
+            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 353, height: 52))
+            $0.left.right.equalToSuperview().inset(20)
+            $0.height.equalTo(55)
         }
     }
     
     private func setMemberBtn() {
-        memberButton.snp.makeConstraints{
-            $0.top.equalTo(loginButton.snp.bottom).offset(15)
+        memberStackView.snp.makeConstraints{
+            $0.top.equalTo(loginButton.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(19)
+            $0.height.equalTo(13)
         }
     }
 }

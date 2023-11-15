@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     let loginView = LoginView()
     private let userData = Auth.auth().currentUser?.uid
     
+    
     //MARK: - LifeCycle 선언
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class LoginViewController: UIViewController {
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
+        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func configureTextField() {
@@ -130,6 +132,11 @@ class LoginViewController: UIViewController {
                 self.showAlert(type: .loginFailure)
             }
         }
+    }
+    
+    @objc func skipButtonTapped() {
+        print("로그인 건너뛰기")
+
     }
     
     @objc func memberButtonTapped() {
