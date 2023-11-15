@@ -165,9 +165,11 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
             }
             
             let document = documents[0]
-            // 보경님 여기서 알아서 갖다 쓰셈
+            
             print("시: \(document.region1DepthName.prefix(2))")
+            city = String(document.region1DepthName.prefix(2))
             print("구: \(document.region2DepthName)")
+            town = String(document.region2DepthName)
         }
 
         dismiss(animated: true)

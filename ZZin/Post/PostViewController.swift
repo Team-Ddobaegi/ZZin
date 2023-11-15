@@ -4,7 +4,6 @@
 //
 //  Created by t2023-m0061 on 2023/10/11.
 //
-// section 0. 가게이름, 1. 가게 연락처, 2. 제목, 3. 동반인, 4. 상황별, 5. 음식종류, 6. 리뷰 내용
 import UIKit
 import Foundation
 import SnapKit
@@ -14,8 +13,10 @@ import PhotosUI
 import FirebaseStorage
 import Firebase
 
-
+// MARK: - 전역 변수
 var searchedInfo: Document? = nil
+var city: String? = nil
+var town: String? = nil
 var textViewText: String? = ""
 var titleText: String? = ""
 
@@ -52,12 +53,12 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-            self.view.endEditing(true)
-      }
+        self.view.endEditing(true)
+    }
     
     
-
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,13 +74,12 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         CustomTextField().textField.delegate = self
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-           NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
         DispatchQueue.main.async{
@@ -89,7 +89,7 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name:UIResponder.keyboardWillShowNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
         collectionView.reloadData()
     }
     
@@ -100,8 +100,8 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     
     @objc func keyboardUp(notification:NSNotification) {
         if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-           let keyboardRectangle = keyboardFrame.cgRectValue
-           
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            
             UIView.animate(
                 withDuration: 0.3
                 , animations: {
@@ -117,7 +117,7 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         navigationItem.title = "찐 맛집 추천"
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .systemBackground
-
+        
         // delegate
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -203,8 +203,6 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.secondKeywordButton.setTitleColor(secondButtonColor, for: .normal)
             cell.menuKeywordButton.setTitle(menuKeywordText, for: .normal)
             cell.menuKeywordButton.setTitleColor(menuButtonColor, for: .normal)
-//            cell.textView = self.textView
-//            cell.textView.backgroundColor = .quaternarySystemFill
             
             if textViewText == "" {
                 cell.textView.text = ""
@@ -216,7 +214,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
             cell.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
             
-            if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData != nil {
+            if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData.count != 0 {
                 cell.submitButton.backgroundColor = ColorGuide.main
                 cell.submitButton.isUserInteractionEnabled = true
             }
@@ -226,39 +224,32 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             return UICollectionViewCell()
         }
     }
-
+    
     @objc func submitButtonTapped() {
         // 저장해야하는 데이터
-
+        
         print("제출 눌림")
-
+        
         dataWillSet.updateValue(imgData, forKey: "imgData")
-        dataWillSet.updateValue(searchedInfo?.placeName, forKey: "placeName")
-        dataWillSet.updateValue(searchedInfo?.placeName, forKey: "placeName")
-        dataWillSet.updateValue(searchedInfo?.roadAddressName, forKey: "address")
-        dataWillSet.updateValue(searchedInfo?.phone, forKey: "placeTelNum")
+        dataWillSet.updateValue(searchedInfo?.placeName as Any, forKey: "placeName")
+        dataWillSet.updateValue(searchedInfo?.placeName as Any, forKey: "placeName")
+        dataWillSet.updateValue(searchedInfo?.roadAddressName as Any, forKey: "address")
+        dataWillSet.updateValue(searchedInfo?.phone as Any, forKey: "placeTelNum")
         dataWillSet.updateValue(Double(searchedInfo?.y ?? "0")!, forKey: "lat")
         dataWillSet.updateValue(Double(searchedInfo?.x ?? "0")!, forKey: "long")
         dataWillSet.updateValue(firstKeywordText, forKey: "companion")
         dataWillSet.updateValue(secondKeywordText, forKey: "condition")
         dataWillSet.updateValue(menuKeywordText, forKey: "kindOfFood")
-        dataWillSet.updateValue(titleText, forKey: "title")
-        dataWillSet.updateValue(textViewText, forKey: "content")
-
-
+        dataWillSet.updateValue(titleText as Any, forKey: "title")
+        dataWillSet.updateValue(textViewText as Any, forKey: "content")
+        dataWillSet.updateValue(city as Any, forKey: "city")
+        dataWillSet.updateValue(town as Any, forKey: "town")
+        
         print("dataWillSet :", dataWillSet)
-
+        
         storeManager.setData(uid: uid, dataWillSet: dataWillSet)
         self.tabBarController?.selectedIndex = 0
-        
     }
-    
-    func activateButton() {
-        if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData.count != 0 {
-            
-        }
-    }
-
     
     // 첫 번째 키워드 버튼이 탭될 때
     @objc func firstKeywordButtonTapped() {
@@ -325,6 +316,8 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     
     func flushAll() {
         searchedInfo = nil
+        city = nil
+        town = nil
         textViewText = ""
         titleText = ""
         
@@ -340,79 +333,79 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func getLayout() -> UICollectionViewCompositionalLayout {
-      UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
-        switch section {
-        case 1:
-            let spacing = CGFloat(16)
-          // Item
-          let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(126),
-            heightDimension: .absolute(110)
-          )
-          let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
-          
-          // Group
-          let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(126 * 2),
-            heightDimension: .absolute(110)
-          )
-          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-          
-          // Section
-          let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-          section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: 0)
-          return section
-        case 2:
-            let spacing = CGFloat(16)
-            let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
-          // Item
-          let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-            heightDimension: .absolute(550)
-          )
-          let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-          
-          // Group
-          let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(550)
-          )
-          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-          
-          // Section
-          let section = NSCollectionLayoutSection(group: group)
-          section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
-          return section
-        default:
-            let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
-          let itemInset: CGFloat = 16
-          
-          // Item
-          let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-            heightDimension: .fractionalHeight(1)
-          )
-          let item = NSCollectionLayoutItem(layoutSize: itemSize)
-          item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-          
-          // Group
-          let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(500)
-          )
-          let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-          
-          // Section
-          let section = NSCollectionLayoutSection(group: group)
-          section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-          return section
+        UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
+            switch section {
+            case 1:
+                let spacing = CGFloat(16)
+                // Item
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .absolute(126),
+                    heightDimension: .absolute(110)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10)
+                
+                // Group
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .absolute(126 * 2),
+                    heightDimension: .absolute(110)
+                )
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                // Section
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: 0)
+                return section
+            case 2:
+                let spacing = CGFloat(16)
+                let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
+                // Item
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(itemFractionalWidthFraction),
+                    heightDimension: .absolute(550)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                
+                // Group
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(550)
+                )
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                // Section
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: spacing, trailing: spacing)
+                return section
+            default:
+                let itemFractionalWidthFraction = 1.0 // horizontal 1개의 셀
+                let itemInset: CGFloat = 16
+                
+                // Item
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(itemFractionalWidthFraction),
+                    heightDimension: .fractionalHeight(1)
+                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                
+                // Group
+                let groupSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(500)
+                )
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                // Section
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+                return section
+            }
         }
-      }
     }
-
+    
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
@@ -435,14 +428,11 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
 
 extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        var jpegDataArr: [Data] = []
-        var uiImageArr: [UIImage] = []
         picker.dismiss(animated: true, completion: nil)
-
+        
         for result in results {
-    
+            
             let itemProvider = result.itemProvider
-            result.assetIdentifier!
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                     if let uiImage = image as? UIImage {
@@ -457,7 +447,7 @@ extension PostViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
-
+        
         selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
     }
     
