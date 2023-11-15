@@ -7,9 +7,11 @@
 import Foundation
 import UIKit
 import Then
+import FirebaseAuth
 
 protocol WithdrawalDelegate: class {
     func onTapClose()
+    func onTapOk()
 }
 
 class WithdrawalViewController: UIViewController {
@@ -20,7 +22,7 @@ class WithdrawalViewController: UIViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
     }
-        
+    
     var titleLabel = UILabel().then {
         $0.textColor = .label
         $0.text = "회원탈퇴"
@@ -74,6 +76,7 @@ class WithdrawalViewController: UIViewController {
         view.addSubview(okButton)
         view.addSubview(cancelButton)
         
+        okButton.addTarget(self, action: #selector(onTapOk), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(onTapClose), for: .touchUpInside)
         
         bgView.snp.makeConstraints {
@@ -104,6 +107,23 @@ class WithdrawalViewController: UIViewController {
             $0.centerX.equalTo(bgView)
             $0.width.equalTo(350)
             $0.height.equalTo(60)
+        }
+    }
+    
+    @objc func onTapOk() {
+        if  let user = Auth.auth().currentUser {
+            user.delete { [self] error in
+                if let error = error {
+                    print("Firebase Error : ",error)
+                } else {
+                    print("회원탈퇴 성공!")
+                    let loginpage = LoginViewController()
+                    loginpage.modalPresentationStyle = .fullScreen
+                    self.present(loginpage, animated: true)
+                }
+            }
+        } else {
+            print("로그인 정보가 존재하지 않습니다")
         }
     }
     

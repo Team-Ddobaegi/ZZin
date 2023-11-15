@@ -63,6 +63,13 @@ class AccountSettingViewController: UIViewController {
 }
 
 extension AccountSettingViewController: LogoutDelegate {
+    func onTapOk() {
+        self.removeDim()
+        let loginpage = LoginViewController()
+        loginpage.modalPresentationStyle = .fullScreen
+        self.present(loginpage, animated: true)
+    }
+    
     func onTapClose() {
         self.removeDim()
     }
@@ -91,6 +98,7 @@ extension AccountSettingViewController: UITableViewDelegate, UITableViewDataSour
             cell.text.textAlignment = .left
             cell.text.text = "로그아웃"
             cell.separatorInset = UIEdgeInsets.zero
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             
         } else if indexPath.row == 0 && indexPath.section == 1 {
             cell.leadingImage.image = UIImage(systemName: "trash")
@@ -100,6 +108,7 @@ extension AccountSettingViewController: UITableViewDelegate, UITableViewDataSour
             cell.trailingImage.isHidden = true
             cell.text.textColor = .red
             cell.separatorInset = UIEdgeInsets.zero
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             cell.leadingImage.snp.makeConstraints {
                 $0.width.height.equalTo(35)
             }
@@ -115,7 +124,7 @@ extension AccountSettingViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
             let bulletinBoardVC = LogoutViewController.instance()
             
