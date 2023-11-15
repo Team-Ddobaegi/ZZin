@@ -21,7 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if Auth.auth().currentUser != nil {
             let tabBarVC = TabBarViewController()
-//            let navigationController = UINavigationController(rootViewController: tabBarVC)
             self.window?.rootViewController = tabBarVC
             print("user 데이터 -", currentUser)
         } else {

@@ -226,9 +226,9 @@ class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
         $0.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         $0.setTitle("제출", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = ColorGuide.main
+        $0.backgroundColor = .systemGray3
         $0.layer.cornerRadius = 15
-        $0.isUserInteractionEnabled = true
+        $0.isUserInteractionEnabled = false
     }
 
     override init(frame: CGRect) {

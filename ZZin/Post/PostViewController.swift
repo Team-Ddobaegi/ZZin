@@ -19,11 +19,13 @@ var searchedInfo: Document? = nil
 var textViewText: String? = ""
 var titleText: String? = ""
 
-class PostViewController: UICollectionViewController, MatchingKeywordDelegate, UITextViewDelegate {
+class PostViewController: UICollectionViewController, MatchingKeywordDelegate, UITextViewDelegate, UITextFieldDelegate {
     
     // MARK: - Properties
     let storeManager = FireStoreManager.shared
     var dataWillSet: [String: Any] = [:]
+    private var selections = [String: PHPickerResult]()
+    private var selectedAssetIdentifiers = [String]()
     
     let uid = "bo_bo_@kakao.com"
     var imgData: [Data] = []
@@ -36,6 +38,8 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     var firstButtonColor: UIColor = .lightGray
     var secondButtonColor: UIColor = .lightGray
     var menuButtonColor: UIColor = .lightGray
+    
+    var isVaild: Bool = false
     
     // MARK: - Initializers
     init() {
@@ -61,6 +65,7 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         super.viewDidLoad()
         print("viewdidload start")
         setupUI()
+        hideKeyboardWhenTappedAround()
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -91,7 +96,6 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     @objc func keyboardUp(notification:NSNotification) {
         if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
            let keyboardRectangle = keyboardFrame.cgRectValue
-            
            
             UIView.animate(
                 withDuration: 0.3
@@ -99,7 +103,6 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
                     self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
                 }
             )
-            
         }
     }
     
@@ -107,12 +110,9 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     private func setupUI() {
         // Navigation Bar
         navigationItem.title = "찐 맛집 추천"
-//        self.navigationController?.navigationBar.backgroundColor = .red
-////        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .red
-//        UINavigationBar.appearance().isTranslucent = false
-//        UINavigationBar.appearance().barTintColor = .red
-//
-        
+        self.navigationController?.navigationBar.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .systemBackground
+
         // delegate
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -128,7 +128,6 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         collectionView.register(textInputCell.self, forCellWithReuseIdentifier: textInputCell.identifier)
         collectionView.register(ImgSelectionCell.self, forCellWithReuseIdentifier: ImgSelectionCell.identifier)
         collectionView.register(SelectKeywordCell.self, forCellWithReuseIdentifier: SelectKeywordCell.identifier)
-        
     }
     
     @objc func didFindPlaceButtonTapped(_ sender: Any?) {
@@ -174,7 +173,8 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             switch indexPath.item {
             case 0:
                 cell.imageView.image = UIImage(named: "add_photo")
-                cell.countLabel.text = String(imgArr.count) + " / 5"
+                print("imgArr.count :", imgArr.count)
+                cell.countLabel.text = "\(imgArr.count) / 5"
             default:
                 cell.imageView.image = imgArr[indexPath.item - 1]
                 cell.countLabel.isHidden =  true
@@ -198,6 +198,10 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
             cell.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
             
+            if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData != nil {
+                cell.submitButton.backgroundColor = ColorGuide.main
+                cell.submitButton.isUserInteractionEnabled = true
+            }
             
             return cell
         default:
@@ -229,6 +233,12 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         storeManager.setData(uid: uid, dataWillSet: dataWillSet)
         self.tabBarController?.selectedIndex = 0
         
+    }
+    
+    func activateButton() {
+        if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData.count != 0 {
+            
+        }
     }
     
     func flushEverything() {
@@ -395,11 +405,13 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.section == 1 {
             switch indexPath.item {
             case 0:
-                var configuration = PHPickerConfiguration()
-                configuration.selectionLimit = 5
-                configuration.filter = .images
+                var config = PHPickerConfiguration(photoLibrary: .shared())
+                config.selectionLimit = 5
+                config.filter = .images
+                config.selection = .ordered
+                config.preselectedAssetIdentifiers = selectedAssetIdentifiers
                 
-                let picker = PHPickerViewController(configuration: configuration)
+                let picker = PHPickerViewController(configuration: config)
                 picker.delegate = self
                 self.present(picker, animated: true, completion: nil)
             default: return
@@ -410,25 +422,47 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
 
 extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        var jpegDataArr: [Data] = []
+        var uiImageArr: [UIImage] = []
         picker.dismiss(animated: true, completion: nil)
 
-        for (index, _) in results.enumerated() {
-           let itemProvider = results[index].itemProvider
-            guard itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+        // picker의 작업이 끝난 후 만들어질 selections의 변수를 생성
+        var newSelections = [String: PHPickerResult]()
+        for result in results {
+            let identifier = result.assetIdentifier!
+            newSelections[identifier] = selections[identifier] ?? result
+        }
         
+        for (index, result) in results.enumerated() {
+        let itemProvider = results[index].itemProvider
+        guard itemProvider.canLoadObject(ofClass: UIImage.self) else { return }            
             itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                 guard let self = self,
                       let uiImage = image as? UIImage,
                       let data = uiImage.jpegData(compressionQuality: 0.1) else { return }
+                jpegDataArr.append(data)
+                uiImageArr.append(uiImage)
                 
                 DispatchQueue.main.sync {
-                    self.imgData.append(data)
-                    self.imgArr.append(uiImage)
+                    self.imgData = jpegDataArr
+                    self.imgArr = uiImageArr
                     self.collectionView.reloadData()
                 }
             }
         }
-        
+        selections = newSelections
+        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
+
 

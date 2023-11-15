@@ -164,9 +164,7 @@ extension InfoViewController {
             storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img, title: cell.customView.reviewTitleLabel, companion: cell.customView.withKeywordLabel, condition: cell.customView.conditionKeywordLabel, town: cell.customView.regionLabel)
             
             cell.trashButton.tag = indexPath.item
-            cell.editButton.tag = indexPath.item
             cell.trashButton.isHidden = false
-            cell.editButton.isHidden = false
             
             cell.trashButton.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
             return cell
