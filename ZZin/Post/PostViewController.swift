@@ -27,7 +27,7 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     private var selections = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
     
-    let uid = "bo_bo_@kakao.com"
+    let uid = MainViewController().uid!
     var imgData: [Data] = []
     var imgArr: [UIImage] = []
     
@@ -38,8 +38,6 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     var firstButtonColor: UIColor = .lightGray
     var secondButtonColor: UIColor = .lightGray
     var menuButtonColor: UIColor = .lightGray
-    
-    var isVaild: Bool = false
     
     // MARK: - Initializers
     init() {
@@ -74,12 +72,19 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
+        CustomTextField().textField.delegate = self
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        
+        DispatchQueue.main.async{
+            self.flushAll()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -158,6 +163,14 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.placeNameField.textField.text = searchedInfo?.placeName
                 cell.placeAddressField.textField.text = searchedInfo?.roadAddressName
                 cell.placeTelNumField.textField.text = searchedInfo?.phone
+            } else {
+                cell.placeNameField.textField.text = ""
+                cell.placeAddressField.textField.text = ""
+                cell.placeTelNumField.textField.text = ""
+            }
+            
+            if titleText == "" {
+                cell.reviewTitleField.textField.text = ""
             }
             return cell
         case 1:
@@ -175,6 +188,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.imageView.image = UIImage(named: "add_photo")
                 print("imgArr.count :", imgArr.count)
                 cell.countLabel.text = "\(imgArr.count) / 5"
+                cell.countLabel.isHidden =  false
             default:
                 cell.imageView.image = imgArr[indexPath.item - 1]
                 cell.countLabel.isHidden =  true
@@ -191,6 +205,10 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.menuKeywordButton.setTitleColor(menuButtonColor, for: .normal)
 //            cell.textView = self.textView
 //            cell.textView.backgroundColor = .quaternarySystemFill
+            
+            if textViewText == "" {
+                cell.textView.text = ""
+            }
             
             //버튼기능
             cell.submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
@@ -240,28 +258,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             
         }
     }
-    
-    func flushEverything() {
-        let firstCell = collectionView.dequeueReusableCell(withReuseIdentifier: textInputCell.identifier, for: IndexPath(item: 0, section: 0)) as! textInputCell
-        let secondCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImgSelectionCell.identifier, for: IndexPath(item: 0, section: 1)) as! ImgSelectionCell
-        let thirdCell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectKeywordCell.identifier, for: IndexPath(item: 0, section: 2)) as! SelectKeywordCell
-        
-        firstCell.placeNameField.textField.text = ""
-        firstCell.placeAddressField.textField.text = ""
-        firstCell.placeTelNumField.textField.text = ""
-        firstCell.reviewTitleField.textField.text = ""
-        imgArr = []
-        imgData = []
-        dataWillSet = [:]
-        
-        firstKeywordText = ""
-        secondKeywordText = ""
-        menuKeywordText = ""
-        
-        textViewText = ""
-        searchedInfo = nil
-        titleText = ""
-    }
+
     
     // 첫 번째 키워드 버튼이 탭될 때
     @objc func firstKeywordButtonTapped() {
@@ -324,6 +321,22 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 self.collectionView.reloadData()
             }
         }
+    }
+    
+    func flushAll() {
+        searchedInfo = nil
+        textViewText = ""
+        titleText = ""
+        
+        firstKeywordText = "동반인"
+        secondKeywordText = "특성"
+        menuKeywordText = "식종"
+        
+        dataWillSet = [:]
+        imgArr = []
+        imgData = []
+        
+        collectionView.reloadData()
     }
     
     func getLayout() -> UICollectionViewCompositionalLayout {
@@ -426,31 +439,25 @@ extension PostViewController: PHPickerViewControllerDelegate {
         var uiImageArr: [UIImage] = []
         picker.dismiss(animated: true, completion: nil)
 
-        // picker의 작업이 끝난 후 만들어질 selections의 변수를 생성
-        var newSelections = [String: PHPickerResult]()
         for result in results {
-            let identifier = result.assetIdentifier!
-            newSelections[identifier] = selections[identifier] ?? result
-        }
-        
-        for (index, result) in results.enumerated() {
-        let itemProvider = results[index].itemProvider
-        guard itemProvider.canLoadObject(ofClass: UIImage.self) else { return }            
-            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-                guard let self = self,
-                      let uiImage = image as? UIImage,
-                      let data = uiImage.jpegData(compressionQuality: 0.1) else { return }
-                jpegDataArr.append(data)
-                uiImageArr.append(uiImage)
-                
-                DispatchQueue.main.sync {
-                    self.imgData = jpegDataArr
-                    self.imgArr = uiImageArr
-                    self.collectionView.reloadData()
+    
+            let itemProvider = result.itemProvider
+            result.assetIdentifier!
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                    if let uiImage = image as? UIImage {
+                        let data = uiImage.jpegData(compressionQuality: 0.1)
+                        DispatchQueue.main.sync {
+                            self?.imgData.append(data!)
+                            self?.imgArr.append(uiImage)
+                            self?.collectionView.reloadData()
+                        }
+                    }
+                    
                 }
             }
         }
-        selections = newSelections
+
         selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
     }
     
