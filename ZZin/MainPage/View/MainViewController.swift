@@ -15,9 +15,9 @@ class MainViewController: UIViewController {
     private let mainView = MainView()
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
-    private let mainView = MainView()    
-    var reviewData: [Review] = []
     var placeData: [Place] = []
+    var reviewData: [Review] = []
+    var sectionHeaderHeight: CGFloat = 30
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
     

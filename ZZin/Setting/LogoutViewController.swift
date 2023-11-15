@@ -13,7 +13,7 @@ protocol LogoutDelegate: class {
     func onTapClose()
 }
 
-class LogoutVC: UIViewController {
+class LogoutViewController: UIViewController {
     
     weak var delegate: LogoutDelegate?
     
@@ -58,8 +58,8 @@ class LogoutVC: UIViewController {
         }
     }
     
-    static func instance() -> LogoutVC {
-        return LogoutVC(nibName: nil, bundle: nil).then {
+    static func instance() -> LogoutViewController {
+        return LogoutViewController(nibName: nil, bundle: nil).then {
             $0.modalPresentationStyle = .overFullScreen
         }
     }

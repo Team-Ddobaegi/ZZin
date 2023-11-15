@@ -62,13 +62,13 @@ class AccountSettingViewController: UIViewController {
     }
 }
 
-extension AccountSettingViewController: OkDelegate {
+extension AccountSettingViewController: LogoutDelegate {
     func onTapClose() {
         self.removeDim()
     }
 }
 
-extension AccountSettingViewController: CancelDelegate {
+extension AccountSettingViewController: WithdrawalDelegate {
     func onTapClose2() {
         self.removeDim()
     }
@@ -117,14 +117,14 @@ extension AccountSettingViewController: UITableViewDelegate, UITableViewDataSour
         
         switch indexPath.row {
         case 0:
-            let bulletinBoardVC = OkVC.instance()
+            let bulletinBoardVC = LogoutViewController.instance()
             
             bulletinBoardVC.delegate = self
             addDim()
             present(bulletinBoardVC, animated: true, completion: nil)
 
         case 1:
-            let cbulletinBoardVC = CancelVC.instance()
+            let cbulletinBoardVC = WithdrawalViewController.instance()
             
             cbulletinBoardVC.delegate = self
             addDim()
