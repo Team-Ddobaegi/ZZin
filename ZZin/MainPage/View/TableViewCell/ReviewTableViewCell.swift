@@ -12,8 +12,9 @@ class ReviewTableViewCell: UITableViewCell {
     
     private let storageManager = FireStorageManager()
     private var reviewData: [Review] = []
+    private var reviewID: [String] = []
     
-    private lazy var reviewCollectionView: UICollectionView = {
+    lazy var reviewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 230)
@@ -55,7 +56,7 @@ class ReviewTableViewCell: UITableViewCell {
 
 extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return reviewData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -64,19 +65,6 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
             let data = reviewData[indexPath.row]
             storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
             }
-        
-//        guard let data = reviewData[indexPath.row] else { return cell }
-        
-
-        //        if !reviewData.isEmpty {
-//            print(reviewData[indexPath.item])
-//        }
-        
-//        if data != [] {
-//            if let rid = data?[indexPath.item] {
-//                cell.dataBinding(rid: rid)
-//            }
-//        }
         return cell
     }
 }

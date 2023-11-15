@@ -37,6 +37,7 @@
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
 		BD177F512AF453B900DF2FE7 /* LocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */; };
+		BD23AD6C2B04AC79004C85A6 /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD23AD6B2B04AC79004C85A6 /* ButtonCollectionViewCell.swift */; };
 		BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3698632AED858800E4125A /* ErrorHandling.swift */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB51F2ADD33D800A9F4A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51E2ADD33D800A9F4A0 /* FirebaseAnalytics */; };
@@ -79,7 +80,6 @@
 		BD8D6B0F2ADFC28D00F2A8D6 /* FoodCardFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */; };
 		BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */; };
 		BD953A672AE203EF00E07C36 /* DetailRegistrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */; };
-		BDA4314D2B01B3EF00817477 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDA4314C2B01B3EF00817477 /* SecretKey.plist */; };
 		BDA431502B0309A500817477 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BDA4314F2B0309A500817477 /* Lottie */; };
 		BDA431522B0313CD00817477 /* lottieTest.json in Resources */ = {isa = PBXBuildFile; fileRef = BDA431512B0313CD00817477 /* lottieTest.json */; };
 		BDAADE362AFF5DDE00847F37 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */; };
@@ -176,6 +176,7 @@
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
 		BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTableViewCell.swift; sourceTree = "<group>"; };
+		BD23AD6B2B04AC79004C85A6 /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -188,7 +189,6 @@
 		BD8D6B0E2ADFC28D00F2A8D6 /* FoodCardFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCardFooterView.swift; sourceTree = "<group>"; };
 		BD953A622AE1FC1700E07C36 /* DetailRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationViewController.swift; sourceTree = "<group>"; };
 		BD953A662AE203EF00E07C36 /* DetailRegistrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRegistrationCell.swift; sourceTree = "<group>"; };
-		BDA4314C2B01B3EF00817477 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		BDA431512B0313CD00817477 /* lottieTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottieTest.json; sourceTree = "<group>"; };
 		BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		BDAADE372AFFBCA800847F37 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
@@ -529,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				FF031D672ADBEB1B00206056 /* LocalCollectionViewCell.swift */,
+				BD23AD6B2B04AC79004C85A6 /* ButtonCollectionViewCell.swift */,
 				FF031D692ADBEB5100206056 /* ReviewCollectionViewCell.swift */,
 			);
 			path = CollectionViewCell;
@@ -855,6 +856,7 @@
 				BD03FD782AF32805009259DD /* CustomButton.swift in Sources */,
 				7B1103E52AE13F7A001BBEB2 /* MatchingPlacePhotoCell.swift in Sources */,
 				7BFC61C22AE1C8BC00F46544 /* MatchingPlaceReviewDetailView.swift in Sources */,
+				BD23AD6C2B04AC79004C85A6 /* ButtonCollectionViewCell.swift in Sources */,
 				DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */,
 				7B47A5562AE91CF500A44C2C /* MatchingReviewTextCell.swift in Sources */,
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,

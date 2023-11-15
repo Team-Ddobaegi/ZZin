@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class CustomButton: UIButton {
 
@@ -35,7 +36,7 @@ class CustomButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func replaceImage(image: String) {
-        self.setImage(UIImage(named: image), for: .normal)
-    }
+//    func replaceImage(image: String) {
+//        self.setImage(UIImage(named: image), for: .normal)
+//    }
 }
