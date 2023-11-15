@@ -15,12 +15,9 @@ class MainViewController: UIViewController {
     private let mainView = MainView()
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
-    let reviewCell = ReviewTableViewCell()
-    var sectionHeaderHeight: CGFloat = 30 // 섹션 헤더의 높이
-    
-    var loadedRidAndPid: [String:[String]?] = [:]
-    var placeData: [Place] = []
+    private let mainView = MainView()    
     var reviewData: [Review] = []
+    var placeData: [Place] = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
     
@@ -40,6 +37,24 @@ class MainViewController: UIViewController {
             case .success(let review):
                 print("======= 이게 데이터다 ========",review)
                 self.reviewData = review
+                DispatchQueue.main.async {
+                    self.mainView.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
+            }
+        }
+    }
+    
+    func fetchPlaceData() {
+        dataManager.getPlaceData { result in
+            switch result {
+            case .success(let place):
+                print("======= 이게 데이터다 ========",place)
+                self.placeData = place
+                DispatchQueue.main.async {
+                    self.mainView.tableView.reloadData()
+                }
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
@@ -66,6 +81,7 @@ extension MainViewController {
         //        navigationController?.setNavigationBarHidden(true, animated: animated)
         view.backgroundColor = .white
         fetchReviewData()
+        fetchPlaceData()
     }
     
     override func viewDidLoad() {
@@ -87,7 +103,7 @@ extension MainViewController: UITableViewDelegate {
         // 영역별 높이 다르게 설정
         switch indexPath.section {
         case 0: return 100
-        case 1: return 290
+        case 1: return 250
         case 2: return 240
         default: return 200
         }
@@ -113,19 +129,18 @@ extension MainViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
-            cell.selectionStyle = .none
+            cell.recieveData(full: placeData)
+            cell.localCollectionView.reloadData()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier, for: indexPath) as! ButtonTableViewCell
-            cell.selectionStyle = .none
+            cell.recieveData(full: placeData)
+            cell.buttonCollectionView.reloadData()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
-            cell.selectionStyle = .none
-            
-            //            guard let rid = reviewData[indexPath.row]?.rid else { return cell }
-            //            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
-            //            cell.recieveData(data: reviewData)
+            cell.recieveData(data: reviewData)
+            cell.reviewCollectionView.reloadData()
             return cell
         default:
             return UITableViewCell()
@@ -151,9 +166,16 @@ extension MainViewController: MainViewDelegate {
         
         let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) { _ in
-            DispatchQueue.main.async {
-                self.dismiss(animated: true)
+            
+            do {
                 try! Auth.auth().signOut()
+                self.dismiss(animated: true) {
+                    let loginpage = LoginViewController()
+                    loginpage.modalPresentationStyle = .fullScreen
+                    self.present(loginpage, animated: true)
+                }
+            } catch {
+                print("로그아웃하는데 에러가 있었습니다.")
             }
         }
         

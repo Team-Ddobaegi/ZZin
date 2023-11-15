@@ -94,7 +94,7 @@ enum ErrorHandling {
         case .error:
             return "오류가 발생했습니다"
         case .tooShort:
-            return "길이가 너무 긺"
+            return "비밀번호는 8자리 이상이어야 합니다!"
         case .alreadyExists:
             return "다른 이메일을 사용해주세요"
         }

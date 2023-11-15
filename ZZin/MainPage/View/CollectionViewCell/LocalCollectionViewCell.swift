@@ -13,7 +13,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
     static let identifier = "LocalCollectionViewCell"
     private var isBookmarked = false
     
-    private var recommendPictureView = UIImageView().then {
+    var recommendPictureView = UIImageView().then {
         let image = UIImage(systemName: "person")
         $0.image = image
         $0.backgroundColor = .lightGray
@@ -28,7 +28,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private var recommendLabel = UILabel().then {
+    var recommendLabel = UILabel().then {
         $0.text = "강남구"
         $0.font = FontGuide.size16
         $0.textColor = .black
@@ -60,9 +60,9 @@ class LocalCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setComponents(text: String, image: String) {
+    func setComponents(place: String, image: String) {
         let imageData = UIImage(systemName: image)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         recommendPictureView.image = imageData
-        recommendLabel.text = text
+        recommendLabel.text = place
     }
 }

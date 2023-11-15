@@ -12,8 +12,9 @@ class ReviewTableViewCell: UITableViewCell {
     
     private let storageManager = FireStorageManager()
     private var reviewData: [Review] = []
+    private var reviewID: [String] = []
     
-    private lazy var reviewCollectionView: UICollectionView = {
+    lazy var reviewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 230)
@@ -49,30 +50,21 @@ class ReviewTableViewCell: UITableViewCell {
     
     func recieveData(data: [Review]) {
         self.reviewData = data
-        print(reviewData.count)
-        print(reviewData[0].title)
+        print("데이터를 받았습니다.", reviewData)
     }
 }
 
 extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return reviewData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCollectionViewCell.identifier, for: indexPath) as? ReviewCollectionViewCell else { return UICollectionViewCell() }
-//        guard let data = reviewData[indexPath.row] else { return cell }
-//        storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
-
-        //        if !reviewData.isEmpty {
-//            print(reviewData[indexPath.item])
-//        }
-        
-//        if data != [] {
-//            if let rid = data?[indexPath.item] {
-//                cell.dataBinding(rid: rid)
-//            }
-//        }
+        if !reviewData.isEmpty {
+            let data = reviewData[indexPath.row]
+            storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
+            }
         return cell
     }
 }
