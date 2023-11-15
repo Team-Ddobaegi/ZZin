@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+//        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func configureTextField() {
@@ -136,6 +136,16 @@ class LoginViewController: UIViewController {
     
     @objc func skipButtonTapped() {
         print("로그인 건너뛰기")
+//        
+//        Auth.auth().signInAnonymously { (authResult, error) in
+//            if let error = error {
+//                print("익명 로그인을 하는데 오류가 발생했습니다.", error.localizedDescription)
+//            } else {
+//                guard let user = authResult?.user else { return }
+//                let isAnonymous = user.isAnonymous
+//                let uid = user.uid
+//            }
+//        }
 //        let vc = TabBarViewController()
 //        vc.modalPresentationStyle = .fullScreen
 //        self.present(vc, animated: false)

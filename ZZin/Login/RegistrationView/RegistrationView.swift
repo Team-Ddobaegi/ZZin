@@ -25,7 +25,7 @@ class RegistrationView: UIView {
     }
     
     private let infoLabel = UILabel().then {
-        $0.text = "대/소문자와 숫자로 8자리가 되도록 작성해주세요!"
+        $0.text = "비밀번호는 대문자로 시작하고 특수문자로 끝나야 합니다."
         $0.font = UIFont.systemFont(ofSize: 12, weight: .thin)
         $0.textColor = .lightGray
     }
@@ -52,7 +52,7 @@ class RegistrationView: UIView {
     }
     
     let noticeLabel = UILabel().then {
-        $0.text = "회원가입 및 이용약관 동의"
+        $0.text = "회원가입 및 이용약관 동의 (탭 시, 상세 정보 확인)"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = .darkGray
     }
@@ -66,8 +66,6 @@ class RegistrationView: UIView {
     }()
     
     let locationButton = UIButton().then {
-//        let image = UIImage(systemName: "chevron.down")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-//        $0.setImage(image, for: .normal)
         $0.setTitle("지역 설정하기", for: .normal)
         $0.setTitleColor(ColorGuide.main, for: .normal)
         $0.layer.borderColor = ColorGuide.main.cgColor
@@ -173,17 +171,8 @@ class RegistrationView: UIView {
         doublecheckEmailView.isHidden = true
     }
     
-    //    private func setCheckButton() {
-    //        checkButton.snp.makeConstraints {
-    //            $0.trailing.equalToSuperview().inset(20)
-    //            $0.centerY.equalTo(emailTfView.snp.centerY)
-    //            $0.size.equalTo(CGSize(width: 50, height: 50))
-    //        }
-    //    }
-    
     private func setAnimation() {
         let animationView = LottieAnimationView(name: "lottieTest")
-//        animationView.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         animationView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
         animationView.contentMode = .scaleAspectFit
         addSubview(animationView)

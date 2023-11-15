@@ -30,7 +30,7 @@ class ReviewCollectionViewCell: UICollectionViewCell {
         addSubview(reviewUiView)
         reviewUiView.snp.makeConstraints{
             $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview()
             $0.left.right.equalToSuperview().inset(15)
         }
     }

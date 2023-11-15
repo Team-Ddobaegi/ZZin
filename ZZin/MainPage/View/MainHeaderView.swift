@@ -39,13 +39,6 @@ class MainHeaderView: UITableViewHeaderFooterView {
             attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "찐"))
             titleLabel.attributedText = attributedStr
         case 1:
-            let text = "이번주 성동구 찐 맛집 랭킹"
-            let biggerFont = FontGuide.size19Bold
-            let attributedStr = NSMutableAttributedString(string: text)
-            attributedStr.addAttribute(.font, value: biggerFont, range: (text as NSString).range(of: "찐"))
-            attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "찐"))
-            titleLabel.attributedText = attributedStr
-        case 2:
             let text = "로컬들의 실시간 맛집 찐 리뷰"
             let biggerFont = FontGuide.size19Bold
             let attributedStr = NSMutableAttributedString(string: text)

@@ -11,21 +11,16 @@ import Then
 import FirebaseAuth
 
 class RegistrationViewController: UIViewController {
-    
     //MARK: - UIComponent 선언
     private let screenWidth = UIScreen.main.bounds.width - 10
     private let registrationView = RegistrationView()
-    private let locationView = LocationView()
-    private var selectedRow = 0
-    private var noticeButtonToggle = true
-//    let notificationName = Notification.Name("passData")
+    private var noticeButtonToggle = false
     
     // MARK: - LifeCycle 정리
     override func viewDidLoad() {
         super.viewDidLoad()
         setDelegate()
         dismissKeyboard()
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationSelected), name: notificationName, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +37,7 @@ class RegistrationViewController: UIViewController {
         removeNotificationCenter()
     }
     
-    //MARK: - 메서드 생성    
+    //MARK: - 메서드 생성
     private func addRegistrationSubview() {
         view.addSubview(registrationView)
         registrationView.snp.makeConstraints {
@@ -135,7 +130,9 @@ class RegistrationViewController: UIViewController {
         }
         
         let numbers = password.suffix(1)
-        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
+        let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_-+=<>?/,.:;{}[]~`")
+        
+        guard numbers.rangeOfCharacter(from: specialCharacters) != nil else {
             print("마지막은 숫자를 써주세요")
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .firstTimePass)
@@ -143,7 +140,7 @@ class RegistrationViewController: UIViewController {
         }
         
         guard password.count >= 8 else {
-            print("8자리 이상 작성해주세요")
+            print("8자리 이상으로 작성해주세요")
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .tooShort)
             return false
@@ -196,9 +193,19 @@ class RegistrationViewController: UIViewController {
             return
         }
         
+        guard registrationView.pwTfView.textfield.text == registrationView.doublecheckPwView.textfield.text else {
+            showAlert(type: .equalPassword)
+            return
+        }
+        
+        guard noticeButtonToggle else {
+            showAlert(type: .agreement)
+            return
+        }
+        
         let credentials = AuthCredentials(email: id, password: pw, userName: nickname, description: "")
         AuthManager.shared.registerNewUser(with: credentials) { success, error in
-
+            
             if success {
                 print("유저가 생성되었습니다.")
                 DispatchQueue.main.async {
@@ -226,6 +233,7 @@ class RegistrationViewController: UIViewController {
         
         // alertController로 지역 리스트 팝업
         let vc = LocationView()
+        vc.delegate = self
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium()]
         }
@@ -236,14 +244,14 @@ class RegistrationViewController: UIViewController {
     @objc func noticeButtonTapped() {
         print("이용약관 버튼이 눌렸습니다.")
         
-        if noticeButtonToggle {
-            noticeButtonToggle = false
+        if noticeButtonToggle == false {
             let selectedImage = UIImage(systemName: "square.fill")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
             registrationView.noticeButton.setImage(selectedImage, for: .normal)
-        } else {
             noticeButtonToggle = true
+        } else {
             let Image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
             registrationView.noticeButton.setImage(Image, for: .normal)
+            noticeButtonToggle = false
         }
     }
     
@@ -253,15 +261,8 @@ class RegistrationViewController: UIViewController {
         UIApplication.shared.open(url)
     }
     
-//    @objc func handleLocationSelected(_ notification: Notification) {
-//        if let selectedLocation = notification.userInfo?["data"] as? String {
-//            self.registrationView.locationButton.setTitle(selectedLocation, for: .normal)
-//        }
-//    }
-    
     deinit {
         print("Registration 화면이 내려갔습니다. \(#function)")
-//        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -279,16 +280,28 @@ extension RegistrationViewController: UITextFieldDelegate {
         switch textField {
         case self.registrationView.nicknameTfView.textfield:
             registrationView.nicknameTfView.animateLabel()
-            registrationView.nicknameTfView.textfield.placeholder = "닉네임을 입력해주세요."
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.registrationView.nicknameTfView.hideInvalideMessage()
+                self.registrationView.nicknameTfView.textfield.placeholder = "닉네임을 입력해주세요."
+            }
         case self.registrationView.emailTfView.textfield:
             registrationView.emailTfView.animateLabel()
-            registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                self.registrationView.emailTfView.hideInvalideMessage()
+                self.registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
+            }
         case self.registrationView.pwTfView.textfield:
             registrationView.pwTfView.animateLabel()
-            registrationView.pwTfView.textfield.placeholder = "비밀번호를 입력해주세요."
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.registrationView.pwTfView.hideInvalideMessage()
+                self.registrationView.pwTfView.textfield.placeholder = "비밀번호를 입력해주세요."
+            }
         case self.registrationView.doublecheckPwView.textfield:
             registrationView.doublecheckPwView.animateLabel()
-            registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 입력해주세요."
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.registrationView.doublecheckPwView.hideInvalideMessage()
+                self.registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 입력해주세요."
+            }
         default: print("textfield를 찾지 못했습니다.")
         }
     }
@@ -326,5 +339,12 @@ extension RegistrationViewController: UITextFieldDelegate {
         default:
             self.registrationView.doublecheckPwView.textfield.resignFirstResponder()
         }
+    }
+}
+
+extension RegistrationViewController: sendDataDelegate {
+    func sendData(data: String) {
+        print(data)
+        registrationView.locationButton.setTitle(data, for: .normal)
     }
 }

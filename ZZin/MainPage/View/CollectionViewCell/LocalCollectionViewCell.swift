@@ -24,7 +24,6 @@ class LocalCollectionViewCell: UICollectionViewCell {
         $0.snp.makeConstraints {
             $0.width.equalTo(70)
             $0.height.equalTo(72)
-
         }
     }
     
@@ -55,7 +54,6 @@ class LocalCollectionViewCell: UICollectionViewCell {
     private func configureSubview() {
         contentView.addSubview(recommendStackView)
         recommendStackView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
             $0.size.equalTo(CGSize(width: 70, height: 100))
         }
     }

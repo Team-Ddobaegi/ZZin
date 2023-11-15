@@ -183,7 +183,7 @@ class RecommendPlaceReviewThumbnail: UIView {
         let label = UILabel()
         let text = "식감도 맛도 너무 좋은 '삼겹살' 맛집, 하남돼지집"
         // 폰트 변경
-        let font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
         // 행간 조절
         let style = NSMutableParagraphStyle()

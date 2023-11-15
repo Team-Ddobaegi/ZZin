@@ -210,6 +210,11 @@ extension CustomTextfieldView {
         self.textfield.tintColor = ColorGuide.main
     }
     
+    func hideInvalideMessage() {
+        self.validationLabel.isHidden = true
+        self.animatingLabel.isHidden = false
+    }
+    
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
         if recognizer.state == .ended {
             print("탭이 눌렸습니다.")
