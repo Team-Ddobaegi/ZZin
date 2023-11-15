@@ -1,5 +1,4 @@
 import UIKit
-import SwiftUI
 import SnapKit
 
 class StoreCardView: UIView {
@@ -148,25 +147,3 @@ class StoreCardView: UIView {
 
     }
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct StoreCardView_Preview: PreviewProvider {
-    static var previews: some View {
-        StoreCardViewWrapper()
-    }
-
-    struct StoreCardViewWrapper: UIViewRepresentable {
-        func makeUIView(context: Context) -> StoreCardView {
-            return StoreCardView()
-        }
-
-        func updateUIView(_ uiView: StoreCardView, context: Context) {
-            // Update the view if needed
-        }
-    }
-}
-
-#endif
