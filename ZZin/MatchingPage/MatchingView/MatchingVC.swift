@@ -42,13 +42,13 @@ class MatchingVC: UIViewController {
         locationSetting()
         currentLocation = LocationService.shared.getCurrentLocation()
         getAddress()
-        fetchPlacesWithKeywords()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setKeywordButtonTitle()
         setLocationTitle()
+        fetchPlacesWithKeywords()
     }
     
     
@@ -135,6 +135,7 @@ class MatchingVC: UIViewController {
                 self.selectedTown = address.last
                 self.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
                 print("@@@@@@@ \(self.selectedCity),\(self.selectedTown)")
+                self.fetchPlacesWithKeywords()
                 
             } else {
                 print("Address not found.")
