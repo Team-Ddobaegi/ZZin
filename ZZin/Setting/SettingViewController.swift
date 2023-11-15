@@ -13,6 +13,12 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.navigationController?.navigationBar.topItem?.title = "설정"
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.backButtonTitle = "계정"
+        self.navigationItem.leftBarButtonItem?.tintColor = .black
+//        let backButtonImage = UIImage(named: "arrow.left")?.withRenderingMode(.alwaysOriginal)
+
         setupView()
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         header.backgroundColor = .systemBackground
@@ -25,7 +31,7 @@ class SettingViewController: UIViewController {
     func setupView() {
         view.addSubview(tableView)
         
-        tableView.register(AccountSettingViewControllerCell.self, forCellReuseIdentifier: AccountSettingViewControllerCell.identifier)
+        tableView.register(SettingViewControllerCell.self, forCellReuseIdentifier: SettingViewControllerCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -78,13 +84,15 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     // IndexPath(Section, Row)에 해당하는 셀을 반환한다. (필수)
     // 해당 메서드에서 실제 셀에 필요한 조작을 진행하여 반환하도록 한다.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AccountSettingViewControllerCell.identifier,for: indexPath) as! AccountSettingViewControllerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SettingViewControllerCell.identifier,for: indexPath) as! SettingViewControllerCell
         
         if indexPath.row == 0 && indexPath.section == 0 {
             cell.leadingImage.image = UIImage(systemName: "person.fill")
             cell.text.textAlignment = .left
             cell.text.text = "계정"
+            cell.appversionText.isHidden = true
             cell.separatorInset = UIEdgeInsets.zero
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
             
         } else if indexPath.row == 0 && indexPath.section == 1 {
             cell.leadingImage.image = UIImage(systemName: "info.circle.fill")
@@ -92,6 +100,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             //            cell.text = .underline
             cell.trailingImage.isHidden = true
             cell.separatorInset = UIEdgeInsets.zero
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
         }
         return cell
     }

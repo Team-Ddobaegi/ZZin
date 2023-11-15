@@ -29,6 +29,12 @@ import Then
          $0.image = UIImage(systemName: "chevron.forward")
          $0.contentMode = .scaleAspectFit
      }
+     
+     var appversionText = UILabel().then {
+         $0.text = "1.0.0"
+         $0.font = .systemFont(ofSize: 12, weight: .semibold)
+         $0.textColor = .systemGray
+     }
          
      override init(style: SettingViewControllerCell.CellStyle, reuseIdentifier: String?) {
          super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -42,6 +48,7 @@ import Then
          addSubview(leadingImage)
          addSubview(text)
          addSubview(trailingImage)
+         addSubview(appversionText)
          
          leadingImage.snp.makeConstraints {
              $0.centerY.equalToSuperview()
@@ -60,6 +67,12 @@ import Then
              $0.trailing.equalToSuperview().offset(-10)
              $0.width.height.equalTo(50)
              $0.height.equalTo(25)
+         }
+         
+         appversionText.snp.makeConstraints {
+             $0.centerY.equalToSuperview()
+             $0.trailing.equalToSuperview().offset(-10)
+             $0.width.equalTo(50)
          }
      }
  }

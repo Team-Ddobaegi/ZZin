@@ -8,9 +8,11 @@
 import Foundation
 import UIKit
 import Then
+import FirebaseAuth
 
 protocol LogoutDelegate: class {
     func onTapClose()
+    func onTapOk()
 }
 
 class LogoutViewController: UIViewController {
@@ -21,7 +23,7 @@ class LogoutViewController: UIViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
     }
-        
+    
     var titleLabel = UILabel().then {
         $0.textColor = .label
         $0.text = "로그아웃"
@@ -74,6 +76,7 @@ class LogoutViewController: UIViewController {
         view.addSubview(okButton)
         view.addSubview(cancelButton)
         
+        okButton.addTarget(self, action: #selector(onTapOk), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(onTapClose), for: .touchUpInside)
         
         bgView.snp.makeConstraints {
@@ -105,6 +108,20 @@ class LogoutViewController: UIViewController {
             $0.width.equalTo(350)
             $0.height.equalTo(60)
         }
+    }
+    
+    @objc func onTapOk() {
+        do {
+            try! Auth.auth().signOut()
+            self.dismiss(animated: true) {
+                //                  let loginpage = LoginViewController()
+                //                  loginpage.modalPresentationStyle = .fullScreen
+                //                  self.present(loginpage, animated: true)
+            }
+        } catch {
+            print("로그아웃하는데 에러가 있었습니다.")
+        }
+        delegate?.onTapOk()
     }
     
     @objc func onTapClose() {
