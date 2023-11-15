@@ -8,13 +8,13 @@ import Foundation
 import UIKit
 import Then
 
-protocol CancelDelegate: class {
+protocol WithdrawalDelegate: class {
     func onTapClose()
 }
 
-class CancelVC: UIViewController {
+class WithdrawalViewController: UIViewController {
     
-    weak var delegate: CancelDelegate?
+    weak var delegate: WithdrawalDelegate?
     
     let bgView = UIView().then {
         $0.backgroundColor = .white
@@ -58,8 +58,8 @@ class CancelVC: UIViewController {
         }
     }
     
-    static func instance() -> CancelVC {
-        return CancelVC(nibName: nil, bundle: nil).then {
+    static func instance() -> WithdrawalViewController {
+        return WithdrawalViewController(nibName: nil, bundle: nil).then {
             $0.modalPresentationStyle = .overFullScreen
         }
     }
