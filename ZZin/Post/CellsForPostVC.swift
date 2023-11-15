@@ -59,7 +59,6 @@ class textInputCell: UICollectionViewCell, UITextFieldDelegate {
     
     final func textFieldDidEndEditing(_ textField: UITextField) -> String {
         titleText = textField.text ?? ""
-        print("titleText :", titleText)
         
         return titleText ?? ""
     }
@@ -317,10 +316,7 @@ class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
 }
 
 extension SelectKeywordCell {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        placeHolderLabel.isHidden = true
-    }
-    
+   
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             textView.resignFirstResponder()
@@ -332,6 +328,14 @@ extension SelectKeywordCell {
         print(textView.text as Any)
         textViewText = textView.text
         print(textViewText as Any)
+        
+        if textView.text.count > 0 {
+            placeHolderLabel.isHidden = true
+        } else {
+            placeHolderLabel.isHidden = false
+        }
+        
+        
     }
 
 
