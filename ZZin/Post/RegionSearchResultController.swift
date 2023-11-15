@@ -158,6 +158,18 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
         
         let selectedPlace: Document = resultArray[indexPath.row]
         searchedInfo = selectedPlace
+        fetchRegionCode(longitude: Double(searchedInfo?.x ?? "") ?? 37.5666102, latitude: Double(searchedInfo?.y ?? "") ?? 126.9783881) { regionDocuments in
+            guard let documents = regionDocuments else {
+                print("행정구역 정보를 가져오는 데 실패했습니다.")
+                return
+            }
+            
+            let document = documents[0]
+            // 보경님 여기서 알아서 갖다 쓰셈
+            print("시: \(document.region1DepthName.prefix(2))")
+            print("구: \(document.region2DepthName)")
+        }
+
         dismiss(animated: true)
     }
     
@@ -205,6 +217,34 @@ class RegionSearchResultController: UITableViewController, UISearchResultsUpdati
             }
         }
     }
+    
+    func fetchRegionCode(longitude: Double, latitude: Double, completionHandler: @escaping ([RegionDocument]?) -> Void) {
+        let url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json"
+        let params = ["x": String(longitude), "y": String(latitude)]
+        let restAPIKey = Bundle.main.kakaoRestAPIKey
+
+        AF.request(url,
+                   method: .get,
+                   parameters: params,
+                   headers: ["Authorization": "KakaoAK \(restAPIKey)"])
+        .responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let regionResult = try decoder.decode(RegionResponse.self, from: data)
+                    completionHandler(regionResult.documents)
+                } catch {
+                    print("JSON Decoding Failure: \(error)")
+                    completionHandler(nil)
+                }
+                
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+                completionHandler(nil)
+            }
+        }
+    }
 }
 
 // MARK: - SearchResult
@@ -245,6 +285,39 @@ struct Meta: Codable {
         case pageableCount = "pageable_count"
         case sameName = "same_name"
         case totalCount = "total_count"
+    }
+}
+
+// MARK: - RegionResponse
+struct RegionResponse: Codable {
+    let meta: RegionMeta
+    let documents: [RegionDocument]
+}
+
+// MARK: - RegionMeta
+struct RegionMeta: Codable {
+    let totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+    }
+}
+
+// MARK: - RegionDocument
+struct RegionDocument: Codable {
+    let regionType, code, addressName, region1DepthName: String
+    let region2DepthName, region3DepthName, region4DepthName: String
+    let x, y: Double
+
+    enum CodingKeys: String, CodingKey {
+        case regionType = "region_type"
+        case code
+        case addressName = "address_name"
+        case region1DepthName = "region_1depth_name"
+        case region2DepthName = "region_2depth_name"
+        case region3DepthName = "region_3depth_name"
+        case region4DepthName = "region_4depth_name"
+        case x, y
     }
 }
 

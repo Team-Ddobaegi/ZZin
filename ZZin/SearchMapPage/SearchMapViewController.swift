@@ -547,7 +547,7 @@ extension SearchMapViewController: LocationPickerViewDelegate {
 
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
-        geocodeAddress(query: "\(self.selectedCity) \(self.selectedTown)청", lat: currentUserLocation?.lat ?? <#default value#>, lng: currentUserLocation?.lng ?? <#default value#>)
+        geocodeAddress(query: "\(self.selectedCity) \(self.selectedTown)청", lat: currentUserLocation?.lat ?? 37.5666102, lng: currentUserLocation?.lng ?? 126.9783881)
     }
 }
 
