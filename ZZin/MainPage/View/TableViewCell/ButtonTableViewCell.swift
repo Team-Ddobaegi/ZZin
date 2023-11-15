@@ -3,40 +3,25 @@ import UIKit
 
 class ButtonTableViewCell: UITableViewCell {
     static let identifier = "ButtonTableViewCell"
+    private let storageManager = FireStorageManager()
+    private var placeData: [Place] = []
     
-    let topRankButton = CustomButton(title: "1위", img: "대갈")
-    let secondRankButton = CustomButton(title: "2위", img: "마리오")
-    let thirdRankButton = CustomButton(title: "3위", img: "바위파스타")
-    let fourthRankButton = CustomButton(title: "4위", img: "소감")
-    let fifthRankButton = CustomButton(title: "5위", img: "송계옥")
-    let sixthRankButton = CustomButton(title: "6위", img: "멘쇼")
-    
-    private lazy var topRankStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [topRankButton, secondRankButton, thirdRankButton])
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    private lazy var follwupRankStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [fourthRankButton, fifthRankButton, sixthRankButton])
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    private lazy var rankButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [topRankStackView, follwupRankStackView])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        return stackView
+    lazy var buttonCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.identifier)
+        return collectionView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUI()
+        setDelegate()
     }
     
     required init?(coder: NSCoder) {
@@ -44,10 +29,54 @@ class ButtonTableViewCell: UITableViewCell {
     }
     
     func setUI() {
-        contentView.addSubview(rankButtonStackView)
-        rankButtonStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(5)
-            $0.left.right.equalToSuperview().inset(15)
+        contentView.addSubview(buttonCollectionView)
+        buttonCollectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+    }
+    
+    func setDelegate() {
+        buttonCollectionView.delegate = self
+        buttonCollectionView.dataSource = self
+    }
+    
+    func recieveData(full: [Place]) {
+        self.placeData = full
+        print("========= 지역 데이터가 잘 넘어왔어요. ==========", placeData)
+    }
+}
+
+extension ButtonTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+}
+
+extension ButtonTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.identifier, for: indexPath) as? ButtonCollectionViewCell else { return UICollectionViewCell() }
+        if !placeData.isEmpty {
+            let placeImg = placeData[indexPath.item].placeImg[0]
+            storageManager.bindPlaceImgWithPath(path: placeImg, imageView: cell.image)
+        }
+        return cell
+    }
+}
+
+extension ButtonTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
 }

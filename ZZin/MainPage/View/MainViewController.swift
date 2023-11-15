@@ -13,12 +13,10 @@ class MainViewController: UIViewController {
     // MARK: - 전역 변수
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
-    let reviewCell = ReviewTableViewCell()
     private let mainView = MainView()
     
-    var loadedRidAndPid: [String:[String]?] = [:]
-    var placeData: [Place] = []
     var reviewData: [Review] = []
+    var placeData: [Place] = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
 
@@ -49,6 +47,21 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    func fetchPlaceData() {
+        dataManager.getPlaceData { result in
+            switch result {
+            case .success(let place):
+                print("======= 이게 데이터다 ========",place)
+                self.placeData = place
+                DispatchQueue.main.async {
+                    self.mainView.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
+            }
+        }
+    }
 }
 
 extension MainViewController {
@@ -57,6 +70,7 @@ extension MainViewController {
 //        navigationController?.setNavigationBarHidden(true, animated: animated)
         view.backgroundColor = .white
         fetchReviewData()
+        fetchPlaceData()
     }
     
     override func viewDidLoad() {
@@ -78,7 +92,7 @@ extension MainViewController: UITableViewDelegate {
         // 영역별 높이 다르게 설정
         switch indexPath.section {
         case 0: return 100
-        case 1: return 280
+        case 1: return 250
         case 2: return 240
         default: return 200
         }
@@ -98,17 +112,18 @@ extension MainViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
-            cell.selectionStyle = .none
+            cell.recieveData(full: placeData)
+            cell.localCollectionView.reloadData()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier, for: indexPath) as! ButtonTableViewCell
-            cell.selectionStyle = .none
+            cell.recieveData(full: placeData)
+            cell.buttonCollectionView.reloadData()
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
-//            guard let rid = reviewData[indexPath.row].rid else { return cell }
-//            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
             cell.recieveData(data: reviewData)
+            cell.reviewCollectionView.reloadData()
             return cell
         default:
             return UITableViewCell()

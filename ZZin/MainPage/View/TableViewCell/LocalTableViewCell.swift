@@ -7,8 +7,12 @@
 
 import UIKit
 
+
 class LocalTableViewCell: UITableViewCell {
     static let identifier = "LocalTableViewCell"
+    private let storageManager = FireStorageManager()
+    private var placeData: [Place] = []
+    private var pidData: String = ""
     
     lazy var localCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,16 +48,29 @@ class LocalTableViewCell: UITableViewCell {
         localCollectionView.delegate = self
         localCollectionView.dataSource = self
     }
+    
+    func recieveData(full: [Place]) {
+        self.placeData = full
+        print("========= 지역 데이터가 잘 넘어왔어요. ==========", placeData)
+    }
 }
 
 extension LocalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return placeData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.identifier, for: indexPath) as! LocalCollectionViewCell
-        cell.setComponents(text: "변경", image: "person.fill")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.identifier, for: indexPath) as? LocalCollectionViewCell else { return UICollectionViewCell() }
+        
+        if !placeData.isEmpty {
+            let data = placeData[indexPath.row]
+            let pidData = data.pid
+            print(data.town)
+            print(data.placeImg)
+            
+            storageManager.bindViewOnStorageWithPid(pid: pidData, placeImgView: cell.recommendPictureView, title: nil, dotLabel: nil, placeTownLabel: cell.recommendLabel, placeMenuLabel: nil)
+        }
         return cell
     }
     
