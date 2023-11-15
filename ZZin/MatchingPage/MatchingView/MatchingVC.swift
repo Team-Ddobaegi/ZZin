@@ -16,13 +16,13 @@ class MatchingVC: UIViewController {
     private var selectedCity : String?
     private var selectedTown : String?
     
-    var companionKeyword : [String?]?
-    var conditionKeyword : [String?]?
-    var kindOfFoodKeyword : [String?]?
+    var companionKeyword : [String?]? = []
+    var conditionKeyword : [String?]? = []
+    var kindOfFoodKeyword : [String?]? = []
     
-    var companionIndexPath: [IndexPath?]?
-    var conditionIndexPath: [IndexPath?]?
-    var kindOfFoodIndexPath: [IndexPath?]?
+    var companionIndexPath: [IndexPath?]? = []
+    var conditionIndexPath: [IndexPath?]? = []
+    var kindOfFoodIndexPath: [IndexPath?]? = []
     
     var currentLocation: NMGLatLng?
     
@@ -38,9 +38,10 @@ class MatchingVC: UIViewController {
         setView()
         configureUI()
         locationSetting()
-        updateResetButtonStatus()
         currentLocation = LocationService.shared.getCurrentLocation()
-        getAddress()
+//        getAddress()
+        matchingView.resetFilterButton.isEnabled = false
+        updateResetButtonStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +49,7 @@ class MatchingVC: UIViewController {
         setKeywordButtonTitle()
         setLocationTitle()
         fetchPlacesWithKeywords()
+        updateResetButtonStatus()
     }
     
     
@@ -239,9 +241,12 @@ class MatchingVC: UIViewController {
     }
     
     @objc func resetFilterButtonTapped() {
-        companionKeyword = [nil]
-        conditionKeyword = [nil]
-        kindOfFoodKeyword = [nil]
+        companionKeyword = []
+        conditionKeyword = []
+        kindOfFoodKeyword = []
+        companionIndexPath = []
+        conditionIndexPath = []
+        kindOfFoodIndexPath = []
         
         matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
         matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
@@ -290,7 +295,7 @@ class MatchingVC: UIViewController {
     }
     
     private func setLocationTitle() {
-        matchingView.setLocationButton.setTitle("\(selectedCity ?? "") \(selectedTown ?? "")", for: .normal)
+        matchingView.setLocationButton.setTitle("\(selectedCity ?? "지역") \(selectedTown ?? "미설정")", for: .normal)
     }
     
     func setKeywordButtonTitle() {
@@ -308,13 +313,12 @@ class MatchingVC: UIViewController {
     }
     
     func updateResetButtonStatus() {
-        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+        if companionKeyword == [] && conditionKeyword == [] && kindOfFoodKeyword == [] {
             matchingView.resetFilterButton.isEnabled = false
             matchingView.resetFilterButton.layer.borderColor = UIColor.systemGray.cgColor
         } else {
             matchingView.resetFilterButton.isEnabled = true
             matchingView.resetFilterButton.layer.borderColor = ColorGuide.main.cgColor
-
         }
     }
     

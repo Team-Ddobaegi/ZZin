@@ -107,7 +107,7 @@ class MatchingView: UIView {
     }
     
     public let divider2 = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .clear
     }
     
    

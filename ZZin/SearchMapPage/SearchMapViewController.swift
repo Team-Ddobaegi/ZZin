@@ -11,18 +11,19 @@ var isPlaceMap : Bool = false
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
-    var companionIndexPath: [IndexPath?]?
-    var conditionIndexPath: [IndexPath?]?
-    var kindOfFoodIndexPath: [IndexPath?]?
+    var companionIndexPath: [IndexPath?]? = []
+    var conditionIndexPath: [IndexPath?]? = []
+    var kindOfFoodIndexPath: [IndexPath?]? = []
     weak var mapViewDelegate: SearchMapViewControllerDelegate?
     var searchMapUIView = SearchMapUIView()
     private var currentUserLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
     private var selectedPlaceID : String?
+    private var selectedReviewID: [String?]?
     private var filteredPlace: [Place]?
-    var companionKeyword : [String?]?
-    var conditionKeyword : [String?]?
-    var kindOfFoodKeyword : [String?]?
+    var companionKeyword : [String?]? = []
+    var conditionKeyword : [String?]? = []
+    var kindOfFoodKeyword : [String?]? = []
     var address : String?
     private var activeMarkers: [NMFMarker] = []
 //    private let pickerView = MatchingLocationPickerView()
@@ -47,6 +48,7 @@ class SearchMapViewController: UIViewController {
         print("storeCardView Tapped")
         let matchingVC = MatchingPlaceVC()
         matchingVC.placeID = selectedPlaceID
+        matchingVC.reviewID = selectedReviewID
         navigationController?.pushViewController(matchingVC, animated: true)
     }
     
@@ -67,11 +69,12 @@ class SearchMapViewController: UIViewController {
     }
     
     @objc func resetFilterButtonTapped() {
-        companionKeyword = [nil]
-        conditionKeyword = [nil]
-        kindOfFoodKeyword = [nil]
-//        selectedCity = nil
-//        selectedTown = "전체"
+        companionKeyword = []
+        conditionKeyword = []
+        kindOfFoodKeyword = []
+        companionIndexPath = []
+        conditionIndexPath = []
+        kindOfFoodIndexPath = []
         
         searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
         searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
@@ -79,9 +82,9 @@ class SearchMapViewController: UIViewController {
         
         removeAllMarkers()
         fetchPlacesWithKeywords()
-        updateResetButtonStatus()
         print("확인 버튼 탭탭\(self.selectedCity)\(self.selectedTown)")
         sendDataBackToMatchingViewController()
+        updateResetButtonStatus()
     }
     
     @objc private func setPickerViewTapped() {
@@ -129,13 +132,11 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.searchMapView.mapView.addCameraDelegate(delegate: self)
         searchMapUIView.searchMapView.searchCurrentLocationButton.isHidden = true
         setupUI()
-        updateResetButtonStatus()
         setKeywordView()
         setTouchableCardView()
         addTargetButton()
         setKeywordButtonTitle()
         setPickerView()
-        updateLocationTitle()
         currentUserLocation = LocationService.shared.getCurrentLocation()
         if isPlaceMap {
             print("맛집 위치로 이동합니두!")
@@ -145,11 +146,12 @@ class SearchMapViewController: UIViewController {
             moveCamera(location: currentUserLocation, animation: .none)
         }
         fetchPlacesWithKeywords()
+        updateLocationTitle()
+        updateResetButtonStatus()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         setCameraSetting()
     }
     
@@ -251,10 +253,12 @@ class SearchMapViewController: UIViewController {
     }
     
     func updateResetButtonStatus() {
-        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+        if companionKeyword == [] && conditionKeyword == [] && kindOfFoodKeyword == [] {
             searchMapUIView.matchingView.resetFilterButton.isEnabled = false
+            searchMapUIView.matchingView.resetFilterButton.layer.borderColor = UIColor.systemGray.cgColor
         } else {
             searchMapUIView.matchingView.resetFilterButton.isEnabled = true
+            searchMapUIView.matchingView.resetFilterButton.layer.borderColor = ColorGuide.main.cgColor
         }
     }
     
@@ -301,6 +305,7 @@ class SearchMapViewController: UIViewController {
            let placeAddress = placeData["Place"]?.address
         {
             self.searchMapUIView.storeCardView.isHidden = false
+            self.selectedReviewID = reviewID
             self.selectedPlaceID = placeID
             FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
                 switch result {
