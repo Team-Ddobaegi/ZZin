@@ -17,9 +17,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     
     var storageManager = FireStorageManager()
     var storeManager = FireStoreManager.shared
-    var profileImgData: Data?
-    var userName: String?
-    var profileDescription: String?
+    var profileImgData: Data? = nil
+    var userName: String? = nil
+    var profileDescription: String? = nil
     let currentUid = MainViewController().uid!
     
     override func viewDidLoad() {
@@ -50,22 +50,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            dismiss(animated: true, completion: nil)
-
-            let itemProvider = results.first?.itemProvider
-            if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
-                    DispatchQueue.main.async {
-                        if let image = image as? UIImage {
-                            self?.editProfileButton.profileImageView.image = image
-                            self?.profileImgData = image.jpegData(compressionQuality: 0.8)
-                            
-                            print(self?.profileImgData as Any)
-                        }
+        dismiss(animated: true, completion: nil)
+        
+        let itemProvider = results.first?.itemProvider
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                DispatchQueue.main.async {
+                    if let image = image as? UIImage {
+                        self?.editProfileButton.profileImageView.image = image
+                        self?.profileImgData = image.jpegData(compressionQuality: 0.8)
+                        
+                        print(self?.profileImgData as Any)
                     }
                 }
             }
         }
+    }
     
     // 프로필 편집
     // 1. 사진 수정
@@ -173,15 +173,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.becomeFirstResponder()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
         switch textField {
         case userNameTextField:
             userName = userNameTextField.text
@@ -189,6 +180,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
             profileDescription = descriptionTextField.text
         default: return
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
     }
     
     @objc func didTappedProfileButton() {
@@ -206,8 +203,20 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     
     @objc func didTappedSubmitButton() {
         print("제출 클릭")
-        self.navigationController?.popViewController(animated: true)
+        
+        let popup = UIAlertController(title: "프로필 정보 변경", message: "정말로 프로필을 변경하시겠습니까?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let confirmSave = UIAlertAction(title: "변경", style: .default) { [self] _ in
+            // 클릭 시 처리할 내용
+            updateUserInfo(uid: currentUid, profileImgData: profileImgData)
+            
+        }
+        popup.addAction(cancel)
+        popup.addAction(confirmSave)
+        self.present(popup, animated: true)
+        
     }
+    
     
     func updateUserInfo(uid: String, profileImgData: Data?) {
         
@@ -216,77 +225,86 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
         
         storageManager.uploadProfileImg(profileImg: profileImgData, uid: currentUid)
         let userRef = storeManager.db.collection("users").document(uid)
-        var imgPath: String?
         
         if profileImgData == nil {
-            imgPath = "profiles/default_profile.png"
+            
+            userRef.updateData(["userName": userName!,
+                                "description": description ?? ""
+                               ]) { error in
+                if let error = error {
+                    print("유저 데이터 업로드 중 에러가 발생했습니다 : \(error)")
+                } else {
+                    print("유저 데이터 업로드 성공 : \(uid)")
+                }
+            }
         } else {
-            imgPath = "profiles/\(uid).jpeg"
-        }
-        
-        userRef.updateData(["userName": userName!,
-                            "description": description ?? "",
-                            "profileImg": imgPath!]) { error in
-            if let error = error {
-                print("유저 데이터 업로드 중 에러가 발생했습니다 : \(error)")
-            } else {
-                print("유저 데이터 업로드 성공 : \(uid)")
+            userRef.updateData(["userName": userName!,
+                                "description": description ?? "",
+                                "profileImg": "profiles/\(uid).jpeg"]) { error in
+                if let error = error {
+                    print("유저 데이터 업로드 중 에러가 발생했습니다 : \(error)")
+                } else {
+                    print("유저 데이터 업로드 성공 : \(uid)")
+                }
             }
         }
-    }
-
-}
-
-extension EditProfileViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
-
-
-class profileButton: UIButton {
-    
-    var profileImageView = UIImageView().then {
-        $0.layer.cornerRadius = 85 / 2
-        $0.layer.masksToBounds = true
-        $0.contentMode = .scaleAspectFill
-//        $0.layer.borderWidth = 1
-//        $0.layer.borderColor = ColorGuide.main.cgColor
-        $0.backgroundColor = .systemGray4
-    }
-    
-    let cameraBadgeImageView = UIImageView().then{
-        $0.layer.cornerRadius = 24/2
-        $0.layer.masksToBounds = true
-        $0.backgroundColor = .systemGroupedBackground
-        $0.tintColor = .label
-        $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(systemName: "camera.fill")?.withAlignmentRectInsets(UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2))
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        self.navigationController?.popViewController(animated: true)
         
-        addSubview(profileImageView)
-        profileImageView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
+    }
+}
+    
+    
+    extension EditProfileViewController {
+        func hideKeyboardWhenTappedAround() {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.dismissKeyboard))
+            tap.cancelsTouchesInView = false
+            view.addGestureRecognizer(tap)
         }
         
-        addSubview(cameraBadgeImageView)
-        cameraBadgeImageView.snp.makeConstraints{
-            $0.bottom.right.equalToSuperview()
-            $0.size.equalTo(CGSize(width: 20, height: 20))
+        @objc func dismissKeyboard() {
+            view.endEditing(true)
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
-}
+    class profileButton: UIButton {
+        
+        var profileImageView = UIImageView().then {
+            $0.layer.cornerRadius = 85 / 2
+            $0.layer.masksToBounds = true
+            $0.contentMode = .scaleAspectFill
+            //        $0.layer.borderWidth = 1
+            //        $0.layer.borderColor = ColorGuide.main.cgColor
+            $0.backgroundColor = .systemGray4
+        }
+        
+        let cameraBadgeImageView = UIImageView().then{
+            $0.layer.cornerRadius = 24/2
+            $0.layer.masksToBounds = true
+            $0.backgroundColor = .systemGroupedBackground
+            $0.tintColor = .label
+            $0.contentMode = .scaleAspectFit
+            $0.image = UIImage(systemName: "camera.fill")?.withAlignmentRectInsets(UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2))
+        }
+        
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            
+            addSubview(profileImageView)
+            profileImageView.snp.makeConstraints{
+                $0.edges.equalToSuperview()
+            }
+            
+            addSubview(cameraBadgeImageView)
+            cameraBadgeImageView.snp.makeConstraints{
+                $0.bottom.right.equalToSuperview()
+                $0.size.equalTo(CGSize(width: 20, height: 20))
+            }
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+    }
+
