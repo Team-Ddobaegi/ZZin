@@ -279,16 +279,16 @@ extension RegistrationViewController: UITextFieldDelegate {
         switch textField {
         case self.registrationView.nicknameTfView.textfield:
             registrationView.nicknameTfView.animateLabel()
-            registrationView.nicknameTfView.textfield.placeholder = "나만의 닉넴은?"
+            registrationView.nicknameTfView.textfield.placeholder = "닉네임을 입력해주세요."
         case self.registrationView.emailTfView.textfield:
             registrationView.emailTfView.animateLabel()
-            registrationView.emailTfView.textfield.placeholder = "자주 쓰는 이메일이 있나요?"
+            registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
         case self.registrationView.pwTfView.textfield:
             registrationView.pwTfView.animateLabel()
-            registrationView.pwTfView.textfield.placeholder = "철통보안!"
+            registrationView.pwTfView.textfield.placeholder = "비밀번호를 입력해주세요."
         case self.registrationView.doublecheckPwView.textfield:
             registrationView.doublecheckPwView.animateLabel()
-            registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 다시 한번 입력해주세요"
+            registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 입력해주세요."
         default: print("textfield를 찾지 못했습니다.")
         }
     }

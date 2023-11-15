@@ -10,7 +10,7 @@ class SearchMapUIView: UIView {
     
     lazy var gpsButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .customBackground
+        button.backgroundColor = .white
         button.layer.cornerRadius = 20
         let gpsIcon = UIImage(systemName: "location.fill")
         button.setImage(gpsIcon, for: .normal)
@@ -23,17 +23,6 @@ class SearchMapUIView: UIView {
         button.clipsToBounds = false
         return button
     }()
-    
-    let resetFilterButton: UIButton = {
-        let button = UIButton(type: .system)
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
-        let symbolImage = UIImage(systemName: "arrow.counterclockwise", withConfiguration: symbolConfig)
-        button.setImage(symbolImage, for: .normal)
-        button.backgroundColor = .clear
-        button.tintColor = ColorGuide.cherryTomato
-        return button
-    }()
-
     
     lazy var currentLocationButton = UIButton().then {
         let button = UIButton()
@@ -58,7 +47,6 @@ class SearchMapUIView: UIView {
         addSubview(matchingView)
         addSubview(searchMapView)
         addSubview(storeCardView)
-        matchingView.addSubview(resetFilterButton)
         searchMapView.addSubview(gpsButton)
         
         let iconImage = UIImage(systemName: "arrowshape.backward.fill")
@@ -86,13 +74,6 @@ class SearchMapUIView: UIView {
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(120)
-        }
-        
-        resetFilterButton.snp.makeConstraints {
-            $0.leading.equalTo(matchingView.matchingNotiLabel.snp.trailing).offset(10)
-            $0.top.equalTo(matchingView.matchingNotiLabel.snp.top).offset(-10)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
         }
     }
 }

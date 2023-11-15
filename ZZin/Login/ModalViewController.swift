@@ -51,7 +51,7 @@ class ModalViewController: UIViewController {
     
     func configure() {
         [noticeStackView, confirmButton].forEach{view.addSubview($0)}
-        view.backgroundColor = UIColor.init(hexCode: "F55951")
+        view.backgroundColor = ColorGuide.main
         setUI()
     }
     

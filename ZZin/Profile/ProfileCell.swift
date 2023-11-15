@@ -15,8 +15,8 @@ class ProfileCell: UICollectionViewCell {
     var profileImageView = UIImageView().then {
         $0.layer.cornerRadius = 85 / 2
         $0.layer.masksToBounds = true
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = ColorGuide.main.cgColor
+//        $0.layer.borderWidth = 1
+//        $0.layer.borderColor = ColorGuide.main.cgColor
         $0.backgroundColor = .systemGray4  // 예시 색상
     }
 
@@ -33,12 +33,9 @@ class ProfileCell: UICollectionViewCell {
         $0.tintColor = .white
     }
 
-    var grayFilledButton = UIButton().then {
-        $0.backgroundColor =  .systemGroupedBackground
-        $0.setTitle("  💛우리동네 찐친  ", for: .normal)
-        $0.setTitleColor(.label, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        $0.layer.cornerRadius = 12
+    var descriptionLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 15, weight: .regular)
+        $0.textColor = .label
     }
 
     // TODO: 맛집 추천 수/리뷰수/팔로워/ 팔로잉 수를 표시하는 뷰들 추가
@@ -53,7 +50,7 @@ class ProfileCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        [profileImageView, usernameLabel, editProfileButton, grayFilledButton].forEach {
+        [profileImageView, usernameLabel, editProfileButton, descriptionLabel].forEach {
             addSubview($0)
         }
 
@@ -74,10 +71,9 @@ class ProfileCell: UICollectionViewCell {
             $0.width.height.equalTo(24)
         }
 
-        grayFilledButton.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(usernameLabel.snp.bottom).offset(6)
-            $0.height.equalTo(28)
         }
 
         // TODO: 맛집 추천 수/리뷰수/팔로워/ 팔로잉 수에 대한 레이아웃 설정

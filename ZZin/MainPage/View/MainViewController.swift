@@ -10,27 +10,25 @@ import FirebaseAuth
 
 class MainViewController: UIViewController {
     
-    // MARK: - 전역 변수
+    // MARK: - Properties
+    
+    private let mainView = MainView()
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
-    private let mainView = MainView()
-    
+    private let mainView = MainView()    
     var reviewData: [Review] = []
     var placeData: [Place] = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
-
-    func setDelegate() {
+    
+    
+    
+    // MARK: - Settings
+    
+    func setTableViewAttribute() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-    }
-    
-    func setUI() {
         mainView.tableView.showsVerticalScrollIndicator = false
-        view.addSubview(mainView)
-        mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
     
     func fetchReviewData() {
@@ -62,12 +60,25 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Configure UI
+    
+    func setUI() {
+        view.addSubview(mainView)
+        mainView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
+
+
+
+// MARK: - Life Cycles
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
+        //        navigationController?.setNavigationBarHidden(true, animated: animated)
         view.backgroundColor = .white
         fetchReviewData()
         fetchPlaceData()
@@ -75,7 +86,7 @@ extension MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
+        setTableViewAttribute()
         setUI()
         mainView.delegate = self
         LocationService.shared.startUpdatingLocation()
@@ -98,9 +109,15 @@ extension MainViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 섹션 헤더가 화면 위로 스크롤되지 않도록 고정
+        if scrollView.contentOffset.y < sectionHeaderHeight {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        } else {
+            scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
+        }
     }
+    
 }
 
 extension MainViewController: UITableViewDataSource {

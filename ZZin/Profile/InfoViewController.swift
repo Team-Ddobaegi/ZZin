@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Then
 import FirebaseFirestore
+import FirebaseAuth
+import FirebaseStorage
 
 class InfoViewController: UICollectionViewController {
     
@@ -19,10 +21,11 @@ class InfoViewController: UICollectionViewController {
     private var customSegmentedControl: CustomSegmentedControl!
     // 현재 선택된 세그먼트 인덱스를 추적하는 변수를 추가합니다.
     var currentSegmentIndex: Int = 0
-    let uid = "bo_bo_@kakao.com"
     var loadedRidAndPid: [String:[String]?] = [:]
     var pidArr: [String]? = []
     var ridArr: [String]? = []
+    
+    let currentUid = MainViewController().uid as! String
     
     // MARK: - Initializers
     init() {
@@ -45,7 +48,7 @@ class InfoViewController: UICollectionViewController {
         setupNavBar()
         
         DispatchQueue.main.async {[self] in
-            storageManager.getPidAndRidWithUid(uid: uid){ [self] result in
+            storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
                 loadedRidAndPid = result
                 pidArr = loadedRidAndPid["pidArr"] ?? []
                 ridArr = loadedRidAndPid["ridArr"] ?? []
@@ -76,35 +79,16 @@ class InfoViewController: UICollectionViewController {
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DefaultSupplementaryView")
     }
     
-    
     func setupNavBar() {
         var rightButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(rightButtonTapped))
         rightButton.tintColor = .label
         self.navigationItem.rightBarButtonItems = [rightButton]
-        
-        var leftButton = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .plain, target: self, action: #selector(leftButtonTapped))
-        leftButton.tintColor = .label
-        self.navigationItem.leftBarButtonItems = [leftButton]
-        
-        
     }
+    
     @objc func rightButtonTapped() {
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
     }
-    @objc func leftButtonTapped() {
-        let zzimVC = ZzimTableViewController()
-        let transition = CATransition()
-        transition.duration = 0.3
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromLeft
-        view.window!.layer.add(transition, forKey: kCATransition)
-        modalPresentationStyle = .overFullScreen
-        self.navigationController?.pushViewController(zzimVC, animated: false)
-        
-        //        self.navigationController?.pushViewController(zzimVC, animated: true)
-    }
-    
 }
 
 // MARK: - UICollectionView DataSource & Delegate
@@ -150,9 +134,11 @@ extension InfoViewController {
         guard indexPath.section == 1 else {
             // 유저 프로필 정보 cell
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
+            
             cell.editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
             // TODO: cell에 필요한 데이터 전달 및 설정
-            storageManager.bindProfileImgOnStorage(uid: uid, profileImgView: cell.profileImageView)
+            
+            storageManager.bindProfileImgOnStorage(uid: currentUid , profileImgView: cell.profileImageView, userNameLabel: cell.usernameLabel, descriptionLabel: cell.descriptionLabel, userNameTextField: nil, descriptionTextField: nil)
             
             return cell
         }
@@ -163,17 +149,22 @@ extension InfoViewController {
             let view = cell.customView
             let pid = pidArr?[indexPath.item] ?? ""
             
+            if pid == "" {return cell}
+            
             storageManager.bindViewOnStorageWithPid(pid: pid, placeImgView: view.img, title: view.titleLabel, dotLabel: view.dotLabel, placeTownLabel: view.placeTownLabel, placeMenuLabel: view.placeMenuLabel)
+            
             return cell
         case 1:
             // "리뷰"에 대한 셀 로드
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewCell.identifier, for: indexPath) as! ReviewCell
             
             let rid = ridArr?[indexPath.item] ?? ""
+            
+            if rid == "" {return cell}
             storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.customView.img, title: cell.customView.reviewTitleLabel, companion: cell.customView.withKeywordLabel, condition: cell.customView.conditionKeywordLabel, town: cell.customView.regionLabel)
             
             cell.trashButton.tag = indexPath.item
-            cell.editButton.tag = indexPath.item
+            cell.trashButton.isHidden = false
             
             cell.trashButton.addTarget(self, action: #selector(trashButtonTapped), for: .touchUpInside)
             return cell
@@ -188,10 +179,10 @@ extension InfoViewController {
         
     }
     
-    
     @objc func editButtonTapped(index: Int) {
         print("탭탭 수정수정", index)
     }
+    
     @objc func trashButtonTapped(_ sender: UIButton) {
         let index = sender.tag
         let popup = UIAlertController(title: "리뷰 삭제", message: "정말로 리뷰를 삭제하시겠습니까?", preferredStyle: .alert)
@@ -201,7 +192,7 @@ extension InfoViewController {
             guard let rid = ridArr?[index] as? String else {return}
             
             DispatchQueue.main.async{ [self] in
-                storeManager.deleteReview(rid: rid, uid: uid)
+                storeManager.deleteReview(rid: rid, uid: currentUid ?? "")
                 self.ridArr?.remove(at: index)
                 self.collectionView.reloadData()
             }
@@ -211,8 +202,8 @@ extension InfoViewController {
         self.present(popup, animated: true)
     }
     
+    // 프로필 수정 페이지로 이동
     @objc func editProfileButtonTapped() {
-        print("탭미탭미")
         let editVC = EditProfileViewController()
         self.navigationController?.navigationBar.tintColor = .label
         self.navigationController?.pushViewController(editVC, animated: true)

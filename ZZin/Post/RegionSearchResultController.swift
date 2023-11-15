@@ -287,13 +287,13 @@ extension String {
 extension Bundle {
     var kakaoRestAPIKey: String {
         get {
-            guard let filePath = Bundle.main.path(forResource: "KeyList", ofType: "plist") else {
-                fatalError("Couldn't find file 'KeyList.plist'.")
+            guard let filePath = Bundle.main.path(forResource: "SecretKey", ofType: "plist") else {
+                fatalError("Couldn't find file 'SecretKey.plist'.")
             }
             let plist = NSDictionary(contentsOfFile: filePath)
             
             guard let value = plist?.object(forKey: "KAKAO_LOCAL_API_KEY") as? String else {
-                fatalError("Couldn't find key 'KAKAO_LOCAL_API_KEY' in 'KeyList.plist'.")
+                fatalError("Couldn't find key 'KAKAO_LOCAL_API_KEY' in 'SecretKey.plist'.")
             }
             return value
         }
