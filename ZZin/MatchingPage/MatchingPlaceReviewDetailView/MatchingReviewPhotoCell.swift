@@ -29,8 +29,7 @@ class MatchingReviewPhotoCell: UITableViewCell {
     // MARK: - Settings
     
     private func setView(){
-        backgroundColor = .white
-        
+        backgroundColor = .customBackground
         configureUI()
     }
     
@@ -45,14 +44,14 @@ class MatchingReviewPhotoCell: UITableViewCell {
     
     // 또배기 리뷰 사진이 들어갈 메세지 뷰
     private let photoMessageView = UIView().then {
-        $0.backgroundColor = ColorGuide.lightGray
+        $0.backgroundColor = .systemGray4
         $0.layer.cornerRadius = 25
     }
     
-    private let photoMessageView2 = UIImageView().then {
-        $0.image = UIImage(named: "photoMessage.png")
-        $0.contentMode = .scaleAspectFill
-    }
+//    private let photoMessageView2 = UIImageView().then {
+//        $0.image = UIImage(named: "photoMessage.png")
+//        $0.contentMode = .scaleAspectFill
+//    }
     
     
     // 사용자 리뷰 사진
@@ -72,7 +71,6 @@ class MatchingReviewPhotoCell: UITableViewCell {
     }
     
     private func addSubViews(){
-        contentView.addSubview(photoMessageView2)
         contentView.addSubview(photoMessageView)
         photoMessageView.addSubview(photoImageView)
     }
@@ -83,12 +81,6 @@ class MatchingReviewPhotoCell: UITableViewCell {
             $0.height.equalTo(270)
         }
         
-        photoMessageView2.snp.makeConstraints {
-            $0.width.height.equalTo(40)
-            $0.top.equalTo(photoMessageView.snp.bottom).inset(30)
-            $0.left.equalTo(photoMessageView.snp.left)
-            
-        }
         
         photoImageView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(30)

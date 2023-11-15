@@ -31,7 +31,7 @@ class MatchingPlaceReviewDetailView: UIView {
     
     // 매칭 업체 리뷰가 보여지는 테이블뷰입니두
     lazy var setMatchingPlaceReviewTableView = UITableView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
         $0.alwaysBounceVertical = true
     }
     

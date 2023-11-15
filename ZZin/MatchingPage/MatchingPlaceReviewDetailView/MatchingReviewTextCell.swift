@@ -20,10 +20,10 @@ class MatchingReviewTextCell: UITableViewCell {
         $0.layer.cornerRadius = 25
     }
     
-    private let textMessageView2 = UIImageView().then {
-        $0.image = UIImage(named: "textMessage.png")
-        $0.contentMode = .scaleAspectFill
-    }
+//    private let textMessageView2 = UIImageView().then {
+//        $0.image = UIImage(named: "textMessage.png")
+//        $0.contentMode = .scaleAspectFill
+//    }
     
     private let ddobaegiLabel = UILabel().then {
         $0.text = "💬 또배기의 한마디"
@@ -64,7 +64,7 @@ class MatchingReviewTextCell: UITableViewCell {
     // MARK: - Settings
     
     private func setView() {
-        backgroundColor = .white
+        backgroundColor = .customBackground
         
         configureUI()
     }
@@ -94,19 +94,11 @@ class MatchingReviewTextCell: UITableViewCell {
     }
     
     private func addSubViews(){
-        contentView.addSubview(textMessageView2)
         contentView.addSubview(textMessageView)
         textMessageView.addSubview(reviewLabelStackView)
     }
     
     private func setConstraints(){
-        textMessageView2.snp.makeConstraints {
-            $0.width.height.equalTo(40)
-            $0.top.equalTo(textMessageView.snp.bottom).inset(30)
-            $0.left.equalTo(textMessageView.snp.left)
-            
-        }
-        
         textMessageView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(20)
         }

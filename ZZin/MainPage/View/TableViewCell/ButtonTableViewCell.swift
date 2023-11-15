@@ -29,6 +29,7 @@ class ButtonTableViewCell: UITableViewCell {
     }
     
     func setUI() {
+        backgroundColor = .customBackground
         contentView.addSubview(buttonCollectionView)
         buttonCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()

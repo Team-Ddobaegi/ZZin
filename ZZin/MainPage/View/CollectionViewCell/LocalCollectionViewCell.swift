@@ -63,6 +63,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
     func setComponents(place: String, image: String) {
         let imageData = UIImage(systemName: image)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         recommendPictureView.image = imageData
+        recommendLabel.textColor = .label
         recommendLabel.text = place
     }
 }

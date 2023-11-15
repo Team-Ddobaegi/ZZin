@@ -5,22 +5,25 @@ import SnapKit
 import FirebaseStorage
 
 var isMapExist : Bool = false
+var isPlaceMap : Bool = false
+
 
 class SearchMapViewController: UIViewController {
     
     // MARK: - Property
-    var companionIndexPath: [IndexPath?]?
-    var conditionIndexPath: [IndexPath?]?
-    var kindOfFoodIndexPath: [IndexPath?]?
+    var companionIndexPath: [IndexPath?]? = []
+    var conditionIndexPath: [IndexPath?]? = []
+    var kindOfFoodIndexPath: [IndexPath?]? = []
     weak var mapViewDelegate: SearchMapViewControllerDelegate?
     var searchMapUIView = SearchMapUIView()
     private var currentUserLocation: NMGLatLng?
     var cameraLocation: NMGLatLng?
     private var selectedPlaceID : String?
+    private var selectedReviewID: [String?]?
     private var filteredPlace: [Place]?
-    var companionKeyword : [String?]?
-    var conditionKeyword : [String?]?
-    var kindOfFoodKeyword : [String?]?
+    var companionKeyword : [String?]? = []
+    var conditionKeyword : [String?]? = []
+    var kindOfFoodKeyword : [String?]? = []
     var address : String?
     private var activeMarkers: [NMFMarker] = []
 //    private let pickerView = MatchingLocationPickerView()
@@ -29,7 +32,7 @@ class SearchMapViewController: UIViewController {
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
     let infoMarkerView = InfoMarkerView()
     let geocodingService = Geocoding.shared
-    var isPlaceMap : Bool = false
+
     
 
 
@@ -45,6 +48,7 @@ class SearchMapViewController: UIViewController {
         print("storeCardView Tapped")
         let matchingVC = MatchingPlaceVC()
         matchingVC.placeID = selectedPlaceID
+        matchingVC.reviewID = selectedReviewID
         navigationController?.pushViewController(matchingVC, animated: true)
     }
     
@@ -65,11 +69,12 @@ class SearchMapViewController: UIViewController {
     }
     
     @objc func resetFilterButtonTapped() {
-        companionKeyword = [nil]
-        conditionKeyword = [nil]
-        kindOfFoodKeyword = [nil]
-//        selectedCity = nil
-//        selectedTown = "전체"
+        companionKeyword = []
+        conditionKeyword = []
+        kindOfFoodKeyword = []
+        companionIndexPath = []
+        conditionIndexPath = []
+        kindOfFoodIndexPath = []
         
         searchMapUIView.matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
         searchMapUIView.matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
@@ -77,9 +82,9 @@ class SearchMapViewController: UIViewController {
         
         removeAllMarkers()
         fetchPlacesWithKeywords()
-        updateResetButtonStatus()
         print("확인 버튼 탭탭\(self.selectedCity)\(self.selectedTown)")
         sendDataBackToMatchingViewController()
+        updateResetButtonStatus()
     }
     
     @objc private func setPickerViewTapped() {
@@ -127,13 +132,11 @@ class SearchMapViewController: UIViewController {
         searchMapUIView.searchMapView.mapView.addCameraDelegate(delegate: self)
         searchMapUIView.searchMapView.searchCurrentLocationButton.isHidden = true
         setupUI()
-        updateResetButtonStatus()
         setKeywordView()
         setTouchableCardView()
         addTargetButton()
         setKeywordButtonTitle()
         setPickerView()
-        updateLocationTitle()
         currentUserLocation = LocationService.shared.getCurrentLocation()
         if isPlaceMap {
             print("맛집 위치로 이동합니두!")
@@ -143,17 +146,22 @@ class SearchMapViewController: UIViewController {
             moveCamera(location: currentUserLocation, animation: .none)
         }
         fetchPlacesWithKeywords()
+        updateLocationTitle()
+        updateResetButtonStatus()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         setCameraSetting()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        if isPlaceMap {
+            moveCamera(location: cameraLocation, animation: .none)
+            isPlaceMap = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -245,10 +253,12 @@ class SearchMapViewController: UIViewController {
     }
     
     func updateResetButtonStatus() {
-        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+        if companionKeyword == [] && conditionKeyword == [] && kindOfFoodKeyword == [] {
             searchMapUIView.matchingView.resetFilterButton.isEnabled = false
+            searchMapUIView.matchingView.resetFilterButton.layer.borderColor = UIColor.systemGray.cgColor
         } else {
             searchMapUIView.matchingView.resetFilterButton.isEnabled = true
+            searchMapUIView.matchingView.resetFilterButton.layer.borderColor = ColorGuide.main.cgColor
         }
     }
     
@@ -295,6 +305,7 @@ class SearchMapViewController: UIViewController {
            let placeAddress = placeData["Place"]?.address
         {
             self.searchMapUIView.storeCardView.isHidden = false
+            self.selectedReviewID = reviewID
             self.selectedPlaceID = placeID
             FireStoreManager.shared.fetchDataWithRid(rid: reviewID[0]) { (result) in
                 switch result {
@@ -304,6 +315,7 @@ class SearchMapViewController: UIViewController {
                     self.searchMapUIView.storeCardView.placeAddressLabel.text = placeAddress
                     print("$$$$$$\(placeAddress)")
                     FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
+                    self .cameraLocation = NMGLatLng(lat: placeLat, lng: placeLong)
                     let location = NMGLatLng(lat: placeLat, lng: placeLong)
                     self.moveCamera(location: location, animation: .linear)
                     print("===========\(placeID)")
@@ -547,6 +559,15 @@ extension SearchMapViewController: LocationPickerViewDelegate {
 
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
+        if let town = self.selectedTown,
+           let selectedTownEnum = SeoulDistrictOfficeCoordinates.find(for: town) {
+            let coords = selectedTownEnum.coordinate
+            print("\(selectedTown) 좌표: 위도 \(coords.latitude), 경도 \(coords.longitude)")
+            let officeCoords = NMGLatLng(lat: coords.latitude, lng: coords.longitude)
+            moveCamera(location: officeCoords, animation: .none)
+        } else {
+            print("일치하는 구청 좌표를 찾을 수 없습니다.")
+        }
     }
 }
 

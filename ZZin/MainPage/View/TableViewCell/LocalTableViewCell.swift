@@ -23,6 +23,7 @@ class LocalTableViewCell: UITableViewCell {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(LocalCollectionViewCell.self, forCellWithReuseIdentifier: LocalCollectionViewCell.identifier)
+        collectionView.backgroundColor = .customBackground
         return collectionView
     }()
     
@@ -37,6 +38,7 @@ class LocalTableViewCell: UITableViewCell {
     }
     
     func setUI() {
+        backgroundColor = .customBackground
         contentView.addSubview(localCollectionView)
         localCollectionView.snp.makeConstraints {
             $0.top.bottom.right.equalToSuperview()
