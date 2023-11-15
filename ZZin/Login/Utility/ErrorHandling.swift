@@ -15,7 +15,6 @@ enum ErrorHandling {
     case idError
     case idBlank
     case noValue
-    case numberShort
     case idWrongFormat
     case signInFailure
     case loginFailure
@@ -25,6 +24,8 @@ enum ErrorHandling {
     case tooShort
     case error
     case alreadyExists
+    case agreement
+    case equalPassword
     
     var title: String {
         switch self {
@@ -38,8 +39,6 @@ enum ErrorHandling {
             return "잘 떠올려보세요!"
         case .idBlank:
             return "아이디가 비어있어요!"
-        case .numberShort:
-            return "번호 형식"
         case .idWrongFormat:
             return "혹시 잊으셨을까요?"
         case .noValue:
@@ -57,9 +56,13 @@ enum ErrorHandling {
         case .error:
             return "오류"
         case .tooShort:
-            return "너무 길어요"
+            return "너무 짧아요"
         case .alreadyExists:
             return "해당 이메일이 존재해요"
+        case .agreement:
+            return "이용 약관 동의"
+        case .equalPassword:
+            return "비밀번호 불일치"
         }
     }
     
@@ -75,8 +78,6 @@ enum ErrorHandling {
             return "마지막 자리는 숫자이지 않았나요?"
         case .idError:
             return "아이디를 다시 확인해주세요"
-        case .numberShort:
-            return "전화번호가 짧아요!"
         case .idWrongFormat:
             return "이메일 주소로 가입하셨어요"
         case .noValue:
@@ -97,6 +98,10 @@ enum ErrorHandling {
             return "비밀번호는 8자리 이상이어야 합니다!"
         case .alreadyExists:
             return "다른 이메일을 사용해주세요"
+        case .agreement:
+            return "약관을 동의해주세요"
+        case .equalPassword:
+            return "같은 비밀번호를 입력해주세요"
         }
     }
 }
