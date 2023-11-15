@@ -1,10 +1,3 @@
-//
-//  MatchingLocationPickerVC.swift
-//  ZZin
-//
-//  Created by t2023-m0045 on 10/30/23.
-//
-
 import UIKit
 
 protocol LocationPickerViewDelegate: AnyObject {
@@ -14,7 +7,6 @@ protocol LocationPickerViewDelegate: AnyObject {
 class MatchingLocationPickerVC: UIViewController {
     
     // MARK: - Properties
-    
     weak var pickerViewDelegate: LocationPickerViewDelegate?
     let pickerViewUI = MatchingLocationPickerView()
     var selectedCity: String? = "지역"
@@ -26,11 +18,11 @@ class MatchingLocationPickerVC: UIViewController {
     
     // 피커뷰 1열에 들어갈 "시"
     let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
-   
+    
     // 피커뷰 2열에 들어갈 "구"
     let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
     let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
-
+    
     
     // MARK: - Life Cycle
     
@@ -101,9 +93,9 @@ class MatchingLocationPickerVC: UIViewController {
         updateLocation(city: self.selectedCity, town: self.selectedTown)
         
         print("~~피커뷰 선택값 전달합니두~~","\(self.selectedCity ?? "지역") \(self.selectedTown ?? "미설정")")
-
+        
         self.dismiss(animated: true)
-
+        
     }
 }
 

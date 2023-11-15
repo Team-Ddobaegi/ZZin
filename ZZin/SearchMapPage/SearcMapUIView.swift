@@ -10,7 +10,7 @@ class SearchMapUIView: UIView {
     
     lazy var gpsButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .customBackground
+        button.backgroundColor = .white
         button.layer.cornerRadius = 20
         let gpsIcon = UIImage(systemName: "location.fill")
         button.setImage(gpsIcon, for: .normal)
