@@ -107,7 +107,7 @@ class SearchMapViewController: UIViewController {
     }
     
     func addTargetButton() {
-        searchMapUIView.resetFilterButton.addTarget(self, action: #selector(resetFilterButtonTapped), for: .touchUpInside)
+        searchMapUIView.matchingView.resetFilterButton.addTarget(self, action: #selector(resetFilterButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.addTarget(self, action: #selector(gpsButtonTapped), for: .touchUpInside)
         searchMapUIView.gpsButton.isExclusiveTouch = true
         searchMapUIView.searchMapView.searchCurrentLocationButton.addTarget(self, action: #selector(searchCurrentLocationButtonTapped), for: .touchUpInside)
@@ -246,9 +246,9 @@ class SearchMapViewController: UIViewController {
     
     func updateResetButtonStatus() {
         if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
-            searchMapUIView.resetFilterButton.isEnabled = false
+            searchMapUIView.matchingView.resetFilterButton.isEnabled = false
         } else {
-            searchMapUIView.resetFilterButton.isEnabled = true
+            searchMapUIView.matchingView.resetFilterButton.isEnabled = true
         }
     }
     

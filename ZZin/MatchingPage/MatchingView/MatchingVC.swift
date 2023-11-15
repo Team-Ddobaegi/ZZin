@@ -40,6 +40,7 @@ class MatchingVC: UIViewController {
         setView()
         configureUI()
         locationSetting()
+        updateResetButtonStatus()
         currentLocation = LocationService.shared.getCurrentLocation()
         getAddress()
     }
@@ -239,6 +240,19 @@ class MatchingVC: UIViewController {
         navigationController?.present(keywordVC, animated: true)
     }
     
+    @objc func resetFilterButtonTapped() {
+        companionKeyword = [nil]
+        conditionKeyword = [nil]
+        kindOfFoodKeyword = [nil]
+        
+        matchingView.companionKeywordButton.setTitle("키워드", for: .normal)
+        matchingView.conditionKeywordButton.setTitle("키워드", for: .normal)
+        matchingView.kindOfFoodKeywordButton.setTitle("키워드", for: .normal)
+        
+        fetchPlacesWithKeywords()
+        updateResetButtonStatus()
+    }
+    
     
     
     //MARK: - Configure UI
@@ -274,6 +288,7 @@ class MatchingVC: UIViewController {
         matchingView.companionKeywordButton.addTarget(self, action: #selector(companionKeywordButtonTapped), for: .touchUpInside)
         matchingView.conditionKeywordButton.addTarget(self, action: #selector(conditionKeywordButtonTapped), for: .touchUpInside)
         matchingView.kindOfFoodKeywordButton.addTarget(self, action: #selector(kindOfFoodKeywordButtonTapped), for: .touchUpInside)
+        matchingView.resetFilterButton.addTarget(self, action: #selector(resetFilterButtonTapped), for: .touchUpInside)
     }
     
     private func setLocationTitle() {
@@ -294,6 +309,17 @@ class MatchingVC: UIViewController {
         matchingView.kindOfFoodKeywordButton.setTitleColor(.darkGray, for: .normal)
     }
     
+    func updateResetButtonStatus() {
+        if companionKeyword == nil && conditionKeyword == nil && kindOfFoodKeyword == nil {
+            matchingView.resetFilterButton.isEnabled = false
+            matchingView.resetFilterButton.layer.borderColor = UIColor.systemGray.cgColor
+        } else {
+            matchingView.resetFilterButton.isEnabled = true
+            matchingView.resetFilterButton.layer.borderColor = ColorGuide.main.cgColor
+
+        }
+    }
+    
 }
 
 
@@ -304,7 +330,7 @@ class MatchingVC: UIViewController {
 extension MatchingVC: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2 - 20, height: collectionView.frame.width / 2)
+        return CGSize(width: collectionView.frame.width / 2 - 20, height: collectionView.frame.width / 2 - 10)
     }
 }
 
@@ -441,7 +467,7 @@ extension MatchingVC: MatchingKeywordDelegate {
         }
         
         fetchPlacesWithKeywords()
-        
+        updateResetButtonStatus()
     }
 }
 
