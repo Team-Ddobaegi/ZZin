@@ -69,4 +69,15 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
             }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\(indexPath) 셀이 눌렸습니다.")
+        
+        if collectionView.cellForItem(at: indexPath) is MatchingResultCell {
+            print("매칭 업체 페이지로 이동합니다.")
+//            self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+//            matchingPlaceVC.placeID = place?[indexPath.item].pid
+//            matchingPlaceVC.reviewID = place?[indexPath.item].rid
+        }
+    }
 }
