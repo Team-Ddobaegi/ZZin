@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 import Then
 
-protocol OkDelegate: class {
+protocol LogoutDelegate: class {
     func onTapClose()
 }
 
-class OkVC: UIViewController {
+class LogoutVC: UIViewController {
     
-    weak var delegate: OkDelegate?
+    weak var delegate: LogoutDelegate?
     
     let bgView = UIView().then {
         $0.backgroundColor = .white
@@ -58,8 +58,8 @@ class OkVC: UIViewController {
         }
     }
     
-    static func instance() -> OkVC {
-        return OkVC(nibName: nil, bundle: nil).then {
+    static func instance() -> LogoutVC {
+        return LogoutVC(nibName: nil, bundle: nil).then {
             $0.modalPresentationStyle = .overFullScreen
         }
     }
