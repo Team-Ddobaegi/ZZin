@@ -419,7 +419,7 @@ extension PostViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                 guard let self = self,
                       let uiImage = image as? UIImage,
-                      let data = uiImage.jpegData(compressionQuality: 0.8) else { return }
+                      let data = uiImage.jpegData(compressionQuality: 0.1) else { return }
                 
                 DispatchQueue.main.sync {
                     self.imgData.append(data)

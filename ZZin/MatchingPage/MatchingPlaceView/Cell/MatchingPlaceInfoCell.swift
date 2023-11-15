@@ -47,21 +47,21 @@ class MatchingPlaceInfoCell: UITableViewCell {
     let placeTitleLabel = UILabel().then {
         $0.text = "하남돼지집"
         $0.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .left
     }
     
     let placeTypeLabel = UILabel().then {
         $0.text = "음식점"
         $0.font = UIFont.systemFont(ofSize: 12, weight: .light)
-        $0.textColor = .gray
+        $0.textColor = .systemGray
         $0.textAlignment = .left
     }
     
     let placeAddresseLabel = UILabel().then {
         $0.text = "서울특별시 강남구 어쩌고 저쩌고"
         $0.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        $0.textColor = .gray
+        $0.textColor = .systemGray
         $0.textAlignment = .left
     }
     
@@ -77,15 +77,11 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.backgroundColor = .lightGray.withAlphaComponent(0.3)
     }
     
-    let placeMapView = UIView().then {
-        $0.backgroundColor = .lightGray
-    }
-    
     
     var placeCallButton = UIButton().then {
         let iconImage = UIImage(systemName: "phone.fill")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .darkGray
+        $0.tintColor = .systemGray
         $0.contentVerticalAlignment = .center
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
@@ -95,7 +91,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     var placeCallLabel = UILabel().then {
         $0.text = "전화하기"
-        $0.textColor = .darkGray
+        $0.textColor = .systemGray
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
@@ -110,7 +106,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     var placeReviewButton = UIButton().then {
         let iconImage = UIImage(systemName: "square.and.pencil")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .darkGray
+        $0.tintColor = .systemGray
         $0.contentVerticalAlignment = .center
         $0.isHighlighted = false
         $0.snp.makeConstraints{
@@ -120,7 +116,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
     
     var placeReviewLabel = UILabel().then {
         $0.text = "리뷰쓰기"
-        $0.textColor = .darkGray
+        $0.textColor = .systemGray
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
@@ -133,10 +129,10 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }()
     
     
-    var placeLikeButton = UIButton().then {
-        let iconImage = UIImage(systemName: "arrow.down.heart")
+    var placeMapButton = UIButton().then {
+        let iconImage = UIImage(systemName: "map.fill")
         $0.setImage(iconImage, for: .normal)
-        $0.tintColor = .darkGray
+        $0.tintColor = .systemGray
         $0.contentVerticalAlignment = .center
         
         $0.snp.makeConstraints{
@@ -144,15 +140,15 @@ class MatchingPlaceInfoCell: UITableViewCell {
         }
     }
     
-    var placeLikeLabel = UILabel().then {
-        $0.text = "가볼게요"
-        $0.textColor = .darkGray
+    var placeMapLabel = UILabel().then {
+        $0.text = "위치 보기"
+        $0.textColor = .systemGray
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 13, weight: .medium)
     }
     
     lazy var likeButtonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [placeLikeButton, placeLikeLabel])
+        let stackView = UIStackView(arrangedSubviews: [placeMapButton, placeMapLabel])
         stackView.axis = .vertical
         
         return stackView
@@ -183,7 +179,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         // Button Size Resizing
         placeCallButton.setImage(UIImage(systemName: "phone.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
         placeReviewButton.setImage(UIImage(systemName: "square.and.pencil")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
-        placeLikeButton.setImage(UIImage(systemName: "arrow.down.heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
+        placeMapButton.setImage(UIImage(systemName: "map.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)), for: .normal)
 
     }
     
@@ -208,7 +204,6 @@ class MatchingPlaceInfoCell: UITableViewCell {
         view.addSubview(placeTypeLabel)
         view.addSubview(placeAddresseLabel)
         view.addSubview(divider)
-        view.addSubview(placeMapView)
         view.addSubview(placeButtonStackView)
     }
     
@@ -250,15 +245,8 @@ class MatchingPlaceInfoCell: UITableViewCell {
             $0.trailing.equalToSuperview().offset(-20)
         }
         
-        placeMapView.snp.makeConstraints {
-            $0.height.equalTo(200)
-            $0.top.equalTo(divider.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-        }
-        
         placeButtonStackView.snp.makeConstraints {
-            $0.top.equalTo(placeMapView.snp.bottom).offset(15)
+            $0.top.equalTo(divider.snp.bottom).offset(15)
             $0.centerX.equalToSuperview().offset(-2) // 중앙정렬이 아닌 것 같아서 살짝 옮겨놨음
         }
 

@@ -5,6 +5,8 @@ import SnapKit
 import FirebaseStorage
 
 var isMapExist : Bool = false
+var isPlaceMap : Bool = false
+
 
 class SearchMapViewController: UIViewController {
     
@@ -29,7 +31,7 @@ class SearchMapViewController: UIViewController {
     private var opacityViewAlpha: CGFloat = 1.0 // 1.0은 완전 불투명, 0.0은 완전 투명
     let infoMarkerView = InfoMarkerView()
     let geocodingService = Geocoding.shared
-    var isPlaceMap : Bool = false
+
     
 
 
@@ -154,6 +156,10 @@ class SearchMapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
+        if isPlaceMap {
+            moveCamera(location: cameraLocation, animation: .none)
+            isPlaceMap = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -304,6 +310,7 @@ class SearchMapViewController: UIViewController {
                     self.searchMapUIView.storeCardView.placeAddressLabel.text = placeAddress
                     print("$$$$$$\(placeAddress)")
                     FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
+                    self .cameraLocation = NMGLatLng(lat: placeLat, lng: placeLong)
                     let location = NMGLatLng(lat: placeLat, lng: placeLong)
                     self.moveCamera(location: location, animation: .linear)
                     print("===========\(placeID)")
@@ -547,7 +554,15 @@ extension SearchMapViewController: LocationPickerViewDelegate {
 
         // 선택 지역으로 컬렉션뷰 리로드
         fetchPlacesWithKeywords()
-        geocodeAddress(query: "\(self.selectedCity) \(self.selectedTown)청", lat: currentUserLocation?.lat ?? 37.5666102, lng: currentUserLocation?.lng ?? 126.9783881)
+        if let town = self.selectedTown,
+           let selectedTownEnum = SeoulDistrictOfficeCoordinates.find(for: town) {
+            let coords = selectedTownEnum.coordinate
+            print("\(selectedTown) 좌표: 위도 \(coords.latitude), 경도 \(coords.longitude)")
+            let officeCoords = NMGLatLng(lat: coords.latitude, lng: coords.longitude)
+            moveCamera(location: officeCoords, animation: .none)
+        } else {
+            print("일치하는 구청 좌표를 찾을 수 없습니다.")
+        }
     }
 }
 

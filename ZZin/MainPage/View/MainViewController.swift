@@ -49,6 +49,7 @@ class MainViewController: UIViewController {
     // MARK: - Configure UI
     
     func setUI() {
+        view.backgroundColor = .customBackground
         view.addSubview(mainView)
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -64,7 +65,6 @@ extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //        navigationController?.setNavigationBarHidden(true, animated: animated)
-        view.backgroundColor = .white
         fetchReviewData()
     }
     

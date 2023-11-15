@@ -64,5 +64,6 @@ class LocalCollectionViewCell: UICollectionViewCell {
         let imageData = UIImage(systemName: image)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         recommendPictureView.image = imageData
         recommendLabel.text = text
+        recommendLabel.textColor = .label
     }
 }

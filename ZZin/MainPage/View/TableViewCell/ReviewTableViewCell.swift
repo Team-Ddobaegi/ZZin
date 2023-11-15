@@ -22,6 +22,7 @@ class ReviewTableViewCell: UITableViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ReviewCollectionViewCell.self, forCellWithReuseIdentifier: ReviewCollectionViewCell.identifier)
+        collectionView.backgroundColor = .customBackground
         return collectionView
     }()
     
@@ -36,6 +37,7 @@ class ReviewTableViewCell: UITableViewCell {
     }
     
     func setUI() {
+        backgroundColor = .customBackground
         contentView.addSubview(reviewCollectionView)
         reviewCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()

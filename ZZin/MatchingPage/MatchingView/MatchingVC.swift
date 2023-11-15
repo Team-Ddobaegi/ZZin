@@ -10,7 +10,6 @@ class MatchingVC: UIViewController {
     
     //MARK: - Properties
     
-    let dataManager = FireStoreManager()
     var place: [Place]?
     var review: [Review]?
     
@@ -28,7 +27,6 @@ class MatchingVC: UIViewController {
     var currentLocation: NMGLatLng?
     
     private let matchingView = MatchingView()
-    private let keywordVC = MatchingKeywordVC()
     private let resultCV = MatchingResultCollectionView()
     
     

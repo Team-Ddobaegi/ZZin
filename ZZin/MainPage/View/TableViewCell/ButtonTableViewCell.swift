@@ -44,6 +44,7 @@ class ButtonTableViewCell: UITableViewCell {
     }
     
     func setUI() {
+        backgroundColor = .customBackground
         contentView.addSubview(rankButtonStackView)
         rankButtonStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(5)

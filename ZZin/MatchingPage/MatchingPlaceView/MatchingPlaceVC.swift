@@ -144,7 +144,7 @@ class MatchingPlaceVC: UIViewController {
         print("리뷰 작성 페이지로 이동합니다")
         
         let postVC = PostViewController()
-        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+//        postVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(postVC, animated: true)
     }
     
@@ -152,6 +152,7 @@ class MatchingPlaceVC: UIViewController {
 //        print("가볼래요 버튼 선택: \(!isLikeButtonSelected)")
 //        isLikeButtonSelected.toggle()
 //        updateLikePlace()
+        isPlaceMap = true
         if !isMapExist {
             let mapVC = SearchMapViewController()
 //            mapVC.companionKeyword = self.companionKeywords
@@ -161,7 +162,6 @@ class MatchingPlaceVC: UIViewController {
             mapVC.selectedTown = self.town
             mapVC.cameraLocation = NMGLatLng(lat: self.lat ?? 37.5666102, lng: self.lng ?? 126.9783881)
             print("맛집 좌표입니두! \(self.lat)\(self.lng)")
-            mapVC.isPlaceMap = true
             navigationController?.pushViewController(mapVC, animated: true)
             print("지도로 가유~~~")
         } else {
@@ -264,7 +264,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0: return 150
-        case 1: return 420
+        case 1: return 200
         case 2:
             // MatchingPlaceReviewCell 섹션의 높이 계산
             let numberOfReviewCells = numberOfMatchingPlaceReviewCells()
@@ -308,7 +308,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
             cell.placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+            cell.placeMapButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
 //            cell.colorChange  = { [self] in
 //                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)

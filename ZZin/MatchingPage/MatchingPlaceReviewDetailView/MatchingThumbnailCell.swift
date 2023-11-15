@@ -30,6 +30,7 @@ class MatchingThumbnailCell: UITableViewCell {
     
     private func setView(){
         configureUI()
+        backgroundColor = .customBackground
     }
     
     static func cellHeight() -> CGFloat {
@@ -42,6 +43,7 @@ class MatchingThumbnailCell: UITableViewCell {
     static let identifier = "MatchingThumbnailCell"
    
     let review = RecommendPlaceReviewThumbnail().then{
+        $0.img.layer.cornerRadius = 0
         $0.wrap.layer.cornerRadius = 0
         $0.img.image = UIImage(named: "")
     }

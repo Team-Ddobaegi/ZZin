@@ -32,15 +32,15 @@ class MainView: UIView {
     }
    
     private let logoView = UIImageView().then {
-        let image = UIImage(named: "AppIcon")
+        let image = UIImage(named: "MainIcon")
         $0.image = image
         $0.contentMode = .scaleAspectFill
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tableView.backgroundColor = .white
-        self.backgroundColor = .white
+        tableView.backgroundColor = .customBackground
+        self.backgroundColor = .customBackground
         setTableView()
         setLogo()
         setLogOut()
