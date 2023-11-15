@@ -197,7 +197,7 @@ class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
     let infoLabel = UILabel().then{
         $0.text = "3가지를 가진 맛집"
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
-        $0.textColor = .white
+        $0.textColor = .label
     }
 
     let searchNotiLabel = UILabel().then {

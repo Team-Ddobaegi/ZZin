@@ -87,11 +87,11 @@
 		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
 		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
 		C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */; };
-		C3B867DE2B05282500CA905B /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3B867DD2B05282500CA905B /* SecretKey.plist */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
 		DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */; };
 		DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */; };
+		DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF1112F02B05491800AF2515 /* SecretKey.plist */; };
 		DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */; };
 		DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */; };
 		DF1599B12AD6C6E200AE129B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599B02AD6C6E200AE129B /* ViewController.swift */; };
@@ -201,11 +201,11 @@
 		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
 		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
 		C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
-		C3B867DD2B05282500CA905B /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../../Downloads/SecretKey.plist; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
 		DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang_review.jpeg; sourceTree = "<group>"; };
 		DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DF1112F02B05491800AF2515 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		DF1599A92AD6C6E200AE129B /* ZZin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -546,7 +546,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				C3B867DD2B05282500CA905B /* SecretKey.plist */,
+				DF1112F02B05491800AF2515 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -733,7 +733,7 @@
 				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
-				C3B867DE2B05282500CA905B /* SecretKey.plist in Resources */,
+				DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,

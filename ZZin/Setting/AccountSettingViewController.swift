@@ -13,6 +13,7 @@ class AccountSettingViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableview = UITableView()
+        tableview.backgroundColor = .customBackground
         return tableview
     }()
         
@@ -27,7 +28,7 @@ class AccountSettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .customBackground
         setupView()
     }
     

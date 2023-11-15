@@ -30,7 +30,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
     var recommendLabel = UILabel().then {
         $0.text = "강남구"
         $0.font = FontGuide.size16
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
     }
     

@@ -68,7 +68,7 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.systemBackground
+        appearance.backgroundColor = UIColor.customBackground
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -115,15 +115,15 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     private func setupUI() {
         // Navigation Bar
         navigationItem.title = "찐 맛집 추천"
-        self.navigationController?.navigationBar.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.backgroundColor = .customBackground
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .customBackground
         
         // delegate
         collectionView.delegate = self
         collectionView.dataSource = self
         
         // Collection View
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .customBackground
         collectionView.showsVerticalScrollIndicator = false
         collectionView.isScrollEnabled = true
         collectionView.alwaysBounceVertical = true

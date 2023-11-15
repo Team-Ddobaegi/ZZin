@@ -39,6 +39,7 @@ class AccountSettingViewControllerCell: UITableViewCell {
     }
     
     func setupUI() {
+        backgroundColor = .customBackground
         addSubview(leadingImage)
         addSubview(text)
         addSubview(trailingImage)

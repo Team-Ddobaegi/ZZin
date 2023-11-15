@@ -44,6 +44,7 @@ class SearchMapViewController: UIViewController {
         fetchPlacesWithKeywords()
         updateLocationTitle()
         updateResetButtonStatus()
+        isPlaceVCCheck()
     }
 
     override func viewDidAppear(_ animated: Bool) {
