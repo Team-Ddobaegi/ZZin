@@ -42,7 +42,7 @@ class UserSearchController: UIViewController {
         let button = UIButton()
         button.setTitle("확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor.init(hexCode: "F55951")
+        button.backgroundColor = ColorGuide.main
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
