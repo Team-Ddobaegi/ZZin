@@ -42,7 +42,7 @@ class CustomSegmentedControl: UIView {
     }
 
     private func createButtons() {
-        for (index, title) in buttonTitles.enumerated() {
+        for (_, title) in buttonTitles.enumerated() {
             let button = UIButton(type: .system)
             button.setTitle(title, for: .normal)
             button.setTitleColor(textColor, for: .normal)
