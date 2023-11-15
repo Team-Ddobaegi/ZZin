@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import Firebase
+import NMapsMap
 
 class MatchingPlaceVC: UIViewController {
     
@@ -16,7 +17,6 @@ class MatchingPlaceVC: UIViewController {
     
     private let matchingPlaceView = MatchingPlaceView()
     var infoCell =  MatchingPlaceInfoCell()
-    let dataManager = FireStoreManager()
     let db = Firestore.firestore()
     var placeID: String?
     var reviewID: [String?]?
@@ -24,7 +24,13 @@ class MatchingPlaceVC: UIViewController {
     var isCallButtonSelected = false
     var isReviewButtonSelected = false
     var isLikeButtonSelected = false
-    
+    var companionKeywords : [String?]?
+    var conditionKeywords : [String?]?
+    var kindOfFoodKeywords : [String?]?
+    var city : String?
+    var town : String?
+    var lat : Double?
+    var lng : Double?
     
     // MARK: - Life Cycle
     
@@ -143,10 +149,24 @@ class MatchingPlaceVC: UIViewController {
     }
     
     @objc func likeButtonTapped() {
-        print("가볼래요 버튼 선택: \(!isLikeButtonSelected)")
-        isLikeButtonSelected.toggle()
-        
-        updateLikePlace()
+//        print("가볼래요 버튼 선택: \(!isLikeButtonSelected)")
+//        isLikeButtonSelected.toggle()
+//        updateLikePlace()
+        if !isMapExist {
+            let mapVC = SearchMapViewController()
+//            mapVC.companionKeyword = self.companionKeywords
+//            mapVC.conditionKeyword = self.conditionKeywords
+//            mapVC.kindOfFoodKeyword = self.kindOfFoodKeywords
+            mapVC.selectedCity = self.city
+            mapVC.selectedTown = self.town
+            mapVC.cameraLocation = NMGLatLng(lat: self.lat ?? 37.5666102, lng: self.lng ?? 126.9783881)
+            print("맛집 좌표입니두! \(self.lat)\(self.lng)")
+            mapVC.isPlaceMap = true
+            navigationController?.pushViewController(mapVC, animated: true)
+            print("지도로 가유~~~")
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     
@@ -288,7 +308,7 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
             cell.selectionStyle = .none
             cell.placeCallButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
             cell.placeReviewButton.addTarget(self, action: #selector(reviewButtonTapped), for: .touchUpInside)
-//            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+            cell.placeLikeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
 //            cell.colorChange  = { [self] in
 //                updateButtonColor(button: cell.placeLikeButton, label: cell.placeLikeLabel, isSelected: isLikeButtonSelected)
@@ -300,6 +320,13 @@ extension MatchingPlaceVC: UITableViewDataSource, UITableViewDelegate {
                 case .success(let place):
                     let placeName = place.placeName
                     let placeAddress = place.address
+                    self.companionKeywords = [place.companion]
+                    self.conditionKeywords = [place.condition]
+                    self.kindOfFoodKeywords = [place.kindOfFood]
+                    self.lat = place.lat
+                    self.lng = place.long
+                    self.city = place.city
+                    self.town = place.town
                     
                     cell.placeTitleLabel.text = placeName
                     cell.placeAddresseLabel.text = placeAddress

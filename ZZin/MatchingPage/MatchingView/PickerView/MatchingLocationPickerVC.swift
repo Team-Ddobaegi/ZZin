@@ -6,17 +6,6 @@ protocol LocationPickerViewDelegate: AnyObject {
 
 class MatchingLocationPickerVC: UIViewController {
     
-    // MARK: - Singleton Instance
-    static let shared = MatchingLocationPickerVC()
-    
-    private init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Properties
     weak var pickerViewDelegate: LocationPickerViewDelegate?
     let pickerViewUI = MatchingLocationPickerView()
