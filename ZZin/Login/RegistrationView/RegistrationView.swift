@@ -173,17 +173,8 @@ class RegistrationView: UIView {
         doublecheckEmailView.isHidden = true
     }
     
-    //    private func setCheckButton() {
-    //        checkButton.snp.makeConstraints {
-    //            $0.trailing.equalToSuperview().inset(20)
-    //            $0.centerY.equalTo(emailTfView.snp.centerY)
-    //            $0.size.equalTo(CGSize(width: 50, height: 50))
-    //        }
-    //    }
-    
     private func setAnimation() {
         let animationView = LottieAnimationView(name: "lottieTest")
-//        animationView.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         animationView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
         animationView.contentMode = .scaleAspectFit
         addSubview(animationView)

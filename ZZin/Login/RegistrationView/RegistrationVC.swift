@@ -135,7 +135,9 @@ class RegistrationViewController: UIViewController {
         }
         
         let numbers = password.suffix(1)
-        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
+        let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_-+=<>?/,.:;{}[]~`")
+        
+        guard numbers.rangeOfCharacter(from: specialCharacters) != nil else {
             print("마지막은 숫자를 써주세요")
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .firstTimePass)
@@ -143,7 +145,7 @@ class RegistrationViewController: UIViewController {
         }
         
         guard password.count >= 8 else {
-            print("8자리 이상 작성해주세요")
+            print("8자리 이상으로 작성해주세요")
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .tooShort)
             return false
