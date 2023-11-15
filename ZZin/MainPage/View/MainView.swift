@@ -20,7 +20,6 @@ class MainView: UIView {
         $0.separatorStyle = .none
         $0.register(LocalTableViewCell.self, forCellReuseIdentifier: LocalTableViewCell.identifier)
         $0.register(ReviewTableViewCell.self, forCellReuseIdentifier: ReviewTableViewCell.identifier)
-        $0.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identifier)
         $0.register(MainHeaderView.self, forHeaderFooterViewReuseIdentifier: MainHeaderView.identifier)
     }
     
@@ -55,7 +54,6 @@ class MainView: UIView {
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.left.right.bottom.equalToSuperview()
-//            $0.edges.equalToSuperview()
         }
     }
     

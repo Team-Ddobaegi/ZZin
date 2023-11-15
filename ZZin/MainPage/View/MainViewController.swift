@@ -72,14 +72,11 @@ class MainViewController: UIViewController {
     }
 }
 
-
-
 // MARK: - Life Cycles
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        navigationController?.setNavigationBarHidden(true, animated: animated)
         fetchReviewData()
         fetchPlaceData()
     }
@@ -96,15 +93,14 @@ extension MainViewController {
 //MARK: - 테이블뷰 셀
 extension MainViewController: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 영역별 높이 다르게 설정
         switch indexPath.section {
         case 0: return 100
-        case 1: return 250
-        case 2: return 240
+        case 1: return 600
         default: return 200
         }
     }
@@ -133,11 +129,6 @@ extension MainViewController: UITableViewDataSource {
             cell.localCollectionView.reloadData()
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier, for: indexPath) as! ButtonTableViewCell
-            cell.recieveData(full: placeData)
-            cell.buttonCollectionView.reloadData()
-            return cell
-        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
             cell.recieveData(data: reviewData)
             cell.reviewCollectionView.reloadData()

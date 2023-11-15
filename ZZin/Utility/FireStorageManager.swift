@@ -239,9 +239,6 @@ class FireStorageManager {
             print("Uh-oh, an error occurred for image \(storagePath)!")
                 return
             }
-                    
         }
     }
 }
-
-    
