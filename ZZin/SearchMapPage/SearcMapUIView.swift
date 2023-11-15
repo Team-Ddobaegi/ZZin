@@ -29,7 +29,7 @@ class SearchMapUIView: UIView {
         $0.setTitle("이 지역에서 재검색", for: .normal)
     }
     
-    func hiddenMapButton() {
+    private func hiddenMapButton() {
         matchingView.mapButton.isHidden = true
     }
     

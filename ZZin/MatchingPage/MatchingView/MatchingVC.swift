@@ -135,7 +135,6 @@ class MatchingVC: UIViewController {
                 }
                 self.selectedTown = address.last
                 self.matchingView.setLocationButton.setTitle("\(self.selectedCity ?? "") \(self.selectedTown ?? "")", for: .normal)
-                print("@@@@@@@ \(self.selectedCity),\(self.selectedTown)")
                 self.fetchPlacesWithKeywords()
                 
             } else {
@@ -189,11 +188,9 @@ class MatchingVC: UIViewController {
         let indexPath = self.companionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
             keywordVC.selectedCompanionIndexPath = indexPath.isEmpty ? [] : indexPath
-            print("~~ companion 선택된 인덱스 있음두 ~~", indexPath)
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedCompanionIndexPath = []
-            print("~~ companion 선택된 인덱스 없어유 ~~", indexPath)
         }
         present(keywordVC, animated: true)
     }
@@ -209,11 +206,9 @@ class MatchingVC: UIViewController {
         let indexPath = self.conditionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
             keywordVC.selectedConditionIndexPath = indexPath.isEmpty ? [] : indexPath
-            print("~~ condition 선택된 인덱스 있음두 ~~", indexPath)
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedConditionIndexPath = []
-            print("~~ condition 선택된 인덱스 없어유 ~~", indexPath)
         }
         
         navigationController?.present(keywordVC, animated: true)
@@ -234,7 +229,6 @@ class MatchingVC: UIViewController {
         } else {
             // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedKindOfFoodIndexPath = []
-            print("~~ kindOfFood 선택된 인덱스 없어유 ~~", indexPath)
         }
         
         navigationController?.present(keywordVC, animated: true)

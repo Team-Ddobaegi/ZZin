@@ -161,7 +161,6 @@ class MatchingPlaceVC: UIViewController {
             mapVC.selectedCity = self.city
             mapVC.selectedTown = self.town
             mapVC.cameraLocation = NMGLatLng(lat: self.lat ?? 37.5666102, lng: self.lng ?? 126.9783881)
-            print("맛집 좌표입니두! \(self.lat)\(self.lng)")
             navigationController?.pushViewController(mapVC, animated: true)
             print("지도로 가유~~~")
         } else {

@@ -17,11 +17,11 @@ class MatchingLocationPickerVC: UIViewController {
     var selectedTownIndex: Int = 0
     
     // 피커뷰 1열에 들어갈 "시"
-    let cities = ["서울", "인천"] // "시"에 대한 데이터 배열
+    let cities = ["서울"] // "시"에 대한 데이터 배열
     
     // 피커뷰 2열에 들어갈 "구"
     let seoulTowns = ["전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
-    let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
+//    let incheonTowns = ["전체", "부평구", "연수구", "미추홀구"]
     
     
     // MARK: - Life Cycle
@@ -76,7 +76,9 @@ class MatchingLocationPickerVC: UIViewController {
         selectedTownIndex = selectedTownRow
         
         self.selectedCity = cities[selectedCityIndex]
-        self.selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+//        self.selectedTown = selectedCityIndex == 0 ? seoulTowns[selectedTownIndex] : incheonTowns[selectedTownIndex]
+        self.selectedTown = seoulTowns[selectedTownIndex]
+
     }
     
     func updateLocation(city: String?, town: String?){
@@ -117,9 +119,10 @@ extension MatchingLocationPickerVC: UIPickerViewDelegate, UIPickerViewDataSource
             // 두 번째 열에서 "구"의 개수 :: 선택된 "시"에 따라 배열 반환
             if selectedCityIndex == 0 {
                 return seoulTowns.count
-            } else if selectedCityIndex == 1 {
-                return incheonTowns.count
-            }
+            } 
+//            else if selectedCityIndex == 1 {
+//                return incheonTowns.count
+//            }
         }
         return 0
     }
@@ -134,9 +137,10 @@ extension MatchingLocationPickerVC: UIPickerViewDelegate, UIPickerViewDataSource
             if selectedCityIndex == 0 {
                 return seoulTowns[row]
                 
-            } else if selectedCityIndex == 1 {
-                return incheonTowns[row]
-            }
+            } 
+//            else if selectedCityIndex == 1 {
+//                return incheonTowns[row]
+//            }
         }
         return nil
     }
