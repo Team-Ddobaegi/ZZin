@@ -83,8 +83,6 @@
 		C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B12B04151600289391 /* SettingViewControllerCell.swift */; };
 		C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */; };
 		C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B52B04156C00289391 /* AccountSettingViewController.swift */; };
-		C0E198B82B04159B00289391 /* OkVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B72B04159B00289391 /* OkVC.swift */; };
-		C0E198BA2B0415CD00289391 /* CancelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B92B0415CD00289391 /* CancelVC.swift */; };
 		C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */; };
 		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
 		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
@@ -130,6 +128,8 @@
 		FF031D6C2ADFA25000206056 /* ColorGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF031D6B2ADFA25000206056 /* ColorGuide.swift */; };
 		FF1D8E1F2AE14567002B685B /* SearchRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */; };
 		FFEE93752AF3A2FF00A58010 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */; };
+		FFFDEE7D2B04CD6E00B49724 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFDEE7C2B04CD6E00B49724 /* LogoutViewController.swift */; };
+		FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFDEE7E2B04CD7900B49724 /* WithdrawalViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -197,8 +197,6 @@
 		C0E198B12B04151600289391 /* SettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B52B04156C00289391 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
-		C0E198B72B04159B00289391 /* OkVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkVC.swift; sourceTree = "<group>"; };
-		C0E198B92B0415CD00289391 /* CancelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelVC.swift; sourceTree = "<group>"; };
 		C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewForPostPage.swift; sourceTree = "<group>"; };
 		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
 		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
@@ -244,6 +242,8 @@
 		FF031D6B2ADFA25000206056 /* ColorGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGuide.swift; sourceTree = "<group>"; };
 		FF1D8E1E2AE14567002B685B /* SearchRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionViewController.swift; sourceTree = "<group>"; };
 		FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		FFFDEE7C2B04CD6E00B49724 /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
+		FFFDEE7E2B04CD7900B49724 /* WithdrawalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -633,8 +633,8 @@
 				C0E198B12B04151600289391 /* SettingViewControllerCell.swift */,
 				C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */,
 				C0E198B52B04156C00289391 /* AccountSettingViewController.swift */,
-				C0E198B72B04159B00289391 /* OkVC.swift */,
-				C0E198B92B0415CD00289391 /* CancelVC.swift */,
+				FFFDEE7C2B04CD6E00B49724 /* LogoutViewController.swift */,
+				FFFDEE7E2B04CD7900B49724 /* WithdrawalViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -802,7 +802,6 @@
 				7B1103D62AE0E868001BBEB2 /* MatchingPlaceView.swift in Sources */,
 				BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */,
 				BD8D6B072ADEE85F00F2A8D6 /* FoodCardOverlay.swift in Sources */,
-				C0E198BA2B0415CD00289391 /* CancelVC.swift in Sources */,
 				7B61D3902ADF733000A226EB /* MatchingResultCell.swift in Sources */,
 				7B47A55E2AE9FF0F00A44C2C /* MatchingThumbnailCell.swift in Sources */,
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
@@ -850,12 +849,14 @@
 				7B47A54E2AE8A34600A44C2C /* MatchingLocationPickerView.swift in Sources */,
 				C0A6344D2AEF7CE300BF6B55 /* ReviewCell.swift in Sources */,
 				FF031D622ADBBDC100206056 /* FontGuide.swift in Sources */,
+				FFFDEE7D2B04CD6E00B49724 /* LogoutViewController.swift in Sources */,
 				FF031D6A2ADBEB5100206056 /* ReviewCollectionViewCell.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983722AE0C24B008168D2 /* UserSearchController.swift in Sources */,
 				7B47A55C2AE9FEE200A44C2C /* MatchingPlacePhotoCollectionViewCell.swift in Sources */,
 				BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */,
 				DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */,
+				FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
 				C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */,
@@ -880,7 +881,6 @@
 				BDC112732AF4A739000E4F9F /* ButtonTableViewCell.swift in Sources */,
 				BD8D6B0B2ADEEECA00F2A8D6 /* Extension.swift in Sources */,
 				BD8D6B0D2ADFB8AC00F2A8D6 /* FoodCardContentView.swift in Sources */,
-				C0E198B82B04159B00289391 /* OkVC.swift in Sources */,
 				C0A634472AEF7C8100BF6B55 /* ProfileCell.swift in Sources */,
 				BD62B0A92ADC1EB40096BD3F /* LoginVC.swift in Sources */,
 				7B3313F02AF11FD900BC0F11 /* MatchingKeywordView.swift in Sources */,
