@@ -10,29 +10,28 @@ import FirebaseAuth
 
 class MainViewController: UIViewController {
     
-    // MARK: - 전역 변수
+    // MARK: - Properties
+    
+    private let mainView = MainView()
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
     let reviewCell = ReviewTableViewCell()
-    private let mainView = MainView()
+    var sectionHeaderHeight: CGFloat = 30 // 섹션 헤더의 높이
     
     var loadedRidAndPid: [String:[String]?] = [:]
     var placeData: [Place] = []
     var reviewData: [Review] = []
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
-
-    func setDelegate() {
+    
+    
+    
+    // MARK: - Settings
+    
+    func setTableViewAttribute() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-    }
-    
-    func setUI() {
         mainView.tableView.showsVerticalScrollIndicator = false
-        view.addSubview(mainView)
-        mainView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
     
     func fetchReviewData() {
@@ -46,19 +45,32 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - Configure UI
+    
+    func setUI() {
+        view.addSubview(mainView)
+        mainView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
+
+
+
+// MARK: - Life Cycles
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
+        //        navigationController?.setNavigationBarHidden(true, animated: animated)
         view.backgroundColor = .white
         fetchReviewData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegate()
+        setTableViewAttribute()
         setUI()
         mainView.delegate = self
         LocationService.shared.startUpdatingLocation()
@@ -75,15 +87,21 @@ extension MainViewController: UITableViewDelegate {
         // 영역별 높이 다르게 설정
         switch indexPath.section {
         case 0: return 100
-        case 1: return 280
+        case 1: return 290
         case 2: return 240
         default: return 200
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 섹션 헤더가 화면 위로 스크롤되지 않도록 고정
+        if scrollView.contentOffset.y < sectionHeaderHeight {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        } else {
+            scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
+        }
     }
+    
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -104,9 +122,10 @@ extension MainViewController: UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
             cell.selectionStyle = .none
-//            guard let rid = reviewData[indexPath.row]?.rid else { return cell }
-//            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
-//            cell.recieveData(data: reviewData)
+            
+            //            guard let rid = reviewData[indexPath.row]?.rid else { return cell }
+            //            storageManager.bindViewOnStorageWithRid(rid: rid, reviewImgView: cell.imageView, title: cell.textLabel, companion: <#T##UILabel?#>, condition: <#T##UILabel?#>, town: nil)
+            //            cell.recieveData(data: reviewData)
             return cell
         default:
             return UITableViewCell()

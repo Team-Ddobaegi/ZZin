@@ -20,19 +20,20 @@ class CustomTextfieldView: UIView {
     
     private var animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = .gray
+        $0.font = UIFont.systemFont(ofSize: 15)
     }
 
     lazy var textfield = UITextField().then {
         $0.autocapitalizationType = .none
         $0.autocorrectionType = .no
         $0.keyboardType = .default
-//        $0.backgroundColor = .white
         $0.textColor = .black
     }
     
     private let validationLabel = UILabel().then {
         $0.isHidden = true
-        $0.textColor = UIColor.init(hexCode: "F55951")
+        $0.textColor = ColorGuide.main
         $0.font = UIFont.preferredFont(forTextStyle: .caption1)
     }
 
@@ -52,8 +53,8 @@ class CustomTextfieldView: UIView {
     }
 
     private let secureButton = UIButton().then {
-        let image = UIImage(systemName: "eye")?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "eye")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        let selectedImage = UIImage(systemName: "eye.slash")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         $0.setImage(selectedImage, for: .normal)
         $0.setImage(image, for: .selected)
     }
@@ -98,33 +99,33 @@ class CustomTextfieldView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 60)
+        return CGSize(width: UIView.noIntrinsicMetric, height: 55)
     }
 }
 
 extension CustomTextfieldView {
     private func configure() {
         self.backgroundColor = .white
-        self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
-        self.layer.cornerRadius = 12
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGray.cgColor
+        self.layer.cornerRadius = 10
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
     }
 
     private func setUI() {
         animatingLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(5)
+            $0.leading.equalToSuperview().offset(10)
         }
         
         validationLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(2)
-            $0.leading.equalToSuperview().inset(5)
+            $0.leading.equalToSuperview().inset(10)
         }
 
         textfield.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(5)
-            $0.leading.equalToSuperview().inset(5)
+            $0.leading.equalToSuperview().inset(10)
             $0.trailing.equalToSuperview().inset(5)
         }
     }
@@ -165,12 +166,12 @@ extension CustomTextfieldView {
     func animateLabel() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0) {
             self.backgroundColor = .white
-            self.animatingLabel.textColor = .green
-            self.layer.borderWidth = 1
+            self.animatingLabel.textColor = .gray
+//            self.layer.borderWidth = 1
             self.layer.borderColor = self.animatingLabel.textColor.cgColor
 
             //Animation 적용시 이동 범위
-            let movement = CGAffineTransform(translationX: -8, y: -24)
+            let movement = CGAffineTransform(translationX: -9, y: -20)
             let scale = CGAffineTransform(scaleX: 0.7, y: 0.7)
             self.animatingLabel.transform = movement.concatenating(scale)
 
@@ -187,9 +188,9 @@ extension CustomTextfieldView {
     func undoLabelAnimation() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             self.backgroundColor = .white
-            self.animatingLabel.textColor = .black
-            self.layer.borderWidth = 0.5
-            self.layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
+            self.animatingLabel.textColor = .gray
+            self.layer.borderWidth = 1
+            self.layer.borderColor = UIColor.lightGray.cgColor
 
             // visibility
             self.textfield.text = ""
@@ -205,8 +206,8 @@ extension CustomTextfieldView {
     func showInvalidMessage() {
         self.validationLabel.isHidden = false
         self.animatingLabel.isHidden = true
-        self.layer.borderColor = UIColor.init(hexCode: "F55951").cgColor
-        self.textfield.tintColor = UIColor.init(hexCode: "F55951")
+        self.layer.borderColor = ColorGuide.main.cgColor
+        self.textfield.tintColor = ColorGuide.main
     }
     
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
