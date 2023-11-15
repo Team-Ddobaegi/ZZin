@@ -136,7 +136,9 @@ class LoginViewController: UIViewController {
     
     @objc func skipButtonTapped() {
         print("로그인 건너뛰기")
-
+//        let vc = TabBarViewController()
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: false)
     }
     
     @objc func memberButtonTapped() {

@@ -21,7 +21,7 @@ class LoginView: UIView {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = ColorGuide.main.withAlphaComponent(0.5)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.isEnabled = false
@@ -29,18 +29,18 @@ class LoginView: UIView {
     
     let memberButton = UIButton().then {
         $0.setTitle("회원가입", for: .normal)
-        $0.setTitleColor(.darkGray, for: .normal)
+        $0.setTitleColor(.gray, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
     let skipButton = UIButton().then {
         $0.setTitle("로그인 건너뛰기", for: .normal)
-        $0.setTitleColor(.darkGray, for: .normal)
+        $0.setTitleColor(.gray, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
     private let divider = UIView().then {
-        $0.backgroundColor = .gray
+        $0.backgroundColor = .lightGray
         
         $0.snp.makeConstraints {
             $0.width.equalTo(1)
@@ -90,14 +90,14 @@ class LoginView: UIView {
     private func setCustomView() {
         idTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(logoView.snp.bottom).offset(70)
+            $0.top.equalTo(logoView.snp.bottom).offset(40)
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
         
         pwTextfieldView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(idTextfieldView.snp.bottom).offset(20)
+            $0.top.equalTo(idTextfieldView.snp.bottom).offset(15)
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
@@ -105,7 +105,7 @@ class LoginView: UIView {
     
     private func setLoginBtn() {
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(20)
+            $0.top.equalTo(pwTextfieldView.snp.bottom).offset(40)
             $0.centerX.equalToSuperview()
             $0.left.right.equalToSuperview().inset(20)
             $0.height.equalTo(55)

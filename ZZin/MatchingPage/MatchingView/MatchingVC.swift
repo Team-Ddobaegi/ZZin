@@ -322,7 +322,7 @@ class MatchingVC: UIViewController {
 extension MatchingVC: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2 - 20, height: collectionView.frame.width / 2)
+        return CGSize(width: collectionView.frame.width / 2 - 20, height: collectionView.frame.width / 2 - 10)
     }
 }
 

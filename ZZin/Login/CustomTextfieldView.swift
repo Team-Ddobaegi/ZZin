@@ -20,6 +20,8 @@ class CustomTextfieldView: UIView {
     
     private var animatingLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = .gray
+        $0.font = UIFont.systemFont(ofSize: 15)
     }
 
     lazy var textfield = UITextField().then {
@@ -104,8 +106,8 @@ class CustomTextfieldView: UIView {
 extension CustomTextfieldView {
     private func configure() {
         self.backgroundColor = .white
-        self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.cornerRadius = 10
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
     }
@@ -164,8 +166,8 @@ extension CustomTextfieldView {
     func animateLabel() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.1, delay: 0) {
             self.backgroundColor = .white
-            self.animatingLabel.textColor = ColorGuide.main
-            self.layer.borderWidth = 1
+            self.animatingLabel.textColor = .gray
+//            self.layer.borderWidth = 1
             self.layer.borderColor = self.animatingLabel.textColor.cgColor
 
             //Animation 적용시 이동 범위
@@ -186,9 +188,9 @@ extension CustomTextfieldView {
     func undoLabelAnimation() {
         let movement = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             self.backgroundColor = .white
-            self.animatingLabel.textColor = .black
-            self.layer.borderWidth = 0.5
-            self.layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
+            self.animatingLabel.textColor = .gray
+            self.layer.borderWidth = 1
+            self.layer.borderColor = UIColor.lightGray.cgColor
 
             // visibility
             self.textfield.text = ""

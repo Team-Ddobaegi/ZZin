@@ -285,10 +285,10 @@ extension RegistrationViewController: UITextFieldDelegate {
             registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
         case self.registrationView.pwTfView.textfield:
             registrationView.pwTfView.animateLabel()
-            registrationView.pwTfView.textfield.placeholder = "대/소문자와 숫자를 조합하여 입력해주세요."
+            registrationView.pwTfView.textfield.placeholder = "비밀번호를 입력해주세요."
         case self.registrationView.doublecheckPwView.textfield:
             registrationView.doublecheckPwView.animateLabel()
-            registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 다시 한번 입력해주세요."
+            registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 입력해주세요."
         default: print("textfield를 찾지 못했습니다.")
         }
     }
