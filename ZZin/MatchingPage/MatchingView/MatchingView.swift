@@ -57,7 +57,7 @@ class MatchingView: UIView {
         let stackView = UIStackView(arrangedSubviews: [companionKeywordButton,firstPlus,conditionKeywordButton,secondPlus,kindOfFoodKeywordButton])
         stackView.axis = .horizontal
         stackView.spacing = 5
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()
@@ -129,7 +129,7 @@ class MatchingView: UIView {
     private func setDividerConstraints() {
         // 지역 설정 버튼 아래 구분선
         divider1.snp.makeConstraints {
-            $0.height.equalTo(0.5)
+            $0.height.equalTo(0.2)
             $0.bottom.equalTo(setLocationButton).offset(10)
             $0.leading.trailing.equalToSuperview().offset(0)
         }
@@ -151,7 +151,7 @@ class MatchingView: UIView {
         // 서치 팁 레이블:: tip
         matchingTipLabel.snp.makeConstraints {
             $0.bottom.equalTo(matchingResultLabel).offset(30)
-            $0.leading.equalToSuperview().offset(70)
+            $0.trailing.equalTo(matchingNotiLabel.snp.leading).offset(-5)
         }
         // 서치 팁 문구:: 각 항목을 탭하면 .. ~
         matchingNotiLabel.snp.makeConstraints{
@@ -228,7 +228,8 @@ extension UILabel {
         plus.text = "+"
         plus.textColor = .darkGray
         plus.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
+        plus.sizeToFit()
+        plus.textAlignment = .center
         plus.snp.makeConstraints {
             $0.width.height.equalTo(10)
         }

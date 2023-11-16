@@ -25,7 +25,7 @@ class InfoViewController: UICollectionViewController {
     var pidArr: [String]? = []
     var ridArr: [String]? = []
     
-    let currentUid = MainViewController().uid as! String
+    let currentUid = MainViewController().uid!
     
     // MARK: - Initializers
     init() {
@@ -57,6 +57,17 @@ class InfoViewController: UICollectionViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {[self] in
+            storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
+                loadedRidAndPid = result
+                pidArr = loadedRidAndPid["pidArr"] ?? []
+                ridArr = loadedRidAndPid["ridArr"] ?? []
+                collectionView.reloadData()
+            }
+        }
+    }
+    
     
     // MARK: - UI Setup
     private func setupUI() {
@@ -68,7 +79,7 @@ class InfoViewController: UICollectionViewController {
         collectionView.dataSource = self
         
         // Collection View
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .customBackground
         
         // cell register
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
@@ -179,21 +190,18 @@ extension InfoViewController {
         
     }
     
-    @objc func editButtonTapped(index: Int) {
-        print("탭탭 수정수정", index)
-    }
-    
     @objc func trashButtonTapped(_ sender: UIButton) {
         let index = sender.tag
         let popup = UIAlertController(title: "리뷰 삭제", message: "정말로 리뷰를 삭제하시겠습니까?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         let confirmDelete = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
-            // 클릭 시 처리할 내용 (boardInfo 삭제)
+            // 클릭 시 처리할 내용
             guard let rid = ridArr?[index] as? String else {return}
             
             DispatchQueue.main.async{ [self] in
-                storeManager.deleteReview(rid: rid, uid: currentUid ?? "")
+                storeManager.deleteReview(rid: rid, uid: currentUid)
                 self.ridArr?.remove(at: index)
+                self.pidArr?.remove(at: index)
                 self.collectionView.reloadData()
             }
         }

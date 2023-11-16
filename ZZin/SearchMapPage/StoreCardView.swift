@@ -1,5 +1,4 @@
 import UIKit
-import SwiftUI
 import SnapKit
 
 class StoreCardView: UIView {
@@ -7,8 +6,9 @@ class StoreCardView: UIView {
     lazy var placeNameLabel: UILabel = {
         let label = UILabel()
         label.text = "맛집 이름"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = .label
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -17,6 +17,7 @@ class StoreCardView: UIView {
         label.text = "맛집 카테고리"
         label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         label.textColor = .label
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -62,12 +63,21 @@ class StoreCardView: UIView {
     }()
     
     lazy var placeImage: UIImageView = {
-        let image = UIImage(named: "ogudangdang")
-        let imageView = UIImageView(image: image)
+//        let image = UIImage(named: "review_placeholder.png")
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    lazy var labelsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [placeNameLabel, placeCategoryLabel])
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
     }()
 
     override init(frame: CGRect) {
@@ -104,19 +114,16 @@ class StoreCardView: UIView {
         addSubview(placeReviewLabel)
         addSubview(placeImage)
         addSubview(placeCompanionLabel)
-        
-        placeNameLabel.snp.makeConstraints {
-            $0.top.equalTo(placeImage.snp.top)
-            $0.leading.equalTo(placeImage.snp.trailing).offset(20)
-        }
-        
-        placeCategoryLabel.snp.makeConstraints {
-            $0.centerY.equalTo(placeNameLabel.snp.centerY)
-            $0.leading.equalTo(placeNameLabel.snp.trailing).offset(5)
+        addSubview(labelsStackView)
+
+        labelsStackView.snp.makeConstraints { make in
+            make.top.equalTo(placeImage.snp.top)
+            make.leading.equalTo(placeImage.snp.trailing).offset(20)
+            make.trailing.lessThanOrEqualToSuperview().offset(-10)
         }
         
         placeAddressLabel.snp.makeConstraints {
-            $0.top.equalTo(placeNameLabel.snp.bottom).offset(4)
+            $0.top.equalTo(labelsStackView.snp.bottom).offset(4)
             $0.leading.equalTo(placeNameLabel)
         }
         
@@ -131,7 +138,7 @@ class StoreCardView: UIView {
         }
         
         placeRatingLabel.snp.makeConstraints {
-            $0.bottom.equalTo(placeImage.snp.bottom)
+            $0.bottom.equalTo(placeImage.snp.bottom).offset(-2)
             $0.leading.equalTo(placeNameLabel)
         }
         
@@ -148,25 +155,3 @@ class StoreCardView: UIView {
 
     }
 }
-
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct StoreCardView_Preview: PreviewProvider {
-    static var previews: some View {
-        StoreCardViewWrapper()
-    }
-
-    struct StoreCardViewWrapper: UIViewRepresentable {
-        func makeUIView(context: Context) -> StoreCardView {
-            return StoreCardView()
-        }
-
-        func updateUIView(_ uiView: StoreCardView, context: Context) {
-            // Update the view if needed
-        }
-    }
-}
-
-#endif

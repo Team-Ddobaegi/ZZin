@@ -38,7 +38,7 @@ class FireStorageManager {
     
     func downloadImgFromStorage(useage: Useage, id: String, imageView: UIImageView) {
         // Placeholder image
-        let placeholderImage = UIImage(named: "add_photo.png")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         
         let docRef = db.collection(useage.pathAndCollection.collection).document(id)
         docRef.getDocument { (document, error) in
@@ -102,14 +102,10 @@ class FireStorageManager {
                     userName = user.userName
                     description = user.description
                     
-                    print("THIS IS PROFILE IMAGE PATH", path)
-                    let profileRef = storageRef.child(path ?? "")
+                    let profileRef = self.storageRef.child(path ?? "")
                     print("============================== bindProfileImgOnStorage start binding")
                     profileImgView.sd_setImage(with: profileRef, placeholderImage: placeholderImage)
                     print("============================== bindProfileImgOnStorage end")
-                    
-                    print("userName :", userName)
-                    print("description :", description)
                     
                     // UILabel이 있을 경우 binding
                     if userNameLabel != nil {
@@ -135,7 +131,7 @@ class FireStorageManager {
     
     func bindPlaceImgWithPath(path: String?, imageView: UIImageView) {
     
-        let placeholderImage = UIImage(named: "add_photo")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         let ref = storageRef.child(path ?? "")
         imageView.sd_setImage(with: ref, placeholderImage: placeholderImage)
     }
@@ -154,7 +150,6 @@ class FireStorageManager {
                 pidArr = user.pid
                 ridArr = user.rid
                 dict = ["pidArr": pidArr, "ridArr": ridArr]
-                ("############################END getPidAndRidWithUid")
                 completion(dict)
             case .failure(let error):
                 print("Error fetching place: \(error.localizedDescription)")
@@ -166,7 +161,7 @@ class FireStorageManager {
     func bindViewOnStorageWithPid(pid: String?, placeImgView: UIImageView?, title: UILabel?, dotLabel: UILabel?, placeTownLabel: UILabel?, placeMenuLabel: UILabel?) {
         
         // placeholderImage
-        let placeholderImage = UIImage(named: "add_photo.png")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         guard pid != nil || pid != "" else {return}
         dataManager.fetchDataWithPid(pid: pid!) { result in
             switch result {
@@ -196,9 +191,7 @@ class FireStorageManager {
         dataManager.fetchDataWithRid(rid: rid!) { result in
             switch result {
             case .success(let review):
-//                print("review : ", review)
                 let path = review.reviewImg // nil일 때 표시할 이미지 경로 추가
-                print(path)
                 let ref = self.storageRef.child(path?[0] as? String ?? "images/review_placeholder.gif")
                 reviewImgView?.sd_setImage(with: ref, placeholderImage: placeholderImage)
                 title?.text = review.title
@@ -239,9 +232,6 @@ class FireStorageManager {
             print("Uh-oh, an error occurred for image \(storagePath)!")
                 return
             }
-                    
         }
     }
 }
-
-    

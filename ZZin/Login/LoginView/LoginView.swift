@@ -33,11 +33,11 @@ class LoginView: UIView {
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
     }
     
-    let skipButton = UIButton().then {
-        $0.setTitle("로그인 건너뛰기", for: .normal)
-        $0.setTitleColor(.gray, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-    }
+//    let skipButton = UIButton().then {
+//        $0.setTitle("로그인 건너뛰기", for: .normal)
+//        $0.setTitleColor(.gray, for: .normal)
+//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+//    }
     
     private let divider = UIView().then {
         $0.backgroundColor = .lightGray
@@ -49,7 +49,7 @@ class LoginView: UIView {
     }
     
     lazy var memberStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [memberButton,divider,skipButton])
+        let stackView = UIStackView(arrangedSubviews: [memberButton])
         stackView.axis = .horizontal
         stackView.spacing = 20
         stackView.distribution = .fill

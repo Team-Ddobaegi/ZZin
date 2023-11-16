@@ -198,7 +198,7 @@ class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
     let infoLabel = UILabel().then{
         $0.text = "3가지를 가진 맛집"
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
-        $0.textColor = .white
+        $0.textColor = .label
     }
 
     let searchNotiLabel = UILabel().then {
@@ -317,10 +317,7 @@ class SelectKeywordCell: UICollectionViewCell, UITextViewDelegate {
 }
 
 extension SelectKeywordCell {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        placeHolderLabel.isHidden = true
-    }
-    
+   
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             textView.resignFirstResponder()
@@ -332,6 +329,14 @@ extension SelectKeywordCell {
         print(textView.text as Any)
         textViewText = textView.text
         print(textViewText as Any)
+        
+        if textView.text.count > 0 {
+            placeHolderLabel.isHidden = true
+        } else {
+            placeHolderLabel.isHidden = false
+        }
+        
+        
     }
 
 

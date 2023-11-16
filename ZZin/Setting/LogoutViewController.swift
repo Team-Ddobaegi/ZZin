@@ -20,7 +20,7 @@ class LogoutViewController: UIViewController {
     weak var delegate: LogoutDelegate?
     
     let bgView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .customBackground
         $0.layer.cornerRadius = 20
     }
     
@@ -50,9 +50,9 @@ class LogoutViewController: UIViewController {
     var cancelButton = UIButton().then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(ColorGuide.main, for: .normal)
-        $0.backgroundColor = .systemBackground
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.black.cgColor
+        $0.backgroundColor = .systemGray4
+//        $0.layer.borderWidth = 1
+//        $0.layer.borderColor = UIColor.systemGray4.cgColor
         $0.layer.cornerRadius = 30
         if let titleLabel = $0.titleLabel {
             let semiBoldFont = UIFont.systemFont(ofSize: titleLabel.font.pointSize, weight: .semibold)

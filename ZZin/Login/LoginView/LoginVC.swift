@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+//        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func configureTextField() {
@@ -93,10 +93,11 @@ class LoginViewController: UIViewController {
         }
         
         let numbers = password.suffix(1)
-        guard numbers.rangeOfCharacter(from: .decimalDigits) != nil else {
-            print("마지막은 숫자를 써주세요")
+        let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_-+=<>?/,.:;{}[]~`")
+        guard numbers.rangeOfCharacter(from: specialCharacters) != nil else {
+            print("마지막은 특수문자를 써주세요")
             loginView.pwTextfieldView.showInvalidMessage()
-            showAlert(type: .lastPasswordNum)
+            showAlert(type: .lastPassword)
             return false
         }
         return true
@@ -136,6 +137,16 @@ class LoginViewController: UIViewController {
     
     @objc func skipButtonTapped() {
         print("로그인 건너뛰기")
+//        
+//        Auth.auth().signInAnonymously { (authResult, error) in
+//            if let error = error {
+//                print("익명 로그인을 하는데 오류가 발생했습니다.", error.localizedDescription)
+//            } else {
+//                guard let user = authResult?.user else { return }
+//                let isAnonymous = user.isAnonymous
+//                let uid = user.uid
+//            }
+//        }
 //        let vc = TabBarViewController()
 //        vc.modalPresentationStyle = .fullScreen
 //        self.present(vc, animated: false)

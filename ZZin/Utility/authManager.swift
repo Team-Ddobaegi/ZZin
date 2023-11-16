@@ -36,8 +36,6 @@ class AuthManager {
                 completion(false)
                 return
             }
-            
-            print("로그인이 됐습니다. \(result?.description)")
             completion(true)
             return
         }
@@ -141,7 +139,10 @@ class AuthManager {
                     let data: [String: Any] = ["email": credentials.email,
                                                "uid": uid,
                                                "userName": credentials.userName,
-                                               "description": credentials.description]
+                                               "description": credentials.description,
+                                               "pid": [],
+                                               "rid": []
+                    ]
                     FireStoreManager.shared.db.collection("users").document(uid).setData(data) { firestoreError in
                         if let firestoreError = firestoreError {
                             print("데이터 저장 에러가 발생했습니다.", firestoreError.localizedDescription)
@@ -152,9 +153,6 @@ class AuthManager {
                         completion(true, nil)
                     }
                 }
-            } catch {
-                print("이미지를 저장하는데 에러가 발생했습니다.", error.localizedDescription)
-                completion(false, error)
             }
         }
     }

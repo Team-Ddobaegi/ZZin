@@ -7,18 +7,24 @@
 
 import UIKit
 
+protocol sendDataDelegate {
+    func sendData(data: String)
+}
+
 class LocationView: UIViewController {
     //MARK: - 변수 && UIComponent 선언
-    private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
+    private let locationList: [String] = ["", "서울", "경기도"]
     private let locationPickerView = UIPickerView()
     private let registrationView = RegistrationView()
     private var selectedLocation: String?
+    var delegate: sendDataDelegate?
     
     private let infoLabel = UILabel().then {
         $0.text = """
         관심 지역을\n선택해주세요
         """
         $0.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
+        $0.textColor = .black
         $0.numberOfLines = 0
         $0.textAlignment = .center
     }
@@ -92,9 +98,9 @@ class LocationView: UIViewController {
         locationPickerView.subviews[1].addSubview(bottomLine)
     }
     
-    @objc func confirmButtonTapped(_ value: String) {
-//        let notificationName = Notification.Name("passData")
-//        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["data": selectedLocation])
+    @objc func confirmButtonTapped() {
+        print("버튼이 눌렸습니다.")
+        delegate?.sendData(data: self.selectedLocation ?? "없음")
         dismiss(animated: true)
     }
     
@@ -105,10 +111,9 @@ class LocationView: UIViewController {
 
 // MARK: - UIPickerViewDelegate & UIPickerViewDataSource 선언
 extension LocationView: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return locationList[row]
-    }
+    
 }
+
 extension LocationView: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -124,6 +129,12 @@ extension LocationView: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedLocation = locationList[row]
-        //notificationCenter로 데이터 전달 도전!
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let title = locationList[row]
+        let color: UIColor = .black
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: color]
+        return NSAttributedString(string: title, attributes: attributes)
     }
 }

@@ -226,7 +226,7 @@ extension MatchingKeywordVC: UICollectionViewDataSource {
 extension MatchingKeywordVC: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
+        _ = collectionView.dequeueReusableCell(withReuseIdentifier: MatchingKeywordCell.reuseIdentifer, for: indexPath) as! MatchingKeywordCell
    
         collectionView.reloadData()
 
@@ -248,8 +248,6 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
                 collectionView.deselectItem(at: selectedCompanionIndexPath[0], animated: true)
                 selectedCompanionIndexPath.removeAll()
             }
-            
-            print("~~ companion 인덱스패스 전달합니두", selectedCompanionIndexPath.last!)
             
         case .condition:
             selectedConditionKeyword.append(conditionKeywords[indexPath.item])

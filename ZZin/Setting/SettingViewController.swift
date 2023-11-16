@@ -7,21 +7,22 @@ class SettingViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableview = UITableView()
+        tableview.backgroundColor = .customBackground
         return tableview
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .customBackground
         self.navigationController?.navigationBar.topItem?.title = "설정"
-        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.tintColor = .label
         self.navigationItem.backButtonTitle = "계정"
-        self.navigationItem.leftBarButtonItem?.tintColor = .black
+        self.navigationItem.leftBarButtonItem?.tintColor = .label
 //        let backButtonImage = UIImage(named: "arrow.left")?.withRenderingMode(.alwaysOriginal)
 
         setupView()
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-        header.backgroundColor = .systemBackground
+        header.backgroundColor = .customBackground
         
         let headerLabel = UILabel(frame: header.bounds)
         headerLabel.textAlignment = .center
@@ -54,7 +55,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             return nil // Return nil for the header of the first section
         } else {
             let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 20))
-            headerView.backgroundColor = .systemBackground
+            headerView.backgroundColor = .customBackground
 
             let headerLabel = UILabel(frame: headerView.bounds)
             headerLabel.textAlignment = .left

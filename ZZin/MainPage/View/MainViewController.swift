@@ -7,21 +7,19 @@
 
 import UIKit
 import FirebaseAuth
+import NMapsGeometry.NMGLatLng
 
 class MainViewController: UIViewController {
     
     // MARK: - Properties
-    
     private let mainView = MainView()
     let storageManager = FireStorageManager()
     let dataManager = FireStoreManager()
     var placeData: [Place] = []
     var reviewData: [Review] = []
-    var sectionHeaderHeight: CGFloat = 30
+    var sectionHeaderHeight: CGFloat = 35
     // current user로 변경될 수 있도록 로그인에서 수정 🚨
     let uid = Auth.auth().currentUser?.uid
-    
-    
     
     // MARK: - Settings
     
@@ -36,16 +34,12 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let review):
                 print("======= 이게 데이터다 ========",review)
-                self.reviewData = review
-                DispatchQueue.main.async {
-                    self.mainView.tableView.reloadData()
-                }
+                self.reviewData = review.sorted(by: {$0.createdAt > $1.createdAt })
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
     }
-    
     func fetchPlaceData() {
         dataManager.getPlaceData { result in
             switch result {
@@ -53,33 +47,30 @@ class MainViewController: UIViewController {
                 print("======= 이게 데이터다 ========",place)
                 self.placeData = place
                 DispatchQueue.main.async {
-                    self.mainView.tableView.reloadData()
+                    self.mainView.tableView.reloadData() // 그냥 UI만 그리는거예요 ㅠㅠ
                 }
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
+                
     }
     
     // MARK: - Configure UI
-    
     func setUI() {
         view.backgroundColor = .customBackground
         view.addSubview(mainView)
+        mainView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 }
 
-
-
 // MARK: - Life Cycles
-
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        navigationController?.setNavigationBarHidden(true, animated: animated)
         fetchReviewData()
         fetchPlaceData()
     }
@@ -88,7 +79,6 @@ extension MainViewController {
         super.viewDidLoad()
         setTableViewAttribute()
         setUI()
-        mainView.delegate = self
         LocationService.shared.startUpdatingLocation()
     }
 }
@@ -96,7 +86,15 @@ extension MainViewController {
 //MARK: - 테이블뷰 셀
 extension MainViewController: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0: return sectionHeaderHeight
+        case 1: return sectionHeaderHeight
+        default: return 30
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -104,7 +102,6 @@ extension MainViewController: UITableViewDelegate {
         switch indexPath.section {
         case 0: return 100
         case 1: return 250
-        case 2: return 240
         default: return 200
         }
     }
@@ -118,29 +115,50 @@ extension MainViewController: UITableViewDelegate {
         }
     }
     
+    @objc func reportingButtonTapped() {
+        print("신고하기 버튼이 눌렸습니다.")
+        
+        let alert = UIAlertController(title: "게시물 신고", message: "해당 게시물을 신고하시겠습니까?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "네", style: .default) { action in
+            print("해당 게시물이 신고되었습니다.")
+        }
+        
+        let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
 }
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0: return 1
+        case 1: return 5
+        default: return 1
+        }
     }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
+            cell.delegate = self
             cell.recieveData(full: placeData)
             cell.localCollectionView.reloadData()
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ButtonTableViewCell.identifier, for: indexPath) as! ButtonTableViewCell
-            cell.recieveData(full: placeData)
-            cell.buttonCollectionView.reloadData()
-            return cell
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
-            cell.recieveData(data: reviewData)
-            cell.reviewCollectionView.reloadData()
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableviewCell.identifier, for: indexPath) as! ReviewTableviewCell
+            
+            if !reviewData.isEmpty {
+                let data = reviewData[indexPath.row]
+                storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.placeReview.img, title: cell.placeReview.reviewTitleLabel, companion: cell.placeReview.withKeywordLabel, condition: cell.placeReview.conditionKeywordLabel, town: cell.placeReview.regionLabel)
+                }
+            cell.placeReview.regionLabel.isHidden = true
+            cell.placeReview.underline.isHidden = true
+            cell.reportingButton.addTarget(self, action: #selector(reportingButtonTapped), for: .touchUpInside)
             return cell
         default:
             return UITableViewCell()
@@ -152,38 +170,39 @@ extension MainViewController: UITableViewDataSource {
         tableviewHeaderView?.configure(with: section)
         return tableviewHeaderView
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("##### 셀 터치가 됐읍니두 didselectIteamAt")
+        print("###리뷰셀 터치")
+        let matchingPlaceVC = MatchingPlaceVC()
+        matchingPlaceVC.placeID = reviewData[indexPath.item].pid
+        matchingPlaceVC.reviewID = [reviewData[indexPath.item].rid]
+        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+    }
 }
 
-extension MainViewController: MainViewDelegate {
-    func didTapLogout() {
-        print("로그아웃 버튼이 눌렸습니다.")
-        let currentUser = Auth.auth().currentUser
-        print("현재 유저입니다. -",currentUser)
-        print("id도 있나요?", currentUser?.uid)
-        print("email도 있나요?", currentUser?.email)
-        print("nickname도 있나요?", currentUser?.displayName)
-        print("이미지는요?", currentUser?.photoURL)
-        
-        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { _ in
-            
-            do {
-                try! Auth.auth().signOut()
-                self.dismiss(animated: true) {
-                    let loginpage = LoginViewController()
-                    loginpage.modalPresentationStyle = .fullScreen
-                    self.present(loginpage, animated: true)
-                }
-            } catch {
-                print("로그아웃하는데 에러가 있었습니다.")
-            }
-        }
-        
-        let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)
-        
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
+//extension MainViewController: ReviewTableViewCellDelegate {
+//    func didSelectReview(at indexPath: IndexPath) {
+//        print("###리뷰셀 터치")
+//        let matchingPlaceVC = MatchingPlaceVC()
+//        matchingPlaceVC.placeID = placeData[indexPath.item].pid
+//        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
+//        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+//    }
+//}
+
+extension MainViewController: LocalTableViewCellDelegate {
+    func didSelectPlace(at indexPath: IndexPath) {
+        isPlaceMap = true
+        let mapVC = SearchMapViewController()
+        mapVC.selectedCity = placeData[indexPath.item].city
+        let town = placeData[indexPath.item].town
+        mapVC.selectedTown = town
+        let selectedTownEnum = SeoulDistrictOfficeCoordinates.find(for: town)
+        let coords = selectedTownEnum?.coordinate
+        let officeCoords = NMGLatLng(lat: coords?.latitude ?? 37.5666102, lng: coords?.longitude ?? 126.9783881)
+        mapVC.cameraLocation = officeCoords
+        navigationController?.pushViewController(mapVC, animated: true)
+        print("지도로 가유~~~")
     }
 }

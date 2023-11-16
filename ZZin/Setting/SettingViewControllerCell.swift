@@ -45,6 +45,7 @@ import Then
      }
      
      func setupUI() {
+         backgroundColor = .customBackground
          addSubview(leadingImage)
          addSubview(text)
          addSubview(trailingImage)

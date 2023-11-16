@@ -42,7 +42,7 @@ class CustomTextfieldView: UIView {
         $0.imageView?.tintColor = .systemGray
         $0.isHidden = true
         $0.setImage(image, for: .normal)
-        $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
+        $0.addTarget(CustomTextfieldView.self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
     private let checkButton = UIButton().then {
@@ -208,6 +208,11 @@ extension CustomTextfieldView {
         self.animatingLabel.isHidden = true
         self.layer.borderColor = ColorGuide.main.cgColor
         self.textfield.tintColor = ColorGuide.main
+    }
+    
+    func hideInvalideMessage() {
+        self.validationLabel.isHidden = true
+        self.animatingLabel.isHidden = false
     }
     
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {

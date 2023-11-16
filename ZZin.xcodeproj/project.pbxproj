@@ -33,6 +33,7 @@
 		7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C82AE244AB00F46544 /* MatchingPlacePhotoView.swift */; };
 		7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61CA2AE2822E00F46544 /* KeywordData.swift */; };
 		7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */; };
+		BD0368BD2B05D10700EF2C25 /* ReviewTableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */; };
 		BD03FD782AF32805009259DD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD03FD772AF32805009259DD /* CustomButton.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
@@ -84,12 +85,8 @@
 		C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */; };
 		C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B52B04156C00289391 /* AccountSettingViewController.swift */; };
 		C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */; };
-		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
-		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
 		C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
-		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
-		DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */; };
 		DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */; };
 		DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */; };
 		DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */; };
@@ -102,6 +99,7 @@
 		DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C82AD6C8E400AE129B /* InfoViewController.swift */; };
 		DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */; };
 		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
+		DF336C0A2B05FE0A007CFC37 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF336C092B05FE0A007CFC37 /* SecretKey.plist */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DF93D3872B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF93D3862B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift */; };
@@ -116,7 +114,6 @@
 		FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */; };
 		FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CustomView.swift */; };
-		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */; };
 		FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FBB06AEF2AEBAA270091D65A /* SDWebImage */; };
 		FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */; };
@@ -161,6 +158,7 @@
 		7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingReviewPhotoCell.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
+		BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableview.swift; sourceTree = "<group>"; };
 		BD03FD772AF32805009259DD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
@@ -198,12 +196,8 @@
 		C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B52B04156C00289391 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
 		C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewForPostPage.swift; sourceTree = "<group>"; };
-		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
-		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
 		C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
-		DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang_review.jpeg; sourceTree = "<group>"; };
 		DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF1599A92AD6C6E200AE129B /* ZZin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -218,6 +212,7 @@
 		DF1599C82AD6C8E400AE129B /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
+		DF336C092B05FE0A007CFC37 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../Desktop/SecretKey.plist; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DF93D3862B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeoulDistrictOfficeCoordinates.swift; sourceTree = "<group>"; };
@@ -231,7 +226,6 @@
 		FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultController.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
-		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsForPostVC.swift; sourceTree = "<group>"; };
 		FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageManager.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -499,6 +493,7 @@
 				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
 				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
 				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
+				BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -528,6 +523,7 @@
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
+				DF336C092B05FE0A007CFC37 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -594,16 +590,11 @@
 			isa = PBXGroup;
 			children = (
 				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
-				FBA7B0C12AE0C18E00F79031 /* profile.png */,
-				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
-				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
 				C0A634462AEF7C8100BF6B55 /* ProfileCell.swift */,
 				C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */,
 				C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */,
 				C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */,
 				C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */,
-				C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */,
-				C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */,
 				C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */,
 			);
 			path = Profile;
@@ -726,11 +717,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF336C0A2B05FE0A007CFC37 /* SecretKey.plist in Resources */,
 				BDA431522B0313CD00817477 /* lottieTest.json in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
-				FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */,
-				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
@@ -807,7 +797,6 @@
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
-				C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */,
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
@@ -830,6 +819,7 @@
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */,
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
+				BD0368BD2B05D10700EF2C25 /* ReviewTableview.swift in Sources */,
 				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */,
@@ -859,7 +849,6 @@
 				FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
-				C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
 				C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */,
@@ -1032,26 +1021,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "찐 - 로컷 추천 맛집앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치를 받습니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 사용자의 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 앨범 접근을 허용 하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin2;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1066,26 +1058,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "찐 - 로컷 추천 맛집앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치를 받습니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근을 위해 권한이 필요합니다. 허용하시겠습니까?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 사용자의 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 앨범 접근을 허용 하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin2;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
