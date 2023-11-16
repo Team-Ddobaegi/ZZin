@@ -171,22 +171,25 @@ class FireStoreManager {
                 completion(.failure(error))
                 return
             }
-            
             var objects: [T] = []
-            
+            let count = querySnapshot!.documents.count
             for document in querySnapshot!.documents {
                 let data = document.data()
                 switch self.convertFirestoreData(data: data, objectType: objectType) {
                 case .success(let obj):
                     if let objT = obj as? T {
                         objects.append(objT)
+                        print("##########\(objects.count)\(count)")
                     }
+                    print("#####\(objects.count == count)")
                 case .failure(let error):
                     completion(.failure(error))
-                    return
                 }
             }
-            completion(.success(objects))
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(count) * 0.05) {
+                print("스파르타짱")
+                completion(.success(objects))
+            }
         }
     }
     
@@ -240,7 +243,7 @@ class FireStoreManager {
         updateUserRidAndPid(pid: pid, rid: rid, uid: uid)
         
         // 7. place데이터 저장
-        let path = reviewImg 
+        let path = reviewImg
         setPlaceData(dataWillSet: dataWillSet, pid: pid, uid: uid, rid: rid, path: path)
     }
     
@@ -367,25 +370,25 @@ class FireStoreManager {
         }
         return query
     }
-
+    
     func fetchPlacesWithQuery(query: Query, completion: @escaping (Result<[Place], Error>) -> Void) {
         query.getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
+            
             guard let documents = snapshot?.documents else {
                 completion(.failure(NSError(domain: "FirestoreError", code: -1, userInfo: ["description": "No documents found"])))
                 return
             }
-
+            
             var allData: [[String:Any]] = []
             for document in documents {
                 let data = document.data()
                 allData.append(data)
             }
-
+            
             if let places = self.dictionaryToObject(objectType: Place.self, dictionary: allData) {
                 completion(.success(places))
             } else {
@@ -506,8 +509,8 @@ extension FireStoreManager {
             }
         }
     }
-        
-        
+    
+    
     func deleteDocOfReview(rid: String, pid: String, reviewImg: [String]?){
         db.collection("reviews").document(rid).delete() { err in
             if let err = err {
@@ -520,10 +523,10 @@ extension FireStoreManager {
             
         }
     }
-            
+    
     func updateArrayWithPlacesCollections(pid: String, reviewImg: [String]?){
         let placeRef = db.collection("places").document(pid)
-                
+        
         placeRef.updateData([
             "rid": FieldValue.arrayRemove(reviewImg ?? []),
         ]) { err in
@@ -536,13 +539,13 @@ extension FireStoreManager {
                 self.storage.deleteFileWithPathArr(pathArr: reviewImg)
                 self.deletePlaceDocument(pid: pid)
             }
-                    
+            
         }
     }
     
     func updateArrayWithUsersCollections(uid: String, rid: String, pid: String){
         let userRef = db.collection("users").document(uid)
-                
+        
         userRef.updateData([
             "rid": FieldValue.arrayRemove([rid]),
             "pid": FieldValue.arrayRemove([pid])
@@ -554,7 +557,7 @@ extension FireStoreManager {
             else {
                 print("Document successfully updated")
             }
-                    
+            
         }
     }
     
@@ -569,6 +572,6 @@ extension FireStoreManager {
             
         }
     }
-            
+    
     
 }
