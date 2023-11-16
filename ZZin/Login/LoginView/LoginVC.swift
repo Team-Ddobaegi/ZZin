@@ -97,7 +97,7 @@ class LoginViewController: UIViewController {
         guard numbers.rangeOfCharacter(from: specialCharacters) != nil else {
             print("마지막은 특수문자를 써주세요")
             loginView.pwTextfieldView.showInvalidMessage()
-            showAlert(type: .lastPasswordNum)
+            showAlert(type: .lastPassword)
             return false
         }
         return true
