@@ -86,7 +86,6 @@ extension MainViewController {
         super.viewDidLoad()
         setTableViewAttribute()
         setUI()
-        mainView.delegate = self
         LocationService.shared.startUpdatingLocation()
     }
 }
