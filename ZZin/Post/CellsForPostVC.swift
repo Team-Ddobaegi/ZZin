@@ -57,8 +57,9 @@ class textInputCell: UICollectionViewCell, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) -> String {
+    final func textFieldDidEndEditing(_ textField: UITextField) -> String {
         titleText = textField.text ?? ""
+        print("titleText :", titleText)
         
         return titleText ?? ""
     }
