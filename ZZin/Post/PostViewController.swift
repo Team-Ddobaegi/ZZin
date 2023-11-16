@@ -13,7 +13,6 @@ import PhotosUI
 import FirebaseStorage
 import Firebase
 
-// MARK: - 전역 변수
 var searchedInfo: Document? = nil
 var city: String? = nil
 var town: String? = nil
@@ -25,8 +24,8 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
     // MARK: - Properties
     let storeManager = FireStoreManager.shared
     var dataWillSet: [String: Any] = [:]
-    private var selections = [String: PHPickerResult]()
-    private var selectedAssetIdentifiers = [String]()
+//    private var selections = [String: PHPickerResult]()
+//    private var selectedAssetIdentifiers = [String]()
     
     let uid = MainViewController().uid!
     var imgData: [Data] = []
@@ -72,19 +71,13 @@ class PostViewController: UICollectionViewController, MatchingKeywordDelegate, U
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        CustomTextField().textField.delegate = self
-    }
+            }
     
     override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         self.navigationController?.navigationBar.prefersLargeTitles = false
-        
-        DispatchQueue.main.async{
-            self.flushAll()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,9 +162,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.placeTelNumField.textField.text = ""
             }
             
-            if titleText == "" {
-                cell.reviewTitleField.textField.text = ""
-            }
+            cell.reviewTitleField.textField.text = titleText
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImgSelectionCell.identifier, for: indexPath) as! ImgSelectionCell
@@ -214,10 +205,11 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.secondKeywordButton.addTarget(self, action: #selector(secondKeywordButtonTapped), for: .touchUpInside)
             cell.menuKeywordButton.addTarget(self, action: #selector(menuKeywordButtonTapped), for: .touchUpInside)
             
-            if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgData.count != 0 {
+            if searchedInfo != nil && firstKeywordText != "동반인" && secondKeywordText != "특성" && menuKeywordText != "식종" && titleText != nil && textViewText != nil && imgArr.count != 0 {
                 cell.submitButton.backgroundColor = ColorGuide.main
                 cell.submitButton.isUserInteractionEnabled = true
             }
+            print(titleText as Any)
             
             return cell
         default:
@@ -229,6 +221,9 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         // 저장해야하는 데이터
         
         print("제출 눌림")
+//        let titleFieldCell = collectionView.dequeueReusableCell(withReuseIdentifier: textInputCell.identifier, for: IndexPath(item: 0, section: 0)) as! textInputCell
+        
+//        titleText = titleFieldCell.reviewTitleField.text
         
         dataWillSet.updateValue(imgData, forKey: "imgData")
         dataWillSet.updateValue(searchedInfo?.placeName as Any, forKey: "placeName")
@@ -245,9 +240,14 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         dataWillSet.updateValue(city as Any, forKey: "city")
         dataWillSet.updateValue(town as Any, forKey: "town")
         
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n\n")
         print("dataWillSet :", dataWillSet)
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n\n")
         
         storeManager.setData(uid: uid, dataWillSet: dataWillSet)
+        DispatchQueue.main.async{
+            self.flushAll()
+        }
         self.tabBarController?.selectedIndex = 0
     }
     
@@ -293,7 +293,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.firstKeywordButton.setTitle(updateKeyword, for: .normal)
                 cell.firstKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.firstKeywordText = updateKeyword
-                self.collectionView.reloadData()
+                collectionView.reloadSections([2])
             }
             
         case .condition:
@@ -301,7 +301,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.secondKeywordButton.setTitle(updateKeyword, for: .normal)
                 cell.secondKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.secondKeywordText = updateKeyword
-                self.collectionView.reloadData()
+                collectionView.reloadSections([2])
             }
             
         case .kindOfFood:
@@ -309,12 +309,14 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 cell.menuKeywordButton.setTitle(updateKeyword, for: .normal)
                 cell.menuKeywordButton.setTitleColor(.darkGray, for: .normal)
                 self.menuKeywordText = updateKeyword
-                self.collectionView.reloadData()
+                collectionView.reloadSections([2])
             }
         }
     }
     
     func flushAll() {
+        
+        print("flushAll 실행")
         searchedInfo = nil
         city = nil
         town = nil
@@ -415,7 +417,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
                 config.selectionLimit = 5
                 config.filter = .images
                 config.selection = .ordered
-                config.preselectedAssetIdentifiers = selectedAssetIdentifiers
+//                config.preselectedAssetIdentifiers = selectedAssetIdentifiers
                 
                 let picker = PHPickerViewController(configuration: config)
                 picker.delegate = self
@@ -430,6 +432,9 @@ extension PostViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
         
+        var dataResults: [Data] = []
+        var imgResults: [UIImage] = []
+        
         for result in results {
             
             let itemProvider = result.itemProvider
@@ -438,9 +443,11 @@ extension PostViewController: PHPickerViewControllerDelegate {
                     if let uiImage = image as? UIImage {
                         let data = uiImage.jpegData(compressionQuality: 0.1)
                         DispatchQueue.main.sync {
-                            self?.imgData.append(data!)
-                            self?.imgArr.append(uiImage)
-                            self?.collectionView.reloadData()
+                            dataResults.append(data!)
+                            imgResults.append(uiImage)
+                            self?.imgArr = imgResults
+                            self?.imgData = dataResults
+                            self?.collectionView.reloadSections([1, 2])
                         }
                     }
                     
@@ -448,7 +455,7 @@ extension PostViewController: PHPickerViewControllerDelegate {
             }
         }
         
-        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+//        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
     }
     
     func hideKeyboardWhenTappedAround() {

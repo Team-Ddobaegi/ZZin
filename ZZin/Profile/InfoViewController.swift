@@ -57,6 +57,17 @@ class InfoViewController: UICollectionViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {[self] in
+            storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
+                loadedRidAndPid = result
+                pidArr = loadedRidAndPid["pidArr"] ?? []
+                ridArr = loadedRidAndPid["ridArr"] ?? []
+                collectionView.reloadData()
+            }
+        }
+    }
+    
     
     // MARK: - UI Setup
     private func setupUI() {
@@ -190,6 +201,7 @@ extension InfoViewController {
             DispatchQueue.main.async{ [self] in
                 storeManager.deleteReview(rid: rid, uid: currentUid)
                 self.ridArr?.remove(at: index)
+                self.pidArr?.remove(at: index)
                 self.collectionView.reloadData()
             }
         }

@@ -84,12 +84,8 @@
 		C0E198B42B04154300289391 /* AccountSettingViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */; };
 		C0E198B62B04156C00289391 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E198B52B04156C00289391 /* AccountSettingViewController.swift */; };
 		C0E9AF192AF69CD100CB7211 /* CustomViewForPostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */; };
-		C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */; };
-		C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */; };
 		C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
-		DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D152AD944B50082B633 /* ogudangdang.jpeg */; };
-		DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */; };
 		DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */; };
 		DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF1112F02B05491800AF2515 /* SecretKey.plist */; };
 		DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */; };
@@ -117,7 +113,6 @@
 		FB36508C2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */; };
 		FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */; };
 		FBA7B0AF2ADD742600F79031 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA7B0AE2ADD742600F79031 /* CustomView.swift */; };
-		FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA7B0C12AE0C18E00F79031 /* profile.png */; };
 		FBB06AE82AE9EE3B0091D65A /* CellsForPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */; };
 		FBB06AF02AEBAA270091D65A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FBB06AEF2AEBAA270091D65A /* SDWebImage */; };
 		FBB06AF22AEBAB990091D65A /* FireStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */; };
@@ -198,12 +193,8 @@
 		C0E198B32B04154300289391 /* AccountSettingViewControllerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewControllerCell.swift; sourceTree = "<group>"; };
 		C0E198B52B04156C00289391 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
 		C0E9AF182AF69CD000CB7211 /* CustomViewForPostPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewForPostPage.swift; sourceTree = "<group>"; };
-		C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewController.swift; sourceTree = "<group>"; };
-		C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZzimTableViewCell.swift; sourceTree = "<group>"; };
 		C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		DC095D152AD944B50082B633 /* ogudangdang.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang.jpeg; sourceTree = "<group>"; };
-		DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ogudangdang_review.jpeg; sourceTree = "<group>"; };
 		DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF1112F02B05491800AF2515 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		DF1599A92AD6C6E200AE129B /* ZZin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,7 +223,6 @@
 		FB36508B2AE8AE9500EAEAB7 /* RegionSearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		FB36508D2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionSearchResultController.swift; sourceTree = "<group>"; };
 		FBA7B0AE2ADD742600F79031 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
-		FBA7B0C12AE0C18E00F79031 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		FBB06AE72AE9EE3B0091D65A /* CellsForPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellsForPostVC.swift; sourceTree = "<group>"; };
 		FBB06AF12AEBAB990091D65A /* FireStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageManager.swift; sourceTree = "<group>"; };
 		FF031D5F2ADBBA5900206056 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -594,16 +584,11 @@
 			isa = PBXGroup;
 			children = (
 				DF1599C82AD6C8E400AE129B /* InfoViewController.swift */,
-				FBA7B0C12AE0C18E00F79031 /* profile.png */,
-				DC095D152AD944B50082B633 /* ogudangdang.jpeg */,
-				DC095D172AD945C50082B633 /* ogudangdang_review.jpeg */,
 				C0A634462AEF7C8100BF6B55 /* ProfileCell.swift */,
 				C0A634482AEF7CAB00BF6B55 /* CustomSegmentedControl.swift */,
 				C0A6344A2AEF7CC500BF6B55 /* RecommendedPlaceCell.swift */,
 				C0A6344C2AEF7CE300BF6B55 /* ReviewCell.swift */,
 				C0A634502AEF7D1700BF6B55 /* SegmentHeader.swift */,
-				C0F7F2EA2AF7BE61005C7F65 /* ZzimTableViewController.swift */,
-				C0F7F2EC2AF7BE84005C7F65 /* ZzimTableViewCell.swift */,
 				C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */,
 			);
 			path = Profile;
@@ -729,13 +714,10 @@
 				BDA431522B0313CD00817477 /* lottieTest.json in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
-				FBA7B0C22AE0C18E00F79031 /* profile.png in Resources */,
-				DC095D182AD945C50082B633 /* ogudangdang_review.jpeg in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
-				DC095D162AD944B50082B633 /* ogudangdang.jpeg in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -807,7 +789,6 @@
 				7BFC61BB2AE180DB00F46544 /* MatchingPlaceReviewCell.swift in Sources */,
 				FF031D602ADBBA5900206056 /* MainView.swift in Sources */,
 				DF1599C12AD6C7A300AE129B /* TabBarController.swift in Sources */,
-				C0F7F2EB2AF7BE61005C7F65 /* ZzimTableViewController.swift in Sources */,
 				DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */,
 				7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */,
 				FB36508E2AE8AEFF00EAEAB7 /* RegionSearchResultController.swift in Sources */,
@@ -859,7 +840,6 @@
 				FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
-				C0F7F2ED2AF7BE84005C7F65 /* ZzimTableViewCell.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
 				7B61D39B2ADFCD8000A226EB /* MatchingResultCollectionView.swift in Sources */,
 				C0E198B22B04151600289391 /* SettingViewControllerCell.swift in Sources */,
