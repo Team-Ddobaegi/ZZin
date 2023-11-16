@@ -147,40 +147,6 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-extension MainViewController: MainViewDelegate {
-    func didTapLogout() {
-        print("로그아웃 버튼이 눌렸습니다.")
-        let currentUser = Auth.auth().currentUser
-        print("현재 유저입니다. -",currentUser)
-        print("id도 있나요?", currentUser?.uid)
-        print("email도 있나요?", currentUser?.email)
-        print("nickname도 있나요?", currentUser?.displayName)
-        print("이미지는요?", currentUser?.photoURL)
-        
-        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { _ in
-            
-            do {
-                try! Auth.auth().signOut()
-                self.dismiss(animated: true) {
-                    let loginpage = LoginViewController()
-                    loginpage.modalPresentationStyle = .fullScreen
-                    self.present(loginpage, animated: true)
-                }
-            } catch {
-                print("로그아웃하는데 에러가 있었습니다.")
-            }
-        }
-        
-        let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)
-        
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
-    }
-}
-
 extension MainViewController: ReviewTableViewCellDelegate {
     func didSelectReview(at indexPath: IndexPath) {
         print("###리뷰셀 터치")

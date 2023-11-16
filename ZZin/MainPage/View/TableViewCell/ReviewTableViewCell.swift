@@ -67,6 +67,8 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
             let data = reviewData[indexPath.row]
             storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.reviewUiView.img, title: cell.reviewUiView.reviewTitleLabel, companion: cell.reviewUiView.withKeywordLabel, condition: cell.reviewUiView.conditionKeywordLabel, town: cell.reviewUiView.regionLabel)
             }
+        cell.reviewUiView.regionLabel.isHidden = true
+        cell.reviewUiView.underline.isHidden = true
         return cell
     }
     

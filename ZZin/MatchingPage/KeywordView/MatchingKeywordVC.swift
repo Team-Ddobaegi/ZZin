@@ -249,8 +249,6 @@ extension MatchingKeywordVC: UICollectionViewDelegate {
                 selectedCompanionIndexPath.removeAll()
             }
             
-            print("~~ companion 인덱스패스 전달합니두", selectedCompanionIndexPath.last!)
-            
         case .condition:
             selectedConditionKeyword.append(conditionKeywords[indexPath.item])
             selectedConditionIndexPath.append(indexPath)
