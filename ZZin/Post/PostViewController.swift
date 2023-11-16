@@ -170,13 +170,13 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.layer.cornerRadius = 15
             
             guard !imgData.isEmpty else {
-                cell.imageView.image = UIImage(named: "review_placeholder.png")
+                cell.imageView.image = UIImage(named: "add_photo.png")
                 return cell
             }
             
             switch indexPath.item {
             case 0:
-                cell.imageView.image = UIImage(named: "review_placeholder.png")
+                cell.imageView.image = UIImage(named: "add_photo.png")
                 print("imgArr.count :", imgArr.count)
                 cell.countLabel.text = "\(imgArr.count) / 5"
                 cell.countLabel.isHidden =  false
@@ -248,6 +248,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         DispatchQueue.main.async{
             self.flushAll()
         }
+
         self.tabBarController?.selectedIndex = 0
     }
     
@@ -441,7 +442,7 @@ extension PostViewController: PHPickerViewControllerDelegate {
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                     if let uiImage = image as? UIImage {
-                        let data = uiImage.jpegData(compressionQuality: 0.1)
+                        let data = uiImage.jpegData(compressionQuality: 0.0)
                         DispatchQueue.main.sync {
                             dataResults.append(data!)
                             imgResults.append(uiImage)
