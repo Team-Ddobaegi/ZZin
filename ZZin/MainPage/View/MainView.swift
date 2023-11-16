@@ -8,13 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol MainViewDelegate: AnyObject {
-    func didTapLogout()
-}
-
-class MainView: UIView {
-    weak var delegate: MainViewDelegate?
-    
+class MainView: UIView {    
     //MARK: - 로고 선정 이후 이미지 적용 필요🚨
     let tableView = UITableView(frame: .zero, style: .plain).then {
         $0.separatorStyle = .none
@@ -23,13 +17,6 @@ class MainView: UIView {
         $0.register(MainHeaderView.self, forHeaderFooterViewReuseIdentifier: MainHeaderView.identifier)
     }
     
-    private let logOutButton = UIButton().then {
-        $0.setTitle("로그아웃하기", for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        $0.setTitleColor(.systemRed, for: .normal)
-        $0.addTarget(self, action: #selector(logOutTapped), for: .touchUpInside)
-    }
-   
     private let logoView = UIImageView().then {
         let image = UIImage(named: "MainIcon")
         $0.image = image
@@ -42,7 +29,6 @@ class MainView: UIView {
         self.backgroundColor = .customBackground
         setTableView()
         setLogo()
-        setLogOut()
     }
     
     required init?(coder: NSCoder) {
@@ -64,16 +50,5 @@ class MainView: UIView {
             $0.top.equalToSuperview().offset(50)
             $0.size.equalTo(CGSize(width: 48, height: 48))
         }
-    }
-    func setLogOut() {
-        addSubview(logOutButton)
-        logOutButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(self.safeAreaLayoutGuide)
-        }
-    }
-    
-    @objc func logOutTapped() {
-        delegate?.didTapLogout()
     }
 }
