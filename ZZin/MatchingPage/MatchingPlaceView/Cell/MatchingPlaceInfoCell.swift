@@ -66,11 +66,11 @@ class MatchingPlaceInfoCell: UITableViewCell {
     }
     
     let divider = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .lightGray.withAlphaComponent(0.3)
     }
     
     let headerDivider = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .lightGray.withAlphaComponent(0.3)
     }
   
     let footerDivider = UIView().then {
@@ -220,7 +220,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         
         footerDivider.snp.makeConstraints {
             $0.bottom.left.right.equalToSuperview()
-            $0.height.equalTo(5)
+            $0.height.equalTo(0.3)
         }
         
         placeTitleLabel.snp.makeConstraints {
@@ -239,18 +239,18 @@ class MatchingPlaceInfoCell: UITableViewCell {
         }
         
         divider.snp.makeConstraints {
-            $0.height.equalTo(0.5)
+            $0.height.equalTo(0.3)
             $0.top.equalTo(placeAddresseLabel.snp.bottom).offset(15)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
         
         placeButtonStackView.snp.makeConstraints {
             $0.top.equalTo(divider.snp.bottom).offset(15)
             $0.centerX.equalToSuperview().offset(-2) // 중앙정렬이 아닌 것 같아서 살짝 옮겨놨음
         }
-
         
+        divider.isHidden = true
     }
     
     

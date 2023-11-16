@@ -68,7 +68,7 @@ class InfoViewController: UICollectionViewController {
         collectionView.dataSource = self
         
         // Collection View
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .customBackground
         
         // cell register
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)

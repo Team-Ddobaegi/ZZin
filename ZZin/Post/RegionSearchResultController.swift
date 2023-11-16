@@ -28,7 +28,7 @@ class SearchControllerVC: UIViewController, UISearchControllerDelegate, UISearch
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .customBackground
         setupUI()
         setNav()
         addObserverForPop()
@@ -80,7 +80,7 @@ class SearchControllerVC: UIViewController, UISearchControllerDelegate, UISearch
     }
     
     func setNav() {
-        self.navigationController?.navigationBar.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.backgroundColor = .customBackground
         self.title = "맛집 정보 확인"
         self.navigationController?.navigationBar.tintColor = .label
         self.navigationController?.navigationBar.prefersLargeTitles = false

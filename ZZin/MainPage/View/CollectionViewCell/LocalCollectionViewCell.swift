@@ -19,7 +19,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
         $0.backgroundColor = .lightGray
         $0.layer.cornerRadius = 70 / 2
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleToFill
         $0.isUserInteractionEnabled = true
         $0.snp.makeConstraints {
             $0.width.equalTo(70)
@@ -30,7 +30,7 @@ class LocalCollectionViewCell: UICollectionViewCell {
     var recommendLabel = UILabel().then {
         $0.text = "강남구"
         $0.font = FontGuide.size16
-        $0.textColor = .black
+        $0.textColor = .label
         $0.textAlignment = .center
     }
     

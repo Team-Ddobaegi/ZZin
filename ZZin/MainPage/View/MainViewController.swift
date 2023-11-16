@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import NMapsGeometry.NMGLatLng
 
 class MainViewController: UIViewController {
     
@@ -124,11 +125,13 @@ extension MainViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
+            cell.delegate = self
             cell.recieveData(full: placeData)
             cell.localCollectionView.reloadData()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            cell.delegate = self
             cell.recieveData(data: reviewData)
             cell.reviewCollectionView.reloadData()
             return cell
@@ -141,5 +144,66 @@ extension MainViewController: UITableViewDataSource {
         let tableviewHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: MainHeaderView.identifier) as? MainHeaderView
         tableviewHeaderView?.configure(with: section)
         return tableviewHeaderView
+    }
+}
+
+extension MainViewController: MainViewDelegate {
+    func didTapLogout() {
+        print("로그아웃 버튼이 눌렸습니다.")
+        let currentUser = Auth.auth().currentUser
+        print("현재 유저입니다. -",currentUser)
+        print("id도 있나요?", currentUser?.uid)
+        print("email도 있나요?", currentUser?.email)
+        print("nickname도 있나요?", currentUser?.displayName)
+        print("이미지는요?", currentUser?.photoURL)
+        
+        let alert = UIAlertController(title: "로그아웃", message: "앱을 떠나시겠어요?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .default) { _ in
+            
+            do {
+                try! Auth.auth().signOut()
+                self.dismiss(animated: true) {
+                    let loginpage = LoginViewController()
+                    loginpage.modalPresentationStyle = .fullScreen
+                    self.present(loginpage, animated: true)
+                }
+            } catch {
+                print("로그아웃하는데 에러가 있었습니다.")
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "더 볼래요", style: .destructive)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: ReviewTableViewCellDelegate {
+    func didSelectReview(at indexPath: IndexPath) {
+        print("###리뷰셀 터치")
+        let matchingPlaceVC = MatchingPlaceVC()
+        matchingPlaceVC.placeID = placeData[indexPath.item].pid
+        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
+        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+        
+    }
+}
+
+extension MainViewController: LocalTableViewCellDelegate {
+    func didSelectPlace(at indexPath: IndexPath) {
+        isPlaceMap = true
+        let mapVC = SearchMapViewController()
+        mapVC.selectedCity = placeData[indexPath.item].city
+        let town = placeData[indexPath.item].town
+        mapVC.selectedTown = town
+        let selectedTownEnum = SeoulDistrictOfficeCoordinates.find(for: town)
+        let coords = selectedTownEnum?.coordinate
+        let officeCoords = NMGLatLng(lat: coords?.latitude ?? 37.5666102, lng: coords?.longitude ?? 126.9783881)
+        mapVC.cameraLocation = officeCoords
+        navigationController?.pushViewController(mapVC, animated: true)
+        print("지도로 가유~~~")
     }
 }
