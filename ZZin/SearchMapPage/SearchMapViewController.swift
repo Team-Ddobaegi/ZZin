@@ -59,6 +59,7 @@ class SearchMapViewController: UIViewController {
             moveCamera(location: cameraLocation, animation: .none)
             isPlaceMap = false
         }
+        fetchPlacesWithKeywords()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -312,12 +313,10 @@ class SearchMapViewController: UIViewController {
                     self.searchMapUIView.storeCardView.updateStoreCardView(with: review, reviewCount: reviewID.count)
                     self.searchMapUIView.storeCardView.placeNameLabel.text = placeName
                     self.searchMapUIView.storeCardView.placeAddressLabel.text = placeAddress
-                    print("$$$$$$\(placeAddress)")
                     FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
                     self .cameraLocation = NMGLatLng(lat: placeLat, lng: placeLong)
                     let location = NMGLatLng(lat: placeLat, lng: placeLong)
                     self.moveCamera(location: location, animation: .linear)
-                    print("===========\(placeID)")
                 case .failure(let error):
                     print("Error fetching review: \(error.localizedDescription)")
                 }
