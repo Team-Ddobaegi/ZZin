@@ -10,7 +10,7 @@ import UIKit
 import Then
 import FirebaseAuth
 
-protocol LogoutDelegate: class {
+protocol LogoutDelegate: AnyObject {
     func onTapClose()
     func onTapOk()
 }
@@ -111,18 +111,18 @@ class LogoutViewController: UIViewController {
     }
     
     @objc func onTapOk() {
-        do {
+         
             try! Auth.auth().signOut()
             self.dismiss(animated: true) {
                 //                  let loginpage = LoginViewController()
                 //                  loginpage.modalPresentationStyle = .fullScreen
                 //                  self.present(loginpage, animated: true)
             }
-        } catch {
             print("로그아웃하는데 에러가 있었습니다.")
-        }
         delegate?.onTapOk()
-    }
+
+        }
+    
     
     @objc func onTapClose() {
         delegate?.onTapClose()
