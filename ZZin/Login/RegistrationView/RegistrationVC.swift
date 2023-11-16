@@ -133,7 +133,7 @@ class RegistrationViewController: UIViewController {
         let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_-+=<>?/,.:;{}[]~`")
         
         guard numbers.rangeOfCharacter(from: specialCharacters) != nil else {
-            print("마지막은 숫자를 써주세요")
+            print("마지막은 특수문자를 써주세요")
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .firstTimePass)
             return false
