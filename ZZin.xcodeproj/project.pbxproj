@@ -33,6 +33,7 @@
 		7BFC61C92AE244AB00F46544 /* MatchingPlacePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61C82AE244AB00F46544 /* MatchingPlacePhotoView.swift */; };
 		7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61CA2AE2822E00F46544 /* KeywordData.swift */; };
 		7BFC61D32AE2898100F46544 /* MatchingReviewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */; };
+		BD0368BD2B05D10700EF2C25 /* ReviewTableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */; };
 		BD03FD782AF32805009259DD /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD03FD772AF32805009259DD /* CustomButton.swift */; };
 		BD1018842ADD5E61003FAA97 /* CustomTextfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */; };
 		BD167B9E2AEB216500A46A52 /* PasswordSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */; };
@@ -87,7 +88,6 @@
 		C0F7F2EF2AF7BEF9005C7F65 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */; };
 		DC095D142AD942610082B633 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC095D132AD942610082B633 /* Model.swift */; };
 		DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */; };
-		DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF1112F02B05491800AF2515 /* SecretKey.plist */; };
 		DF1599AD2AD6C6E200AE129B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */; };
 		DF1599AF2AD6C6E200AE129B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */; };
 		DF1599B12AD6C6E200AE129B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599B02AD6C6E200AE129B /* ViewController.swift */; };
@@ -156,6 +156,7 @@
 		7BFC61D22AE2898100F46544 /* MatchingReviewPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingReviewPhotoCell.swift; sourceTree = "<group>"; };
 		9C9894CB416485BD8DEDED7F /* Pods_ZZin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZZin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3EDE94E208CC05D28A1EE /* Pods-ZZin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZZin.debug.xcconfig"; path = "Target Support Files/Pods-ZZin/Pods-ZZin.debug.xcconfig"; sourceTree = "<group>"; };
+		BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableview.swift; sourceTree = "<group>"; };
 		BD03FD772AF32805009259DD /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		BD1018832ADD5E61003FAA97 /* CustomTextfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextfieldView.swift; sourceTree = "<group>"; };
 		BD167B9D2AEB216500A46A52 /* PasswordSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSearchController.swift; sourceTree = "<group>"; };
@@ -196,7 +197,6 @@
 		C0F7F2EE2AF7BEF9005C7F65 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		DC095D132AD942610082B633 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DC0D18132AD794B400E188A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DF1112F02B05491800AF2515 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		DF1599A92AD6C6E200AE129B /* ZZin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -489,6 +489,7 @@
 				BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */,
 				BDC112722AF4A739000E4F9F /* ButtonTableViewCell.swift */,
 				BDC112702AF4A067000E4F9F /* ReviewTableViewCell.swift */,
+				BD0368BC2B05D10700EF2C25 /* ReviewTableview.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -536,7 +537,6 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				DF1112F02B05491800AF2515 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -716,7 +716,6 @@
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
-				DF1112F12B05491800AF2515 /* SecretKey.plist in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
 			);
@@ -811,6 +810,7 @@
 				BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */,
 				BDAADE382AFFBCA800847F37 /* LocationView.swift in Sources */,
 				7B3313EC2AEFC40F00BC0F11 /* MatchingLocationPickerVC.swift in Sources */,
+				BD0368BD2B05D10700EF2C25 /* ReviewTableview.swift in Sources */,
 				BDC112712AF4A067000E4F9F /* ReviewTableViewCell.swift in Sources */,
 				DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */,
 				BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */,
@@ -1012,26 +1012,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "찐 - 로컷 추천 맛집앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치를 받습니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 사용자의 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 앨범 접근을 허용 하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin4;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1046,26 +1049,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NNZY5VCJT4;
+				DEVELOPMENT_TEAM = Q7MUQ2984B;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZZin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "찐 - 로컷 추천 맛집앱";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치를 받습니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "이 앱은 사용자의 주변 매장을 표시하기 위해 사용자의 위치 정보가 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 앨범 접근을 허용 하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin4;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ddobaegi.ZZin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

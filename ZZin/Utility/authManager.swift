@@ -36,8 +36,6 @@ class AuthManager {
                 completion(false)
                 return
             }
-            
-            print("로그인이 됐습니다. \(result?.description)")
             completion(true)
             return
         }
@@ -155,9 +153,6 @@ class AuthManager {
                         completion(true, nil)
                     }
                 }
-            } catch {
-                print("이미지를 저장하는데 에러가 발생했습니다.", error.localizedDescription)
-                completion(false, error)
             }
         }
     }
