@@ -33,7 +33,7 @@ enum FontGuide {
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
         
-        let attributes: [NSAttributedString.Key: Any] = [
+        let _: [NSAttributedString.Key: Any] = [
             .font: UIFont(descriptor: customFontDescriptor, size: size),
             .paragraphStyle: paragraphStyle,
         ]
