@@ -117,6 +117,22 @@ extension MainViewController: UITableViewDelegate {
             scrollView.contentInset = UIEdgeInsets(top: -sectionHeaderHeight, left: 0, bottom: 0, right: 0)
         }
     }
+    
+    @objc func reportingButtonTapped() {
+        print("신고하기 버튼이 눌렸습니다.")
+        
+        let alert = UIAlertController(title: "게시물 신고", message: "해당 게시물을 신고하시겠습니까?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "네", style: .default) { action in
+            print("해당 게시물이 신고되었습니다.")
+        }
+        
+        let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -145,6 +161,7 @@ extension MainViewController: UITableViewDataSource {
                 }
             cell.placeReview.regionLabel.isHidden = true
             cell.placeReview.underline.isHidden = true
+            cell.reportingButton.addTarget(self, action: #selector(reportingButtonTapped), for: .touchUpInside)
             return cell
         default:
             return UITableViewCell()

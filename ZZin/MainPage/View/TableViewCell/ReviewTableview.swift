@@ -18,9 +18,13 @@ class ReviewTableviewCell: UITableViewCell {
         $0.conditionKeywordLabel.font = .systemFont(ofSize: 13, weight: .light)
     }
     
+    let reportingButton = UIButton().then {
+        let image = UIImage(systemName: "light.beacon.min")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        $0.setImage(image, for: .normal)
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setUI()
     }
     
@@ -35,11 +39,18 @@ class ReviewTableviewCell: UITableViewCell {
     
     private func configure(){
         contentView.addSubview(placeReview)
+        contentView.addSubview(reportingButton)
         
         placeReview.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.equalToSuperview().inset(15)
             $0.height.equalTo(230)
+        }
+        
+        reportingButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(20)
+            $0.size.equalTo(CGSize(width: 40, height: 40))
         }
     }
 }
