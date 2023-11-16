@@ -34,16 +34,12 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let review):
                 print("======= 이게 데이터다 ========",review)
-                self.reviewData = review
-                DispatchQueue.main.async {
-                    self.mainView.tableView.reloadData()
-                }
+                self.reviewData = review.sorted(by: {$0.createdAt > $1.createdAt })
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
     }
-    
     func fetchPlaceData() {
         dataManager.getPlaceData { result in
             switch result {
@@ -57,6 +53,7 @@ class MainViewController: UIViewController {
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
+        
     }
     
     // MARK: - Configure UI
@@ -176,19 +173,23 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("##### 셀 터치가 됐읍니두 didselectIteamAt")
-        didSelectReview(at: indexPath)
-    }
-}
-
-extension MainViewController: ReviewTableViewCellDelegate {
-    func didSelectReview(at indexPath: IndexPath) {
         print("###리뷰셀 터치")
         let matchingPlaceVC = MatchingPlaceVC()
-        matchingPlaceVC.placeID = placeData[indexPath.item].pid
-        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
+        matchingPlaceVC.placeID = reviewData[indexPath.item].pid
+        matchingPlaceVC.reviewID = [reviewData[indexPath.item].rid]
         self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
     }
 }
+
+//extension MainViewController: ReviewTableViewCellDelegate {
+//    func didSelectReview(at indexPath: IndexPath) {
+//        print("###리뷰셀 터치")
+//        let matchingPlaceVC = MatchingPlaceVC()
+//        matchingPlaceVC.placeID = placeData[indexPath.item].pid
+//        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
+//        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+//    }
+//}
 
 extension MainViewController: LocalTableViewCellDelegate {
     func didSelectPlace(at indexPath: IndexPath) {

@@ -170,13 +170,13 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             cell.layer.cornerRadius = 15
             
             guard !imgData.isEmpty else {
-                cell.imageView.image = UIImage(named: "add_photo")
+                cell.imageView.image = UIImage(named: "review_placeholder.png")
                 return cell
             }
             
             switch indexPath.item {
             case 0:
-                cell.imageView.image = UIImage(named: "add_photo")
+                cell.imageView.image = UIImage(named: "review_placeholder.png")
                 print("imgArr.count :", imgArr.count)
                 cell.countLabel.text = "\(imgArr.count) / 5"
                 cell.countLabel.isHidden =  false
