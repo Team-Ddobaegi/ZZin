@@ -47,13 +47,13 @@ class MainViewController: UIViewController {
                 print("======= 이게 데이터다 ========",place)
                 self.placeData = place
                 DispatchQueue.main.async {
-                    self.mainView.tableView.reloadData()
+                    self.mainView.tableView.reloadData() // 그냥 UI만 그리는거예요 ㅠㅠ
                 }
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
-        
+                
     }
     
     // MARK: - Configure UI
@@ -136,7 +136,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return 1
-        case 1: return reviewData.count
+        case 1: return 5
         default: return 1
         }
     }

@@ -45,7 +45,7 @@ class RecommendPlaceThumbnail: UIView {
     }
     
     let img = UIImageView().then{
-        $0.image = UIImage(named: "review_placeholder.png")
+//        $0.image = UIImage(named: "review_placeholder.png")
         $0.layer.cornerRadius = 15
         $0.layer.opacity = 0.7
         $0.clipsToBounds = true
@@ -172,7 +172,7 @@ class RecommendPlaceReviewThumbnail: UIView {
     }
     
     var img = UIImageView().then{
-        $0.image = UIImage(named: "review_placeholder.png")
+//        $0.image = UIImage(named: "review_placeholder.png")
         $0.layer.cornerRadius = 15
         $0.layer.opacity = 0.4
         $0.clipsToBounds = true
