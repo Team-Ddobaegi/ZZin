@@ -45,7 +45,7 @@ class ViewForReview: UIView {
     }
     
     let img = UIImageView().then{
-        $0.image = UIImage(named: "ogudangdang_review.jpeg") // dummy img 입니다. 추후 변경 예정
+        $0.image = UIImage(named: "review_placeholder.png") // dummy img 입니다. 추후 변경 예정
         $0.layer.cornerRadius = 50
         $0.layer.opacity = 0.4
         $0.clipsToBounds = true
@@ -172,7 +172,7 @@ class ZZinView: UIView {
     }
     
     let img = UIImageView().then{
-        $0.image = UIImage(named: "ogudangdang.jpeg") // dummy img 입니다. 추후 변경 예정
+        $0.image = UIImage(named: "review_placeholder.png") // dummy img 입니다. 추후 변경 예정
         $0.layer.cornerRadius = 16
         $0.layer.opacity = 0.4
         $0.clipsToBounds = true

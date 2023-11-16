@@ -315,6 +315,7 @@ class SearchMapViewController: UIViewController {
                     self.searchMapUIView.storeCardView.placeAddressLabel.text = placeAddress
                     FireStorageManager().bindPlaceImgWithPath(path: placeImgPath[0], imageView: self.searchMapUIView.storeCardView.placeImage)
                     self .cameraLocation = NMGLatLng(lat: placeLat, lng: placeLong)
+                    print("######\(placeImgPath)")
                     let location = NMGLatLng(lat: placeLat, lng: placeLong)
                     self.moveCamera(location: location, animation: .linear)
                 case .failure(let error):

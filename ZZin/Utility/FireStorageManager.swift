@@ -38,7 +38,7 @@ class FireStorageManager {
     
     func downloadImgFromStorage(useage: Useage, id: String, imageView: UIImageView) {
         // Placeholder image
-        let placeholderImage = UIImage(named: "add_photo.png")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         
         let docRef = db.collection(useage.pathAndCollection.collection).document(id)
         docRef.getDocument { (document, error) in
@@ -131,7 +131,7 @@ class FireStorageManager {
     
     func bindPlaceImgWithPath(path: String?, imageView: UIImageView) {
     
-        let placeholderImage = UIImage(named: "add_photo")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         let ref = storageRef.child(path ?? "")
         imageView.sd_setImage(with: ref, placeholderImage: placeholderImage)
     }
@@ -161,7 +161,7 @@ class FireStorageManager {
     func bindViewOnStorageWithPid(pid: String?, placeImgView: UIImageView?, title: UILabel?, dotLabel: UILabel?, placeTownLabel: UILabel?, placeMenuLabel: UILabel?) {
         
         // placeholderImage
-        let placeholderImage = UIImage(named: "add_photo.png")
+        let placeholderImage = UIImage(named: "review_placeholder.png")
         guard pid != nil || pid != "" else {return}
         dataManager.fetchDataWithPid(pid: pid!) { result in
             switch result {

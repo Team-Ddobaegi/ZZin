@@ -63,7 +63,7 @@ class StoreCardView: UIView {
     }()
     
     lazy var placeImage: UIImageView = {
-        let image = UIImage(named: "ogudangdang")
+        let image = UIImage(named: "review_placeholder.png")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
