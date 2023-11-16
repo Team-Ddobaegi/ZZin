@@ -99,7 +99,6 @@
 		DF1599C92AD6C8E400AE129B /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599C82AD6C8E400AE129B /* InfoViewController.swift */; };
 		DF1599CB2AD6CC3C00AE129B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */; };
 		DF2AEE7F2AE50AAE00834EF4 /* SearcMapUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */; };
-		DF336C0A2B05FE0A007CFC37 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF336C092B05FE0A007CFC37 /* SecretKey.plist */; };
 		DF3FB13C2ADD1D230002802A /* SearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */; };
 		DF7E12AE2ADE50F600D94AE8 /* SearchMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */; };
 		DF93D3872B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF93D3862B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift */; };
@@ -211,7 +210,6 @@
 		DF1599C82AD6C8E400AE129B /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		DF1599CA2AD6CC3C00AE129B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		DF2AEE7E2AE50AAE00834EF4 /* SearcMapUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearcMapUIView.swift; sourceTree = "<group>"; };
-		DF336C092B05FE0A007CFC37 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SecretKey.plist; path = ../../Desktop/SecretKey.plist; sourceTree = "<group>"; };
 		DF3FB13B2ADD1D230002802A /* SearchMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapViewController.swift; sourceTree = "<group>"; };
 		DF7E12AD2ADE50F600D94AE8 /* SearchMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMapView.swift; sourceTree = "<group>"; };
 		DF93D3862B0490CA00A4242E /* SeoulDistrictOfficeCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeoulDistrictOfficeCoordinates.swift; sourceTree = "<group>"; };
@@ -521,7 +519,6 @@
 		DF1599A02AD6C6E200AE129B = {
 			isa = PBXGroup;
 			children = (
-				DF336C092B05FE0A007CFC37 /* SecretKey.plist */,
 				DF1599AB2AD6C6E200AE129B /* ZZin */,
 				DF1599AA2AD6C6E200AE129B /* Products */,
 				6C11A880CA6BCBA3A7CA7624 /* Pods */,
@@ -714,7 +711,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF336C0A2B05FE0A007CFC37 /* SecretKey.plist in Resources */,
 				BDA431522B0313CD00817477 /* lottieTest.json in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,

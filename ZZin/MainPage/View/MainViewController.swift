@@ -118,15 +118,22 @@ extension MainViewController: UITableViewDelegate {
     @objc func reportingButtonTapped() {
         print("신고하기 버튼이 눌렸습니다.")
         
-        let alert = UIAlertController(title: "게시물 신고", message: "해당 게시물을 신고하시겠습니까?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "게시물 신고", message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "네", style: .default) { action in
             print("해당 게시물이 신고되었습니다.")
+            let microAlert = UIAlertController(title: "신고되었습니다.", message: nil, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "네", style: .default)
+            microAlert.addAction(okAction)
+            self.present(microAlert, animated: true)
         }
-        
         let cancelAction = UIAlertAction(title: "아니요", style: .cancel)
         
-        alert.addAction(okAction)
+        alert.addTextField { textfield in
+            textfield.placeholder = "신고 내용을 작성해주세요."
+        }
+        
         alert.addAction(cancelAction)
+        alert.addAction(okAction)
         
         present(alert, animated: true)
     }
@@ -172,8 +179,6 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("##### 셀 터치가 됐읍니두 didselectIteamAt")
-        print("###리뷰셀 터치")
         let matchingPlaceVC = MatchingPlaceVC()
         matchingPlaceVC.placeID = reviewData[indexPath.item].pid
         matchingPlaceVC.reviewID = [reviewData[indexPath.item].rid]
