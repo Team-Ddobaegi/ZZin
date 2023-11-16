@@ -83,7 +83,14 @@ class CustomTextField: UIView, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         // 키보드 내리면서 동작
         textField.resignFirstResponder()
+        titleText = textField.text
+        print(titleText)
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        titleText = textField.text
+        print(titleText, "textFieldDidEndEditing")
     }
 }
 

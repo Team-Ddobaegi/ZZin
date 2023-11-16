@@ -13,7 +13,7 @@ protocol sendDataDelegate {
 
 class LocationView: UIViewController {
     //MARK: - 변수 && UIComponent 선언
-    private let locationList: [String] = ["서울", "경기도", "인천", "세종", "부산", "대전", "대구", "광주", "울산", "경북", "경남", "충남", "충북", "제주"]
+    private let locationList: [String] = ["", "서울", "경기도"]
     private let locationPickerView = UIPickerView()
     private let registrationView = RegistrationView()
     private var selectedLocation: String?

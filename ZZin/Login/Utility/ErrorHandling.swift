@@ -11,7 +11,7 @@ enum ErrorHandling {
     case passwordError
     case passwordBlank
     case firstPasswordCap
-    case lastPasswordNum
+    case lastPassword
     case idError
     case idBlank
     case noValue
@@ -35,7 +35,7 @@ enum ErrorHandling {
             return "🚨아이디 오류🚨"
         case .passwordBlank:
             return "비밀번호가 비어있어요!"
-        case .firstPasswordCap, .lastPasswordNum:
+        case .firstPasswordCap, .lastPassword:
             return "잘 떠올려보세요!"
         case .idBlank:
             return "아이디가 비어있어요!"
@@ -74,8 +74,8 @@ enum ErrorHandling {
             return "다시 한번 봐주세요"
         case .firstPasswordCap:
             return "첫 글자는 아마 대문자였을꺼에요"
-        case .lastPasswordNum:
-            return "마지막 자리는 숫자이지 않았나요?"
+        case .lastPassword:
+            return "마지막은 아마 특수문자 였을꺼에요!"
         case .idError:
             return "아이디를 다시 확인해주세요"
         case .idWrongFormat:
