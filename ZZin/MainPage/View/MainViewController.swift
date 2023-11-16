@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import NMapsGeometry.NMGLatLng
 
 class MainViewController: UIViewController {
     
@@ -125,11 +126,13 @@ extension MainViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
+            cell.delegate = self
             cell.recieveData(full: placeData)
             cell.localCollectionView.reloadData()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.identifier, for: indexPath) as! ReviewTableViewCell
+            cell.delegate = self
             cell.recieveData(data: reviewData)
             cell.reviewCollectionView.reloadData()
             return cell
@@ -176,5 +179,32 @@ extension MainViewController: MainViewDelegate {
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: ReviewTableViewCellDelegate {
+    func didSelectReview(at indexPath: IndexPath) {
+        print("###리뷰셀 터치")
+        let matchingPlaceVC = MatchingPlaceVC()
+        matchingPlaceVC.placeID = placeData[indexPath.item].pid
+        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
+        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+        
+    }
+}
+
+extension MainViewController: LocalTableViewCellDelegate {
+    func didSelectPlace(at indexPath: IndexPath) {
+        isPlaceMap = true
+        let mapVC = SearchMapViewController()
+        mapVC.selectedCity = placeData[indexPath.item].city
+        let town = placeData[indexPath.item].town
+        mapVC.selectedTown = town
+        let selectedTownEnum = SeoulDistrictOfficeCoordinates.find(for: town)
+        let coords = selectedTownEnum?.coordinate
+        let officeCoords = NMGLatLng(lat: coords?.latitude ?? 37.5666102, lng: coords?.longitude ?? 126.9783881)
+        mapVC.cameraLocation = officeCoords
+        navigationController?.pushViewController(mapVC, animated: true)
+        print("지도로 가유~~~")
     }
 }

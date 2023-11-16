@@ -8,8 +8,8 @@
 import UIKit
 
 class ReviewTableViewCell: UITableViewCell {
+    weak var delegate: ReviewTableViewCellDelegate?
     static let identifier = "ReviewTableViewCell"
-    
     private let storageManager = FireStorageManager()
     private var reviewData: [Review] = []
     private var reviewID: [String] = []
@@ -71,13 +71,11 @@ extension ReviewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath) 셀이 눌렸습니다.")
-        
-        if collectionView.cellForItem(at: indexPath) is MatchingResultCell {
-            print("매칭 업체 페이지로 이동합니다.")
-//            self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
-//            matchingPlaceVC.placeID = place?[indexPath.item].pid
-//            matchingPlaceVC.reviewID = place?[indexPath.item].rid
-        }
+        print("##### 셀 터치가 됐읍니두 didselectIteamAt")
+        delegate?.didSelectReview(at: indexPath)
     }
+}
+
+protocol ReviewTableViewCellDelegate: AnyObject {
+    func didSelectReview(at indexPath: IndexPath)
 }

@@ -9,6 +9,7 @@ import UIKit
 
 
 class LocalTableViewCell: UITableViewCell {
+    weak var delegate: LocalTableViewCellDelegate?
     static let identifier = "LocalTableViewCell"
     private let storageManager = FireStorageManager()
     private var placeData: [Place] = []
@@ -79,4 +80,14 @@ extension LocalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 77, height: 98)
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectPlace(at: indexPath)
+    }
 }
+
+protocol LocalTableViewCellDelegate: AnyObject {
+    func didSelectPlace(at indexPath: IndexPath)
+}
+
