@@ -13,7 +13,7 @@ class MainView: UIView {
     let tableView = UITableView(frame: .zero, style: .plain).then {
         $0.separatorStyle = .none
         $0.register(LocalTableViewCell.self, forCellReuseIdentifier: LocalTableViewCell.identifier)
-        $0.register(ReviewTableViewCell.self, forCellReuseIdentifier: ReviewTableViewCell.identifier)
+        $0.register(ReviewTableviewCell.self, forCellReuseIdentifier: ReviewTableviewCell.identifier)
         $0.register(MainHeaderView.self, forHeaderFooterViewReuseIdentifier: MainHeaderView.identifier)
     }
     
@@ -39,7 +39,8 @@ class MainView: UIView {
         addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(20)
         }
     }
     
@@ -48,7 +49,7 @@ class MainView: UIView {
         logoView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
             $0.top.equalToSuperview().offset(50)
-            $0.size.equalTo(CGSize(width: 48, height: 48))
+            $0.size.equalTo(CGSize(width: 60, height: 60))
         }
     }
 }
