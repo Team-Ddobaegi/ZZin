@@ -100,10 +100,31 @@
 
 # 3. 프로젝트 관리
 ## 3.1 일정 관리
-
+🔗 [Jira](https://bokyeong.atlassian.net/jira/software/projects/ZZIN/boards/1/timeline?shared=&atlOrigin=eyJpIjoiODlhMzVhZDgxMDU2NGM1NThjMTA0MmI0M2U4N2Q1NDgiLCJwIjoiaiJ9)
 
 ## 3.2 와이어 프레임
-
+🔗 [Figma](https://www.figma.com/file/2LduyJ27Bt7mt6RRoJA0XU/ZZin?type=design&node-id=0%3A1&mode=design&t=QeYfbW3vjaUIjGEY-1)
 
 # 4. 트러블슈팅
+- 이동준
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 04 19" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/17007b16-1637-48e7-a7b2-07de829c897b">
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 04 08" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/a3df9a5b-e2e4-40c6-8ed1-b6433c17e9cf">
+
+  
+- 박상우
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 03 40" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/226c5a56-b0b7-458f-8203-8f0658064870">
+
+  
+- 남보경
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 03 23" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/9739ecea-5ddd-4955-9613-b14c4f2f6fe0">
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 03 15" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/9fe0ae5b-6895-4dcc-99ad-a5334b36697b">
+
+  
+- 정주연
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 03 59" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/010d3f37-e8ad-44d5-be59-1d4980707085">
+<img width="1000" alt="스크린샷 2023-11-21 오후 6 03 52" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/4f284099-e619-488c-addf-3e962d82fef0">
+
+  
+- 최영군
+<img width="1227" alt="스크린샷 2023-11-21 오후 6 02 57" src="https://github.com/Team-Ddobaegi/ZZin/assets/136118540/0276840b-9cd8-48e1-85d9-9e7f781ca60e">
 
