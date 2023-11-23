@@ -263,6 +263,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.present(keywordVC, animated: true)
     }
     
+    
     // 두 번째 키워드 버튼이 탭될 때
     @objc func secondKeywordButtonTapped() {
         print("두 번째 키워드 버튼이 탭됨")

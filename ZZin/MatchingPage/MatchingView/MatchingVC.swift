@@ -182,14 +182,17 @@ class MatchingVC: UIViewController {
         print("첫 번째 키워드 버튼이 탭됨")
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .companion
-        keywordVC.matchingKeywordView.noticeLabel.text = "누구랑\n가시나요?"
         keywordVC.delegate = self
+        
+        let text = "누구랑\n가시나요?"
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "누구"))
+        keywordVC.matchingKeywordView.noticeLabel.attributedText = attributedStr
         
         let indexPath = self.companionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
             keywordVC.selectedCompanionIndexPath = indexPath.isEmpty ? [] : indexPath
         } else {
-            // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedCompanionIndexPath = []
         }
         present(keywordVC, animated: true)
@@ -200,14 +203,17 @@ class MatchingVC: UIViewController {
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .condition
-        keywordVC.matchingKeywordView.noticeLabel.text = "어떤 분위기를\n원하시나요?"
         keywordVC.delegate = self
+        
+        let text = "어떤 분위기를\n원하시나요?"
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "분위기"))
+        keywordVC.matchingKeywordView.noticeLabel.attributedText = attributedStr
         
         let indexPath = self.conditionIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
             keywordVC.selectedConditionIndexPath = indexPath.isEmpty ? [] : indexPath
         } else {
-            // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedConditionIndexPath = []
         }
         
@@ -219,15 +225,18 @@ class MatchingVC: UIViewController {
         
         let keywordVC = MatchingKeywordVC()
         keywordVC.selectedMatchingKeywordType = .kindOfFood
-        keywordVC.matchingKeywordView.noticeLabel.text = "메뉴는\n무엇인가요?"
         keywordVC.delegate = self
+        
+        let text = "메뉴는\n무엇인가요?"
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.foregroundColor, value: ColorGuide.main, range: (text as NSString).range(of: "메뉴"))
+        keywordVC.matchingKeywordView.noticeLabel.attributedText = attributedStr
         
         let indexPath = self.kindOfFoodIndexPath
         if let indexPath = indexPath?.compactMap({ $0 }) {
             keywordVC.selectedKindOfFoodIndexPath = indexPath.isEmpty ? [] : indexPath
             print("~~ kindOfFood 선택된 인덱스 있음두 ~~", indexPath)
         } else {
-            // indexPath가 nil이거나 배열에 값이 없는 경우
             keywordVC.selectedKindOfFoodIndexPath = []
         }
         
