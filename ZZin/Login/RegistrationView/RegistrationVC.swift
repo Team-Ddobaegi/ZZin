@@ -203,7 +203,7 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        let credentials = AuthCredentials(email: id, password: pw, userName: nickname, description: "")
+        let credentials = AuthCredentials(email: id, password: pw, userName: nickname, description: "", profileImage: "profiles/default_profile.png", pid: [], rid: [])
         AuthManager.shared.registerNewUser(with: credentials) { success, error in
             
             if success {
