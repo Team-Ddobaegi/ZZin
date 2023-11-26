@@ -29,6 +29,7 @@ class RegistrationViewController: UIViewController {
         addRegistrationSubview()
         addButtonTargets()
         setNotificationCenter()
+        addLinkTap()
         addLabelTap()
     }
     
@@ -154,8 +155,14 @@ class RegistrationViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    private func addLinkTap() {
+        let linkTap = UITapGestureRecognizer(target: self, action: #selector(linkLabelTapped))
+        registrationView.linkLabel.isUserInteractionEnabled = true
+        registrationView.linkLabel.addGestureRecognizer(linkTap)
+    }
+    
     private func addLabelTap() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(noticeLabelTapped))
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(noticeButtonTapped))
         registrationView.noticeLabel.isUserInteractionEnabled = true
         registrationView.noticeLabel.addGestureRecognizer(labelTap)
     }
@@ -255,8 +262,8 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-    @objc func noticeLabelTapped() {
-        print("라벨이 눌렸습니다.")
+    @objc func linkLabelTapped() {
+        print("링크가 눌렸습니다.")
         guard let url = URL(string: "https://petalite-lan-d7b.notion.site/eabe5abe95304621b336440c79159696?pvs=4") else { return }
         UIApplication.shared.open(url)
     }

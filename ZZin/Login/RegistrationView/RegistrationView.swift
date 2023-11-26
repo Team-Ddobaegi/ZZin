@@ -52,14 +52,20 @@ class RegistrationView: UIView {
     }
     
     let noticeLabel = UILabel().then {
-        $0.text = "회원가입 및 이용약관 동의 (탭 시, 상세 정보 확인)"
+        $0.text = "회원가입 및 이용약관 동의"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = .darkGray
     }
     
+    let linkLabel = UILabel().then {
+        $0.text = "상세 페이지로 이동하기"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.textColor = ColorGuide.main
+    }
+    
     private lazy var noticeStackView: UIStackView = {
         let stack = UIStackView()
-        [noticeButton, noticeLabel].forEach { stack.addArrangedSubview($0) }
+        [noticeButton, noticeLabel, linkLabel].forEach { stack.addArrangedSubview($0) }
         stack.axis = .horizontal
         stack.spacing = 5
         return stack
