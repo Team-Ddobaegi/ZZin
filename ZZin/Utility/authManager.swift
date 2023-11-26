@@ -145,7 +145,6 @@ class AuthManager {
                                        "profileImg": credentials.profileImage
             ]
             //                    FireStoreManager.shared.db.collection("users").addDocument(data: data)
-            
             FireStoreManager.shared.db.collection("users").document(uid).setData(data) { firestoreError in
                 if let error = firestoreError {
                     print("데이터 저장 에러가 발생했습니다.", error.localizedDescription)
@@ -155,10 +154,7 @@ class AuthManager {
                     print("유저 생성 완료")
                     completion(true, nil)
                 }
-                //                }
             }
         }
     }
-    //}
-    //}
 }
