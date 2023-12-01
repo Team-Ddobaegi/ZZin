@@ -54,6 +54,8 @@
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
 		BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginVC.swift */; };
+		BD66B4812B1371ED007E6FC9 /* SwiftSMTP in Frameworks */ = {isa = PBXBuildFile; productRef = BD66B4802B1371ED007E6FC9 /* SwiftSMTP */; };
+		BD66B4832B13722D007E6FC9 /* SMTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD66B4822B13722D007E6FC9 /* SMTPManager.swift */; };
 		BD69C6832AE612170042F9AF /* FoodCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69C6812AE612170042F9AF /* FoodCardModel.swift */; };
 		BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */; };
 		BD8D6B022ADEE7FC00F2A8D6 /* FoodCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */; };
@@ -165,6 +167,7 @@
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		BD66B4822B13722D007E6FC9 /* SMTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTPManager.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
 		BD8D6AFF2ADEE7EE00F2A8D6 /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
 		BD8D6B012ADEE7FC00F2A8D6 /* FoodCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCard.swift; sourceTree = "<group>"; };
@@ -249,6 +252,7 @@
 				BD3CB5272ADD33D800A9F4A0 /* FirebaseAppCheck in Frameworks */,
 				BD3CB54B2ADD33D800A9F4A0 /* FirebasePerformance in Frameworks */,
 				BD3CB54D2ADD33D800A9F4A0 /* FirebaseRemoteConfig in Frameworks */,
+				BD66B4812B1371ED007E6FC9 /* SwiftSMTP in Frameworks */,
 				BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */,
 				BDA431502B0309A500817477 /* Lottie in Frameworks */,
 				BD8D6B052ADEE82000F2A8D6 /* Shuffle in Frameworks */,
@@ -460,6 +464,7 @@
 			children = (
 				BD8D6B0A2ADEEECA00F2A8D6 /* Extension.swift */,
 				BD3698632AED858800E4125A /* ErrorHandling.swift */,
+				BD66B4822B13722D007E6FC9 /* SMTPManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -659,6 +664,7 @@
 				FB3650882AE8AD7600EAEAB7 /* Alamofire */,
 				FBB06AEF2AEBAA270091D65A /* SDWebImage */,
 				BDA4314F2B0309A500817477 /* Lottie */,
+				BD66B4802B1371ED007E6FC9 /* SwiftSMTP */,
 			);
 			productName = ZZin;
 			productReference = DF1599A92AD6C6E200AE129B /* ZZin.app */;
@@ -696,6 +702,7 @@
 				FB3650872AE8AD7600EAEAB7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				FBB06AEE2AEBAA270091D65A /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				BDA4314E2B0309A500817477 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				BD66B47F2B1371ED007E6FC9 /* XCRemoteSwiftPackageReference "Swift-SMTP" */,
 			);
 			productRefGroup = DF1599AA2AD6C6E200AE129B /* Products */;
 			projectDirPath = "";
@@ -838,6 +845,7 @@
 				BD953A632AE1FC1700E07C36 /* DetailRegistrationViewController.swift in Sources */,
 				DFCD0A8D2AEA588F0089FD49 /* InfoMarkerView.swift in Sources */,
 				FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */,
+				BD66B4832B13722D007E6FC9 /* SMTPManager.swift in Sources */,
 				BD8D6B002ADEE7EE00F2A8D6 /* CardController.swift in Sources */,
 				BDD983742AE0D28C008168D2 /* ModalViewController.swift in Sources */,
 				7BFC61CB2AE2822E00F46544 /* KeywordData.swift in Sources */,
@@ -1126,6 +1134,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		BD66B47F2B1371ED007E6FC9 /* XCRemoteSwiftPackageReference "Swift-SMTP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/IBM-Swift/Swift-SMTP";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		BD8D6B032ADEE82000F2A8D6 /* XCRemoteSwiftPackageReference "Shuffle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mac-gallagher/Shuffle";
@@ -1220,6 +1236,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BD3CB5542ADD341F00A9F4A0 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		BD66B4802B1371ED007E6FC9 /* SwiftSMTP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD66B47F2B1371ED007E6FC9 /* XCRemoteSwiftPackageReference "Swift-SMTP" */;
+			productName = SwiftSMTP;
 		};
 		BD8D6B042ADEE82000F2A8D6 /* Shuffle */ = {
 			isa = XCSwiftPackageProductDependency;
