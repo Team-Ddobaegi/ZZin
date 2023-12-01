@@ -9,13 +9,17 @@ import UIKit
 import SnapKit
 import Then
 
+protocol sendNumberDelegate {
+    func sendData(data: String)
+}
+
 class CustomTextfieldView: UIView {
     
     enum ButtonType {
         case noButton
         case cancelButton
         case hideButton
-//        case crossButton
+        case crossButton
     }
     
     private var animatingLabel = UILabel().then {
@@ -42,14 +46,15 @@ class CustomTextfieldView: UIView {
         $0.imageView?.tintColor = .systemGray
         $0.isHidden = true
         $0.setImage(image, for: .normal)
-        $0.addTarget(CustomTextfieldView.self, action: #selector(cancelTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
     private let checkButton = UIButton().then {
         let image = UIImage(systemName: "checkmark")
-        $0.imageView?.tintColor = .systemGray
-        $0.isHidden = true
+        $0.imageView?.tintColor = .black
+        $0.isHidden = false
         $0.setImage(image, for: .normal)
+        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
     }
 
     private let secureButton = UIButton().then {
@@ -83,7 +88,7 @@ class CustomTextfieldView: UIView {
         case .noButton: print("no button")
         case .cancelButton: addCancelButton()
         case .hideButton: addEyeButton()
-//        case .crossButton: addCheckButton()
+        case .crossButton: addCheckButton()
         }
     }
     
@@ -148,14 +153,14 @@ extension CustomTextfieldView {
         }
     }
     
-//    private func addCheckButton() {
-//        addSubview(checkButton)
-//        checkButton.snp.makeConstraints {
-//            $0.centerY.equalToSuperview()
-//            $0.trailing.equalToSuperview().inset(5)
-//            $0.height.width.equalTo(30)
-//        }
-//    }
+    private func addCheckButton() {
+        addSubview(checkButton)
+        checkButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
+        }
+    }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
         textfield.delegate = delegate
@@ -226,6 +231,11 @@ extension CustomTextfieldView {
         self.textfield.text = ""
         textfield.resignFirstResponder()
         undoLabelAnimation()
+    }
+    
+    @objc func checkButtonTapped() {
+        print("체크 버튼이 눌렸습니다.")
+        
     }
     
     @objc func secureButtonTapped(_ sender: UIButton) {
