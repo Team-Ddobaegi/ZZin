@@ -573,5 +573,21 @@ extension FireStoreManager {
         }
     }
     
-    
+    func checkForDuplicateEmail(email: String, completion: @escaping (Bool) -> Void) {
+        let collectionReference = Firestore.firestore().collection("emails")
+        
+        collectionReference.whereField("email", isEqualTo: email).getDocuments { querySnapshot, error in
+            if let error = error {
+                print("이메일을 검증하는 과정에서 오류가 발생했습니다. \(error.localizedDescription)")
+            } else {
+                if let document = querySnapshot?.documents, !document.isEmpty {
+                    print("중복 데이터가 있습니다.")
+                    completion(false)
+                } else {
+                    print("중복 데이터가 없습니다.")
+                    completion(true)
+                }
+            }
+        }
+    }
 }
