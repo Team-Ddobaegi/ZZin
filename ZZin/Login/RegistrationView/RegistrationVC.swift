@@ -47,6 +47,9 @@ class RegistrationViewController: UIViewController {
     }
     
     private func addButtonTargets() {
+        registrationView.emailTfView.buttonAction = { [weak self] in
+            self?.handleCrossButtonTap()
+        }
         registrationView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         registrationView.backbutton.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         registrationView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
@@ -74,6 +77,12 @@ class RegistrationViewController: UIViewController {
         registrationView.nicknameTfView.setTextFieldDelegate(delegate: self)
         registrationView.doublecheckEmailView.setTextFieldDelegate(delegate: self)
         registrationView.doublecheckPwView.setTextFieldDelegate(delegate: self)
+    }
+    
+    private func handleCrossButtonTap() {
+        print("이렇게 해도 작동되나?")
+        registrationView.setHidingEmailView()
+        registrationView.setPwTextView()
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -266,6 +275,10 @@ class RegistrationViewController: UIViewController {
         print("링크가 눌렸습니다.")
         guard let url = URL(string: "https://petalite-lan-d7b.notion.site/eabe5abe95304621b336440c79159696?pvs=4") else { return }
         UIApplication.shared.open(url)
+    }
+    
+    @objc func checkButtonTapped() {
+        print("체크 버튼이 눌렸습니다.")
     }
     
     deinit {

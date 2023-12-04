@@ -21,7 +21,6 @@ class RegistrationView: UIView {
     let backbutton = UIButton().then {
         let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
-        
     }
     
     private let infoLabel = UILabel().then {
@@ -162,7 +161,7 @@ class RegistrationView: UIView {
     }
     
     // 사라지는 뷰
-    private func setHidingEmailView() {
+    func setHidingEmailView() {
         doublecheckEmailView.snp.makeConstraints {
             $0.top.equalTo(registerStackView.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
@@ -170,7 +169,7 @@ class RegistrationView: UIView {
         }
     }
     
-    private func setPwTextView() {
+    func setPwTextView() {
         if doublecheckEmailView.isHidden {
             passwordStackView.snp.makeConstraints {
                 $0.top.equalTo(registerStackView.snp.bottom).offset(15)

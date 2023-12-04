@@ -63,6 +63,8 @@ class CustomTextfieldView: UIView {
         $0.setImage(selectedImage, for: .normal)
         $0.setImage(image, for: .selected)
     }
+    
+    var buttonAction: (() -> Void)?
 
     init(placeholder: String, text: String) {
         super.init(frame: .zero)
@@ -235,7 +237,7 @@ extension CustomTextfieldView {
     
     @objc func checkButtonTapped() {
         print("체크 버튼이 눌렸습니다.")
-        
+        buttonAction?()
     }
     
     @objc func secureButtonTapped(_ sender: UIButton) {
