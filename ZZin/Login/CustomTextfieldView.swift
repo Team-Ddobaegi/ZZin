@@ -236,7 +236,6 @@ extension CustomTextfieldView {
     }
     
     @objc func checkButtonTapped() {
-        print("체크 버튼이 눌렸습니다.")
         buttonAction?()
     }
     

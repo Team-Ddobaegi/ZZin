@@ -121,8 +121,8 @@ class RegistrationView: UIView {
         configureUI()
         
         // 에러시에만 실행
-//        setHidingEmailView()
-//        setPwTextView()
+        setHidingEmailView()
+        setPwTextView()
         setAnimation()
     }
     

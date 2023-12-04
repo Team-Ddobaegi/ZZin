@@ -81,6 +81,7 @@ class RegistrationViewController: UIViewController {
     
     private func handleCrossButtonTap() {
         print("이렇게 해도 작동되나?")
+        registrationView.doublecheckEmailView.isHidden = false
         registrationView.setHidingEmailView()
         registrationView.setPwTextView()
     }
