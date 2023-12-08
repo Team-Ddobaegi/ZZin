@@ -13,8 +13,8 @@ class RegistrationView: UIView {
     //MARK: - UIComponent 생성
     
     let nicknameTfView = CustomTextfieldView(placeholder: "", text: "닉네임", button: .cancelButton)
-    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", button: .crossButton)
-    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .noButton)
+    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", button: .checkButton)
+    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .crossCheckButton)
     let pwTfView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     let doublecheckPwView = CustomTextfieldView(placeholder: "", text: "비밀번호 확인", button: .hideButton)
     
