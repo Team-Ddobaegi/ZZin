@@ -26,6 +26,11 @@ enum ErrorHandling {
     case alreadyExists
     case agreement
     case equalPassword
+    case checkEmail
+    case emailError
+    case codeFail
+    case codeSuccess
+    case checkAgain
     
     var title: String {
         switch self {
@@ -63,6 +68,16 @@ enum ErrorHandling {
             return "이용 약관 동의"
         case .equalPassword:
             return "비밀번호 불일치"
+        case .checkEmail:
+            return "인증번호가 발송되었습니다."
+        case .emailError:
+            return "이메일 발송 오류"
+        case .codeFail:
+            return "번호가 틀렸어요"
+        case .codeSuccess:
+            return "인증 완료"
+        case .checkAgain:
+            return "인증이 되지 않았어요"
         }
     }
     
@@ -102,6 +117,16 @@ enum ErrorHandling {
             return "약관을 동의해주세요"
         case .equalPassword:
             return "같은 비밀번호를 입력해주세요"
+        case .checkEmail:
+            return "이메일을 확인해주세요"
+        case .emailError:
+            return "다른 이메일을 사용해보시겠어요?"
+        case .codeFail:
+            return "다시 입력해주세요"
+        case .codeSuccess:
+            return "번호가 인증되었습니다"
+        case .checkAgain:
+            return "다시 확인해주세요"
         }
     }
 }
