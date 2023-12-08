@@ -4,6 +4,10 @@
 <dict>
 	<key>NMFClientId</key>
 	<string>ppzs2criq6</string>
+	<key>SecretKey</key>
+	<string>$(SECRET_EMAIL_KEY)</string>
+	<key>SecretPass</key>
+	<string>$(SECRET_PASS_KEY)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
