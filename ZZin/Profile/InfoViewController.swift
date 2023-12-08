@@ -46,7 +46,7 @@ class InfoViewController: UICollectionViewController {
         print("viewdidload start")
         setupUI()
         setupNavBar()
-        
+
         DispatchQueue.main.async {[self] in
             storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
                 loadedRidAndPid = result
@@ -58,6 +58,7 @@ class InfoViewController: UICollectionViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         DispatchQueue.main.async {[self] in
             storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
                 loadedRidAndPid = result
@@ -67,7 +68,6 @@ class InfoViewController: UICollectionViewController {
             }
         }
     }
-    
     
     // MARK: - UI Setup
     private func setupUI() {
@@ -89,7 +89,7 @@ class InfoViewController: UICollectionViewController {
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyHeaderView")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "DefaultSupplementaryView")
     }
-    
+
     func setupNavBar() {
         var rightButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(rightButtonTapped))
         rightButton.tintColor = .label
@@ -116,6 +116,30 @@ extension InfoViewController {
         }
     }
     
+    // 클릭 시에 장소 정보로 넘어가도록 - 업데이트 반영 예정 (해당페이지에서 pid만 받고도 처리가 가능하게 요청 해야할 듯, 사진도 한 장만 뜨는 것 같음)
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.section == 1 else { return }
+        
+        switch currentSegmentIndex {
+        case 0:
+            print("해당 업체 페이지로 이동")
+
+            let placeVC = MatchingPlaceVC()
+            self.navigationController?.pushViewController(placeVC, animated: true)
+            placeVC.placeID = pidArr?[indexPath.item]
+            placeVC.reviewID = [ridArr?[indexPath.item]]
+
+        case 1:
+            print("해당 리뷰 페이지로 이동")
+        
+            let placeVC = MatchingPlaceVC()
+            self.navigationController?.pushViewController(placeVC, animated: true)
+            placeVC.placeID = pidArr?[indexPath.item]
+            placeVC.reviewID = [ridArr?[indexPath.item]]
+        default : print("예외 발생")
+        }
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
@@ -137,8 +161,6 @@ extension InfoViewController {
             return defaultView
         }
     }
-    
-    
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
