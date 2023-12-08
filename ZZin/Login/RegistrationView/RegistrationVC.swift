@@ -15,6 +15,9 @@ class RegistrationViewController: UIViewController {
     private let screenWidth = UIScreen.main.bounds.width - 10
     private let registrationView = RegistrationView()
     private var noticeButtonToggle = false
+    let smtpManager = SMTPManager()
+    var verificationCode: Int = 0
+    var verified: Bool = false
     
     // MARK: - LifeCycle 정리
     override func viewDidLoad() {
@@ -47,9 +50,9 @@ class RegistrationViewController: UIViewController {
     }
     
     private func addButtonTargets() {
-        registrationView.emailTfView.buttonAction = { [weak self] in
-            self?.handleCrossButtonTap()
-        }
+        registrationView.emailTfView.buttonAction = { [weak self] in self?.handleCheckButtonTap() }
+        registrationView.doublecheckEmailView.buttonAction = { [weak self] in self?.handleCrossCheckButtonTap() }
+        
         registrationView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
         registrationView.backbutton.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         registrationView.locationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
@@ -79,16 +82,53 @@ class RegistrationViewController: UIViewController {
         registrationView.doublecheckPwView.setTextFieldDelegate(delegate: self)
     }
     
-    private func handleCrossButtonTap() {
-        print("이렇게 해도 작동되나?")
+    private func handleCheckButtonTap() {
+        sendEmail()
+        
         registrationView.doublecheckEmailView.isHidden = false
         registrationView.setHidingEmailView()
         registrationView.setPwTextView()
     }
     
+    private func handleCrossCheckButtonTap() {
+        print("여기는 나오나요?")
+        if hasVerifiedCode() {
+            DispatchQueue.main.async {
+                let image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
+                self.registrationView.emailTfView.setNewImage(image)
+            }
+        } else {
+            showAlert(type: .checkAgain)
+        }
+    }
+    
+    private func sendEmail() {
+        guard let email = registrationView.emailTfView.textfield.text else { return }
+        
+        DispatchQueue.global().async {
+            self.smtpManager.sendAuth(userEmail: email) { [weak self] (authCode, result) in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.handleAuthentication(code: authCode, success: result)
+                }
+            }
+        }
+    }
+    
+    private func handleAuthentication(code: Int, success: Bool) {
+        if success {
+            self.verified = true
+            self.verificationCode = code
+            self.showAlert(type: .checkEmail)
+        } else {
+            self.showAlert(type: .emailError)
+            print("이건 문제??", code)
+        }
+    }
+        
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            print(view.frame.origin.y)
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= (keyboardSize.height/2.5)
             }
@@ -107,6 +147,21 @@ class RegistrationViewController: UIViewController {
     }
     
     // MARK: - Auth 관련 함수
+    private func hasVerifiedCode() -> Bool {
+        let userInput = registrationView.doublecheckEmailView.textfield.text
+        guard userInput != nil else { print("코드가 비었습니다."); return false }
+        
+        if userInput == String(verificationCode) {
+            print("번호가 일치합니다.")
+            showAlert(type: .codeSuccess)
+            return true
+        } else {
+            print("번호가 일치하지 않습니다.")
+            showAlert(type: .codeFail)
+            return false
+        }
+    }
+    
     private func checkIdPattern(_ email: String) -> Bool {
         guard !email.isEmpty else {
             registrationView.emailTfView.showInvalidMessage()
@@ -192,12 +247,11 @@ class RegistrationViewController: UIViewController {
             return
         }
         
-        guard checkIdPattern(id) else {
-            registrationView.emailTfView.showInvalidMessage()
+        guard checkIdPattern(id) else { registrationView.emailTfView.showInvalidMessage()
             showAlert(type: .idError)
             return
         }
-        
+
         guard let pw = registrationView.pwTfView.textfield.text, !pw.isEmpty else {
             registrationView.pwTfView.showInvalidMessage()
             showAlert(type: .doubleCheck)
@@ -217,6 +271,11 @@ class RegistrationViewController: UIViewController {
         
         guard noticeButtonToggle else {
             showAlert(type: .agreement)
+            return
+        }
+        
+        guard verified == true else {
+            showAlert(type: .checkAgain)
             return
         }
         
@@ -311,6 +370,12 @@ extension RegistrationViewController: UITextFieldDelegate {
                 self.registrationView.emailTfView.hideInvalideMessage()
                 self.registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
             }
+        case self.registrationView.doublecheckEmailView.textfield:
+            registrationView.doublecheckEmailView.animateLabel()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                self.registrationView.doublecheckEmailView.hideInvalideMessage()
+                self.registrationView.doublecheckEmailView.textfield.placeholder = "인증번호를 입력하세요"
+            }
         case self.registrationView.pwTfView.textfield:
             registrationView.pwTfView.animateLabel()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -332,16 +397,13 @@ extension RegistrationViewController: UITextFieldDelegate {
             registrationView.nicknameTfView.undoLabelAnimation()
         } else if textField == registrationView.emailTfView.textfield, let text = textField.text, text.isEmpty {
             registrationView.emailTfView.undoLabelAnimation()
+        } else if textField == registrationView.doublecheckEmailView.textfield, let text = textField.text, text.isEmpty {
+            registrationView.doublecheckEmailView.undoLabelAnimation()
         } else if textField == registrationView.pwTfView.textfield, let text = textField.text, text.isEmpty {
             registrationView.pwTfView.undoLabelAnimation()
         } else if textField == registrationView.doublecheckPwView.textfield, let text = textField.text, text.isEmpty {
             registrationView.doublecheckPwView.undoLabelAnimation()
         }
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switchToTextfield(textField)
-        return true
     }
     
     private func switchToTextfield(_ textField: UITextField) {
@@ -361,11 +423,22 @@ extension RegistrationViewController: UITextFieldDelegate {
             self.registrationView.doublecheckPwView.textfield.resignFirstResponder()
         }
     }
+    
+//    private func changeBecomeFirstResponder(textfield: CustomTextfieldView) {
+//        switch textfield {
+//        case self.registrationView.nicknameTfView: return
+//        case self.registrationView.nicknameTfView: return
+//        case self.registrationView.nicknameTfView: return
+//        case self.registrationView.nicknameTfView: return
+//            
+//        default:
+//            return
+//        }
+//    }
 }
 
 extension RegistrationViewController: sendDataDelegate {
     func sendData(data: String) {
-        print(data)
         registrationView.locationButton.setTitle(data, for: .normal)
     }
 }
