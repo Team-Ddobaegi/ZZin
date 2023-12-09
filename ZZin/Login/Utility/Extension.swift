@@ -110,17 +110,6 @@ extension UIColor {
     }
 }
 
-// MARK: - 원하는 UIView에 흔들리는 효과를 넣는다
-//extension UIView {
-//    func animateView(_ viewToAnimate: UIView) {
-//        UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseIn, animations: { viewToAnimate.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-//        }) { (_) in
-//            UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 2, options: .curveEaseIn, animations: { viewToAnimate.transform = CGAffineTransform(scaleX: 1, y: 1) }
-//                           , completion: nil)
-//        }
-//    }
-//}
-
 extension UIImageView {
     func loadImage(from url: URL) {
         DispatchQueue.global().async { [weak self] in

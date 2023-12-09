@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class LocalTableViewCell: UITableViewCell {
     weak var delegate: LocalTableViewCellDelegate?
     static let identifier = "LocalTableViewCell"

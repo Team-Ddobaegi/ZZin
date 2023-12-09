@@ -186,16 +186,6 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-//extension MainViewController: ReviewTableViewCellDelegate {
-//    func didSelectReview(at indexPath: IndexPath) {
-//        print("###리뷰셀 터치")
-//        let matchingPlaceVC = MatchingPlaceVC()
-//        matchingPlaceVC.placeID = placeData[indexPath.item].pid
-//        matchingPlaceVC.reviewID = placeData[indexPath.item].rid
-//        self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
-//    }
-//}
-
 extension MainViewController: LocalTableViewCellDelegate {
     func didSelectPlace(at indexPath: IndexPath) {
         isPlaceMap = true

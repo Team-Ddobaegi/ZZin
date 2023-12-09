@@ -423,18 +423,6 @@ extension RegistrationViewController: UITextFieldDelegate {
             self.registrationView.doublecheckPwView.textfield.resignFirstResponder()
         }
     }
-    
-//    private func changeBecomeFirstResponder(textfield: CustomTextfieldView) {
-//        switch textfield {
-//        case self.registrationView.nicknameTfView: return
-//        case self.registrationView.nicknameTfView: return
-//        case self.registrationView.nicknameTfView: return
-//        case self.registrationView.nicknameTfView: return
-//            
-//        default:
-//            return
-//        }
-//    }
 }
 
 extension RegistrationViewController: sendDataDelegate {

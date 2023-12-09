@@ -120,7 +120,6 @@ class RegistrationView: UIView {
     func setUI() {
         configureUI()
         
-        // 에러시에만 실행
         setHidingEmailView()
         setPwTextView()
         setAnimation()
@@ -181,7 +180,7 @@ class RegistrationView: UIView {
                 $0.left.right.equalToSuperview().inset(20)
             }
         }
-        // 상황에 따라 다시 layout 잡는
+        // 상황에 따라 다시 layout 잡는 함수
         self.layoutIfNeeded()
     }
     
