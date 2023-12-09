@@ -31,7 +31,7 @@ import Then
      }
      
      var appversionText = UILabel().then {
-         $0.text = "1.0.0"
+         $0.text = "1.0.1"
          $0.font = .systemFont(ofSize: 12, weight: .semibold)
          $0.textColor = .systemGray
      }
