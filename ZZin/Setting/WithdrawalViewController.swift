@@ -9,7 +9,7 @@ import UIKit
 import Then
 import FirebaseAuth
 
-protocol WithdrawalDelegate: class {
+protocol WithdrawalDelegate: AnyObject {
     func onTapClose()
     func onTapOk()
 }
