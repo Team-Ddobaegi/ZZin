@@ -49,6 +49,18 @@
             ReferencedContainer = "container:ZZin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "SECRET_PASS_KEY"
+            value = "fyfbcqgtcedflsgn"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SECRET_EMAIL_KEY"
+            value = "zzinddobaegi@gmail.com"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
