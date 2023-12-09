@@ -300,6 +300,17 @@ class FireStoreManager {
         }
     }
     
+    func setDefaultProfileImg(uid: String) {
+        let userRef = db.collection("users").document(uid)
+        userRef.updateData(["profileImg": "profiles/default_profile.png"]){ err in
+            if let err = err {
+                print("setDefaultProfileImg: Error set profileImg on document: \(err)")
+            } else {
+                print("setDefaultProfileImg: The document successfully written!")
+            }
+        }
+    }
+    
     
     
     func setPlaceData(dataWillSet: [String: Any?], pid: String, uid: String, rid: String, path: [String]) {

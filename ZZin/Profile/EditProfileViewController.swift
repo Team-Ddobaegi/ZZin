@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 import PhotosUI
+import Lottie
 
 class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPickerViewControllerDelegate {
     
@@ -25,7 +26,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
         self.tabBarController?.tabBar.isHidden = true
         userNameTextField.delegate = self
         descriptionTextField.delegate = self
@@ -42,6 +43,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+
         self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -67,14 +69,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
         }
     }
     
-    // 프로필 편집
-    // 1. 사진 수정
-    // 2. 닉네임 수정
-    // 3. 지역 설정 변경
-    // 4. 한 문장 설명
-    
     
     var editProfileButton = profileButton()
+    var underView = UIView().then{
+        $0.backgroundColor = .systemBackground
+    }
     
     var usernameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 15, weight: .regular)
@@ -123,45 +122,65 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
         $0.isUserInteractionEnabled = true
     }
     
+    var lottieView: LottieAnimationView = LottieAnimationView(name: "loadingLottie").then {
+        $0.loopMode = .loop
+        $0.isHidden = true
+    }
+    
+    
+
+    
+    
     private func setupUI() {
-        view.addSubview(editProfileButton)
+        view.addSubview(underView)
+        underView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        
+        underView.addSubview(editProfileButton)
         editProfileButton.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(150)
             $0.size.equalTo(CGSize(width: 85, height: 85))
         }
         
-        view.addSubview(usernameLabel)
+        underView.addSubview(usernameLabel)
         usernameLabel.snp.makeConstraints {
             $0.left.equalToSuperview().inset(18)
             $0.top.equalTo(editProfileButton.snp.bottom).offset(30)
         }
         
-        view.addSubview(userNameTextField)
+        underView.addSubview(userNameTextField)
         userNameTextField.snp.makeConstraints{
             $0.top.equalTo(usernameLabel.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(45)
         }
         
-        view.addSubview(descriptionLabel)
+        underView.addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints{
             $0.top.equalTo(userNameTextField.snp.bottom).offset(30)
             $0.left.equalToSuperview().inset(20)
         }
         
-        view.addSubview(descriptionTextField)
+        underView.addSubview(descriptionTextField)
         descriptionTextField.snp.makeConstraints{
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(16)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(45)
         }
         
-        view.addSubview(submitButton)
+        underView.addSubview(submitButton)
         submitButton.snp.makeConstraints{
             $0.bottom.equalToSuperview().inset(30)
             $0.left.right.equalToSuperview().inset(16)
             $0.height.equalTo(60)
+        }
+        
+        view.addSubview(lottieView)
+        lottieView.snp.makeConstraints{
+            $0.centerX.centerY.equalToSuperview()
+            $0.size.equalTo(CGSize(width: 200, height: 200))
         }
     }
     
@@ -209,25 +228,26 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
         let confirmSave = UIAlertAction(title: "변경", style: .default) { [self] _ in
             // 클릭 시 처리할 내용
             updateUserInfo(uid: currentUid, profileImgData: profileImgData)
-            
         }
         popup.addAction(cancel)
         popup.addAction(confirmSave)
         self.present(popup, animated: true)
-        
+
     }
     
     
     func updateUserInfo(uid: String, profileImgData: Data?) {
+        lottieView.play()
+        lottieView.isHidden = false
+        underView.backgroundColor = .darkGray
+        underView.layer.opacity = 0.3
         
         let userName = self.userNameTextField.text
         let description = self.descriptionTextField.text
         
         storageManager.uploadProfileImg(profileImg: profileImgData, uid: currentUid)
         let userRef = storeManager.db.collection("users").document(uid)
-        
         if profileImgData == nil {
-            
             userRef.updateData(["userName": userName!,
                                 "description": description ?? ""
                                ]) { error in
@@ -248,8 +268,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
                 }
             }
         }
-        self.navigationController?.popViewController(animated: true)
-        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) { [self] in
+            lottieView.isHidden = true
+            underView.backgroundColor = .systemBackground
+            underView.layer.opacity = 1.0
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
     
@@ -273,8 +297,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, PHPicker
             $0.layer.cornerRadius = 85 / 2
             $0.layer.masksToBounds = true
             $0.contentMode = .scaleAspectFill
-            //        $0.layer.borderWidth = 1
-            //        $0.layer.borderColor = ColorGuide.main.cgColor
             $0.backgroundColor = .systemGray4
         }
         
