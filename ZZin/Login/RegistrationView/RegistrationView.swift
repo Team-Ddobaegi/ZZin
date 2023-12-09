@@ -13,15 +13,14 @@ class RegistrationView: UIView {
     //MARK: - UIComponent 생성
     
     let nicknameTfView = CustomTextfieldView(placeholder: "", text: "닉네임", button: .cancelButton)
-    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
-    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .noButton)
+    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", button: .checkButton)
+    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .crossCheckButton)
     let pwTfView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
     let doublecheckPwView = CustomTextfieldView(placeholder: "", text: "비밀번호 확인", button: .hideButton)
     
     let backbutton = UIButton().then {
         let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
-        
     }
     
     private let infoLabel = UILabel().then {
@@ -40,7 +39,15 @@ class RegistrationView: UIView {
     
     private lazy var registerStackView: UIStackView = {
         let stack = UIStackView()
-        [nicknameTfView, emailTfView, doublecheckEmailView, pwStackView, doublecheckPwView].forEach { stack.addArrangedSubview($0) }
+        [nicknameTfView, emailTfView].forEach { stack.addArrangedSubview($0) }
+        stack.axis = .vertical
+        stack.spacing = 15
+        return stack
+    }()
+    
+    private lazy var passwordStackView: UIStackView = {
+        let stack = UIStackView()
+        [pwStackView, doublecheckPwView].forEach { stack.addArrangedSubview($0) }
         stack.axis = .vertical
         stack.spacing = 15
         return stack
@@ -49,18 +56,29 @@ class RegistrationView: UIView {
     let noticeButton = UIButton().then {
         let image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     let noticeLabel = UILabel().then {
-        $0.text = "회원가입 및 이용약관 동의 (탭 시, 상세 정보 확인)"
+        $0.text = "회원가입 및 이용약관 동의"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = .darkGray
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+    }
+    
+    let linkLabel = UILabel().then {
+        $0.text = "상세 페이지로 이동하기"
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.textColor = ColorGuide.main
     }
     
     private lazy var noticeStackView: UIStackView = {
         let stack = UIStackView()
-        [noticeButton, noticeLabel].forEach { stack.addArrangedSubview($0) }
+        [noticeButton, noticeLabel, linkLabel].forEach { stack.addArrangedSubview($0) }
         stack.axis = .horizontal
+        stack.alignment = .center
         stack.spacing = 5
         return stack
     }()
@@ -97,7 +115,7 @@ class RegistrationView: UIView {
     
     func configure() {
         backgroundColor = .white
-        [backbutton, registerStackView, noticeStackView, locationButton, confirmButton].forEach { addSubview($0) }
+        [backbutton, registerStackView, passwordStackView, doublecheckEmailView, noticeStackView, locationButton, confirmButton].forEach { addSubview($0) }
         pwTfView.textfield.isSecureTextEntry = true
         pwTfView.textfield.textContentType = .oneTimeCode
         doublecheckPwView.textfield.isSecureTextEntry = true
@@ -107,9 +125,8 @@ class RegistrationView: UIView {
     func setUI() {
         configureUI()
         
-        // 에러시에만 실행
-//        setHidingEmailView()
-//        setPwTextView()
+        setHidingEmailView()
+        setPwTextView()
         setAnimation()
     }
     
@@ -121,51 +138,56 @@ class RegistrationView: UIView {
         
         registerStackView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(270)
-            $0.left.right.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        passwordStackView.snp.makeConstraints {
+            $0.top.equalTo(registerStackView.snp.bottom).offset(15)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         noticeStackView.snp.makeConstraints {
-            $0.top.equalTo(registerStackView.snp.bottom).offset(90)
-            $0.left.right.equalToSuperview().inset(22)
+            $0.top.equalTo(passwordStackView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(22)
         }
         
         locationButton.snp.makeConstraints {
             $0.top.equalTo(noticeStackView.snp.bottom).offset(15)
-            $0.left.right.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
         
         confirmButton.snp.makeConstraints {
             $0.top.equalTo(locationButton.snp.bottom).offset(10)
-            $0.left.right.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
     }
     
-//    // 사라지는 뷰
-//    private func setHidingEmailView() {
-//        doublecheckEmailView.snp.makeConstraints {
-//            $0.top.equalTo(registerStackView.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.left.right.equalToSuperview().inset(20)
-//        }
-//    }
-//    
-//    private func setPwTextView() {
-//        if doublecheckEmailView.isHidden {
-//            pwTfView.snp.makeConstraints {
-//                $0.top.equalTo(registerStackView.snp.bottom).offset(20)
-//                $0.left.right.equalToSuperview().inset(20)
-//            }
-//        } else {
-//            pwTfView.snp.remakeConstraints {
-//                $0.top.equalTo(doublecheckEmailView.snp.bottom).offset(20)
-//                $0.left.right.equalToSuperview().inset(20)
-//            }
-//        }
-//        // 상황에 따라 다시 layout 잡는
-//        self.layoutIfNeeded()
-//    }
+    // 사라지는 뷰
+    func setHidingEmailView() {
+        doublecheckEmailView.snp.makeConstraints {
+            $0.top.equalTo(registerStackView.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(20)
+        }
+    }
+    
+    func setPwTextView() {
+        if doublecheckEmailView.isHidden {
+            passwordStackView.snp.makeConstraints {
+                $0.top.equalTo(registerStackView.snp.bottom).offset(15)
+                $0.left.right.equalToSuperview().inset(20)
+            }
+        } else {
+            passwordStackView.snp.remakeConstraints {
+                $0.top.equalTo(doublecheckEmailView.snp.bottom).offset(15)
+                $0.left.right.equalToSuperview().inset(20)
+            }
+        }
+        // 상황에 따라 다시 layout 잡는 함수
+        self.layoutIfNeeded()
+    }
     
     private func displayView() {
         doublecheckEmailView.isHidden = true
@@ -183,7 +205,6 @@ class RegistrationView: UIView {
         animationView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(-110)
-//            $0.bottom.equalTo(nicknameTfView.snp.top)
         }
     }
 }

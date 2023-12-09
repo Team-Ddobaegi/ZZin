@@ -51,7 +51,6 @@ class LoginViewController: UIViewController {
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-//        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func configureTextField() {
@@ -125,9 +124,9 @@ class LoginViewController: UIViewController {
         AuthManager.shared.loginUser(with: email, password: pw) { success in
             if success {
                 print("사용자가 로그인했습니다.")
-                let vc = TabBarViewController()
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: false)
+                let loginVC = UINavigationController(rootViewController: TabBarViewController())
+                loginVC.modalPresentationStyle = .fullScreen
+                self.present(loginVC, animated: false)
             } else {
                 print("사용자 로그인이 불가능합니다.")
                 self.showAlert(type: .loginFailure)
@@ -155,8 +154,14 @@ class LoginViewController: UIViewController {
     @objc func memberButtonTapped() {
         print("찐회원 버튼이 눌렸습니다.")
         
-        let vc = RegistrationViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let currentUser = Auth.auth().currentUser
+        
+        if currentUser == nil {
+            let vc = RegistrationViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            print("화면이 없습니다.")
+        }
     }
     
     @objc func textDidChange(sender: UITextField) {

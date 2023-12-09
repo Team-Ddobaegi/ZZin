@@ -9,13 +9,18 @@ import UIKit
 import SnapKit
 import Then
 
+protocol sendNumberDelegate {
+    func sendData(data: String)
+}
+
 class CustomTextfieldView: UIView {
     
     enum ButtonType {
         case noButton
         case cancelButton
         case hideButton
-//        case crossButton
+        case checkButton
+        case crossCheckButton
     }
     
     private var animatingLabel = UILabel().then {
@@ -42,14 +47,21 @@ class CustomTextfieldView: UIView {
         $0.imageView?.tintColor = .systemGray
         $0.isHidden = true
         $0.setImage(image, for: .normal)
-        $0.addTarget(CustomTextfieldView.self, action: #selector(cancelTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
     }
     
     private let checkButton = UIButton().then {
-        let image = UIImage(systemName: "checkmark")
-        $0.imageView?.tintColor = .systemGray
-        $0.isHidden = true
+        let image = UIImage(systemName: "checkmark.circle")
+        $0.imageView?.tintColor = .black
+        $0.isHidden = false
         $0.setImage(image, for: .normal)
+        $0.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+    }
+    
+    private let crossCheckButton = UIButton().then {
+        $0.setTitle("인증하기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(doubleCheckTapped), for: .touchUpInside)
     }
 
     private let secureButton = UIButton().then {
@@ -58,6 +70,8 @@ class CustomTextfieldView: UIView {
         $0.setImage(selectedImage, for: .normal)
         $0.setImage(image, for: .selected)
     }
+    
+    var buttonAction: (() -> Void)?
 
     init(placeholder: String, text: String) {
         super.init(frame: .zero)
@@ -74,7 +88,7 @@ class CustomTextfieldView: UIView {
         textfield.placeholder = placeholder
         animatingLabel.text = text
         validationLabel.text = alertMessage
-                
+        
         configure()
         setUI()
         commonInit()
@@ -83,7 +97,8 @@ class CustomTextfieldView: UIView {
         case .noButton: print("no button")
         case .cancelButton: addCancelButton()
         case .hideButton: addEyeButton()
-//        case .crossButton: addCheckButton()
+        case .checkButton: addCheckButton()
+        case .crossCheckButton: addCrossCheckButton()
         }
     }
     
@@ -111,7 +126,7 @@ extension CustomTextfieldView {
         self.layer.cornerRadius = 10
         [animatingLabel, textfield, validationLabel].forEach{ addSubview($0) }
     }
-
+    
     private func setUI() {
         animatingLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -122,7 +137,7 @@ extension CustomTextfieldView {
             $0.top.equalToSuperview().offset(2)
             $0.leading.equalToSuperview().inset(10)
         }
-
+        
         textfield.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(5)
             $0.leading.equalToSuperview().inset(10)
@@ -148,17 +163,31 @@ extension CustomTextfieldView {
         }
     }
     
-//    private func addCheckButton() {
-//        addSubview(checkButton)
-//        checkButton.snp.makeConstraints {
-//            $0.centerY.equalToSuperview()
-//            $0.trailing.equalToSuperview().inset(5)
-//            $0.height.width.equalTo(30)
-//        }
-//    }
+    private func addCheckButton() {
+        addSubview(checkButton)
+        checkButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(30)
+        }
+    }
+    
+    private func addCrossCheckButton() {
+        addSubview(crossCheckButton)
+        crossCheckButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(5)
+            $0.height.equalTo(30)
+            $0.width.equalTo(80)
+        }
+    }
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate) {
         textfield.delegate = delegate
+    }
+    
+    func setNewImage(_ image: UIImage?) {
+        checkButton.setImage(image, for: .normal)
     }
     
     // MARK: - Animation
@@ -226,6 +255,14 @@ extension CustomTextfieldView {
         self.textfield.text = ""
         textfield.resignFirstResponder()
         undoLabelAnimation()
+    }
+    
+    @objc func checkButtonTapped() {
+        buttonAction?()
+    }
+    
+    @objc func doubleCheckTapped() {
+        buttonAction?()
     }
     
     @objc func secureButtonTapped(_ sender: UIButton) {

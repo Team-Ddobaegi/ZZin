@@ -51,7 +51,6 @@ class ButtonCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(numberLabel)
         numberLabel.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(10)
-//            $0.size.equalTo(CGSize(width: 30, height: 30))
         }
     }
 }

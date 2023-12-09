@@ -70,9 +70,10 @@ class AccountSettingViewController: UIViewController {
 extension AccountSettingViewController: LogoutDelegate {
     func onTapOk() {
         self.removeDim()
-        let loginpage = LoginViewController()
+        let loginpage = UINavigationController(rootViewController: LoginViewController())
         loginpage.modalPresentationStyle = .fullScreen
-        self.present(loginpage, animated: true)
+        
+        self.present(loginpage, animated: false)
     }
     
     func onTapClose() {

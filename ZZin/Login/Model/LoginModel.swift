@@ -19,6 +19,9 @@ struct LoginModel {
 struct AuthCredentials {
     let email: String
     let password: String
-    let userName: String
-    let description: String
+    var userName: String
+    var description: String
+    var profileImage: String
+    var pid: [String]
+    var rid: [String]
 }
