@@ -13,6 +13,7 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .customBackground
         self.navigationController?.navigationBar.topItem?.title = "설정"
         self.navigationController?.navigationBar.tintColor = .label
@@ -27,6 +28,10 @@ class SettingViewController: UIViewController {
         let headerLabel = UILabel(frame: header.bounds)
         headerLabel.textAlignment = .center
         header.addSubview(headerLabel)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     func setupView() {
