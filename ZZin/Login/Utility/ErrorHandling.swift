@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 길어지는 에러 핸들링를 어떻게 해결할 수 있을까?
 enum ErrorHandling {
     case passwordError
     case passwordBlank
