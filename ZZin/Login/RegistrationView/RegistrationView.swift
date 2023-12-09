@@ -56,12 +56,16 @@ class RegistrationView: UIView {
     let noticeButton = UIButton().then {
         let image = UIImage(systemName: "square")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
         $0.setImage(image, for: .normal)
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     let noticeLabel = UILabel().then {
         $0.text = "회원가입 및 이용약관 동의"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = .darkGray
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     let linkLabel = UILabel().then {
@@ -74,6 +78,7 @@ class RegistrationView: UIView {
         let stack = UIStackView()
         [noticeButton, noticeLabel, linkLabel].forEach { stack.addArrangedSubview($0) }
         stack.axis = .horizontal
+        stack.alignment = .center
         stack.spacing = 5
         return stack
     }()
