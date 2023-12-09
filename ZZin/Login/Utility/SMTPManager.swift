@@ -45,11 +45,11 @@ import SwiftSMTP
 //}
 
 class SMTPManager {
-    private let hostSMTP = SMTP(hostname: "smtp.gmail.com", email: SECRET_EMAIL_KEY, password: SECRET_PASS_KEY)
+    private let hostSMTP = SMTP(hostname: "smtp.gmail.com", email: Bundle.main.smtpSecretKey, password: Bundle.main.smtpSecretPass)
     
     func sendAuth(userEmail: String, completion: @escaping (Int, Bool) -> Void) {
         let code = Int.random(in: 10000...99999)
-        let fromUser = Mail.User(email: SECRET_EMAIL_KEY)
+        let fromUser = Mail.User(email: Bundle.main.smtpSecretKey)
         let toUser = Mail.User(email: userEmail)
         let verificationCode = String(code)
         let emailContent = """
