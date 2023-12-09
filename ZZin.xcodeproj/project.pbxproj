@@ -126,7 +126,6 @@
 		FFEE93752AF3A2FF00A58010 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */; };
 		FFFDEE7D2B04CD6E00B49724 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFDEE7C2B04CD6E00B49724 /* LogoutViewController.swift */; };
 		FFFDEE7F2B04CD7900B49724 /* WithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFDEE7E2B04CD7900B49724 /* WithdrawalViewController.swift */; };
-		FFFDEE812B06532100B49724 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = FFFDEE802B06532000B49724 /* SecretKey.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -237,7 +236,6 @@
 		FFEE93742AF3A2FF00A58010 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		FFFDEE7C2B04CD6E00B49724 /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		FFFDEE7E2B04CD7900B49724 /* WithdrawalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalViewController.swift; sourceTree = "<group>"; };
-		FFFDEE802B06532000B49724 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -541,7 +539,6 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				FFFDEE802B06532000B49724 /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -724,7 +721,6 @@
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,
-				FFFDEE812B06532100B49724 /* SecretKey.plist in Resources */,
 				7B9498B42AF28C5500261858 /* textMessage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

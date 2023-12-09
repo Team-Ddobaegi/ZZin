@@ -32,7 +32,7 @@ class InfoMarkerView: UIView {
     
     private func attribute() {
         layer.cornerRadius = 12.5
-        layer.borderWidth = 2
+        layer.borderWidth = 1
         layer.borderColor = ColorGuide.cherryTomato.cgColor
     }
     
