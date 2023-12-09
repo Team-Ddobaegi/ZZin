@@ -51,7 +51,6 @@ class LoginViewController: UIViewController {
     private func addButtonActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginView.memberButton.addTarget(self, action: #selector(memberButtonTapped), for: .touchUpInside)
-//        loginView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     private func configureTextField() {

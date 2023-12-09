@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftSMTP
-import MessageUI
 
 //class SMTPManager {
 //    private let hostSmtp = SMTP(hostname: "smtp.gmail.com", email: SECRET_EMAIL_KEY, password: SECRET_PASS_KEY)
