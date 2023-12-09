@@ -38,6 +38,7 @@ class MatchingPlaceVC: UIViewController {
         super.viewDidLoad()
         
         setView()
+        fetchPlaces()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +92,7 @@ class MatchingPlaceVC: UIViewController {
                 let placeNum = place.placeTelNum
                 
                 self.placeNum = placeNum
+                print("fetchPlaces : \(self.placeNum)")
                 
             case .failure(let error):
                 print("Error fetching review: \(error.localizedDescription)")
@@ -121,6 +123,7 @@ class MatchingPlaceVC: UIViewController {
     }
     
     @objc func callButtonTapped(){
+        print("\(self.placeNum)")
         print("전화하기 버튼 선택: \(!isCallButtonSelected)")
         isCallButtonSelected.toggle()
         

@@ -86,7 +86,7 @@ class MatchingPlaceInfoCell: UITableViewCell {
         $0.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
-        $0.addTarget(MatchingPlaceInfoCell.self, action: #selector(didTappedButton), for: .touchUpInside)
+//        $0.addTarget(MatchingPlaceInfoCell.self, action: #selector(didTappedButton), for: .touchUpInside)
     }
     
     var placeCallLabel = UILabel().then {
