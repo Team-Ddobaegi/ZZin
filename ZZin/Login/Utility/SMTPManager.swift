@@ -53,7 +53,7 @@ class SMTPManager {
         let toUser = Mail.User(email: userEmail)
         let verificationCode = String(code)
         let emailContent = """
-    [찐으로부터 메인이 왔어요]
+    [찐으로부터 메일이 왔어요]
     
     인증번호 : [\(verificationCode)]
     APP에서 인증번호를 입력해주세요!
