@@ -69,7 +69,7 @@ class RegistrationView: UIView {
     }
     
     let linkLabel = UILabel().then {
-        $0.text = "상세 페이지로 이동하기"
+        $0.text = "[상세 페이지로 이동하기]"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = ColorGuide.main
     }
@@ -79,7 +79,7 @@ class RegistrationView: UIView {
         [noticeButton, noticeLabel, linkLabel].forEach { stack.addArrangedSubview($0) }
         stack.axis = .horizontal
         stack.alignment = .center
-        stack.spacing = 5
+        stack.spacing = 10
         return stack
     }()
     
