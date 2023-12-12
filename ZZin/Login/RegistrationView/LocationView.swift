@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol sendDataDelegate {
+protocol sendDataDelegate: AnyObject {
     func sendData(data: String)
 }
 
@@ -17,7 +17,7 @@ class LocationView: UIViewController {
     private let locationPickerView = UIPickerView()
     private let registrationView = RegistrationView()
     private var selectedLocation: String?
-    var delegate: sendDataDelegate?
+    weak var delegate: sendDataDelegate? // weak로 설정했을 때 locationView가 화면에서 내려가면서 발생하는 이슈 고민
     
     private let infoLabel = UILabel().then {
         $0.text = """

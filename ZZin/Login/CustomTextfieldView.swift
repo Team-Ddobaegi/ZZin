@@ -9,10 +9,6 @@ import UIKit
 import SnapKit
 import Then
 
-protocol sendNumberDelegate {
-    func sendData(data: String)
-}
-
 class CustomTextfieldView: UIView {
     
     enum ButtonType {
@@ -83,6 +79,7 @@ class CustomTextfieldView: UIView {
         commonInit()
     }
     
+    // convenience Initializer!!!
     init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", button: ButtonType) {
         super.init(frame: .zero)
         textfield.placeholder = placeholder
@@ -188,6 +185,10 @@ extension CustomTextfieldView {
     
     func setNewImage(_ image: UIImage?) {
         checkButton.setImage(image, for: .normal)
+    }
+    
+    func updateUI() {
+        crossCheckButton.setTitle("", for: .normal)
     }
     
     // MARK: - Animation
