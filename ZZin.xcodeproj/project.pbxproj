@@ -308,7 +308,6 @@
 				DF1599AC2AD6C6E200AE129B /* AppDelegate.swift */,
 				DF1599AE2AD6C6E200AE129B /* SceneDelegate.swift */,
 				DF1599B52AD6C6E300AE129B /* Assets.xcassets */,
-				BDA431512B0313CD00817477 /* lottieTest.json */,
 				DF1599B72AD6C6E300AE129B /* LaunchScreen.storyboard */,
 				DFEDDA452AF4E7C0003FA958 /* NaverAPIKey.swift */,
 			);
@@ -485,6 +484,7 @@
 		BDAADE342AFF5DCD00847F37 /* RegistrationView */ = {
 			isa = PBXGroup;
 			children = (
+				BDA431512B0313CD00817477 /* lottieTest.json */,
 				BDAADE352AFF5DDE00847F37 /* RegistrationView.swift */,
 				BDE037C22ADC2B47003374A8 /* RegistrationVC.swift */,
 				BDAADE372AFFBCA800847F37 /* LocationView.swift */,
