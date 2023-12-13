@@ -80,7 +80,7 @@ class CustomTextfieldView: UIView {
     }
     
     // convenience Initializer!!!
-    init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", button: ButtonType) {
+    init(placeholder: String, text: String, alertMessage: String, button: ButtonType) {
         super.init(frame: .zero)
         textfield.placeholder = placeholder
         animatingLabel.text = text
@@ -241,8 +241,10 @@ extension CustomTextfieldView {
     }
     
     func hideInvalideMessage() {
-        self.validationLabel.isHidden = true
-        self.animatingLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            self.validationLabel.isHidden = true
+            self.animatingLabel.isHidden = false
+        })
     }
     
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
