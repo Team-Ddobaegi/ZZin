@@ -8,8 +8,8 @@
 import UIKit
 
 class LoginView: UIView {
-    let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", button: .cancelButton)
-    let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
+    let idTextfieldView = CustomTextfieldView(placeholder: "", text: "이메일", alertMessage: "이메일이 비어있어요", button: .cancelButton)
+    let pwTextfieldView = CustomTextfieldView(placeholder: "", text: "비밀번호", alertMessage: "비밀번호가 비어있어요", button: .hideButton)
     
     private let logoView = UIImageView().then {
         let image = UIImage(named: "AppIcon")
