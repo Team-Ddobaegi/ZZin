@@ -72,15 +72,16 @@ class LocationView: UIViewController {
     private func setLabel() {
         infoLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(locationPickerView.snp.top).offset(-30)
+            $0.top.equalToSuperview().offset(20)
         }
     }
     
     private func setButton() {
         confirmButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(locationPickerView.snp.bottom).offset(30)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
+            $0.top.equalTo(locationPickerView.snp.bottom)
+            $0.height.equalTo(55)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
     
