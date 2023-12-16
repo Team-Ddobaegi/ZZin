@@ -30,7 +30,7 @@ import Then
          $0.contentMode = .scaleAspectFit
      }
      
-     var appversionText = UILabel().then {
+     var appVersionText = UILabel().then {
          $0.text = "1.0.1"
          $0.font = .systemFont(ofSize: 12, weight: .semibold)
          $0.textColor = .systemGray
