@@ -96,6 +96,7 @@ class RegistrationViewController: UIViewController {
             DispatchQueue.main.async {
                 let image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(ColorGuide.main, renderingMode: .alwaysOriginal)
                 self.registrationView.emailTfView.setNewImage(image)
+                self.registrationView.doublecheckEmailView.updateUI()
             }
         } else {
             showAlert(type: .checkAgain)
@@ -107,6 +108,7 @@ class RegistrationViewController: UIViewController {
         
         DispatchQueue.global().async {
             self.smtpManager.sendAuth(userEmail: email) { [weak self] (authCode, result) in
+                // MARK: - guard let 강한 참조가 걸어진다. > 확인!
                 guard let self = self else { return }
                 
                 DispatchQueue.main.async {
@@ -276,6 +278,10 @@ class RegistrationViewController: UIViewController {
         
         guard verified == true else {
             showAlert(type: .checkAgain)
+            DispatchQueue.main.async {
+                let image = UIImage(systemName: "checkmark.circle.fill")?.withTintColor(UIColor.black, renderingMode: .alwaysOriginal)
+                self.registrationView.emailTfView.setNewImage(image)
+            }
             return
         }
         
@@ -333,7 +339,7 @@ class RegistrationViewController: UIViewController {
     
     @objc func linkLabelTapped() {
         print("링크가 눌렸습니다.")
-        guard let url = URL(string: "https://petalite-lan-d7b.notion.site/eabe5abe95304621b336440c79159696?pvs=4") else { return }
+        guard let url = URL(string: "https://quiet-porch-d84.notion.site/ZZin-App-Home-af0167c8dc7f456587955cf40964f0c1?pvs=4") else { return }
         UIApplication.shared.open(url)
     }
     
@@ -360,34 +366,19 @@ extension RegistrationViewController: UITextFieldDelegate {
         switch textField {
         case self.registrationView.nicknameTfView.textfield:
             registrationView.nicknameTfView.animateLabel()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.registrationView.nicknameTfView.hideInvalideMessage()
-                self.registrationView.nicknameTfView.textfield.placeholder = "닉네임을 입력해주세요."
-            }
+            self.registrationView.nicknameTfView.hideInvalideMessage()
         case self.registrationView.emailTfView.textfield:
             registrationView.emailTfView.animateLabel()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.registrationView.emailTfView.hideInvalideMessage()
-                self.registrationView.emailTfView.textfield.placeholder = "이메일을 입력해주세요."
-            }
         case self.registrationView.doublecheckEmailView.textfield:
             registrationView.doublecheckEmailView.animateLabel()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.registrationView.doublecheckEmailView.hideInvalideMessage()
-                self.registrationView.doublecheckEmailView.textfield.placeholder = "인증번호를 입력하세요"
-            }
         case self.registrationView.pwTfView.textfield:
             registrationView.pwTfView.animateLabel()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.registrationView.pwTfView.hideInvalideMessage()
-                self.registrationView.pwTfView.textfield.placeholder = "비밀번호를 입력해주세요."
-            }
         case self.registrationView.doublecheckPwView.textfield:
             registrationView.doublecheckPwView.animateLabel()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.registrationView.doublecheckPwView.hideInvalideMessage()
-                self.registrationView.doublecheckPwView.textfield.placeholder = "비밀번호를 입력해주세요."
-            }
         default: print("textfield를 찾지 못했습니다.")
         }
     }
@@ -430,3 +421,5 @@ extension RegistrationViewController: sendDataDelegate {
         registrationView.locationButton.setTitle(data, for: .normal)
     }
 }
+
+// extension으로 필요 메서드들을 다 빼는 방법도 있다~ - 고려사항

@@ -12,11 +12,27 @@ class RegistrationView: UIView {
     
     //MARK: - UIComponent 생성
     
-    let nicknameTfView = CustomTextfieldView(placeholder: "", text: "닉네임", button: .cancelButton)
-    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", button: .checkButton)
-    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", button: .crossCheckButton)
-    let pwTfView = CustomTextfieldView(placeholder: "", text: "비밀번호", button: .hideButton)
-    let doublecheckPwView = CustomTextfieldView(placeholder: "", text: "비밀번호 확인", button: .hideButton)
+    let nicknameTfView = CustomTextfieldView(placeholder: "", text: "닉네임", alertMessage: "닉네임을 입력해주세요", button: .cancelButton)
+    let emailTfView = CustomTextfieldView(placeholder: "", text: "이메일", alertMessage: "이메일을 입력해주세요", button: .checkButton)
+    let doublecheckEmailView = CustomTextfieldView(placeholder: "", text: "인증번호", alertMessage: "인증번호 입력해주세요", button: .crossCheckButton)
+    let pwTfView = CustomTextfieldView(placeholder: "", text: "비밀번호", alertMessage: "비밀번호를 입력해주세요", button: .hideButton)
+    let doublecheckPwView = CustomTextfieldView(placeholder: "", text: "비밀번호 확인", alertMessage: "비밀번호를 화인해주세요", button: .hideButton)
+    
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let contentView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let lottieView: LottieAnimationView = LottieAnimationView(name: "lottieTest").then {
+        $0.transform = CGAffineTransform(scaleX: 0.4, y: 0.4) // 크기 스케일링으로 인해 발생하는 autolayout 이슈
+        $0.play()
+        $0.contentMode = .scaleAspectFill
+        $0.loopMode = .loop
+    }
     
     let backbutton = UIButton().then {
         let image = UIImage(systemName: "arrow.left")?.withTintColor(.black, renderingMode: .alwaysOriginal)
@@ -41,7 +57,7 @@ class RegistrationView: UIView {
         let stack = UIStackView()
         [nicknameTfView, emailTfView].forEach { stack.addArrangedSubview($0) }
         stack.axis = .vertical
-        stack.spacing = 15
+        stack.spacing = 10
         return stack
     }()
     
@@ -49,7 +65,7 @@ class RegistrationView: UIView {
         let stack = UIStackView()
         [pwStackView, doublecheckPwView].forEach { stack.addArrangedSubview($0) }
         stack.axis = .vertical
-        stack.spacing = 15
+        stack.spacing = 10
         return stack
     }()
     
@@ -69,7 +85,7 @@ class RegistrationView: UIView {
     }
     
     let linkLabel = UILabel().then {
-        $0.text = "상세 페이지로 이동하기"
+        $0.text = "[상세 페이지로 이동하기]"
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.textColor = ColorGuide.main
     }
@@ -79,7 +95,7 @@ class RegistrationView: UIView {
         [noticeButton, noticeLabel, linkLabel].forEach { stack.addArrangedSubview($0) }
         stack.axis = .horizontal
         stack.alignment = .center
-        stack.spacing = 5
+        stack.spacing = 10
         return stack
     }()
     
@@ -115,7 +131,8 @@ class RegistrationView: UIView {
     
     func configure() {
         backgroundColor = .white
-        [backbutton, registerStackView, passwordStackView, doublecheckEmailView, noticeStackView, locationButton, confirmButton].forEach { addSubview($0) }
+        [scrollView].forEach { addSubview($0) }
+        [backbutton, lottieView, registerStackView, passwordStackView, doublecheckEmailView, noticeStackView, locationButton, confirmButton].forEach { contentView.addSubview($0) }
         pwTfView.textfield.isSecureTextEntry = true
         pwTfView.textfield.textContentType = .oneTimeCode
         doublecheckPwView.textfield.isSecureTextEntry = true
@@ -123,6 +140,7 @@ class RegistrationView: UIView {
     }
     
     func setUI() {
+        enableScroll()
         configureUI()
         
         setHidingEmailView()
@@ -130,29 +148,41 @@ class RegistrationView: UIView {
         setAnimation()
     }
     
+    private func enableScroll() {
+        scrollView.snp.makeConstraints { // 스크롤뷰 적용
+            $0.edges.equalToSuperview()
+        }
+        
+        scrollView.addSubview(contentView) // 스크롤뷰 내부 컴포넌트 적용
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview() // contentView 넓이 화면에 고정
+        }
+    }
+        
     private func configureUI(){
         backbutton.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
         }
         
         registerStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(270)
+            $0.top.equalToSuperview().inset(160)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         passwordStackView.snp.makeConstraints {
-            $0.top.equalTo(registerStackView.snp.bottom).offset(15)
+            $0.top.equalTo(registerStackView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         noticeStackView.snp.makeConstraints {
-            $0.top.equalTo(passwordStackView.snp.bottom).offset(20)
+            $0.top.equalTo(passwordStackView.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(22)
         }
         
         locationButton.snp.makeConstraints {
-            $0.top.equalTo(noticeStackView.snp.bottom).offset(15)
+            $0.top.equalTo(noticeStackView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
         }
@@ -161,28 +191,29 @@ class RegistrationView: UIView {
             $0.top.equalTo(locationButton.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(55)
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
     
     // 사라지는 뷰
     func setHidingEmailView() {
         doublecheckEmailView.snp.makeConstraints {
-            $0.top.equalTo(registerStackView.snp.bottom).offset(15)
+            $0.top.equalTo(registerStackView.snp.bottom).offset(10)
             $0.centerX.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
     
     func setPwTextView() {
         if doublecheckEmailView.isHidden {
             passwordStackView.snp.makeConstraints {
-                $0.top.equalTo(registerStackView.snp.bottom).offset(15)
-                $0.left.right.equalToSuperview().inset(20)
+                $0.top.equalTo(registerStackView.snp.bottom).offset(10)
+                $0.leading.trailing.equalToSuperview().inset(20)
             }
         } else {
             passwordStackView.snp.remakeConstraints {
-                $0.top.equalTo(doublecheckEmailView.snp.bottom).offset(15)
-                $0.left.right.equalToSuperview().inset(20)
+                $0.top.equalTo(doublecheckEmailView.snp.bottom).offset(10)
+                $0.leading.trailing.equalToSuperview().inset(20)
             }
         }
         // 상황에 따라 다시 layout 잡는 함수
@@ -194,17 +225,9 @@ class RegistrationView: UIView {
     }
     
     private func setAnimation() {
-        let animationView = LottieAnimationView(name: "lottieTest")
-        animationView.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-        animationView.contentMode = .scaleAspectFit
-        addSubview(animationView)
-        
-        animationView.play()
-        animationView.loopMode = .loop
-        
-        animationView.snp.makeConstraints {
+        lottieView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(-110)
+            $0.top.equalToSuperview().offset(-200)
         }
     }
 }

@@ -9,10 +9,6 @@ import UIKit
 import SnapKit
 import Then
 
-protocol sendNumberDelegate {
-    func sendData(data: String)
-}
-
 class CustomTextfieldView: UIView {
     
     enum ButtonType {
@@ -83,7 +79,8 @@ class CustomTextfieldView: UIView {
         commonInit()
     }
     
-    init(placeholder: String, text: String, alertMessage: String? = "다시 확인해주세요", button: ButtonType) {
+    // convenience Initializer!!!
+    init(placeholder: String, text: String, alertMessage: String, button: ButtonType) {
         super.init(frame: .zero)
         textfield.placeholder = placeholder
         animatingLabel.text = text
@@ -190,6 +187,10 @@ extension CustomTextfieldView {
         checkButton.setImage(image, for: .normal)
     }
     
+    func updateUI() {
+        crossCheckButton.setTitle("", for: .normal)
+    }
+    
     // MARK: - Animation
     // Label Animation 적용
     func animateLabel() {
@@ -240,8 +241,10 @@ extension CustomTextfieldView {
     }
     
     func hideInvalideMessage() {
-        self.validationLabel.isHidden = true
-        self.animatingLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            self.validationLabel.isHidden = true
+            self.animatingLabel.isHidden = false
+        })
     }
     
     @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {

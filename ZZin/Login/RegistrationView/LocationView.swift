@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol sendDataDelegate {
+protocol sendDataDelegate: AnyObject {
     func sendData(data: String)
 }
 
@@ -17,7 +17,7 @@ class LocationView: UIViewController {
     private let locationPickerView = UIPickerView()
     private let registrationView = RegistrationView()
     private var selectedLocation: String?
-    var delegate: sendDataDelegate?
+    weak var delegate: sendDataDelegate? // weak로 설정했을 때 locationView가 화면에서 내려가면서 발생하는 이슈 고민
     
     private let infoLabel = UILabel().then {
         $0.text = """
@@ -72,15 +72,16 @@ class LocationView: UIViewController {
     private func setLabel() {
         infoLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(locationPickerView.snp.top).offset(-30)
+            $0.top.equalToSuperview().offset(20)
         }
     }
     
     private func setButton() {
         confirmButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(locationPickerView.snp.bottom).offset(30)
-            $0.size.equalTo(CGSize(width: 353, height: 52))
+            $0.top.equalTo(locationPickerView.snp.bottom)
+            $0.height.equalTo(55)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
     
