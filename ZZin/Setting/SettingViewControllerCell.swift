@@ -49,7 +49,7 @@ import Then
          addSubview(leadingImage)
          addSubview(text)
          addSubview(trailingImage)
-         addSubview(appversionText)
+         addSubview(appVersionText)
          
          leadingImage.snp.makeConstraints {
              $0.centerY.equalToSuperview()
@@ -70,7 +70,7 @@ import Then
              $0.height.equalTo(25)
          }
          
-         appversionText.snp.makeConstraints {
+         appVersionText.snp.makeConstraints {
              $0.centerY.equalToSuperview()
              $0.trailing.equalToSuperview().offset(-10)
              $0.width.equalTo(50)

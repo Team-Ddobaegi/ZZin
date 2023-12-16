@@ -96,7 +96,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             cell.leadingImage.image = UIImage(systemName: "person.fill")
             cell.text.textAlignment = .left
             cell.text.text = "계정"
-            cell.appversionText.isHidden = true
+            cell.appVersionText.isHidden = true
             cell.separatorInset = UIEdgeInsets.zero
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
             
