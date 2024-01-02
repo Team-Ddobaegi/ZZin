@@ -158,7 +158,6 @@ extension MainViewController: UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableviewCell.identifier, for: indexPath) as! ReviewTableviewCell
-            
             if !reviewData.isEmpty {
                 let data = reviewData[indexPath.row]
                 storageManager.bindViewOnStorageWithRid(rid: data.rid, reviewImgView: cell.placeReview.img, title: cell.placeReview.reviewTitleLabel, companion: cell.placeReview.withKeywordLabel, condition: cell.placeReview.conditionKeywordLabel, town: cell.placeReview.regionLabel)
@@ -166,6 +165,9 @@ extension MainViewController: UITableViewDataSource {
             cell.placeReview.regionLabel.isHidden = true
             cell.placeReview.underline.isHidden = true
             cell.reportingButton.addTarget(self, action: #selector(reportingButtonTapped), for: .touchUpInside)
+            
+            // 🚨 cell 탭 시, 선택된 셀임을 표시하는 구분 삭제 - 선택된 셀의 배경이 지속되는 이슈 해소 > 문제점은 배경이 아닌, 데이터 로딩 이슈로 확인
+            cell.selectionStyle = .none
             return cell
         default:
             return UITableViewCell()
@@ -183,6 +185,7 @@ extension MainViewController: UITableViewDataSource {
         matchingPlaceVC.placeID = reviewData[indexPath.item].pid
         matchingPlaceVC.reviewID = [reviewData[indexPath.item].rid]
         self.navigationController?.pushViewController(matchingPlaceVC, animated: true)
+        
     }
 }
 
