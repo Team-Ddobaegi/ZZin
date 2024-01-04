@@ -30,7 +30,7 @@ import Then
          $0.contentMode = .scaleAspectFit
      }
      
-     var appversionText = UILabel().then {
+     var appVersionText = UILabel().then {
          $0.text = "1.0.1"
          $0.font = .systemFont(ofSize: 12, weight: .semibold)
          $0.textColor = .systemGray
@@ -49,7 +49,7 @@ import Then
          addSubview(leadingImage)
          addSubview(text)
          addSubview(trailingImage)
-         addSubview(appversionText)
+         addSubview(appVersionText)
          
          leadingImage.snp.makeConstraints {
              $0.centerY.equalToSuperview()
@@ -70,7 +70,7 @@ import Then
              $0.height.equalTo(25)
          }
          
-         appversionText.snp.makeConstraints {
+         appVersionText.snp.makeConstraints {
              $0.centerY.equalToSuperview()
              $0.trailing.equalToSuperview().offset(-10)
              $0.width.equalTo(50)
