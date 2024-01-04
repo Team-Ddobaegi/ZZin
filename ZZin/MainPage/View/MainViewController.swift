@@ -154,6 +154,7 @@ extension MainViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: LocalTableViewCell.identifier, for: indexPath) as! LocalTableViewCell
             cell.delegate = self
             cell.recieveData(full: placeData)
+            cell.groupData()
             cell.localCollectionView.reloadData()
             return cell
         case 1:
