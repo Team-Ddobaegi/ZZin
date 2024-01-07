@@ -12,7 +12,7 @@ class ReviewTableviewCell: UITableViewCell {
     
     let placeReview = RecommendPlaceReviewThumbnail().then{
         $0.regionLabel.text = ""
-        $0.underline.backgroundColor = .clear
+        $0.backgroundColor = .clear
         $0.reviewTitleLabel.font = .systemFont(ofSize: 30,  weight: .bold)
         $0.withKeywordLabel.font = .systemFont(ofSize: 13, weight: .light)
         $0.conditionKeywordLabel.font = .systemFont(ofSize: 13, weight: .light)
@@ -33,7 +33,6 @@ class ReviewTableviewCell: UITableViewCell {
     }
     
     private func setUI(){
-        backgroundColor = .customBackground
         configure()
     }
     

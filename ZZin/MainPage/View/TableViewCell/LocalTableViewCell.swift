@@ -13,6 +13,7 @@ class LocalTableViewCell: UITableViewCell {
     private let storageManager = FireStorageManager()
     private var placeData: [Place] = []
     private var pidData: String = ""
+    private var filteredData: Dictionary<String, [Place]> = [:]
     
     lazy var localCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -53,17 +54,28 @@ class LocalTableViewCell: UITableViewCell {
     
     func recieveData(full: [Place]) {
         self.placeData = full
-        print("========= 지역 데이터가 잘 넘어왔어요. ==========", placeData)
+        print("========= 지역을 나누었어요 ========", placeData)
+    }
+    
+    func groupData() {
+        // 지역명 순으로 데이터 정렬? / filter? / sorting? - 대량의 데이터 중 알맞는 텍스트끼리 묶어야 하는 상황이니까 grouping이 맞는 방법 아닐까. > 배열에 grouping이 존재하는지 확인, 별도로 없을 경우 dictionary로 key를 구분하는 방법 고려
+        
+        // 배열에 담긴 값을 특정 sequence로 정렬 > grouping 완료
+        self.filteredData = Dictionary(grouping: self.placeData, by: {$0.town})
+        print("========== 지역이 출력:", filteredData)
     }
 }
 
 extension LocalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return placeData.count
+        // 전체 데이터에서 grouping된 갯수만 반환
+        return filteredData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.identifier, for: indexPath) as? LocalCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocalCollectionViewCell.identifier, for: indexPath) as? LocalCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         
         if !placeData.isEmpty {
             let data = placeData[indexPath.row]
