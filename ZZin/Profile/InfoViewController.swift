@@ -59,6 +59,12 @@ class InfoViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
+        
+        // cell 내부 페이지로 들어갔다가 나올 때 navigation bar가 사라지는 문제 방지
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
+        
         DispatchQueue.main.async {[self] in
             storageManager.getPidAndRidWithUid(uid: currentUid){ [self] result in
                 loadedRidAndPid = result
