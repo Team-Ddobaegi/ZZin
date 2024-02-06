@@ -13,7 +13,7 @@ class LocalTableViewCell: UITableViewCell {
     private let storageManager = FireStorageManager()
     private var placeData: [Place] = []
     private var pidData: String = ""
-    private var filteredData: Dictionary<String, [Place]> = [:]
+    private var filteredData: Set<String> = []
     
     lazy var localCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -54,21 +54,25 @@ class LocalTableViewCell: UITableViewCell {
     
     func recieveData(full: [Place]) {
         self.placeData = full
-        print("========= 지역을 나누었어요 ========", placeData)
+        print(">> 지역 구분")
     }
     
     func groupData() {
-        // 지역명 순으로 데이터 정렬? / filter? / sorting? - 대량의 데이터 중 알맞는 텍스트끼리 묶어야 하는 상황이니까 grouping이 맞는 방법 아닐까. > 배열에 grouping이 존재하는지 확인, 별도로 없을 경우 dictionary로 key를 구분하는 방법 고려
+        let towns = placeData.map { $0.town }
+        print(towns)
         
-        // 배열에 담긴 값을 특정 sequence로 정렬 > grouping 완료
-        self.filteredData = Dictionary(grouping: self.placeData, by: {$0.town})
-        print("========== 지역이 출력:", filteredData)
+        for town in towns {
+            if !filteredData.contains(town) {
+                filteredData.insert(town)
+                print("이건 개개인",town)
+            }
+        }
     }
 }
 
 extension LocalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // 전체 데이터에서 grouping된 갯수만 반환
+        // grouping만 반환
         return filteredData.count
     }
     
@@ -77,13 +81,14 @@ extension LocalTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
-        if !placeData.isEmpty {
-            let data = placeData[indexPath.row]
-            let pidData = data.pid
-            print(data.town)
-            print(data.placeImg)
+        if !filteredData.isEmpty {
+            let uniqueTowns = Array(filteredData)
+            let townData = placeData.filter { $0.town == uniqueTowns[indexPath.row] }
             
-            storageManager.bindViewOnStorageWithPid(pid: pidData, placeImgView: cell.recommendPictureView, title: nil, dotLabel: nil, placeTownLabel: cell.recommendLabel, placeMenuLabel: nil)
+            if let data = townData.first {
+                let pidData = data.pid
+                storageManager.bindViewOnStorageWithPid(pid: pidData, placeImgView: cell.recommendPictureView, title: nil, dotLabel: nil, placeTownLabel: cell.recommendLabel, placeMenuLabel: nil)
+            }
         }
         return cell
     }

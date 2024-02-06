@@ -33,27 +33,26 @@ class MainViewController: UIViewController {
         dataManager.getReviewData { result in
             switch result {
             case .success(let review):
-                print("======= 이게 데이터다 ========",review)
-                self.reviewData = review.sorted(by: {$0.createdAt > $1.createdAt })
+                self.reviewData = review.sorted(by: { $0.createdAt > $1.createdAt })
             case .failure(let error):
-                print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
+                print("===== 에러가 발생했습니다. - \(error.localizedDescription) ===== ")
             }
         }
     }
+    
     func fetchPlaceData() {
         dataManager.getPlaceData { result in
             switch result {
             case .success(let place):
-                print("======= 이게 데이터다 ========",place)
                 self.placeData = place
                 DispatchQueue.main.async {
-                    self.mainView.tableView.reloadData() // 그냥 UI만 그리는거예요 ㅠㅠ
+                    print(">>> 테이블 reload")
+                    self.mainView.tableView.reloadData()
                 }
             case .failure(let error):
                 print("=========== 에러가 발생했습니다. - \(error.localizedDescription) =========== ")
             }
         }
-                
     }
     
     // MARK: - Configure UI
@@ -116,11 +115,9 @@ extension MainViewController: UITableViewDelegate {
     }
     
     @objc func reportingButtonTapped() {
-        print("신고하기 버튼이 눌렸습니다.")
-        
         let alert = UIAlertController(title: "게시물 신고", message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "네", style: .default) { action in
-            print("해당 게시물이 신고되었습니다.")
+            print(">> 신고 완료")
             let microAlert = UIAlertController(title: "신고되었습니다.", message: nil, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "네", style: .default)
             microAlert.addAction(okAction)
@@ -156,6 +153,7 @@ extension MainViewController: UITableViewDataSource {
             cell.recieveData(full: placeData)
             cell.groupData()
             cell.localCollectionView.reloadData()
+            print(">>> 컬렉션 뷰 reload")
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableviewCell.identifier, for: indexPath) as! ReviewTableviewCell
@@ -202,6 +200,5 @@ extension MainViewController: LocalTableViewCellDelegate {
         let officeCoords = NMGLatLng(lat: coords?.latitude ?? 37.5666102, lng: coords?.longitude ?? 126.9783881)
         mapVC.cameraLocation = officeCoords
         navigationController?.pushViewController(mapVC, animated: true)
-        print("지도로 가유~~~")
     }
 }
