@@ -40,7 +40,6 @@
 		BD177F512AF453B900DF2FE7 /* LocalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */; };
 		BD23AD6C2B04AC79004C85A6 /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD23AD6B2B04AC79004C85A6 /* ButtonCollectionViewCell.swift */; };
 		BD3698642AED858800E4125A /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3698632AED858800E4125A /* ErrorHandling.swift */; };
-		BD3A7C202B24E1B0005A7C38 /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD3A7C1F2B24E1B0005A7C38 /* SecretKey.plist */; };
 		BD3CB51C2ADD337800A9F4A0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB51B2ADD337800A9F4A0 /* SnapKit */; };
 		BD3CB5272ADD33D800A9F4A0 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5262ADD33D800A9F4A0 /* FirebaseAppCheck */; };
 		BD3CB52B2ADD33D800A9F4A0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB52A2ADD33D800A9F4A0 /* FirebaseAuth */; };
@@ -54,6 +53,7 @@
 		BD3CB5512ADD33D800A9F4A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5502ADD33D800A9F4A0 /* FirebaseStorage */; };
 		BD3CB5562ADD342000A9F4A0 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BD3CB5552ADD342000A9F4A0 /* Then */; };
 		BD4B6AEE2AF8DBAC003B6585 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */; };
+		BD5BE0882B44527100B3EF4E /* SecretKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD5BE0872B44527100B3EF4E /* SecretKey.plist */; };
 		BD62B0A92ADC1EB40096BD3F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD62B0A82ADC1EB40096BD3F /* LoginVC.swift */; };
 		BD66B4812B1371ED007E6FC9 /* SwiftSMTP in Frameworks */ = {isa = PBXBuildFile; productRef = BD66B4802B1371ED007E6FC9 /* SwiftSMTP */; };
 		BD66B4832B13722D007E6FC9 /* SMTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD66B4822B13722D007E6FC9 /* SMTPManager.swift */; };
@@ -167,8 +167,8 @@
 		BD177F502AF453B900DF2FE7 /* LocalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTableViewCell.swift; sourceTree = "<group>"; };
 		BD23AD6B2B04AC79004C85A6 /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		BD3698632AED858800E4125A /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
-		BD3A7C1F2B24E1B0005A7C38 /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		BD4B6AED2AF8DBAC003B6585 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		BD5BE0872B44527100B3EF4E /* SecretKey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SecretKey.plist; sourceTree = "<group>"; };
 		BD62B0A82ADC1EB40096BD3F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		BD66B4822B13722D007E6FC9 /* SMTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMTPManager.swift; sourceTree = "<group>"; };
 		BD69C6812AE612170042F9AF /* FoodCardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodCardModel.swift; sourceTree = "<group>"; };
@@ -546,7 +546,7 @@
 		DF1599AB2AD6C6E200AE129B /* ZZin */ = {
 			isa = PBXGroup;
 			children = (
-				BD3A7C1F2B24E1B0005A7C38 /* SecretKey.plist */,
+				BD5BE0872B44527100B3EF4E /* SecretKey.plist */,
 				FB36508A2AE8AE0B00EAEAB7 /* Post */,
 				FF031D5E2ADBBA1500206056 /* MainPage */,
 				BD1018822ADD589D003FAA97 /* Login */,
@@ -728,7 +728,7 @@
 				BDA431522B0313CD00817477 /* lottieTest.json in Resources */,
 				7B9498B52AF28C5500261858 /* photoMessage.png in Resources */,
 				DF1599B92AD6C6E300AE129B /* LaunchScreen.storyboard in Resources */,
-				BD3A7C202B24E1B0005A7C38 /* SecretKey.plist in Resources */,
+				BD5BE0882B44527100B3EF4E /* SecretKey.plist in Resources */,
 				7B3313EE2AF1081900BC0F11 /* wrapBackground.jpeg in Resources */,
 				DF1599B62AD6C6E300AE129B /* Assets.xcassets in Resources */,
 				DC0D18142AD794B400E188A1 /* GoogleService-Info.plist in Resources */,

@@ -56,7 +56,7 @@ struct Review : Codable {
     }
 }
 
-struct Place : Codable {
+struct Place : Codable, Hashable {
     var pid: String
     var rid: [String] // [UUID.uuidString]
     var placeName: String
